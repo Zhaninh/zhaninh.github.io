@@ -84,12 +84,12 @@ WORK = [
   links=[('DOI', 'https://doi.org/10.1201/9781003667360-21')]),
 ]
 
-PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link)
- ('2026', True, 'NTCoral: an expert-annotated image dataset of Vietnamese coral reefs (working title)', f'{ME}, et al.', 'Bài báo dữ liệu đang chuẩn bị, tác giả thứ nhất', 'Dataset paper in preparation, first author', None),
- ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21'),
- ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688'),
- ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, et al.', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1'),
- ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, et al.', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456'),
+PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự án)
+ ('2026', True, 'NTCoral: an expert-annotated image dataset of Vietnamese coral reefs (working title)', f'{ME}, et al.', 'Bài báo dữ liệu đang chuẩn bị, tác giả thứ nhất', 'Dataset paper in preparation, first author', None, 'ntcoral'),
+ ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
+ ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688', 'aquaculture'),
+ ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, et al.', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
+ ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, et al.', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
 ]
 
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
@@ -167,7 +167,7 @@ def shell(lang, key, path, title, body, extra=''):
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     else: twin = URL[other][key]
-    items = ['journey', 'work', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
+    items = ['journey', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
     nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items) + f'<a class="item" href="{rel(path, "assets/Aaron_CV.pdf")}">CV</a>'
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
@@ -250,16 +250,24 @@ for lang in ('vi', 'en'):
                 f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
                 f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
     cards = ''.join(pcard(w) for w in WORK)
-    write(p, shell(lang, 'work', p, t['work'] + ' · Aaron', head(t['h_work'], t['s_work']) + f'<section class="pgrid-wrap"><div class="wrap"><div class="pgrid c{3 if (len(WORK) - sum(1 for w in WORK if w["star"])) % 3 == 0 else 2}">{cards}</div></div></section>'))
+    write(p, f'<!DOCTYPE html><meta charset="utf-8"><title>{t["pubs"]}</title><meta http-equiv="refresh" content="0;url={rel(p, U["pubs"])}"><link rel="canonical" href="{rel(p, U["pubs"])}"><a href="{rel(p, U["pubs"])}">{t["pubs"]}</a>')
     for w in WORK:
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'
         parts, lk = proj_parts(w, lang)
-        body = head(title_of(w, lang), d['sub'], w['year']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link" href="{rel(p, U['work'])}">{t['back']}</a></p></div>
+        body = head(title_of(w, lang), d['sub'], w['year']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link" href="{rel(p, U['pubs'])}">{'← Công bố' if lang == 'vi' else '← Publications'}</a></p></div>
 <aside class="box"><h4>{t['role']}</h4><div>{E(d['role'])}</div><h4>{t['where']}</h4><div>{E(d['where'])}</div><h4>{t['status']}</h4><div>{E(d['status'])}</div><h4>{t['links']}</h4>{lk}</aside></div></section>'''
-        write(p, shell(lang, 'work', p, title_of(w, lang) + ' · Aaron', body))
+        write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
     # ---- công bố ----
     p = U['pubs']
-    lis = ''.join(f'<li class="reveal{" star" if st else ""}"><span class="mono">{y}</span><div><div class="t">{E(ti)}</div><div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div>{f"<a class=link href={u}>DOI</a>" if u else ""}</div></li>' for y, st, ti, au, vv, ve, u in PUBS)
+    def cov_of(sl):
+        return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
+    def pub(y, st, ti, au, vv, ve, u, sl):
+        href = rel(p, U['workdir'] + sl + '.html') if sl else None; cv = cov_of(sl) if sl else None
+        th = f'<a class="pth" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cv)}" alt="" loading="lazy"></a>' if cv else '<span class="pth"></span>'
+        tt = f'<a class="t" href="{href}">{E(ti)}</a>' if href else f'<div class="t">{E(ti)}</div>'
+        acts = (f'<a class="pgo" href="{href}">{"Trang dự án" if lang == "vi" else "Project page"} <i>→</i></a>' if href else '') + (f'<a class="pdoi" href="{u}">DOI <i>↗</i></a>' if u else '')
+        return f'<li class="reveal{" star" if st else ""}">{th}<div><span class="mono">{y}</span>{tt}<div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div><div class="pacts">{acts}</div></div></li>'
+    lis = ''.join(pub(*x) for x in PUBS)
     write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="pubs">{lis}</ol></div></section>'))
     # ---- giới thiệu ----
     p = U['about']

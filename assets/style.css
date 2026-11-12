@@ -677,3 +677,16 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
   .pc.star .pc-top{flex-direction:column;align-items:flex-start;gap:10px}
 }
 @media (max-width:760px){.pc-cover{margin:-22px -20px 6px}}
+/* công bố: mỗi bài là một dự án; bấm vào mở trang dự án */
+.pubs li{grid-template-columns:200px minmax(0,1fr);gap:var(--s4);align-items:start;padding:var(--s4) 0}
+.pubs .pth{display:block;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:var(--leaf-soft);border:1px solid var(--line)}
+.pubs .pth img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.pubs li:hover .pth img{transform:scale(1.05)}
+.pubs .mono{display:block;margin-bottom:6px}
+.pubs a.t{display:block;color:var(--ink);text-decoration:none;transition:color .2s}
+.pubs a.t:hover{color:var(--leaf)}
+.pubs .pacts{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:12px}
+.pubs .pacts a{font:500 14.5px var(--sans);color:var(--ink);text-decoration:none;white-space:nowrap}
+.pubs .pacts a i{font-style:normal;color:var(--leaf);display:inline-block;transition:transform .25s}
+.pubs .pacts a:hover{color:var(--leaf)}.pubs .pacts .pgo:hover i{transform:translateX(3px)}.pubs .pacts .pdoi:hover i{transform:translate(2px,-2px)}
+@media (max-width:700px){.pubs li{grid-template-columns:1fr;gap:14px}.pubs .pth{aspect-ratio:16/9}}
