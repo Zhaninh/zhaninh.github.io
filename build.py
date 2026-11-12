@@ -6,14 +6,18 @@ import os, html, json, time
 VER = time.strftime('%Y%m%d%H%M')  # gắn vào link CSS/JS để trình duyệt không dùng bản cũ trong bộ nhớ đệm
 ROOT = os.path.dirname(os.path.abspath(__file__))
 E = html.escape
-EMAIL = 'aaron89.workplace@gmail.com'
+EMAIL = 'aaron89.workplace@gmail.com'  # email cá nhân
+EMAIL_WORK = 'ninh.nng@vinuni.edu.vn'
+SCHOLAR = 'https://scholar.google.com/citations?user=g0kINu8AAAAJ&hl=vi'
+LINKEDIN = 'https://www.linkedin.com/in/gianinh-948586299/'
+GREENX = 'https://greenx.vinuni.edu.vn'
 ME = '<b>N. N. G. Ninh</b>'
 
 T = {  # chuỗi giao diện
  'vi': dict(home='Trang chủ', journey='Hành trình', work='Nghiên cứu', pubs='Công bố', about='Giới thiệu', notes='Ghi chép',
             slogan='Công nghệ chỉ có nghĩa khi <em>đến được với con người.</em>', slogan_plain='Công nghệ chỉ có nghĩa khi đến được với con người.',
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
-            hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
+            hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='công việc', mail_me='cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
             interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
             bio='Tôi nghiên cứu trí tuệ nhân tạo ứng dụng, trọng tâm là thị giác máy tính, với mong muốn đưa kết quả nghiên cứu vào các bài toán thực tế tại Việt Nam.',
             go_journey='Xem hành trình', believe='quan điểm nghiên cứu', now='đang thực hiện', t_title='Hành trình nghiên cứu', t_btn='Xem hành trình', t_n='giai đoạn', bump='khó khăn và bài học', hint='cuộn xuống để đi tiếp ↓', unknown='chưa xác định', p_in='dự án trong chặng này', p_tag='dự án', p_stage='giai đoạn', menu='Mục lục', more='Xem thêm', less='Thu gọn', p_close='Quay lại hành trình', p_page='Mở trang riêng của dự án',
@@ -27,7 +31,7 @@ T = {  # chuỗi giao diện
  'en': dict(home='Home', journey='Journey', work='Research', pubs='Publications', about='About', notes='Notes',
             slogan='Technology only matters when it <em>reaches people.</em>', slogan_plain='Technology only matters when it reaches people.',
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
-            hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
+            hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='work', mail_me='personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
             interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.')], h_int='research interests', featured='featured project',
             bio='I work on applied artificial intelligence with a focus on computer vision, aiming to bring research results to real-world problems in Vietnam.',
             go_journey='See the journey', believe='research outlook', now='in progress', t_title='Research journey', t_btn='See the journey', t_n='stages', bump='difficulties and lessons', hint='scroll down to continue ↓', unknown='not yet known', p_in='projects in this stage', p_tag='project', p_stage='stage', menu='Menu', more='More', less='Less', p_close='Back to the journey', p_page='Open the project page',
@@ -162,8 +166,8 @@ def shell(lang, key, path, title, body, extra=''):
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     else: twin = URL[other][key]
-    items = ['journey', 'work', 'pubs', 'about'] + (['notes'] if NOTES else [])
-    nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items)
+    items = ['journey', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
+    nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items) + f'<a class="item" href="{rel(path, "assets/Aaron_CV.pdf")}">CV</a>'
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -174,7 +178,7 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
 <header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
 <main>{body}</main>
-<footer class="foot"><div class="wrap"><span class="q">{E(t['slogan_plain'])}</span><a class="link" href="mailto:{EMAIL}">{EMAIL}</a><a class="link" href="https://github.com/Zhaninh">GitHub</a><a class="link" href="https://www.linkedin.com/in/gianinh-948586299/">LinkedIn</a></div></footer>
+<footer class="foot"><div class="wrap"><span class="q">{E(t['slogan_plain'])}</span><a class="link" href="mailto:{EMAIL_WORK}">{EMAIL_WORK}</a><a class="link" href="mailto:{EMAIL}">{EMAIL}</a><a class="link" href="{SCHOLAR}">Scholar</a><a class="link" href="https://github.com/Zhaninh">GitHub</a><a class="link" href="{LINKEDIN}">LinkedIn</a><a class="gx" href="{GREENX}" title="GREEN-X, VinUniversity"><img src="{a('assets/greenx_logo.png')}" alt="GREEN-X, VinUniversity" width="900" height="134"></a></div></footer>
 <script src="{a('assets/main.js')}?v={VER}"></script>{extra}</body></html>'''
 
 def write(path, s):
@@ -194,15 +198,16 @@ for lang in ('vi', 'en'):
     body = f'''<section class="hero"><div class="wrap hero-grid"><div>
 <div class="hello">{t['hello']}</div>
 <h1 class="name">{t['name']}</h1>
-<p class="role">{t['myrole']}</p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
+<p class="role">{t['role_pre']} <a class="gx" href="{GREENX}" title="GREEN-X, VinUniversity"><img src="{rel(p, 'assets/greenx_logo.png')}" alt="GREEN-X, VinUniversity" width="900" height="134"></a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
 <p class="bio">{t['bio']}</p>
-<div class="acts"><a class="btn pri" href="{rel(p, U['journey'])}">{t['go_journey']}</a><a class="btn" href="{rel(p, 'assets/Aaron_CV.pdf')}">CV</a><a class="btn" href="https://github.com/Zhaninh">GitHub</a><a class="btn" href="https://www.linkedin.com/in/gianinh-948586299/">LinkedIn</a><a class="btn" href="mailto:aaron89.workplace@gmail.com">Email</a></div></div>
+<div class="acts"><a class="btn pri" href="{rel(p, 'assets/Aaron_CV.pdf')}">CV</a><a class="btn" href="{SCHOLAR}">Google Scholar</a><a class="btn" href="https://github.com/Zhaninh">GitHub</a><a class="btn" href="{LINKEDIN}">LinkedIn</a></div>
+<dl class="mails"><div><dt>{t['mail_work']}</dt><dd><a href="mailto:{EMAIL_WORK}">{EMAIL_WORK}</a></dd></div><div><dt>{t['mail_me']}</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div></dl></div>
 <div class="portrait reveal"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></div></section>
+<section><div class="wrap"><a class="feature spot reveal" href="{rel(p, U['workdir'] + f['slug'] + '.html')}"><div><div class="mono">{t['featured']}</div><h2>{E(title_of(f, lang))}</h2><p>{E(fw['sub'])}</p></div><span class="go">{t['read']}</span></a></div></section>
+<section class="teaser-wrap"><div class="wrap"><a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><h2>{t['t_title']}</h2><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
 <section class="belief"><div class="wrap belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
 <div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></section>
-<section class="teaser-wrap"><div class="wrap"><a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><h2>{t['t_title']}</h2><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
-<section><div class="wrap"><a class="feature spot reveal" href="{rel(p, U['workdir'] + f['slug'] + '.html')}"><div><div class="mono">{t['featured']}</div><h2>{E(title_of(f, lang))}</h2><p>{E(fw['sub'])}</p></div><span class="go">{t['read']}</span></a></div></section>
-<section><div class="wrap"><div class="rows">{doors}</div></div></section>'''
+'''
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))
     # ---- hành trình ----
     p = U['journey']
