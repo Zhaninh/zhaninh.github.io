@@ -237,3 +237,15 @@ section{padding:var(--s6) 0}
 @media (min-width:1181px){.j3d-card{padding:28px}.j3d-card .k{margin-bottom:12px}.j3d-card h3{margin:0 0 16px}.j3d-card p{margin-bottom:14px}.j3d-card .lesson{padding:6px 0 6px 14px;margin-top:4px}.j3d-card .pj{margin-top:20px;padding-top:16px}.j3d-card .pj button{margin-top:10px;padding:12px 14px}}
 @media (min-width:861px){.j3d-pin{font-size:15px;padding:9px 13px;border-radius:9px;box-shadow:0 0 0 3px #fff,0 12px 22px -10px rgba(24,36,26,.6)}.j3d-pin::before{font-size:11.5px}}
 body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){padding-bottom:var(--s2)}
+
+/* 12/11 (2): nhãn tên công trình, ghim dự án nổi hẳn, ảnh chân dung bám chuột mượt */
+.j3d-ms{font:500 12.5px var(--sans);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px;box-shadow:0 6px 12px -8px rgba(24,36,26,.45)}
+.j3d-ms.place{font-weight:600;font-size:13.5px;border-color:var(--leaf-mid)}
+.j3d-ms i{background:var(--leaf-mid);height:12px}
+.j3d-pin{background:#141C16;color:#fff;font-weight:600}.j3d-pin::before{background:var(--leaf-bright);color:#10160F}.j3d-pin:hover{background:var(--leaf);color:#fff}
+.j3d-pin i,.j3d-pin i::after{background:#141C16}
+@media (min-width:861px){.j3d-pin{font-size:16px;padding:10px 14px;box-shadow:0 0 0 3px var(--leaf-bright),0 14px 26px -10px rgba(24,36,26,.7);animation:pinpulse 2.4s ease-out infinite}}
+@keyframes pinpulse{0%{box-shadow:0 0 0 3px var(--leaf-bright),0 0 0 3px rgba(139,192,43,.55),0 14px 26px -10px rgba(24,36,26,.7)}70%,100%{box-shadow:0 0 0 3px var(--leaf-bright),0 0 0 15px rgba(139,192,43,0),0 14px 26px -10px rgba(24,36,26,.7)}}
+@media (max-width:860px){.j3d-ms{display:block;font-size:10.5px;padding:2px 7px}.j3d-ms.place{font-size:11px}}
+.portrait .disc{transition:none;will-change:transform;transform:translate3d(calc(var(--px)*-16px),calc(var(--py)*-12px),0)}
+.portrait img.me{transition:none;will-change:transform;transform:translate3d(calc(-50% + var(--px)*14px),calc(var(--py)*9px),0)}

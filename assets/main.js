@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded',function(){
   d.querySelectorAll('.spot').forEach(function(el){el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px')})});
   /* ảnh nghiêng nhẹ theo chuột */
   var po=d.querySelector('.portrait');
-  if(po&&matchMedia('(hover:hover)').matches){addEventListener('pointermove',function(e){po.style.setProperty('--px',(e.clientX/innerWidth-.5)*2);po.style.setProperty('--py',(e.clientY/innerHeight-.5)*2)})}
+  if(po&&matchMedia('(hover:hover)').matches){var tx=0,ty=0,cx=0,cy=0,run=false;function step(){cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;po.style.setProperty('--px',cx.toFixed(3));po.style.setProperty('--py',cy.toFixed(3));if(Math.abs(tx-cx)+Math.abs(ty-cy)>.002)requestAnimationFrame(step);else run=false}addEventListener('pointermove',function(e){tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;if(!run){run=true;requestAnimationFrame(step)}},{passive:true})}
   /* dòng chữ gõ */
   var ty=d.querySelector('.typed');
   if(ty){var ws=JSON.parse(ty.getAttribute('data-words')),k=0,c=0,del=false;

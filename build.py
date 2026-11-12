@@ -123,7 +123,11 @@ STAGE_PROJECTS = {
 }
 # CỘT MỐC: việc có thật nhưng không phải dự án và không phải giai đoạn (vật thể nhỏ, nhãn nhỏ, không bấm được)
 #   (vật thể: cert = chứng chỉ | teky = lớp học nhỏ, nhãn vi, nhãn en)
-MILESTONES = {}  # cột mốc phụ (cert | teky) đã bỏ khỏi bản đồ vì gây khó hiểu; thêm lại theo mẫu: {0: [('cert', 'nhãn vi', 'label en')]}
+MILESTONES = {
+    0: [('cert', 'Chứng chỉ nghiệp vụ sư phạm (2025)', 'University teaching certificate (2025)'), ('teky', 'Trợ giảng lập trình tại TEKY', 'Programming teaching assistant at TEKY')],
+}
+# Tên hiện trên công trình chính của từng giai đoạn
+PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity')}
 # Trở ngại trên đường ứng với "khó khăn và bài học" của giai đoạn: holes = ổ gà | flood = ngập nước, cát tràn | rocks = đá lở
 OBSTACLE = {0: 'holes', 2: 'flood'}
 
@@ -133,7 +137,7 @@ def stage_json(lang):
         d = vi if lang == 'vi' else en
         pj = [dict(slug=s, anchor=a, title=E(tv if lang == 'vi' else te)) for s, a, tv, te in STAGE_PROJECTS.get(i, [])]
         ms = [dict(kind=k, label=E(lv if lang == 'vi' else le)) for k, lv, le in MILESTONES.get(i, [])]
-        out.append(dict(when=when, title=d[0], paras=[E(d[1])], lesson=E(d[2]) if len(d) > 2 else '', icon=icon, projects=pj, milestones=ms, obstacle=OBSTACLE.get(i, 'holes')))
+        out.append(dict(when=when, title=d[0], paras=[E(d[1])], lesson=E(d[2]) if len(d) > 2 else '', icon=icon, place=PLACES.get(i, ('', ''))[0 if lang == 'vi' else 1], projects=pj, milestones=ms, obstacle=OBSTACLE.get(i, 'holes')))
     return E(json.dumps(out, ensure_ascii=False))
 
 def proj_parts(w, lang):
