@@ -485,3 +485,6 @@ body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){paddin
 /* nhãn email: serif nghiêng, nhỏ hơn email */
 .km .kk{font:italic 400 13px/1 var(--serif);letter-spacing:0;text-transform:none;color:var(--leaf-mid)}
 @media (max-width:820px){.hero{--hd:8px}.hero>.wrap{padding-top:20px}}
+/* v7 */
+.km .kk{font-size:15px}
+.kontakt{margin-top:calc(var(--hg) + var(--hd) * .5)}
