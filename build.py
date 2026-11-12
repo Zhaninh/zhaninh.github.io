@@ -38,8 +38,8 @@ T = {  # chuỗi giao diện
             h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
-URL = {'vi': dict(home='index.html', journey='hanh-trinh.html', work='cong-viec.html', pubs='cong-bo.html', about='gioi-thieu.html', notes='ghi-chep.html', workdir='cong-viec/'),
-       'en': dict(home='en/index.html', journey='en/journey.html', work='en/work.html', pubs='en/publications.html', about='en/about.html', notes='en/notes.html', workdir='en/work/')}
+URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', about='about.html', notes='notes.html', workdir='work/'),  # tiếng Anh là mặc định (ở gốc)
+       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/')}
 
 WORK = [
  dict(slug='ntcoral', star=True, title='NTCoral', year='2025–',
@@ -93,8 +93,8 @@ JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn 
                ('VinBigData', 'An intensive programme in computer vision, natural language processing, generative AI and MLOps, including a project on deep-learning detection of intracranial aneurysms.'), False, 'tower'),
  ('2026–', ('GREEN-X, VinUniversity', 'Trợ lý nghiên cứu. Phụ trách xây dựng NTCoral, bộ dữ liệu ảnh rạn san hô Việt Nam, phối hợp với các nhà sinh học biển.', 'Điều kiện thực địa khắc nghiệt hơn phòng thí nghiệm: thiết bị đặt ngoài biển không phải lúc nào cũng vận hành ổn định, và mỗi lần hỏng hóc buộc nhóm phải xem lại thiết kế.'),
            ('GREEN-X, VinUniversity', 'Research Assistant, responsible for building NTCoral, a Vietnamese coral reef image dataset, together with marine biologists.', 'Field conditions are harsher than the lab: equipment deployed at sea does not always run reliably, and each failure sends the team back to the design.'), False, 'vinuni'),
- ('', ('Định hướng', 'Học tiếp thạc sĩ và tiến sĩ ở nước ngoài, sau đó trở về giảng dạy đại học tại Việt Nam. Hướng chuyên sâu dự kiến là AI trên thiết bị biên (edge AI) phục vụ quan trắc ngoài hiện trường. Chặng đường này còn dài và còn nhiều điều chưa xác định.'),
-       ('Outlook', 'A master’s degree and a PhD abroad, then a return to Vietnam to teach at a university. The intended specialisation is edge AI for field monitoring. This stretch is long, and much of it is still unknown.'), True, 'goal'),
+ ('', ('Chặng tiếp theo', 'Học tiếp thạc sĩ và tiến sĩ ở nước ngoài, sau đó trở về giảng dạy đại học tại Việt Nam. Hướng chuyên sâu dự kiến là AI trên thiết bị biên (edge AI) phục vụ quan trắc ngoài hiện trường. Chặng đường này còn dài và còn nhiều điều chưa xác định.'),
+       ('Next stage', 'A master’s degree and a PhD abroad, then a return to Vietnam to teach at a university. The intended specialisation is edge AI for field monitoring. This stretch is long, and much of it is still unknown.'), True, 'goal'),
 ]
 
 ABOUT = {
@@ -108,7 +108,10 @@ ABOUT = {
 NOTES = []  # thêm bài viết ngắn ở đây; có bài thì mục Ghi chép tự hiện
 
 def rel(frm, to):
-    return os.path.relpath(to, os.path.dirname(frm) or '.')
+    r = os.path.relpath(to, os.path.dirname(frm) or '.')
+    if os.path.basename(r) == 'index.html':  # liên kết về trang chủ không lộ "index.html"
+        d = os.path.dirname(r); return (d + '/') if d else './'
+    return r
 def title_of(w, lang): return w.get('title') or w[f'title_{lang}']
 
 # DỰ ÁN nằm trong giai đoạn nào (chỉ số trong JOURNEY, bắt đầu từ 0) và gắn vào vật thể 3D nào:
@@ -120,9 +123,7 @@ STAGE_PROJECTS = {
 }
 # CỘT MỐC: việc có thật nhưng không phải dự án và không phải giai đoạn (vật thể nhỏ, nhãn nhỏ, không bấm được)
 #   (vật thể: cert = chứng chỉ | teky = lớp học nhỏ, nhãn vi, nhãn en)
-MILESTONES = {
-    0: [('cert', 'Chứng chỉ nghiệp vụ sư phạm · 2025', 'Pedagogy certificate · 2025'), ('teky', 'Trợ giảng lập trình · TEKY', 'Programming teaching assistant · TEKY')],
-}
+MILESTONES = {}  # cột mốc phụ (cert | teky) đã bỏ khỏi bản đồ vì gây khó hiểu; thêm lại theo mẫu: {0: [('cert', 'nhãn vi', 'label en')]}
 # Trở ngại trên đường ứng với "khó khăn và bài học" của giai đoạn: holes = ổ gà | flood = ngập nước, cát tràn | rocks = đá lở
 OBSTACLE = {0: 'holes', 2: 'flood'}
 
@@ -188,7 +189,7 @@ for lang in ('vi', 'en'):
 <h1 class="name">{t['name']}</h1>
 <p class="role">{t['myrole']}</p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
 <p class="bio">{t['bio']}</p>
-<div class="acts"><a class="btn pri" href="{rel(p, U['journey'])}">{t['go_journey']}</a><a class="btn" href="{rel(p, 'assets/Aaron_CV.pdf')}">CV</a><a class="btn" href="https://github.com/Zhaninh">GitHub</a><a class="btn" href="https://www.linkedin.com/in/gianinh-948586299/">LinkedIn</a></div></div>
+<div class="acts"><a class="btn pri" href="{rel(p, U['journey'])}">{t['go_journey']}</a><a class="btn" href="{rel(p, 'assets/Aaron_CV.pdf')}">CV</a><a class="btn" href="https://github.com/Zhaninh">GitHub</a><a class="btn" href="https://www.linkedin.com/in/gianinh-948586299/">LinkedIn</a><a class="btn" href="mailto:aaron89.workplace@gmail.com">Email</a></div></div>
 <div class="portrait reveal"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></div></section>
 <section class="belief"><div class="wrap belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
 <div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></section>
@@ -201,7 +202,7 @@ for lang in ('vi', 'en'):
     lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, U['workdir'] + s + '.html')}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
     wmap = {w['slug']: w for w in WORK}
     tpls = ''.join(proj_template(wmap[s], lang, p) for i in sorted(STAGE_PROJECTS) for s, a, tv, te in STAGE_PROJECTS[i])
-    j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
+    j3d = f'''<section class="j3d" data-j3d="full" style="--n:8" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
 <article class="j3d-card"><div class="k"></div><h3></h3><div class="tx"></div></article><div class="j3d-hint">{t['hint']}</div></div>
 <div class="j3d-panel" aria-hidden="true"><div class="pbar"><button type="button" class="pback">← {t['p_close']}</button><span class="mono pk"></span></div><div class="pbody"></div></div>{tpls}</section>'''
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}"></script>'

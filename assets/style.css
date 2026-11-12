@@ -28,7 +28,7 @@ a{color:inherit;text-decoration:none}
 /* nav: thanh kính nổi */
 .nav{position:sticky;top:var(--s2);z-index:10;margin:var(--s2) auto 0;max-width:calc(var(--w) - var(--s6));display:flex;align-items:center;gap:var(--s1);
   padding:var(--s1) var(--s1) var(--s1) var(--s2);border:1px solid var(--line);border-radius:var(--r);
-  background:color-mix(in srgb,var(--card) 68%,transparent);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);font:500 14.5px var(--sans)}
+  background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(9px) saturate(1.3);-webkit-backdrop-filter:blur(9px) saturate(1.3);font:500 14.5px var(--sans)}
 .brand{display:flex;align-items:center;gap:10px;font:600 21px/1 var(--serif);margin-right:auto}
 .brand img{width:28px;height:28px;transition:transform .6s var(--ease)}.brand:hover img{transform:rotate(-18deg) scale(1.08)}
 .nav a.item{padding:var(--s1) 12px;border-radius:calc(var(--r) - 6px);color:var(--ink2);transition:background .2s,color .2s}
@@ -41,7 +41,7 @@ a{color:inherit;text-decoration:none}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--s6);align-items:center}
 .hello{font:500 14px var(--mono);color:var(--leaf);display:flex;align-items:center;gap:10px}
 .hello::before{content:"";width:28px;height:1px;background:var(--leaf-mid)}
-.name{font:500 clamp(46px,7vw,92px)/1 var(--serif);letter-spacing:-.03em;margin:var(--s2) 0 var(--s3)}
+.name{font:500 clamp(46px,7vw,92px)/1.14 var(--serif);letter-spacing:-.03em;margin:var(--s2) 0 var(--s3)}
 .name .w{display:inline-block;opacity:0;transform:translateY(.35em);animation:rise .9s var(--ease) forwards;animation-delay:calc(var(--i)*90ms + .1s)}
 @keyframes rise{to{opacity:1;transform:none}}
 .role{font:500 17px/1.5 var(--sans);color:var(--ink);margin:0 0 6px}
@@ -94,12 +94,12 @@ a{color:inherit;text-decoration:none}
 .teaser .cap h2{font:400 34px/1.1 var(--serif);margin:var(--s1) 0}.teaser .cap p{margin:0 0 var(--s3);color:var(--ink2);font-size:17px}
 .j3d{position:relative;height:calc(var(--n)*105vh)}
 .j3d-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
-.j3d-sticky canvas{position:absolute;inset:0;width:100%;height:100%}
+.j3d-sticky canvas{position:absolute;inset:0;width:100%;height:100%;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 130px);mask-image:linear-gradient(to bottom,transparent 0,#000 130px)} /* mép trên tan dần vào trang, không bị cắt ngang */
 .j3d-labels{position:absolute;inset:0;pointer-events:none}
 .j3d-label{position:absolute;left:0;top:0;white-space:nowrap;font:500 13px var(--sans);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;display:flex;gap:8px;align-items:center;transition:opacity .35s;box-shadow:0 6px 14px -8px rgba(24,36,26,.35)}
 .j3d-label b{font:500 11px var(--mono);background:var(--leaf-mid);color:#fff;border-radius:999px;padding:3px 7px}
 .j3d-label.next{border-style:dashed}.j3d-label.next b{background:var(--mute)}
-.j3d-card{position:absolute;left:max(var(--s4),calc((100vw - var(--w))/2 + var(--s4)));bottom:var(--s5);width:min(400px,calc(100vw - 2*var(--s3)));background:color-mix(in srgb,var(--card) 84%,transparent);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border:1px solid var(--line);border-radius:var(--r);padding:var(--s3);opacity:0;transform:translateY(12px);transition:opacity .25s,transform .35s var(--ease);box-shadow:0 24px 50px -30px rgba(24,36,26,.45)}
+.j3d-card{position:absolute;left:max(var(--s4),calc((100vw - var(--w))/2 + var(--s4)));bottom:var(--s5);width:min(400px,calc(100vw - 2*var(--s3)));background:color-mix(in srgb,var(--card) 78%,transparent);backdrop-filter:blur(9px) saturate(1.2);-webkit-backdrop-filter:blur(9px) saturate(1.2);border:1px solid var(--line);border-radius:var(--r);padding:var(--s3);opacity:0;transform:translateY(12px);transition:opacity .25s,transform .35s var(--ease);box-shadow:0 24px 50px -30px rgba(24,36,26,.45)}
 .j3d-card.show{opacity:1;transform:none}.j3d-card.next{border-style:dashed}
 .j3d-card .k{font:500 12.5px var(--mono);color:var(--leaf)}
 .j3d-card h3{font:400 32px/1.1 var(--serif);margin:var(--s1) 0 12px}
@@ -232,3 +232,8 @@ section{padding:var(--s6) 0}
 .j3d-pin i,.j3d-ms i{left:calc(50% + var(--sx,0px))}
 
 .j3d-pin.below i{top:auto;bottom:100%}.j3d-pin.below i::after{bottom:auto;top:-4px}
+
+/* 12/11: thẻ nội dung thoáng hơn, ghim dự án nổi hơn, hết khoảng trống cuối trang hành trình */
+@media (min-width:1181px){.j3d-card{padding:28px}.j3d-card .k{margin-bottom:12px}.j3d-card h3{margin:0 0 16px}.j3d-card p{margin-bottom:14px}.j3d-card .lesson{padding:6px 0 6px 14px;margin-top:4px}.j3d-card .pj{margin-top:20px;padding-top:16px}.j3d-card .pj button{margin-top:10px;padding:12px 14px}}
+@media (min-width:861px){.j3d-pin{font-size:15px;padding:9px 13px;border-radius:9px;box-shadow:0 0 0 3px #fff,0 12px 22px -10px rgba(24,36,26,.6)}.j3d-pin::before{font-size:11.5px}}
+body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){padding-bottom:var(--s2)}

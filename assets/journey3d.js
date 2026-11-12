@@ -23,7 +23,7 @@
   var GATE = [-6, 65, 116], MAIN = [10, 73, 124], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
   for (i = 0; i <= nowIdx; i++) { gateU[i] = i < GATE.length ? GATE[i] : gateU[i - 1] + 44; mainU[i] = i < MAIN.length ? MAIN[i] : gateU[i] + 8; if (stages[i].icon === 'vinuni') seaI = i; }
   var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 48, seaH = 11, uB = uSea + 48;
-  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 60 : mainU[nowIdx] + 30, UNK = 84, uGoal = uNow + UNK, uEnd = uGoal + 2;
+  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 60 : mainU[nowIdx] + 30, UNK = 54, uGoal = uNow + UNK, uEnd = uGoal - 5; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
   gateU[n - 1] = uNow + 6; mainU[n - 1] = uGoal;
   var rough = [];
   stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 25, uSea + 31] : [mainU[k] + 4.5, mainU[k] + 10], kind: s.obstacle || 'holes' }); });
@@ -189,13 +189,17 @@
   function pad(g, r, c) { var p = cyl(r, r, .14, c || C.pad, 0, .07, 0, 40, SM); p.castShadow = false; g.add(p); g.userData.pr = r; }
   function windows(g, w, h, z, y0, cols, rows, x0) { for (var a = 0; a < cols; a++) for (var b = 0; b < rows; b++) g.add(box(.42, .5, .06, 0x7FC4E8, (x0 || 0) - w / 2 + (a + .5) * w / cols, y0 + b * (h / rows), z, { roughness: .2 })); }
   var build = {
-    school: function () {
-      var g = new T.Group(); pad(g, 4.6);
-      g.add(box(6.2, .3, 4, 0xF1E7D0, 0, .29, 0), box(5.2, 2.5, 3, C.cream, 0, 1.7, -.2));
-      for (var k = 0; k < 4; k++) g.add(cyl(.2, .2, 2.5, C.white, -1.8 + k * 1.2, 1.7, 1.55, 12, SM));
-      var tri = new T.Shape(); tri.moveTo(-3, 0); tri.lineTo(3, 0); tri.lineTo(0, 1.25); tri.closePath();
-      g.add(mesh(new T.ExtrudeGeometry(tri, { depth: 3.9, bevelEnabled: false }), M(C.roof), 0, 2.95, -1.95));
-      windows(g, 4.4, 1.6, 1.31, 1.3, 4, 2); g.add(cyl(.05, .05, 2.6, C.steel, 2.2, 5, -.5, 8), box(1, .6, .05, C.g1, 2.72, 5.95, -.5)); g.userData.h = 7.4; return g;
+    school: function () { /* khối nhà dài nhiều tầng, mặt đứng ô bàn cờ: ô đặc xen ô rỗng trồng cây */
+      var g = new T.Group(), k, f; pad(g, 5.4);
+      g.add(box(8.6, .3, 4.2, 0xECE7DA, 0, .29, 0), box(8, 4.5, 3, 0x3A4046, 0, 2.69, -.3), box(8.3, .22, 3.3, C.white, 0, 5.05, -.3));
+      for (f = 0; f < 5; f++) for (k = 0; k < 9; k++) {
+        var x0 = -3.56 + k * .89, y0 = .86 + f * .86;
+        if ((k + f) % 2) g.add(box(.85, .8, .5, C.white, x0, y0, 1.25));
+        else { g.add(box(.85, .1, .5, C.white, x0, y0 - .38, 1.25)); if ((k * 3 + f) % 4 !== 1) g.add(ball(.26, (k + f) % 4 ? C.g1 : C.g4, x0, y0 - .1, 1.3)); }
+      }
+      g.add(box(2.4, 1.3, .6, 0xF37021, -2.6, 5.8, .2), box(1.5, .9, .12, C.white, 0, .9, 1.56));
+      [[-2.5, 5.45], [1, 5.4], [2.6, 5.5]].forEach(function (b) { g.add(ball(.42, C.g2, b[0], b[1], -.2)); });
+      g.userData.h = 6.6; return g;
     },
     tower: function () {
       var g = new T.Group(); pad(g, 4.2);
@@ -301,19 +305,19 @@
     var s = stages[k], gu = gateU[k], g = new T.Group(), d = AMP * K * Math.cos(gu * K), w = (RW + 1.1) * Math.sqrt(1 + d * d), fut = k > nowIdx;
     var cv = document.createElement('canvas'); cv.width = 1024; cv.height = 300; var x = cv.getContext('2d'), tex = new T.CanvasTexture(cv); if (renderer.capabilities.getMaxAnisotropy) tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     var draw = function () {
-      x.clearRect(0, 0, 1024, 300); x.fillStyle = fut ? '#FFFFFF' : '#16201A'; x.fillRect(0, 0, 1024, 300);
-      x.lineWidth = 10; x.strokeStyle = fut ? '#65A21B' : '#8BC02B'; x.setLineDash(fut ? [26, 16] : []); x.strokeRect(14, 14, 996, 272); x.setLineDash([]);
-      x.textBaseline = 'middle'; x.textAlign = 'center'; x.fillStyle = fut ? '#3F7F12' : '#8BC02B'; x.font = '600 150px "JetBrains Mono",ui-monospace,monospace'; x.fillText(String(k + 1).padStart(2, '0'), 150, 158);
-      x.fillStyle = fut ? '#C9D9BE' : '#3A4A3E'; x.fillRect(282, 50, 3, 200);
-      x.textAlign = 'left'; x.fillStyle = fut ? '#65A21B' : '#8BC02B'; x.font = '500 38px "JetBrains Mono",ui-monospace,monospace'; x.fillText((root.getAttribute('data-stage') || '').toUpperCase() + (s.when ? '  ·  ' + s.when : ''), 320, 74);
-      var fs = 86; x.fillStyle = fut ? '#18241A' : '#FFFFFF'; do { x.font = '600 ' + fs + 'px "Be Vietnam Pro",system-ui,sans-serif'; fs -= 4; } while (x.measureText(s.title).width > 660 && fs > 36); x.fillText(s.title, 320, 178);
+      x.clearRect(0, 0, 1024, 300); x.fillStyle = fut ? '#FFFFFF' : '#3F7F12'; x.fillRect(0, 0, 1024, 300);
+      x.lineWidth = 10; x.strokeStyle = fut ? '#65A21B' : '#FFFFFF'; x.setLineDash(fut ? [26, 16] : []); x.strokeRect(16, 16, 992, 268); x.setLineDash([]);
+      x.textBaseline = 'middle'; x.textAlign = 'center'; x.fillStyle = fut ? '#3F7F12' : '#D9F2A6'; x.font = '700 150px "Be Vietnam Pro",system-ui,sans-serif'; x.fillText(String(k + 1).padStart(2, '0'), 150, 156);
+      x.fillStyle = fut ? '#C9D9BE' : 'rgba(255,255,255,.45)'; x.fillRect(282, 50, 4, 200);
+      var fs = 92, yr = s.when || root.getAttribute('data-unknown') || ''; x.textAlign = 'left'; x.fillStyle = fut ? '#18241A' : '#FFFFFF'; do { x.font = '700 ' + fs + 'px "Be Vietnam Pro",system-ui,sans-serif'; fs -= 4; } while (x.measureText(s.title).width > 670 && fs > 40); x.fillText(s.title, 318, 112);
+      x.fillStyle = fut ? '#3F7F12' : '#D9F2A6'; x.font = '600 62px "Be Vietnam Pro",system-ui,sans-serif'; x.fillText(yr, 318, 212);
       tex.needsUpdate = true;
     };
     draw(); redraw.push(draw);
-    var sg = new T.Group(), bd = new T.Mesh(new T.PlaneGeometry(9.6, 2.81), new T.MeshBasicMaterial({ map: tex })); bd.position.z = .09; sg.add(box(9.8, 3, .14, 0x10160F, 0, 0, 0), bd); sg.position.set(0, 6.2, 0); sg.rotation.x = -.3;
+    var sg = new T.Group(), bd = new T.Mesh(new T.PlaneGeometry(11.4, 3.34), new T.MeshBasicMaterial({ map: tex })); bd.position.z = .09; sg.add(box(11.6, 3.54, .14, 0x2C5E0C, 0, 0, 0), bd); sg.position.set(0, 6.5, 0); sg.rotation.x = -.3;
     g.add(sg, box(.24, 5.2, .24, C.steel, -w, 2.6, 0), box(.24, 5.2, .24, C.steel, w, 2.6, 0), box(2 * w + .24, .22, .22, C.steel, 0, 4.9, 0), box(.14, .5, .14, C.steel, -2.4, 4.9, 0), box(.14, .5, .14, C.steel, 2.4, 4.9, 0));
     var p = pos(gu); g.position.copy(p); g.rotation.y = FRONT; g.userData = { u: gu, s: 1, gy: 1 }; scene.add(g); grow.push(g);
-    [-1, 1].forEach(function (sd) { var q = pV(gu, vOf(gu) + sd * w); claim(q.x, q.z, .5, 0, 1); }); veil.push([p.x, p.z, 4.9, 7.7, 1]);
+    [-1, 1].forEach(function (sd) { var q = pV(gu, vOf(gu) + sd * w); claim(q.x, q.z, .5, 0, 1); }); veil.push([p.x, p.z, 5.8, 8.3, 1]);
     var fr = pos(gu + 3.2); [-1, 1].forEach(function (sd) { var q = pV(gu + 3.4, vOf(gu + 3.4) + sd * (w + 2.2)); claim(q.x, q.z, 2.2); }); /* giữ trống phía trước biển để cây không che chữ */
     return g;
   }
@@ -410,7 +414,7 @@
     cg.setAttribute('color', new T.Float32BufferAttribute(col, 3));
     var cm = new T.MeshBasicMaterial({ vertexColors: true }), om = new T.MeshBasicMaterial({ color: 0x8FA6CB, side: T.BackSide }), shm = new T.MeshBasicMaterial({ color: 0x24402A, transparent: true, opacity: .07, depthWrite: false }), shg = new T.CircleGeometry(1, 32);
     for (k = 0; k < 8; k++) {
-      var uu = uNow + 26 + (UNK - 46) * (k / 7) + rnd() * 4, g = new T.Group(), p = pos(uu, (k % 2 ? 1 : -1) * (2 + rnd() * 10)), np = 3 + ((rnd() * 5) | 0), wd = 0, cx = 0, P = [];
+      var uu = uNow + 14 + (UNK - 26) * (k / 7) + rnd() * 3, g = new T.Group(), p = pos(uu, (k % 2 ? 1 : -1) * (2 + rnd() * 10)), np = 3 + ((rnd() * 5) | 0), wd = 0, cx = 0, P = [];
       for (var j = 0; j < np; j++) { var f = np > 1 ? Math.abs(j / (np - 1) - .5) * 2 : 0, r = (1.15 + rnd() * .9) * (1 - f * .45); if (j) cx += r * (.75 + rnd() * .3); P.push([cx, r]); }
       P.forEach(function (q, j) {
         var r = q[1], x = q[0] - cx / 2, y = (rnd() - .35) * .5 + (1 - Math.abs(x) / (cx / 2 + 1)) * .5, z = (rnd() - .5) * .7;
