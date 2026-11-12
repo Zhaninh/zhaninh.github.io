@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded',function(){
   var po=d.querySelector('.portrait');
   if(po&&matchMedia('(hover:hover)').matches){var tx=0,ty=0,cx=0,cy=0,run=false;function step(){cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;po.style.setProperty('--px',cx.toFixed(3));po.style.setProperty('--py',cy.toFixed(3));if(Math.abs(tx-cx)+Math.abs(ty-cy)>.002)requestAnimationFrame(step);else run=false}addEventListener('pointermove',function(e){tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;if(!run){run=true;requestAnimationFrame(step)}},{passive:true})}
   /* dòng chữ gõ */
-  var ty=d.querySelector('.typed');
-  if(ty){var ws=JSON.parse(ty.getAttribute('data-words')),k=0,c=0,del=false;
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ty.textContent=ws[0]}else(function tick(){var w=ws[k];ty.textContent=w.slice(0,c);
+  var tw=d.querySelector('.typed');
+  if(tw){var ws=JSON.parse(tw.getAttribute('data-words')),k=0,c=0,del=false;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){tw.textContent=ws[0]}else(function tick(){var w=ws[k];tw.textContent=w.slice(0,c);
       if(!del&&c<w.length){c++;setTimeout(tick,55)}else if(!del){del=true;setTimeout(tick,1900)}else if(c>0){c--;setTimeout(tick,24)}else{del=false;k=(k+1)%ws.length;setTimeout(tick,300)}})()}
   /* nút lên đầu trang: hiện khi qua trang đầu; ở trang hành trình chỉ hiện khi đã qua hết bản đồ */
   var tt=d.querySelector('.totop');

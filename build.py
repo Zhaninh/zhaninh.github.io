@@ -15,7 +15,7 @@ GREENX = 'https://greenx.vinuni.edu.vn'
 ME = '<b class="me">N. N. G. Ninh</b>'
 
 T = {  # chuỗi giao diện
- 'vi': dict(home='Trang chủ', journey='Hành trình', work='Nghiên cứu', pubs='Công bố', about='Giới thiệu', notes='Ghi chép',
+ 'vi': dict(home='Trang chủ', journey='Hành trình', work='Dự án', pubs='Công bố', about='Giới thiệu', notes='Ghi chép',
             slogan='Công nghệ chỉ có nghĩa khi <em>đến được với con người.</em>', slogan_plain='Công nghệ chỉ có nghĩa khi đến được với con người.',
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
             hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
@@ -26,10 +26,10 @@ T = {  # chuỗi giao diện
             back='Tất cả đề tài', cv='Lý lịch khoa học (PDF)', contact='Liên hệ',
             d_journey='Quá trình học tập, nghiên cứu và định hướng sắp tới.', d_work='Các đề tài đã có công bố, bộ dữ liệu hoặc mã nguồn công khai.', d_about='Thế mạnh, hạn chế đang khắc phục, lý lịch khoa học và liên hệ.',
             h_journey='Hành trình nghiên cứu', s_journey='Các giai đoạn học tập và nghiên cứu từ năm 2021 đến nay, cùng định hướng sắp tới.',
-            h_work='Nghiên cứu', s_work='Mỗi đề tài đều kèm minh chứng: bài báo, bộ dữ liệu hoặc mã nguồn công khai.',
+            h_work='Dự án', s_work='Toàn bộ dự án tôi đã và đang làm. Mỗi dự án có trang riêng, và có thể xem nó nằm ở đâu trên hành trình.',
             h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ. Chấm xanh đánh dấu công bố trọng điểm.',
             h_about='Giới thiệu', s_about='Tôi làm nghiên cứu ứng dụng về trí tuệ nhân tạo và định hướng theo con đường nghiên cứu, giảng dạy đại học.'),
- 'en': dict(home='Home', journey='Journey', work='Research', pubs='Publications', about='About', notes='Notes',
+ 'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', about='About', notes='Notes',
             slogan='Technology only matters when it <em>reaches people.</em>', slogan_plain='Technology only matters when it reaches people.',
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
             hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
@@ -40,7 +40,7 @@ T = {  # chuỗi giao diện
             back='All projects', cv='Download CV (PDF)', contact='Contact',
             d_journey='Study, research and the plan ahead.', d_work='Projects with a publication, dataset or public code.', d_about='Strengths, current limitations, CV and contact.',
             h_journey='Research journey', s_journey='Stages of study and research since 2021, and the plan ahead.',
-            h_work='Research', s_work='Each project is backed by a paper, a dataset or public code.',
+            h_work='Projects', s_work='Every project I have worked on. Each has its own page, and you can see where it sits on the journey.',
             h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
@@ -167,7 +167,7 @@ def shell(lang, key, path, title, body, extra=''):
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     else: twin = URL[other][key]
-    items = ['journey', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
+    items = ['journey', 'work', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
     nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items) + f'<a class="item" href="{rel(path, "assets/Aaron_CV.pdf")}">CV</a>'
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
@@ -239,8 +239,16 @@ for lang in ('vi', 'en'):
     write(p, shell(lang, 'journey', p, t['journey'] + ' · Aaron', head(t['h_journey'], t['s_journey']) + j3d + f'<section class="path-fallback"><div class="wrap"><ol class="path">{lis}</ol></div></section>', three))
     # ---- công việc ----
     p = U['work']
-    rows = ''.join(f'<a class="row reveal{" star" if w["star"] else ""}" href="{rel(p, U["workdir"] + w["slug"] + ".html")}"><h3>{E(title_of(w, lang))}</h3><p>{E(w[lang]["sub"])}</p><span class="mono">{w["year"]}</span></a>' for w in WORK)
-    write(p, shell(lang, 'work', p, t['work'] + ' · Aaron', head(t['h_work'], t['s_work']) + f'<section><div class="wrap"><div class="rows">{rows}</div></div></section>'))
+    onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
+    def pcard(w):
+        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
+        jl = f'<a class="pc-j" href="{rel(p, U["journey"])}#{w["slug"]}">{"Xem trên hành trình" if lang == "vi" else "See it on the journey"} <i>↗</i></a>' if w['slug'] in onj else ''
+        return (f'<article class="pc reveal{" star" if w["star"] else ""}"><div class="pc-top"><span class="pc-y">{w["year"]}</span><span class="pc-s">{E(d["status"])}</span></div>'
+                f'<h3><a href="{href}">{E(title_of(w, lang))}</a></h3><p>{E(d["sub"])}</p>'
+                f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
+                f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
+    cards = ''.join(pcard(w) for w in WORK)
+    write(p, shell(lang, 'work', p, t['work'] + ' · Aaron', head(t['h_work'], t['s_work']) + f'<section class="pgrid-wrap"><div class="wrap"><div class="pgrid c{3 if (len(WORK) - sum(1 for w in WORK if w["star"])) % 3 == 0 else 2}">{cards}</div></div></section>'))
     for w in WORK:
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'
         parts, lk = proj_parts(w, lang)
