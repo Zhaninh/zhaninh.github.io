@@ -22,11 +22,11 @@
   var n = stages.length, nowIdx = n - 2, S = -1; /* S = -1: công trình nằm bên phải màn hình, biển cũng ở bên phải */
   var GATE = [-6, 114, 172], MAIN = [10, 124, 180], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
   for (i = 0; i <= nowIdx; i++) { gateU[i] = i < GATE.length ? GATE[i] : gateU[i - 1] + 44; mainU[i] = i < MAIN.length ? MAIN[i] : gateU[i] + 8; if (stages[i].icon === 'vinuni') seaI = i; }
-  var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 60, seaH = 11, uB = uSea + 60;
-  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 72 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
+  var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 87, seaH = 16, uB = uSea + 93;
+  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 105 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
   gateU[n - 1] = uNow + 6; mainU[n - 1] = uGoal;
   var rough = [];
-  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 45, uSea + 51] : [mainU[k] + 48, mainU[k] + 54], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
+  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 73, uSea + 79] : [mainU[k] + 48, mainU[k] + 54], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
   var rbU = []; /* các bùng binh ở ngã rẽ */
 
   /* ---------- hình học ---------- */
@@ -414,7 +414,7 @@
     var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 35, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 38, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
@@ -431,11 +431,11 @@
   /* ---------- bãi biển: trụ sở -> lán thiết bị -> cầu tàu có ROV -> trạm phao ---------- */
   if (seaOn) (function () {
     function put(g, u, k, sc, th, r) { var p = shore(u, k); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
-    put(model.office(), uSea + 51.5, 3.4, .8, undefined, 3.4);
+    put(model.office(), uSea + 84.5, 3.4, .8, undefined, 3.4);
     var tent = new T.Group(), Y = 0xFFCB2E, K0 = 0x20262B, k;
     tent.add(box(3, .1, 2.4, 0xE8DCC0, 0, 2.1, 0), box(1.5, .8, 1, 0x39434C, -.5, .42, 0), box(1.54, .1, 1.04, Y, -.5, .82, 0), box(.9, .6, .7, 0xB98B5E, .8, .3, .3));
     [[-1.3, 1], [1.3, 1], [-1.3, -1], [1.3, -1]].forEach(function (c) { tent.add(cyl(.05, .05, 2.1, C.steel, c[0], 1.05, c[1], 6)); });
-    put(tent, uSea + 57, 5.4, 1, undefined, 2.2);
+    put(tent, uSea + 90, 5.4, 1, undefined, 2.2);
     var pier = new T.Group();
     pier.add(box(7.2, .16, 1.4, 0xB98B5E, 0, .68, 0)); for (k = 0; k < 10; k++) pier.add(box(.05, .17, 1.4, 0x9A7248, -3.4 + k * .76, .682, 0));
     [-3.2, -1, 1.2, 3.3].forEach(function (x) { [-.6, .6].forEach(function (z) { pier.add(cyl(.09, .09, 1, 0x8A6A4B, x, .28, z, 6)); }); });

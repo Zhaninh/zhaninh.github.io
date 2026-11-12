@@ -2,7 +2,8 @@
 """Trang cá nhân Aaron. Tĩnh, song ngữ (vi mặc định ở gốc, en trong /en/).
 Thêm nội dung: thêm một mục vào WORK / PUBS / JOURNEY / NOTES rồi chạy `python3 build.py`.
 Mục có "star": True sẽ tự nổi lên (trang chủ lấy mục WORK có star đầu tiên)."""
-import os, html, json
+import os, html, json, time
+VER = time.strftime('%Y%m%d%H%M')  # gắn vào link CSS/JS để trình duyệt không dùng bản cũ trong bộ nhớ đệm
 ROOT = os.path.dirname(os.path.abspath(__file__))
 E = html.escape
 EMAIL = 'aaron89.workplace@gmail.com'
@@ -170,11 +171,11 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="icon" href="{a('assets/clover.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{a('assets/style.css')}"></head><body>
+<link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
 <header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
 <main>{body}</main>
 <footer class="foot"><div class="wrap"><span class="q">{E(t['slogan_plain'])}</span><a class="link" href="mailto:{EMAIL}">{EMAIL}</a><a class="link" href="https://github.com/Zhaninh">GitHub</a><a class="link" href="https://www.linkedin.com/in/gianinh-948586299/">LinkedIn</a></div></footer>
-<script src="{a('assets/main.js')}"></script>{extra}</body></html>'''
+<script src="{a('assets/main.js')}?v={VER}"></script>{extra}</body></html>'''
 
 def write(path, s):
     full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(s)
@@ -189,7 +190,7 @@ for lang in ('vi', 'en'):
     doors = ''.join(f'<a class="row reveal" href="{rel(p, U[k])}"><h3>{t[k]}</h3><p>{E(t["d_" + k])}</p><span class="mono">{n}</span></a>'
                     for k, n in (('journey', f'{len(JOURNEY)}'), ('work', f'{len(WORK)}'), ('about', 'CV')))
     ints = ''.join(f'<li><b>{E(a)}</b><span>{E(d)}</span></li>' for a, d in t['interests'])
-    three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}"></script>'
+    three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap hero-grid"><div>
 <div class="hello">{t['hello']}</div>
 <h1 class="name">{t['name']}</h1>
@@ -211,7 +212,7 @@ for lang in ('vi', 'en'):
     j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
 <article class="j3d-card"><div class="k"></div><h3></h3><div class="tx"></div></article><div class="j3d-hint">{t['hint']}</div></div>
 <div class="j3d-panel" aria-hidden="true"><div class="pbar"><button type="button" class="pback">← {t['p_close']}</button><span class="mono pk"></span></div><div class="pbody"></div></div>{tpls}</section>'''
-    three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}"></script>'
+    three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     write(p, shell(lang, 'journey', p, t['journey'] + ' · Aaron', head(t['h_journey'], t['s_journey']) + j3d + f'<section class="path-fallback"><div class="wrap"><ol class="path">{lis}</ol></div></section>', three))
     # ---- công việc ----
     p = U['work']
@@ -235,5 +236,5 @@ for lang in ('vi', 'en'):
     write(p, shell(lang, 'about', p, t['about'] + ' · Aaron', body))
 
 open(os.path.join(ROOT, '.nojekyll'), 'w').write('')
-open(os.path.join(ROOT, 'README.md'), 'w').write('# zhaninh.github.io\n\nTrang cá nhân của Nguyễn Ngọc Gia Ninh (Aaron). Sửa nội dung trong `build.py`, chạy `python3 build.py`.\nQuy tắc thiết kế nằm ở đầu `assets/style.css`. Icon cỏ bốn lá: Noto Emoji (Apache 2.0). Bản đồ 3D: three.js r160 (MIT), mã ở `assets/journey3d.js`.\n')
+# README.md được viết tay, build.py không ghi đè
 print('ok')
