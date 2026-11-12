@@ -94,11 +94,6 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
 
 FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
 STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
- ('2026-10-24', '24.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
-  'Chuyển giao sản phẩm số cho tỉnh Khánh Hòa', 'Handing digital products over to Khanh Hoa',
-  'Tại lễ khai mạc Ngày hội Chuyển đổi số Khánh Hòa 2026, các nền tảng số phục vụ chuyển đổi xanh do GREEN-X phát triển được trao cho tỉnh: quản lý du lịch xanh, nuôi biển thông minh và hỗ trợ bảo tồn san hô. Vài phút trên sân khấu, sau nhiều tháng làm việc của cả nhóm.',
-  'At the opening of Khanh Hoa Digital Transformation Day 2026, the green-transition platforms built by GREEN-X were formally handed to the province: green-tourism management, smart mariculture and coral conservation support. A few minutes on stage after months of team work.',
-  ['khdx_0', 'khdx_4', 'khdx_2'], [(FB_TA, 'https://www.facebook.com/share/p/1CGXUDyNnF/')], ['GREEN-X', 'Khánh Hòa']),
  ('2026-10-25', '24–26.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
   'Gian triển lãm GREEN-X tại Ngày hội Chuyển đổi số', 'GREEN-X booth at the Digital Transformation Expo',
   'Lần đầu GREEN-X có gian trưng bày riêng, giới thiệu giải pháp cho đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển. Robot đại dương phát triển cùng VinaTech là điểm dừng chân đông khách nhất.',
@@ -124,18 +119,13 @@ STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi,
   'Buổi gặp mặt đầu tiên để giới thiệu trung tâm GREEN-X với cộng đồng VinUni và cảm ơn các phòng ban đã đồng hành.',
   'The first gathering to introduce GREEN-X to the VinUni community and thank the teams that supported the centre.',
   ['meetgreet_0', 'meetgreet_3'], [(FB_GX, 'https://www.facebook.com/share/p/1QRhLrPxH5/')], ['GREEN-X', 'Sự kiện']),
- ('2026-01-22', '01.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
-  'Buổi định hướng cho đội ngũ nghiên cứu', 'Orientation for the research team',
-  'Các nghiên cứu viên sau tiến sĩ và trợ lý nghiên cứu mới của GREEN-X làm quen, kết nối và chuẩn bị cho năm học thuật 2026.',
-  'New GREEN-X postdoctoral researchers and research assistants met, got connected and prepared for the 2026 academic year.',
-  ['orientation_0', 'orientation_1'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/')], ['GREEN-X']),
- ('2026-01-20', '01.2026', 'Tầng 5, toà I, VinUniversity', 'Level 5, Building I, VinUniversity',
-  'Văn phòng mới của GREEN-X', 'GREEN-X moves into a new office',
-  'Từ tháng 1/2026, GREEN-X chuyển về không gian làm việc mới rộng hơn, cùng nhiều gương mặt trẻ vừa gia nhập nhóm.',
-  'From January 2026 GREEN-X moved into a larger new workspace, together with many new young faces on the team.',
-  ['newhome_0', 'newhome_2', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X']),
+ ('2026-01-20', '01.2026', 'GREEN-X, VinUniversity', 'GREEN-X, VinUniversity',
+  'Những ngày đầu ở GREEN-X', 'My first weeks at GREEN-X',
+  'Tôi vào GREEN-X với vai trò trợ lý nghiên cứu ngay trước khi trung tâm nhận văn phòng mới. Những tuần đầu là buổi định hướng cùng các nghiên cứu viên sau tiến sĩ và trợ lý nghiên cứu mới, rồi cả nhóm dọn về không gian làm việc ở tầng 5, toà I. Một khởi đầu cùng lúc với nhiều gương mặt mới.',
+  'I joined GREEN-X as a research assistant just before the centre moved into its new office. My first weeks began with an orientation alongside the new postdoctoral researchers and research assistants, and then the whole team moved into the new workspace on level 5 of Building I. A start shared with many new faces.',
+  ['orientation_0', 'newhome_0', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/'), (FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X', 'Cột mốc']),
 ]
-TAG_EN = {'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
+TAG_EN = {'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
 
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
  ('2021–2025', ('Trường Đại học FPT', 'Cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo. Đồ án tốt nghiệp: nhận dạng tiếng nói qua khẩu hình cho tiếng Việt.', 'Khó khăn lớn nhất của đồ án không nằm ở mô hình mà ở dữ liệu: tiếng Việt gần như chưa có bộ dữ liệu công khai cho bài toán đọc khẩu hình, nên nhóm phải tự xây dựng từ đầu.'),
@@ -318,10 +308,16 @@ for lang in ('vi', 'en'):
     p = U['hl']
     def story(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
-        im = ''.join(f'<button type="button" class="hg-i" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>' for x in ims)
+        def ar(x):
+            try:
+                from PIL import Image as _I
+                w_, h_ = _I.open(os.path.join(ROOT, 'assets/hl', x + '.webp')).size; return w_ / h_
+            except Exception: return 4 / 3
+        def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
+        im = f'<div class="hg-row">{"".join(btn(x) for x in ims)}</div>' if len(ims) == 2 else btn(ims[0]) + (f'<div class="hg-row">{"".join(btn(x) for x in ims[1:])}</div>' if len(ims) > 1 else '')
         tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
         sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)
-        return (f'<article class="hs reveal"><div class="hg n{len(ims)}">{im}</div><div class="hb"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div>'
+        return (f'<article class="hs reveal"><div class="hg">{im}</div><div class="hb"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div>'
                 f'<h3>{E(tv if lang == "vi" else te)}</h3><p>{E(sv if lang == "vi" else se)}</p><div class="ht">{tg}</div><div class="hsrc">{sl}</div></div></article>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
     body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'

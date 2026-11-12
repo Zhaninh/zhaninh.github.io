@@ -720,3 +720,11 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .lb img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .lb-x{position:absolute;top:16px;right:20px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:26px;cursor:pointer}
 .hm span{font:400 13.5px/1.4 var(--sans)}
+/* ảnh giữ đúng tỉ lệ gốc: ảnh chính nguyên khung, ảnh phụ xếp một hàng canh đều theo tỉ lệ (không cắt) */
+.hg{display:flex;flex-direction:column;gap:8px;aspect-ratio:auto;border-radius:0;overflow:visible}
+.hg>.hg-i{width:100%;aspect-ratio:var(--ar);max-height:min(62vh,560px);border-radius:12px}
+.hg>.hg-i img{object-fit:cover}
+.hg-row{display:flex;gap:8px}
+.hg-row .hg-i{flex:var(--ar) 1 0;aspect-ratio:var(--ar);border-radius:10px;min-width:0}
+.hs{align-items:start}
+.hs .hb{padding-top:8px}
