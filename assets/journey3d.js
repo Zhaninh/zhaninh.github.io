@@ -228,7 +228,17 @@
       var sp = mesh(new T.ConeGeometry(1.12, 3.2, 4), M(rf), 0, 12.7, 0); sp.rotation.y = Math.PI / 4; g.add(sp, cyl(.05, .05, 1, C.steel, 0, 14.7, 0, 6));
       var sn = new T.Group(); sn.add(ball(.44, C.gold, 0, 0, 0, { emissive: C.gold, emissiveIntensity: .55 }));
       for (k = 0; k < 8; k++) { var ry = box(.1, .52, .1, C.gold, Math.cos(k * .7854) * .82, Math.sin(k * .7854) * .82, 0, { emissive: C.gold, emissiveIntensity: .4 }); ry.rotation.z = k * .7854 - Math.PI / 2; sn.add(ry); }
-      sn.position.set(0, 15.6, 0); g.add(sn); g.userData.sun = sn; g.userData.h = 16.6; return g;
+      sn.position.set(0, 15.6, 0); g.add(sn); g.userData.sun = sn; g.userData.h = 16.6;
+      /* hai đơn vị nằm trong khuôn viên trường, thể hiện bằng biểu tượng trên bãi cỏ trước toà nhà: một cái được chọn (mầm xanh), một cái không ghé vào (xám, có thanh chắn) */
+      function emblem(x, on) {
+        var e = new T.Group(), col = on ? C.g2 : 0xB9C1C6, ring = mesh(new T.TorusGeometry(1.05, .15, 8, 28), M(col, on ? { flatShading: false, emissive: C.g2, emissiveIntensity: .25 } : SM), 0, 1.5, 0);
+        e.add(cyl(.9, 1.05, .3, on ? 0xDDEFC4 : 0xE3E6E8, 0, .29, 0, 16, SM), ring);
+        if (on) { var l1 = ball(.42, C.g1, -.34, 1.72, 0), l2 = ball(.42, C.g3, .34, 1.72, 0); l1.scale.set(1, .5, .45); l2.scale.set(1, .5, .45); l1.rotation.z = -.7; l2.rotation.z = .7; e.add(cyl(.06, .06, 1.1, C.g4, 0, 1.05, 0, 6), l1, l2); }
+        else { var bar = box(2.3, .16, .1, 0xE5484D, 0, 1.5, .06); bar.rotation.z = .5; e.add(bar); e.scale.setScalar(.8); }
+        e.position.set(x, 0, 5.1); g.add(e);
+      }
+      emblem(3.3, 1); emblem(-3.3, 0); g.userData.gx = [3.3, 0, 5.1];
+      return g;
     },
     goal: function () {
       var g = new T.Group(); pad(g, 5.2);
@@ -359,15 +369,14 @@
     var sp = pos(u - 6, side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
   if (stages[0].icon === 'school') fork(mainU[0] + 19, -S, 15, model.design());
-  if (seaOn) fork(uSea + 13, -S, 16, model.lab());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
   stages.forEach(function (s, k) {
     var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 2.2), p = seat(g, mainU[k], off, cr, 1, true);
-    marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1 });
+    marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
+    if (g.userData.gx && p) { g.updateMatrixWorld(true); var gv = new T.Vector3(g.userData.gx[0], 0, g.userData.gx[2]).applyMatrix4(g.matrixWorld); miles.push({ o: { position: new T.Vector3(gv.x, 0, gv.z), userData: g.userData }, h: 3.1, label: 'GREEN-X', place: 1 }); }
   });
-  if (seaOn) (function () { var g = model.green(), p = seat(g, uSea + 22, S * 9.6, 4.8); drive(g.userData.u, S, p, 4.8); if (p) miles.push({ o: g, h: 5, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
@@ -406,6 +415,7 @@
   (function () {
     var fill = bm(C.g1, .1), lm = new T.LineDashedMaterial({ color: C.g2, dashSize: .34, gapSize: .24 });
     function gh(geo, x, y, z) { var m = new T.Mesh(geo, fill), l = new T.LineSegments(new T.EdgesGeometry(geo), lm); l.computeLineDistances(); m.add(l); m.position.set(x, y, z); return m; }
+    var fut = []; try { fut = JSON.parse(root.getAttribute('data-future') || '[]'); } catch (e) {}
     var kinds = [
       function (g) { g.add(gh(new T.BoxGeometry(3.2, 7, 3.2), 0, 3.5, 0), gh(new T.BoxGeometry(5, 1.4, 4), 0, .7, 0)); },
       function (g) { g.add(gh(new T.CylinderGeometry(2.6, 2.6, 2.6, 12), 0, 1.3, 0), gh(new T.SphereGeometry(2.6, 12, 6, 0, 6.3, 0, 1.57), 0, 2.6, 0)); },
@@ -414,7 +424,7 @@
     [.3, .52, .76].forEach(function (f, k) {
       var g = new T.Group(); kinds[k](g);
       var ring = new T.LineLoop(new T.BufferGeometry().setFromPoints(new T.EllipseCurve(0, 0, 4.4, 4.4).getPoints(60).map(function (q) { return new T.Vector3(q.x, .05, q.y); })), lm); ring.computeLineDistances(); g.add(ring);
-      seat(g, uNow + UNK * f, S * 8.6, 4.6); g.userData.gy = 0;
+      g.userData.h = [7, 5.2, 5.6][k]; if (seat(g, uNow + UNK * f, S * 8.6, 4.6) && fut[k]) miles.push({ o: g, h: g.userData.h, label: fut[k], place: 1, fut: 1 }); g.userData.gy = 0;
     });
     /* mây: mỗi đám một dáng; đỉnh trắng, bụng xám xanh, có viền và bóng để tách khỏi nền sáng. Mây bay trên cao nên được phép che cảnh bên dưới. */
     var cg = new T.SphereGeometry(1, 20, 14), pa = cg.attributes.position, col = [], top = new T.Color(0xffffff), bot = new T.Color(0x7F9BC6), tc = new T.Color(), k;
@@ -472,7 +482,7 @@
     g.userData.fx = fx; lakes.push(g);
     g.userData.r = R + .5; return g;
   }
-  for (u = U0 - 4; u < uGoal + 46; u += 9) [1, -1].forEach(function (side) {
+  for (u = U0 - 4; u < uGoal + 4; u += 9) [1, -1].forEach(function (side) {
     if (rnd() < .42) return; var isM = rnd() < .45, g = isM ? mountain() : lake(), r = g.userData.r, hh = isM ? g.userData.h : 0, t, p, uu, off;
     for (t = 0; t < 6; t++) { uu = u + (rnd() - .5) * 6; off = side * Math.min(31, RW + 3.5 + r + rnd() * 7 + t * 2); p = pos(uu, off); if (clearOf(p.x, p.z, r, 1.4) && viewOK(p.x, p.z, r, hh, !hh)) { g.position.copy(p); g.rotation.y = rnd() * 6.28; g.userData.u = uu; g.userData.s = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, hh, !hh); return; } }
   });
@@ -493,7 +503,13 @@
     }
     return g;
   }
-  for (u = RS + 4; u < uGoal + 50; u += 1.15) {
+  /* cuối đường là một khu rừng, lấp kín phần dưới của trang */
+  for (u = uGoal + 7; u < uGoal + 54; u += .55) for (var fk = 0; fk < 3; fk++) {
+    var fpp = pos(u, (rnd() - .5) * 78), fs2 = .8 + rnd() * .7 + Math.min(.5, (u - uGoal - 7) * .02);
+    if (!clearOf(fpp.x, fpp.z, .9 * fs2, .05)) continue;
+    var ft = tree(); ft.position.copy(fpp); ft.rotation.y = rnd() * 6.28; ft.userData = { u: u - 16, s: fs2 }; /* mọc sớm để khi tới đích rừng đã kín */ ft.scale.setScalar(.001); scene.add(ft); grow.push(ft); claim(fpp.x, fpp.z, .62 * fs2);
+  }
+  for (u = RS + 4; u < uGoal + 8; u += 1.15) {
     if (u > uNow + 6 && rnd() < .45) continue;
     var tside = rnd() < .5 ? -1 : 1, toff = tside * (RW + 2.2 + Math.pow(rnd(), 1.5) * 27), tp = pos(u, toff), ts = .72 + rnd() * .55;
     if (!clearOf(tp.x, tp.z, 1.25 * ts, .15) || !viewOK(tp.x, tp.z, 1.1 * ts, 3.3 * ts, 0)) continue;
@@ -529,7 +545,7 @@
   var card = root.querySelector('.j3d-card'), labBox = root.querySelector('.j3d-labels'), panel = root.querySelector('.j3d-panel');
   if (full && labBox) {
     anchors.forEach(function (a) { var el = document.createElement('button'); el.type = 'button'; el.className = 'j3d-pin'; el.setAttribute('data-tag', root.getAttribute('data-tag')); el.innerHTML = '<span>' + stages[a.s].projects[a.j].title + '</span><i></i>'; /* màn hình hẹp chỉ hiện chữ "DỰ ÁN →", tên dự án đã có trong thẻ */ el.addEventListener('click', function () { openP(a); }); labBox.appendChild(el); a.el = el; });
-    miles.forEach(function (m) { var el = document.createElement('div'); el.className = 'j3d-ms' + (m.place ? ' place' : ''); el.innerHTML = m.label + '<i></i>'; labBox.appendChild(el); m.el = el; });
+    miles.forEach(function (m) { var el = document.createElement('div'); el.className = 'j3d-ms' + (m.place ? ' place' : '') + (m.fut ? ' next' : ''); el.innerHTML = m.label + '<i></i>'; labBox.appendChild(el); m.el = el; });
   }
   var cur = -1;
   function setCard(k) {

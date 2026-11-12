@@ -249,3 +249,5 @@ body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){paddin
 @media (max-width:860px){.j3d-ms{display:block;font-size:10.5px;padding:2px 7px}.j3d-ms.place{font-size:11px}}
 .portrait .disc{transition:none;will-change:transform;transform:translate3d(calc(var(--px)*-16px),calc(var(--py)*-12px),0)}
 .portrait img.me{transition:none;will-change:transform;transform:translate3d(calc(-50% + var(--px)*14px),calc(var(--py)*9px),0)}
+
+.j3d-ms.next{border-style:dashed;background:color-mix(in srgb,#fff 88%,transparent)}

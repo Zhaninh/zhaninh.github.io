@@ -93,8 +93,8 @@ JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn 
                ('VinBigData', 'An intensive programme in computer vision, natural language processing, generative AI and MLOps, including a project on deep-learning detection of intracranial aneurysms.'), False, 'tower'),
  ('2026–', ('GREEN-X, VinUniversity', 'Trợ lý nghiên cứu. Phụ trách xây dựng NTCoral, bộ dữ liệu ảnh rạn san hô Việt Nam, phối hợp với các nhà sinh học biển.', 'Điều kiện thực địa khắc nghiệt hơn phòng thí nghiệm: thiết bị đặt ngoài biển không phải lúc nào cũng vận hành ổn định, và mỗi lần hỏng hóc buộc nhóm phải xem lại thiết kế.'),
            ('GREEN-X, VinUniversity', 'Research Assistant, responsible for building NTCoral, a Vietnamese coral reef image dataset, together with marine biologists.', 'Field conditions are harsher than the lab: equipment deployed at sea does not always run reliably, and each failure sends the team back to the design.'), False, 'vinuni'),
- ('', ('Chặng tiếp theo', 'Học tiếp thạc sĩ và tiến sĩ ở nước ngoài, sau đó trở về giảng dạy đại học tại Việt Nam. Hướng chuyên sâu dự kiến là AI trên thiết bị biên (edge AI) phục vụ quan trắc ngoài hiện trường. Chặng đường này còn dài và còn nhiều điều chưa xác định.'),
-       ('Next stage', 'A master’s degree and a PhD abroad, then a return to Vietnam to teach at a university. The intended specialisation is edge AI for field monitoring. This stretch is long, and much of it is still unknown.'), True, 'goal'),
+ ('', ('Chặng tiếp theo', 'Lộ trình đã rõ: thạc sĩ, tiến sĩ rồi sau tiến sĩ ở nước ngoài, sau đó trở về giảng dạy đại học tại Việt Nam. Điều chưa biết là ở trường nào. Hướng chuyên sâu dự kiến là AI trên thiết bị biên (edge AI) phục vụ quan trắc ngoài hiện trường. Chặng đường này còn dài.'),
+       ('Next stage', 'The route is clear: a master’s degree, a PhD and a postdoc abroad, then a return to Vietnam to teach at a university. What is not yet known is where. The intended specialisation is edge AI for field monitoring. This stretch is long.'), True, 'goal'),
 ]
 
 ABOUT = {
@@ -127,7 +127,9 @@ MILESTONES = {
     0: [('cert', 'Chứng chỉ nghiệp vụ sư phạm (2025)', 'University teaching certificate (2025)'), ('teky', 'Trợ giảng lập trình tại TEKY', 'Programming teaching assistant at TEKY')],
 }
 # Tên hiện trên công trình chính của từng giai đoạn
-PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity')}
+PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity'), 3: ('Giảng dạy đại học tại Việt Nam', 'University teaching in Vietnam')}
+# Các mốc đã biết trên chặng tiếp theo (chưa biết ở trường nào)
+FUTURE = [('Thạc sĩ · trường nào?', 'Master’s · where?'), ('Tiến sĩ · trường nào?', 'PhD · where?'), ('Sau tiến sĩ · ở đâu?', 'Postdoc · where?')]
 # Trở ngại trên đường ứng với "khó khăn và bài học" của giai đoạn: holes = ổ gà | flood = ngập nước, cát tràn | rocks = đá lở
 OBSTACLE = {0: 'holes', 2: 'flood'}
 
@@ -206,7 +208,7 @@ for lang in ('vi', 'en'):
     lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, U['workdir'] + s + '.html')}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
     wmap = {w['slug']: w for w in WORK}
     tpls = ''.join(proj_template(wmap[s], lang, p) for i in sorted(STAGE_PROJECTS) for s, a, tv, te in STAGE_PROJECTS[i])
-    j3d = f'''<section class="j3d" data-j3d="full" style="--n:8" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
+    j3d = f'''<section class="j3d" data-j3d="full" style="--n:8" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
 <article class="j3d-card"><div class="k"></div><h3></h3><div class="tx"></div></article><div class="j3d-hint">{t['hint']}</div></div>
 <div class="j3d-panel" aria-hidden="true"><div class="pbar"><button type="button" class="pback">← {t['p_close']}</button><span class="mono pk"></span></div><div class="pbody"></div></div>{tpls}</section>'''
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}"></script>'
