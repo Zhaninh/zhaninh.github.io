@@ -21,4 +21,9 @@ document.addEventListener('DOMContentLoaded',function(){
   if(ty){var ws=JSON.parse(ty.getAttribute('data-words')),k=0,c=0,del=false;
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){ty.textContent=ws[0]}else(function tick(){var w=ws[k];ty.textContent=w.slice(0,c);
       if(!del&&c<w.length){c++;setTimeout(tick,55)}else if(!del){del=true;setTimeout(tick,1900)}else if(c>0){c--;setTimeout(tick,24)}else{del=false;k=(k+1)%ws.length;setTimeout(tick,300)}})()}
+  /* nút lên đầu trang: hiện khi qua trang đầu; ở trang hành trình chỉ hiện khi đã qua hết bản đồ */
+  var tt=d.querySelector('.totop');
+  if(tt){var jm=d.querySelector('.j3d');function tv(){var on=scrollY>innerHeight*.8;if(on&&jm){on=jm.getBoundingClientRect().bottom<innerHeight-120}tt.classList.toggle('show',on)}
+    addEventListener('scroll',tv,{passive:true});addEventListener('resize',tv);tv();
+    tt.addEventListener('click',function(){scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})})}
 });
