@@ -659,7 +659,31 @@
     stacked = !!(full && card && card.offsetWidth > W * .6); /* thẻ nội dung nằm ngang phía trên (màn hẹp) hay đứng bên trái (màn rộng) */
     cardR = full && card && !stacked ? card.offsetLeft + card.offsetWidth : 0; cardB = stacked ? card.offsetTop + card.offsetHeight : 0;
     anchors.concat(miles).forEach(function (a) { if (a.el) a.w = a.el.offsetWidth; });
+    if (typeof buildFrames === 'function' && keep.length) buildFrames();
   }
+
+  /* ---------- tự canh khung: mọi công trình/dự án trong tầm dọc nằm trọn trong vùng trống (không bị thẻ nội dung hay mép màn hình cắt) ---------- */
+  var FT = null, FT0 = 0, FTS = .5;
+  function rawFrame(uc2, f) {
+    var ahead = stacked ? 4 - cardB / 2 * VH * f / H / SIN : 7, uc = Math.min(uc2 - ahead, uNow), bx = -uc2 * R2, bz = -uc2 * R2, hv = (H - cardB) / 2 * VH * f / H / SIN, uw = uc2 + cardB / 2 * VH * f / H / SIN;
+    var mn = 1e9, mx = -1e9, pad = 18, L0 = cardR ? cardR + pad : pad, ww = Math.max(120, W - L0 - pad), k;
+    function L(x, z) { return (x - bx) * -R2 + (z - bz) * R2; }
+    var cp = pos(uc, carLat(uc)), cl = L(cp.x, cp.z); mn = cl - RW - 1.2; mx = cl + RW + 1.2;
+    for (k = -0.7; k <= 0.71; k += .35) { var rq = pos(uw + k * hv), lr = L(rq.x, rq.z); mn = Math.min(mn, lr - RW - .8); mx = Math.max(mx, lr + RW + .8); }
+    for (k = 0; k < keep.length; k++) { var ko = keep[k][0], du = (ko.userData.u === undefined ? -1e9 : ko.userData.u) - uw, wq = Math.min(1, Math.max(0, (hv * .95 - Math.abs(du)) / (hv * .45))); if (wq <= 0) continue; wq = wq * wq * (3 - 2 * wq);
+      var ol = L(ko.position.x, ko.position.z), orr = keep[k][1] + 1.6, a0 = cl + (ol - orr - cl) * wq, a1 = cl + (ol + orr - cl) * wq; if (a0 < mn) mn = a0; if (a1 > mx) mx = a1; }
+    var fN = Math.min(1.9, Math.max(1, (mx - mn) / (ww * VH / H))), off = ((L0 + W - pad) / 2 - W / 2) * VH * fN / H;
+    return [fN, (mn + mx) / 2 - off];
+  }
+  function buildFrames() {
+    if (!full) return; var a = U0 - 30, b = uEnd + 30, n = Math.ceil((b - a) / FTS) + 1, raw = [], i, f, q;
+    for (i = 0; i < n; i++) { f = 1; for (q = 0; q < 3; q++) f = rawFrame(a + i * FTS, f)[0]; raw.push(rawFrame(a + i * FTS, f)); }
+    var sg = 5 / FTS, R = Math.ceil(sg * 2.5), out = []; /* làm mượt theo quãng đường (Gauss ~5 đơn vị) để chuyển cảnh êm */
+    for (i = 0; i < n; i++) { var w = 0, sf = 0, ss = 0, mf = 0; for (q = -R; q <= R; q++) { var j = Math.min(n - 1, Math.max(0, i + q)), g = Math.exp(-q * q / (2 * sg * sg)); w += g; sf += raw[j][0] * g; ss += raw[j][1] * g; if (Math.abs(q) < sg) mf = Math.max(mf, raw[j][0]); }
+      out.push([Math.max(sf / w, mf * .97), ss / w]); }
+    FT = out; FT0 = a;
+  }
+  function frameAt(u) { if (!FT) return [1, 0]; var x = (u - FT0) / FTS, i = Math.max(0, Math.min(FT.length - 2, Math.floor(x))), t = Math.min(1, Math.max(0, x - i)); return [FT[i][0] + (FT[i + 1][0] - FT[i][0]) * t, FT[i][1] + (FT[i + 1][1] - FT[i][1]) * t]; }
   size(); addEventListener('resize', size);
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
   var fS = 1, shL = 0, fInit = true, vF = 0, vS = 0;
@@ -694,18 +718,8 @@
     /* máy quay: nhìn xéo từ trên; cảnh được đẩy sang phải đúng bằng nửa bề rộng thẻ nội dung để thẻ che ít nhất */
     var ahead = full ? (stacked ? 4 - cardB / 2 * VH * fS / H / SIN : 7) : 4, sh = full ? (stacked ? 0 : cardR / 2 * VH / H) : (W >= 700 ? .16 * VH * W / H : 0), uc2 = uS + ahead;
     look.set(-uc2 * R2 + R2 * sh, 0, -uc2 * R2 - R2 * sh);
-    if (full) { /* tự canh: mọi công trình/dự án đang trong tầm dọc phải nằm trọn trong vùng trống (không bị thẻ nội dung hay mép màn hình cắt) */
-      var bx = -uc2 * R2, bz = -uc2 * R2, hv = (H - cardB) / 2 * VH * fS / H / SIN, uw = uc2 + cardB / 2 * VH * fS / H / SIN, mn = 1e9, mx = -1e9, pad = 18, L0 = cardR ? cardR + pad : pad, ww = Math.max(120, W - L0 - pad), lat, rr;
-      var addL = function (x, z, r) { lat = (x - bx) * -R2 + (z - bz) * R2; if (lat - r < mn) mn = lat - r; if (lat + r > mx) mx = lat + r; };
-      addL(p.x, p.z, RW + 1.2); var cl = (p.x - bx) * -R2 + (p.z - bz) * R2;
-      for (k = -0.7; k <= 0.71; k += .35) { var rq = pos(uw + k * hv); addL(rq.x, rq.z, RW + .8); }
-      for (k = 0; k < keep.length; k++) { var ko = keep[k][0]; if (!ko.visible && ko.userData.k === 0) continue; var du = (ko.userData.u === undefined ? -1e9 : ko.userData.u) - uw, wq = Math.min(1, Math.max(0, (hv * .95 - Math.abs(du)) / (hv * .45))); if (wq <= 0) continue; wq = wq * wq * (3 - 2 * wq); /* vào/ra khung từ từ để máy quay không giật */
-        var ol = (ko.position.x - bx) * -R2 + (ko.position.z - bz) * R2, orr = keep[k][1] + 1.6, a0 = ol - orr, a1 = ol + orr; a0 = cl + (a0 - cl) * wq; a1 = cl + (a1 - cl) * wq; if (a0 < mn) mn = a0; if (a1 > mx) mx = a1; }
-      var fN = Math.min(1.9, Math.max(1, (mx - mn) / (ww * VH / H))), off = ((L0 + W - pad) / 2 - W / 2) * VH * fN / H, shN = (mn + mx) / 2 - off;
-      if (reduce || fInit) { fS = fN; shL = shN; vF = vS = 0; fInit = false; } else { var om = 1.6, xx = om * dt, ex = 1 / (1 + xx + .48 * xx * xx + .235 * xx * xx * xx), c1, c2; /* lò xo tắt dần tới hạn: tăng tốc rồi hãm êm, không giật */
-        c1 = fS - fN; c2 = (vF + om * c1) * dt; vF = (vF - om * c2) * ex; fS = fN + (c1 + c2) * ex;
-        c1 = shL - shN; c2 = (vS + om * c1) * dt; vS = (vS - om * c2) * ex; shL = shN + (c1 + c2) * ex; }
-      look.set(bx - R2 * shL, 0, bz + R2 * shL);
+    if (full) { /* khung nhìn lấy từ bảng tính sẵn theo vị trí trên đường: đi nhanh hay chậm thì máy quay vẫn khớp đúng chỗ, không trễ */
+      var fr = frameAt(uc2); fS = fr[0]; shL = fr[1]; look.set(-uc2 * R2 - R2 * shL, 0, -uc2 * R2 + R2 * shL);
     }
     if (ze > 0) look.lerp(zm.tg, ze); var zz = (1 + ze * (zm.z - 1)) / (full ? fS : 1); if (cam.zoom !== zz) { cam.zoom = zz; cam.updateProjectionMatrix(); }
     cam.position.copy(look).addScaledVector(DIR, 160); cam.lookAt(look);
