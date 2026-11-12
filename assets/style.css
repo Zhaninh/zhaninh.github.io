@@ -748,3 +748,5 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .hs{position:relative;padding:calc(var(--s5) + 16px) 0 var(--s5);border-top:1px solid color-mix(in srgb,var(--leaf-mid) 45%,var(--line))}
 .hs::before{content:"";position:absolute;left:0;top:-2px;width:64px;height:3px;border-radius:3px;background:var(--leaf-mid)}
 .hs:first-child::before{display:none}
+/* slogan thống nhất: cụm nhấn luôn nghiêng + màu xanh + vệt tô */
+.hslogan em,.fq em,.fslogan em,.belief q em{font-style:italic;color:var(--leaf);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 62%);padding:0 3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
