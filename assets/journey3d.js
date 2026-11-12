@@ -96,12 +96,13 @@
     return true;
   }
   var grow = []; /* vật thể mọc lên khi sắp vào khung hình */
+  var keep = []; /* công trình, dự án, biểu tượng: máy quay tự lùi/dịch để luôn thấy trọn */
   function seat(g, u, off, r, sc, noGrow) { /* đặt vật thể cạnh đường; vướng thì dịch dọc đường hoặc lùi xa đường tới khi trống; không còn chỗ thì bỏ, không bao giờ đặt đè */
     var p = null, sg = off < 0 ? -1 : 1, DU = [0, 1.5, -1.5, 3, -3, 4.5, -4.5, 6, -6, 8, -8], a, k, q, uu = u, hh = (g.userData.h || 3) * (sc || 1), pass;
     for (pass = 0; pass < 2 && !p; pass++) /* lượt đầu: vừa không đè vừa không che nhau; lượt sau: chỉ cần không đè */
       for (k = 0; k < 14 && !p; k++) for (a = 0; a < DU.length; a++) { q = pos(u + DU[a], off + sg * k * .7); if (clearOf(q.x, q.z, r, .5) && (pass || viewOK(q.x, q.z, r, hh, 1))) { p = q; uu = u + DU[a]; break; } }
     if (!p) { if (window.console) console.warn('j3d: không còn chỗ cho vật thể ở u=' + u + ', đã bỏ qua'); return null; }
-    g.position.copy(p); g.rotation.y = FACE; g.userData.u = uu; g.userData.s = sc || 1; g.userData.gy = 1; g.userData.pr = g.userData.pr || r; g.scale.setScalar(g.userData.s); scene.add(g); claim(p.x, p.z, r, hh, 1); if (!noGrow) grow.push(g); return p;
+    g.position.copy(p); g.rotation.y = FACE; g.userData.u = uu; g.userData.s = sc || 1; g.userData.gy = 1; g.userData.pr = g.userData.pr || r; g.scale.setScalar(g.userData.s); scene.add(g); claim(p.x, p.z, r, hh, 1); keep.push([g, r]); if (!noGrow) grow.push(g); return p;
   }
   function drive(u, sg, p, r) { /* lối vào ngắn nối đường với nền công trình */
     if (!p) return; var a = pos(u, sg * RW), dx = p.x - a.x, dz = p.z - a.z, L = Math.hypot(dx, dz) - r + .4; if (L < .5) return;
@@ -396,7 +397,7 @@
     [-1, 1].forEach(function (sd) { band(.06, .116, M(C.white, SM), sd * 1.27, .04, 1); });
     for (var q = .2; q < .97; q += .095) band(.07, .116, M(C.white, SM), 0, q, q + .05);
     for (k = 0; k <= 40; k++) { var pk = at(k / 40); roadPts.push([pk[0], pk[1], 1.85]); }
-    var e = new T.Vector3(c[0] + d1[0] * 3.4, 0, c[1] + d1[1] * 3.4); endObj.position.copy(e); endObj.rotation.y = FACE; endObj.userData.u = u + len * .7; endObj.userData.s = 1; endObj.userData.gy = 1; scene.add(endObj); grow.push(endObj); claim(e.x, e.z, endObj.userData.pr + .3, endObj.userData.h || 4, 1);
+    var e = new T.Vector3(c[0] + d1[0] * 3.4, 0, c[1] + d1[1] * 3.4); endObj.position.copy(e); endObj.rotation.y = FACE; endObj.userData.u = u + len * .7; endObj.userData.s = 1; endObj.userData.gy = 1; scene.add(endObj); grow.push(endObj); keep.push([endObj, endObj.userData.pr + .5]); claim(e.x, e.z, endObj.userData.pr + .3, endObj.userData.h || 4, 1);
     var cv = document.createElement('canvas'); cv.width = cv.height = 256; var x = cv.getContext('2d'); x.fillStyle = '#fff'; x.beginPath(); x.arc(128, 128, 126, 0, 7); x.fill(); x.fillStyle = '#1E6FD9'; x.beginPath(); x.arc(128, 128, 114, 0, 7); x.fill();
     x.strokeStyle = x.fillStyle = '#fff'; x.lineWidth = 22; x.lineCap = 'butt';
     for (k = 0; k < 3; k++) { var a0 = k * 2.094 + .5, a1 = a0 - 1.25; x.beginPath(); x.arc(128, 128, 66, a0, a1, true); x.stroke();
@@ -405,32 +406,34 @@
     var sg = new T.Group(), bd = new T.Mesh(new T.CircleGeometry(.95, 32), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); bd.position.y = 2.75; sg.add(cyl(.06, .06, 2.2, C.steel, 0, 1.1, 0, 8), bd);
     var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
-  if (stages[0].icon === 'school') fork(mainU[0] + 30, -S, 15, model.design());
+  if (stages[0].icon === 'school') fork(mainU[0] + 30, S, 15, model.design());
   if (seaOn) fork(uSea + 24, -S, 16, model.mobility());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
+  function SIDE(k) { return k === 2 && seaOn ? -S : (k % 2 ? S : -S); } /* công trình giai đoạn xen kẽ hai bên đường; dự án nằm phía đối diện */
   stages.forEach(function (s, k) {
-    var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
-    marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
+    var sd = SIDE(k), g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = sd * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
+    marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], sd, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
   if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 38, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
       if (pj.anchor === 'buoy' && buoys) o = buoys[0];
-      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 34 : 60) + j * 14; p = seat(o, uu, S * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, S, p, o.userData.pr); }
+      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 34 : 60) + j * 14; var ps = -SIDE(k); p = seat(o, uu, ps * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, ps, p, o.userData.pr); }
       anchors.push({ o: o, h: (o.userData.h || 4) * (o.userData.s || 1), s: k, j: j });
+      if (keep.every(function (e) { return e[0] !== o; })) keep.push([o, (o.userData.pr || 2) + 1]);
     });
     (s.milestones || []).forEach(function (ms, j) {
       if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : 1, r = o.userData.pr * sc, uu = mainU[k] + 76 + j * 8;
-      if (seat(o, uu, S * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
+      if (seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
     });
   });
 
   /* ---------- bãi biển: trụ sở -> lán thiết bị -> cầu tàu có ROV -> trạm phao ---------- */
   if (seaOn) (function () {
-    function put(g, u, k, sc, th, r) { var p = shore(u, k); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
+    function put(g, u, k, sc, th, r) { var p = shore(u, k); keep.push([g, (r || 2) * (sc || 1)]); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
     put(model.office(), uSea + 84.5, 3.4, .8, undefined, 3.4);
     var tent = new T.Group(), Y = 0xFFCB2E, K0 = 0x20262B, k;
     tent.add(box(3, .1, 2.4, 0xE8DCC0, 0, 2.1, 0), box(1.5, .8, 1, 0x39434C, -.5, .42, 0), box(1.54, .1, 1.04, Y, -.5, .82, 0), box(.9, .6, .7, 0xB98B5E, .8, .3, .3));
@@ -479,7 +482,7 @@
       var ring = new T.LineLoop(new T.BufferGeometry().setFromPoints(new T.EllipseCurve(0, 0, 4.4, 4.4).getPoints(60).map(function (q) { return new T.Vector3(q.x, .05, q.y); })), lm); ring.computeLineDistances(); g.add(ring);
       var sy = symbol[k](); sy.position.set(-2.9, 0, 3.3); sy.scale.setScalar(1.9); g.add(sy);
       sy.traverse(function (o) { if (!o.isMesh) return; o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = .42; o.castShadow = false; var ed = new T.LineSegments(new T.EdgesGeometry(o.geometry, 30), lm); ed.computeLineDistances(); o.add(ed); }); /* chưa đạt được: mờ, viền nét đứt */
-      g.userData.h = [7, 5.2, 5.6][k]; if (seat(g, uNow + UNK * f, S * 10.6, 4.9) && fut[k]) { g.updateMatrixWorld(true); var sv = new T.Vector3(-2.9, 0, 3.3).applyMatrix4(g.matrixWorld); miles.push({ o: { position: new T.Vector3(sv.x, 0, sv.z), userData: g.userData }, h: [3.6, 4.3, 7][k], label: fut[k], place: 1 }); } g.userData.gy = 0;
+      g.userData.h = [7, 5.2, 5.6][k]; if (seat(g, uNow + UNK * f, (k === 1 ? S : -S) * 10.6, 4.9) && fut[k]) { g.updateMatrixWorld(true); var sv = new T.Vector3(-2.9, 0, 3.3).applyMatrix4(g.matrixWorld); miles.push({ o: { position: new T.Vector3(sv.x, 0, sv.z), userData: g.userData }, h: [3.6, 4.3, 7][k], label: fut[k], place: 1 }); } g.userData.gy = 0;
     });
     /* mây: mỗi đám một dáng; đỉnh trắng, bụng xám xanh, có viền và bóng để tách khỏi nền sáng. Mây bay trên cao nên được phép che cảnh bên dưới. */
     var cg = new T.SphereGeometry(1, 20, 14), pa = cg.attributes.position, col = [], top = new T.Color(0xffffff), bot = new T.Color(0x7F9BC6), tc = new T.Color(), k;
@@ -617,7 +620,7 @@
   }
 
   /* ---------- vào xem dự án: phóng to tới vật thể rồi mở bảng nội dung ---------- */
-  var zm = { t: 0, dir: 0, tg: new T.Vector3(), z: 4, a: null }, pushed = false, VH = 40, W = 1, H = 1, cardR = 0;
+  var zm = { t: 0, dir: 0, tg: new T.Vector3(), z: 4, a: null }, pushed = false, VH = 40, W = 1, H = 1, cardR = 0, cardB = 0, stacked = false;
   function openP(a, instant) {
     var pj = stages[a.s].projects[a.j], tp = document.getElementById('proj-' + pj.slug); if (zm.a || !panel || !tp) return;
     panel.querySelector('.pbody').innerHTML = tp.innerHTML; panel.querySelector('.pk').textContent = String(a.s + 1).padStart(2, '0') + ' · ' + stages[a.s].title; panel.scrollTop = 0;
@@ -653,11 +656,13 @@
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setSize(W, H, false);
     var a = W / H; mob = W < 860; VH = full ? (mob ? Math.max(40, 34 / a) : Math.max(40, 58 / a)) : Math.max(18, 30 / a); /* màn hình hẹp thì lùi máy quay ra để công trình hai bên không bị cắt */
     cam.left = -VH * a / 2; cam.right = VH * a / 2; cam.top = VH / 2; cam.bottom = -VH / 2; cam.updateProjectionMatrix();
-    cardR = full && card && !mob ? card.offsetLeft + card.offsetWidth : 0;
+    stacked = !!(full && card && card.offsetWidth > W * .6); /* thẻ nội dung nằm ngang phía trên (màn hẹp) hay đứng bên trái (màn rộng) */
+    cardR = full && card && !stacked ? card.offsetLeft + card.offsetWidth : 0; cardB = stacked ? card.offsetTop + card.offsetHeight : 0;
     anchors.concat(miles).forEach(function (a) { if (a.el) a.w = a.el.offsetWidth; });
   }
   size(); addEventListener('resize', size);
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
+  var fS = 1, shL = 0, fInit = true;
   var uT = U0, uS = U0, clock = new T.Clock(), visible = true, tAuto = 0;
   function scrollU() { var r = root.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); return U0 + p * (uEnd - U0); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
@@ -687,14 +692,24 @@
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
     /* máy quay: nhìn xéo từ trên; cảnh được đẩy sang phải đúng bằng nửa bề rộng thẻ nội dung để thẻ che ít nhất */
-    var ahead = full ? (mob ? -14 : 7) : 4, sh = full ? (mob ? -.15 * VH * W / H : cardR / 2 * VH / H) : (W >= 700 ? .16 * VH * W / H : 0), uc2 = uS + ahead;
+    var ahead = full ? (stacked ? 4 - cardB / 2 * VH * fS / H / SIN : 7) : 4, sh = full ? (stacked ? 0 : cardR / 2 * VH / H) : (W >= 700 ? .16 * VH * W / H : 0), uc2 = uS + ahead;
     look.set(-uc2 * R2 + R2 * sh, 0, -uc2 * R2 - R2 * sh);
-    if (ze > 0) look.lerp(zm.tg, ze); var zz = 1 + ze * (zm.z - 1); if (cam.zoom !== zz) { cam.zoom = zz; cam.updateProjectionMatrix(); }
+    if (full) { /* tự canh: mọi công trình/dự án đang trong tầm dọc phải nằm trọn trong vùng trống (không bị thẻ nội dung hay mép màn hình cắt) */
+      var bx = -uc2 * R2, bz = -uc2 * R2, hv = (H - cardB) / 2 * VH * fS / H / SIN, uw = uc2 + cardB / 2 * VH * fS / H / SIN, mn = 1e9, mx = -1e9, pad = 18, L0 = cardR ? cardR + pad : pad, ww = Math.max(120, W - L0 - pad), lat, rr;
+      var addL = function (x, z, r) { lat = (x - bx) * -R2 + (z - bz) * R2; if (lat - r < mn) mn = lat - r; if (lat + r > mx) mx = lat + r; };
+      addL(p.x, p.z, RW + 1.2);
+      for (k = -0.7; k <= 0.71; k += .35) { var rq = pos(uw + k * hv); addL(rq.x, rq.z, RW + .8); }
+      for (k = 0; k < keep.length; k++) { var ko = keep[k][0]; if (!ko.visible && ko.userData.k === 0) continue; var du = (ko.userData.u === undefined ? -1e9 : ko.userData.u) - uw; if (Math.abs(du) > hv * .85) continue; addL(ko.position.x, ko.position.z, keep[k][1] + 1.6); }
+      var fN = Math.min(1.9, Math.max(1, (mx - mn) / (ww * VH / H))), off = ((L0 + W - pad) / 2 - W / 2) * VH * fN / H, shN = (mn + mx) / 2 - off;
+      var kk = reduce || fInit ? 1 : Math.min(1, dt * 2.5); fS += (fN - fS) * kk; shL += (shN - shL) * kk; fInit = false;
+      look.set(bx - R2 * shL, 0, bz + R2 * shL);
+    }
+    if (ze > 0) look.lerp(zm.tg, ze); var zz = (1 + ze * (zm.z - 1)) / (full ? fS : 1); if (cam.zoom !== zz) { cam.zoom = zz; cam.updateProjectionMatrix(); }
     cam.position.copy(look).addScaledVector(DIR, 160); cam.lookAt(look);
     var sa = look.x * SR.x + look.z * SR.z, sb = look.x * SU.x + look.z * SU.z, qa = Math.round(sa / TX) * TX - sa, qb = Math.round(sb / TX) * TX - sb, lx = look.x + SR.x * qa + SU.x * qb, lz = look.z + SR.z * qa + SU.z * qb;
     sun.target.position.set(lx, 0, lz); sun.position.set(lx + 6, 60, lz - 34);
     /* mọi thứ mọc lên khi sắp vào khung hình (từ phía dưới) */
-    var half = VH / 2 / SIN, lo = uc2 + half * .93, hi = uc2 - half - 18;
+    var half = VH / 2 / SIN * (full ? fS : 1), lo = uc2 + half * .93, hi = uc2 - half - 18;
     grow.forEach(function (o) { var d = o.userData, k = ease((lo + 2 - d.u) / 9), s = d.s || 1; o.visible = k > 0 && d.u > hi; d.k = k; if (d.gy) o.scale.set(s, Math.max(.001, k * s), s); else o.scale.setScalar(Math.max(.001, k * s)); });
     marks.forEach(function (g, j) {
       var k = ease((lo + 3 - mainU[j]) / 9); g.scale.set(1, Math.max(.001, k), 1); g.visible = k > 0 && mainU[j] > hi; g.userData.k = k;
