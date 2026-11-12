@@ -179,8 +179,8 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
 <header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
 <main>{body}</main>
-<footer class="foot"><div class="wrap"><p class="fslogan"><span>{t['slogan']}</span></p><div class="ftop">
-<div class="fid"><a class="fbrand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover_mark.svg')}" alt=""><span><b>Aaron</b><small>{'Nguyễn Ngọc Gia Ninh' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh'}</small></span></a></div>
+<footer class="foot"><div class="wrap"><div class="ftop">
+<div class="fid"><a class="fbrand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover_mark.svg')}" alt=""><span><b>Aaron</b><small>{'Nguyễn Ngọc Gia Ninh' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh'}</small></span></a><div class="fmotto"><span class="ck">{'Phương châm' if lang == 'vi' else 'Motto'}</span><p class="fq">{t['slogan']}</p></div></div>
 <div class="fcol"><span class="ck">{'Liên hệ' if lang == 'vi' else 'Contact'}</span><a class="fm" href="mailto:{EMAIL_WORK}"><i>{t['mail_work']}</i>{EMAIL_WORK}</a><a class="fm" href="mailto:{EMAIL}"><i>{t['mail_me']}</i>{EMAIL}</a></div>
 <div class="fcol"><span class="ck">{'Hồ sơ' if lang == 'vi' else 'Profiles'}</span><nav class="fl"><a href="{a('assets/Aaron_CV.pdf')}">CV <i>↓</i></a><a href="{SCHOLAR}">Google Scholar <i>↗</i></a><a href="https://github.com/Zhaninh">GitHub <i>↗</i></a><a href="{LINKEDIN}">LinkedIn <i>↗</i></a></nav></div>
 </div><div class="fbot"><span>© {time.strftime('%Y')} Aaron · <a href="{GREENX}">GREEN-X, VinUniversity</a></span><a class="flang" href="{a(twin)}" hreflang="{other}">{'English' if lang == 'vi' else 'Tiếng Việt'}</a></div></div></footer>

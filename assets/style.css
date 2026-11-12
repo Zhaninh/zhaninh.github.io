@@ -521,3 +521,13 @@ h1,h2,h3,.hslogan,.fslogan{text-wrap:balance}
   .fbot{flex-direction:column;justify-content:center;text-align:center}
 }
 @media (max-width:600px){.fl{align-items:center}}
+/* chân trang: slogan về lại cột trái, cách điệu thành khối phương châm */
+.fmotto{margin-top:var(--s4);display:flex;flex-direction:column;gap:12px}
+.fmotto .ck{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.fmotto .fq{position:relative;margin:0;padding:6px 0 6px 22px;max-width:22ch;font:400 clamp(21px,1.8vw,26px)/1.4 var(--serif);color:var(--ink)}
+.fmotto .fq::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--leaf-bright),var(--leaf))}
+.fmotto .fq::after{content:"\201D";position:absolute;right:-8px;bottom:-34px;font:400 96px/1 var(--serif);color:color-mix(in srgb,var(--leaf-bright) 28%,transparent);pointer-events:none}
+@media (max-width:600px){.fmotto{align-items:center}.fmotto .fq{padding:0;text-align:center}.fmotto .fq::before{display:none}.fmotto .fq::after{display:none}}
+.fmotto .fq::after{content:none;display:none}
+.fmotto .fq{max-width:none;text-wrap:wrap}
+.fmotto .fq em{display:inline-block}
