@@ -20,7 +20,7 @@ T = {  # chuỗi giao diện
             hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='công việc', mail_me='cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
             interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
             bio='Tôi nghiên cứu trí tuệ nhân tạo ứng dụng, trọng tâm là thị giác máy tính, với mong muốn đưa kết quả nghiên cứu vào các bài toán thực tế tại Việt Nam.',
-            go_journey='Xem hành trình', believe='quan điểm nghiên cứu', now='đang thực hiện', t_title='Hành trình nghiên cứu', t_btn='Xem hành trình', t_n='giai đoạn', bump='khó khăn và bài học', hint='cuộn xuống để đi tiếp ↓', unknown='chưa xác định', p_in='dự án trong chặng này', p_tag='dự án', p_stage='giai đoạn', menu='Mục lục', more='Xem thêm', less='Thu gọn', p_close='Quay lại hành trình', p_page='Mở trang riêng của dự án',
+            go_journey='Đi cùng tôi qua hành trình', j_sub='Bản đồ 3D: các giai đoạn, dự án và chặng phía trước', c_label='liên hệ', believe='quan điểm nghiên cứu', now='đang thực hiện', t_title='Hành trình nghiên cứu', t_btn='Xem hành trình', t_n='giai đoạn', bump='khó khăn và bài học', hint='cuộn xuống để đi tiếp ↓', unknown='chưa xác định', p_in='dự án trong chặng này', p_tag='dự án', p_stage='giai đoạn', menu='Mục lục', more='Xem thêm', less='Thu gọn', p_close='Quay lại hành trình', p_page='Mở trang riêng của dự án',
             doing='đang thực hiện', read='Xem đề tài', role='Vai trò', where='Nơi thực hiện', status='Trạng thái', links='Minh chứng', nolinks='Sẽ bổ sung khi kết quả được công bố.',
             back='Tất cả đề tài', cv='Lý lịch khoa học (PDF)', contact='Liên hệ',
             d_journey='Quá trình học tập, nghiên cứu và định hướng sắp tới.', d_work='Các đề tài đã có công bố, bộ dữ liệu hoặc mã nguồn công khai.', d_about='Thế mạnh, hạn chế đang khắc phục, lý lịch khoa học và liên hệ.',
@@ -34,7 +34,7 @@ T = {  # chuỗi giao diện
             hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='work', mail_me='personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
             interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.')], h_int='research interests', featured='featured project',
             bio='I work on applied artificial intelligence with a focus on computer vision, aiming to bring research results to real-world problems in Vietnam.',
-            go_journey='See the journey', believe='research outlook', now='in progress', t_title='Research journey', t_btn='See the journey', t_n='stages', bump='difficulties and lessons', hint='scroll down to continue ↓', unknown='not yet known', p_in='projects in this stage', p_tag='project', p_stage='stage', menu='Menu', more='More', less='Less', p_close='Back to the journey', p_page='Open the project page',
+            go_journey='Take the journey with me', j_sub='A 3D map of stages, projects and the road ahead', c_label='contact', believe='research outlook', now='in progress', t_title='Research journey', t_btn='See the journey', t_n='stages', bump='difficulties and lessons', hint='scroll down to continue ↓', unknown='not yet known', p_in='projects in this stage', p_tag='project', p_stage='stage', menu='Menu', more='More', less='Less', p_close='Back to the journey', p_page='Open the project page',
             doing='in progress', read='View project', role='Role', where='Where', status='Status', links='Evidence', nolinks='Links will appear when results are public.',
             back='All projects', cv='Download CV (PDF)', contact='Contact',
             d_journey='Study, research and the plan ahead.', d_work='Projects with a publication, dataset or public code.', d_about='Strengths, current limitations, CV and contact.',
@@ -178,7 +178,7 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
 <header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
 <main>{body}</main>
-<footer class="foot"><div class="wrap"><span class="q">{E(t['slogan_plain'])}</span><a class="link" href="mailto:{EMAIL_WORK}">{EMAIL_WORK}</a><a class="link" href="mailto:{EMAIL}">{EMAIL}</a><a class="link" href="{SCHOLAR}">Scholar</a><a class="link" href="https://github.com/Zhaninh">GitHub</a><a class="link" href="{LINKEDIN}">LinkedIn</a><a class="gx" href="{GREENX}" title="GREEN-X, VinUniversity"><img src="{a('assets/greenx_logo.png')}" alt="GREEN-X, VinUniversity" width="900" height="134"></a></div></footer>
+<footer class="foot"><div class="wrap"><span class="q">{E(t['slogan_plain'])}</span><a class="link" href="mailto:{EMAIL_WORK}">{EMAIL_WORK}</a><a class="link" href="mailto:{EMAIL}">{EMAIL}</a><a class="link" href="{SCHOLAR}">Scholar</a><a class="link" href="https://github.com/Zhaninh">GitHub</a><a class="link" href="{LINKEDIN}">LinkedIn</a></div></footer>
 <script src="{a('assets/main.js')}?v={VER}"></script>{extra}</body></html>'''
 
 def write(path, s):
@@ -195,14 +195,17 @@ for lang in ('vi', 'en'):
                     for k, n in (('journey', f'{len(JOURNEY)}'), ('work', f'{len(WORK)}'), ('about', 'CV')))
     ints = ''.join(f'<li><b>{E(a)}</b><span>{E(d)}</span></li>' for a, d in t['interests'])
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
-    body = f'''<section class="hero"><div class="wrap hero-grid"><div>
+    body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
 <h1 class="name">{t['name']}</h1>
-<p class="role">{t['role_pre']} <a class="gx" href="{GREENX}" title="GREEN-X, VinUniversity"><img src="{rel(p, 'assets/greenx_logo.png')}" alt="GREEN-X, VinUniversity" width="900" height="134"></a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
+<p class="role">{t['role_pre']} <a class="gxt" href="{GREENX}">GREEN-X, VinUniversity</a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
 <p class="bio">{t['bio']}</p>
-<div class="acts"><a class="btn pri" href="{rel(p, 'assets/Aaron_CV.pdf')}">CV</a><a class="btn" href="{SCHOLAR}">Google Scholar</a><a class="btn" href="https://github.com/Zhaninh">GitHub</a><a class="btn" href="{LINKEDIN}">LinkedIn</a></div>
-<dl class="mails"><div><dt>{t['mail_work']}</dt><dd><a href="mailto:{EMAIL_WORK}">{EMAIL_WORK}</a></dd></div><div><dt>{t['mail_me']}</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div></dl></div>
-<div class="portrait reveal"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></div></section>
+<a class="jbtn" href="{rel(p, U['journey'])}"><span class="ji"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42c0-10 14-8 16-18S14 12 18 6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 6"/><circle cx="18" cy="6" r="4" fill="currentColor"/><circle cx="8" cy="42" r="3" fill="currentColor"/></svg></span><span class="jt"><b>{t['go_journey']}</b><small>{t['j_sub']}</small></span><span class="ja">→</span></a></div>
+<div class="portrait reveal"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></div>
+<div class="contact reveal">
+<a class="ci" href="mailto:{EMAIL_WORK}"><span class="ck">{t['mail_work']}</span><span class="cv">{EMAIL_WORK}</span></a>
+<a class="ci" href="mailto:{EMAIL}"><span class="ck">{t['mail_me']}</span><span class="cv">{EMAIL}</span></a>
+<nav class="cs"><a href="{rel(p, 'assets/Aaron_CV.pdf')}">CV <i>↓</i></a><a href="{SCHOLAR}">Scholar <i>↗</i></a><a href="https://github.com/Zhaninh">GitHub <i>↗</i></a><a href="{LINKEDIN}">LinkedIn <i>↗</i></a></nav></div></div></section>
 <section><div class="wrap"><a class="feature spot reveal" href="{rel(p, U['workdir'] + f['slug'] + '.html')}"><div><div class="mono">{t['featured']}</div><h2>{E(title_of(f, lang))}</h2><p>{E(fw['sub'])}</p></div><span class="go">{t['read']}</span></a></div></section>
 <section class="teaser-wrap"><div class="wrap"><a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><h2>{t['t_title']}</h2><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
 <section class="belief"><div class="wrap belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
