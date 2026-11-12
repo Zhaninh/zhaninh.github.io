@@ -12,7 +12,7 @@ EMAIL_WORK = 'ninh.nng@vinuni.edu.vn'
 SCHOLAR = 'https://scholar.google.com/citations?user=g0kINu8AAAAJ&hl=vi'
 LINKEDIN = 'https://www.linkedin.com/in/gianinh-948586299/'
 GREENX = 'https://greenx.vinuni.edu.vn'
-ME = '<b>N. N. G. Ninh</b>'
+ME = '<b class="me">N. N. G. Ninh</b>'
 
 T = {  # chuỗi giao diện
  'vi': dict(home='Trang chủ', journey='Hành trình', work='Nghiên cứu', pubs='Công bố', about='Giới thiệu', notes='Ghi chép',

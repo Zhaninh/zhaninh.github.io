@@ -78,7 +78,7 @@
   /* ---------- LUẬT CỨNG: sổ đăng ký chỗ đứng. Không vật thể nào được đè lên mặt đường, bãi biển hay vật thể khác ---------- */
   var fps = [], veil = [], roadPts = []; /* fps: chỗ đứng trên mặt đất; veil: vật treo trên cao (biển giai đoạn), chỉ tính khi xét che khuất */
   for (u = RS; u <= uGoal + 6; u += 1.1) { var rp = pos(u); roadPts.push([rp.x, rp.z, RW + .5]); }
-  function onBeach(x, z, r) { if (!seaOn) return false; var pu = -(x + z) * R2, pv = (x - z) * R2; return Math.abs(pu - seaC) < seaH + 26 + r && (pv - vOf(pu)) * S + r > LAND - .8 + seaT(pu); }
+  function onBeach(x, z, r) { if (!seaOn) return false; var pu = -(x + z) * R2, pv = (x - z) * R2; var pc = pu > seaC ? Math.max(seaC, pu - r) : Math.min(seaC, pu + r); return Math.abs(pu - seaC) < seaH + 26 + r && (pv - vOf(pu)) * S + r + 1.2 > LAND - .8 + seaT(pc); } /* xét phần bãi gần nhất trong tầm bán kính vật thể, không chỉ tại tâm */
   function clearOf(x, z, r, gap) {
     var k, d; gap = gap === undefined ? .6 : gap;
     for (k = 0; k < roadPts.length; k++) { d = Math.hypot(roadPts[k][0] - x, roadPts[k][1] - z); if (d < r + roadPts[k][2] + gap * .5) return false; }
@@ -662,7 +662,7 @@
   }
   size(); addEventListener('resize', size);
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
-  var fS = 1, shL = 0, fInit = true;
+  var fS = 1, shL = 0, fInit = true, vF = 0, vS = 0;
   var uT = U0, uS = U0, clock = new T.Clock(), visible = true, tAuto = 0;
   function scrollU() { var r = root.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); return U0 + p * (uEnd - U0); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
@@ -697,11 +697,14 @@
     if (full) { /* tự canh: mọi công trình/dự án đang trong tầm dọc phải nằm trọn trong vùng trống (không bị thẻ nội dung hay mép màn hình cắt) */
       var bx = -uc2 * R2, bz = -uc2 * R2, hv = (H - cardB) / 2 * VH * fS / H / SIN, uw = uc2 + cardB / 2 * VH * fS / H / SIN, mn = 1e9, mx = -1e9, pad = 18, L0 = cardR ? cardR + pad : pad, ww = Math.max(120, W - L0 - pad), lat, rr;
       var addL = function (x, z, r) { lat = (x - bx) * -R2 + (z - bz) * R2; if (lat - r < mn) mn = lat - r; if (lat + r > mx) mx = lat + r; };
-      addL(p.x, p.z, RW + 1.2);
+      addL(p.x, p.z, RW + 1.2); var cl = (p.x - bx) * -R2 + (p.z - bz) * R2;
       for (k = -0.7; k <= 0.71; k += .35) { var rq = pos(uw + k * hv); addL(rq.x, rq.z, RW + .8); }
-      for (k = 0; k < keep.length; k++) { var ko = keep[k][0]; if (!ko.visible && ko.userData.k === 0) continue; var du = (ko.userData.u === undefined ? -1e9 : ko.userData.u) - uw; if (Math.abs(du) > hv * .85) continue; addL(ko.position.x, ko.position.z, keep[k][1] + 1.6); }
+      for (k = 0; k < keep.length; k++) { var ko = keep[k][0]; if (!ko.visible && ko.userData.k === 0) continue; var du = (ko.userData.u === undefined ? -1e9 : ko.userData.u) - uw, wq = Math.min(1, Math.max(0, (hv * .95 - Math.abs(du)) / (hv * .45))); if (wq <= 0) continue; wq = wq * wq * (3 - 2 * wq); /* vào/ra khung từ từ để máy quay không giật */
+        var ol = (ko.position.x - bx) * -R2 + (ko.position.z - bz) * R2, orr = keep[k][1] + 1.6, a0 = ol - orr, a1 = ol + orr; a0 = cl + (a0 - cl) * wq; a1 = cl + (a1 - cl) * wq; if (a0 < mn) mn = a0; if (a1 > mx) mx = a1; }
       var fN = Math.min(1.9, Math.max(1, (mx - mn) / (ww * VH / H))), off = ((L0 + W - pad) / 2 - W / 2) * VH * fN / H, shN = (mn + mx) / 2 - off;
-      var kk = reduce || fInit ? 1 : Math.min(1, dt * 2.5); fS += (fN - fS) * kk; shL += (shN - shL) * kk; fInit = false;
+      if (reduce || fInit) { fS = fN; shL = shN; vF = vS = 0; fInit = false; } else { var om = 1.6, xx = om * dt, ex = 1 / (1 + xx + .48 * xx * xx + .235 * xx * xx * xx), c1, c2; /* lò xo tắt dần tới hạn: tăng tốc rồi hãm êm, không giật */
+        c1 = fS - fN; c2 = (vF + om * c1) * dt; vF = (vF - om * c2) * ex; fS = fN + (c1 + c2) * ex;
+        c1 = shL - shN; c2 = (vS + om * c1) * dt; vS = (vS - om * c2) * ex; shL = shN + (c1 + c2) * ex; }
       look.set(bx - R2 * shL, 0, bz + R2 * shL);
     }
     if (ze > 0) look.lerp(zm.tg, ze); var zz = (1 + ze * (zm.z - 1)) / (full ? fS : 1); if (cam.zoom !== zz) { cam.zoom = zz; cam.updateProjectionMatrix(); }
