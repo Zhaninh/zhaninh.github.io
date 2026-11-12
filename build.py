@@ -152,9 +152,9 @@ def proj_parts(w, lang):
 
 def proj_template(w, lang, p):
     t = T[lang]; d = w[lang]; parts, lk = proj_parts(w, lang)
-    return f'''<template id="proj-{w['slug']}"><header class="phead"><div class="mono">{t['p_tag']} · {w['year']}</div><h2>{E(title_of(w, lang))}</h2><p>{E(d['sub'])}</p></header>
+    return f'''<template id="proj-{w['slug']}"><header class="phead"><div class="mono">{t['p_tag']} · {w['year']}</div><h2>{E(title_of(w, lang))}</h2><p>{E(d['sub'])}</p><div class="pact">{"".join(f'<a href="{u}">{E(nm)}</a>' for nm, u in w['links'])}<a class="alt" href="{rel(p, U['workdir'] + w['slug'] + '.html')}">{t['p_page']}</a></div></header>
 <dl class="pmeta"><div><dt>{t['role']}</dt><dd>{E(d['role'])}</dd></div><div><dt>{t['where']}</dt><dd>{E(d['where'])}</dd></div><div><dt>{t['status']}</dt><dd>{E(d['status'])}</dd></div></dl>
-<div class="prose">{parts}</div><div class="plinks"><h4>{t['links']}</h4>{lk}<a class="btn" href="{rel(p, U['workdir'] + w['slug'] + '.html')}">{t['p_page']}</a></div></template>'''
+<div class="prose">{parts}</div></template>'''
 
 def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
@@ -208,7 +208,7 @@ for lang in ('vi', 'en'):
     lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, U['workdir'] + s + '.html')}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
     wmap = {w['slug']: w for w in WORK}
     tpls = ''.join(proj_template(wmap[s], lang, p) for i in sorted(STAGE_PROJECTS) for s, a, tv, te in STAGE_PROJECTS[i])
-    j3d = f'''<section class="j3d" data-j3d="full" style="--n:8" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
+    j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
 <article class="j3d-card"><div class="k"></div><h3></h3><div class="tx"></div></article><div class="j3d-hint">{t['hint']}</div></div>
 <div class="j3d-panel" aria-hidden="true"><div class="pbar"><button type="button" class="pback">← {t['p_close']}</button><span class="mono pk"></span></div><div class="pbody"></div></div>{tpls}</section>'''
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}"></script>'
