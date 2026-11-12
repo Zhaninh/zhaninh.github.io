@@ -1,3 +1,4 @@
+import re
 #!/usr/bin/env python3
 """Trang cá nhân Aaron. Tĩnh, song ngữ (vi mặc định ở gốc, en trong /en/).
 Thêm nội dung: thêm một mục vào WORK / PUBS / JOURNEY / NOTES rồi chạy `python3 build.py`.
@@ -178,16 +179,27 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
 <header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
 <main>{body}</main>
-<footer class="foot"><div class="wrap"><div class="ftop">
-<div class="fid"><a class="fbrand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt=""><span><b>Aaron</b><small>{'Nguyễn Ngọc Gia Ninh' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh'}</small></span></a><p class="fq">{t['slogan']}</p></div>
+<footer class="foot"><div class="wrap"><p class="fslogan"><span>{t['slogan']}</span></p><div class="ftop">
+<div class="fid"><a class="fbrand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover_mark.svg')}" alt=""><span><b>Aaron</b><small>{'Nguyễn Ngọc Gia Ninh' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh'}</small></span></a></div>
 <div class="fcol"><span class="ck">{'Liên hệ' if lang == 'vi' else 'Contact'}</span><a class="fm" href="mailto:{EMAIL_WORK}"><i>{t['mail_work']}</i>{EMAIL_WORK}</a><a class="fm" href="mailto:{EMAIL}"><i>{t['mail_me']}</i>{EMAIL}</a></div>
 <div class="fcol"><span class="ck">{'Hồ sơ' if lang == 'vi' else 'Profiles'}</span><nav class="fl"><a href="{a('assets/Aaron_CV.pdf')}">CV <i>↓</i></a><a href="{SCHOLAR}">Google Scholar <i>↗</i></a><a href="https://github.com/Zhaninh">GitHub <i>↗</i></a><a href="{LINKEDIN}">LinkedIn <i>↗</i></a></nav></div>
 </div><div class="fbot"><span>© {time.strftime('%Y')} Aaron · <a href="{GREENX}">GREEN-X, VinUniversity</a></span><a class="flang" href="{a(twin)}" hreflang="{other}">{'English' if lang == 'vi' else 'Tiếng Việt'}</a></div></div></footer>
 <button type="button" class="totop" aria-label="{'Lên đầu trang' if lang == 'vi' else 'Back to top'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></button>
 <script src="{a('assets/main.js')}?v={VER}"></script>{extra}</body></html>'''
 
+KEEP = ['GREEN-X, VinUniversity', 'reaches people.', 'đến được với con người.', 'Google Scholar', 'Nguyễn Ngọc Gia Ninh', 'Nguyen Ngoc Gia Ninh']
+def nobreak(html):
+    parts = re.split(r'(<script\b.*?</script>|<style\b.*?</style>|<title\b.*?</title>|<textarea\b.*?</textarea>|<[^>]+>)', html, flags=re.S)
+    for i, seg in enumerate(parts):
+        if not seg or seg.startswith('<'): continue
+        for k in KEEP:
+            seg = seg.replace(k, '\x00' + k + '\x01')
+        seg = re.sub(r'(?<![\w\x00-])(\w+(?:[-‑]\w+)+)(?![\w\x01])', lambda m: '\x00' + m.group(1) + '\x01', seg)
+        parts[i] = seg.replace('\x00', '<span class="nw">').replace('\x01', '</span>')
+    return ''.join(parts)
+
 def write(path, s):
-    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(s)
+    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(nobreak(s) if path.endswith('.html') else s)
 
 def head(t1, p, label=''):
     return f'<section class="page-head"><div class="wrap">{f"<div class=mono>{E(label)}</div>" if label else ""}<h1>{E(t1)}</h1><p>{E(p)}</p></div></section>'
