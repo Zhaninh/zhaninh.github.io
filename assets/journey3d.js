@@ -20,13 +20,14 @@
 
   /* ---------- bố cục dọc đường (đơn vị u), theo đúng thứ tự thời gian ---------- */
   var n = stages.length, nowIdx = n - 2, S = -1; /* S = -1: công trình nằm bên phải màn hình, biển cũng ở bên phải */
-  var GATE = [-6, 65, 116], MAIN = [10, 73, 124], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
+  var GATE = [-6, 114, 172], MAIN = [10, 124, 180], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
   for (i = 0; i <= nowIdx; i++) { gateU[i] = i < GATE.length ? GATE[i] : gateU[i - 1] + 44; mainU[i] = i < MAIN.length ? MAIN[i] : gateU[i] + 8; if (stages[i].icon === 'vinuni') seaI = i; }
   var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 48, seaH = 11, uB = uSea + 48;
   var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 60 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
   gateU[n - 1] = uNow + 6; mainU[n - 1] = uGoal;
   var rough = [];
-  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 25, uSea + 31] : [mainU[k] + 4.5, mainU[k] + 10], kind: s.obstacle || 'holes' }); });
+  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 33, uSea + 39] : [mainU[k] + 36, mainU[k] + 42], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
+  var rbU = []; /* các bùng binh ở ngã rẽ */
 
   /* ---------- hình học ---------- */
   var R2 = Math.SQRT1_2, AMP = 7.5, K = Math.PI / 28, RW = 2.25, RS = U0 - 46;
@@ -244,29 +245,38 @@
     }
   };
   var model = {
-    garden: function () { /* GREEN-X: vườn ươm với nhà kính, luống cây non, tua-bin gió và pin mặt trời */
-      var g = new T.Group(), k, q; pad(g, 4.6, 0xCFEBA0);
-      g.add(cyl(3.95, 3.95, .1, 0x9FD45A, 0, .17, 0, 36, SM));
-      var dome = mesh(new T.SphereGeometry(1.7, 10, 5, 0, 6.3, 0, 1.57), new T.MeshStandardMaterial({ color: 0xCFF1F5, transparent: true, opacity: .45, roughness: .1, flatShading: true }), -1.2, .22, -1); dome.castShadow = false;
-      var fr = new T.LineSegments(new T.EdgesGeometry(dome.geometry, 1), new T.LineBasicMaterial({ color: 0xFFFFFF })); dome.add(fr); g.add(dome);
-      g.add(cyl(.06, .08, .9, C.trunk, -1.2, .65, -1, 6), ball(.55, C.g2, -1.2, 1.3, -1), ball(.3, C.g1, -1.9, .55, -.6), ball(.3, C.g3, -.6, .55, -1.5));
-      for (k = 0; k < 3; k++) for (q = 0; q < 5; q++) { var hh = .25 + ((k + q) % 3) * .16; g.add(box(.46, .16, .34, 0x8A6A4B, -1.6 + q * .72, .27, 1.3 + k * .62), cyl(.03, .03, hh, C.g4, -1.6 + q * .72, .35 + hh / 2, 1.3 + k * .62, 5), ball(.14 + ((k + q) % 3) * .04, (k + q) % 2 ? C.g1 : C.g3, -1.6 + q * .72, .4 + hh, 1.3 + k * .62)); }
-      var hub = new T.Group(); for (k = 0; k < 3; k++) { var bl = box(.14, 1.25, .05, C.white, 0, .62, 0); var arm = new T.Group(); arm.add(bl); arm.rotation.z = k * 2.094; hub.add(arm); } hub.position.set(2.3, 3.6, -.7); g.add(cyl(.07, .1, 3.4, C.white, 2.3, 1.9, -.8, 8, SM), ball(.13, C.white, 2.3, 3.6, -.76, SM), hub); g.userData.spin = hub;
-      for (k = 0; k < 2; k++) { var sp = box(.95, .05, .7, 0x23405C, 1.7 + k * 1.05, .62, .6, { roughness: .3 }); sp.rotation.x = -.5; g.add(sp, cyl(.03, .03, .45, C.steel, 1.7 + k * 1.05, .4, .5, 5)); }
-      g.userData.h = 4.6; return g;
+    garden: function () { /* GREEN-X: mô hình cảnh quan thu nhỏ: đồi cây nhiều tầng, dòng nước, tua-bin gió và pin mặt trời */
+      var g = new T.Group(), k, R = 3.3, spins = []; pad(g, 4.7, 0xD9F0B4);
+      var hill = mesh(new T.SphereGeometry(R, 9, 5, 0, 6.3, 0, 1.57), M(0x8ED05A), -.5, .14, -.6); hill.scale.y = .42; g.add(hill);
+      function hy(x, z) { var d = Math.hypot(x + .5, z + .6); return .14 + (d < R ? .42 * Math.sqrt(R * R - d * d) : 0); }
+      [[-1.9, -1.2, 1.25, 0], [-.6, -1.9, 1.05, 1], [.7, -1.3, 1.2, 0], [-2.3, .3, .9, 1], [-1, -.3, 1.45, 0], [.3, .1, .95, 1], [1.6, -.2, .8, 0]].forEach(function (t, i) {
+        var y = hy(t[0], t[1]), sc = t[2]; g.add(cyl(.07 * sc, .1 * sc, .7 * sc, C.trunk, t[0], y + .3 * sc, t[1], 6));
+        if (t[3]) { g.add(mesh(new T.ConeGeometry(.55 * sc, 1.2 * sc, 7), M(C.g4), t[0], y + 1.1 * sc, t[1]), mesh(new T.ConeGeometry(.4 * sc, .9 * sc, 7), M(i % 2 ? C.g2 : 0x3F7A2A), t[0], y + 1.7 * sc, t[1])); }
+        else { g.add(ball(.62 * sc, i % 2 ? C.g1 : C.g2, t[0], y + 1.05 * sc, t[1]), ball(.4 * sc, C.g3, t[0] + .3 * sc, y + 1.5 * sc, t[1] - .1)); }
+      });
+      var pond = cyl(1.35, 1.35, .06, 0x52CBE0, 1.9, .2, 2, 14); pond.scale.z = .6; pond.castShadow = false; var rim = cyl(1.55, 1.55, .05, 0xFCEBBD, 1.9, .18, 2, 14); rim.scale.z = .64; rim.castShadow = false; g.add(rim, pond);
+      [[-2.6, 2.3, 3.6], [-1.3, 2.9, 2.9]].forEach(function (w, i) {
+        var hub = new T.Group(); for (k = 0; k < 3; k++) { var arm = new T.Group(); arm.add(box(.13, 1.15, .05, C.white, 0, .58, 0)); arm.rotation.z = k * 2.094; hub.add(arm); }
+        hub.position.set(w[0], w[2], w[1] + .12); g.add(cyl(.06, .09, w[2] - .15, C.white, w[0], .15 + (w[2] - .15) / 2, w[1], 8, SM), ball(.12, C.white, w[0], w[2], w[1] + .06, SM), hub); spins.push(hub);
+      });
+      for (k = 0; k < 3; k++) { var sp = box(.8, .05, .6, 0x23405C, -.3 + k * .9, .55, 3.2, { roughness: .3 }); sp.rotation.x = -.55; g.add(sp, cyl(.03, .03, .4, C.steel, -.3 + k * .9, .36, 3.05, 5)); }
+      g.userData.spin = spins; g.userData.h = 4.4; return g;
     },
-    mobility: function () { /* lối rẽ không vào: nghiên cứu giao thông thông minh, thể hiện bằng một xe tự hành trên vòng đường thử với cảm biến quét; có thanh chắn */
-      var g = new T.Group(), k; pad(g, 3.9, 0xE8EEF4);
-      var trk = mesh(new T.RingGeometry(1.5, 2.7, 40), M(0x8D97A3, SM), 0, .16, 0); trk.rotation.x = -Math.PI / 2; trk.castShadow = false; g.add(trk);
-      for (k = 0; k < 14; k++) { var a = k / 14 * 6.283, d = box(.34, .02, .07, C.white, Math.cos(a) * 2.1, .18, Math.sin(a) * 2.1); d.rotation.y = -a + Math.PI / 2; d.castShadow = false; g.add(d); }
-      var car = new T.Group(); car.add(box(1.5, .42, .86, C.white, 0, .5, 0), box(.95, .34, .78, 0x7CC4EA, -.05, .86, 0, { roughness: .15, metalness: .2 }), cyl(.16, .16, .1, 0x23282D, 0, 1.1, 0, 12), box(.06, .1, .7, 0x4DB8FF, .76, .52, 0, { emissive: 0x4DB8FF, emissiveIntensity: 1 }));
-      [[-.48, .44], [.48, .44], [-.48, -.44], [.48, -.44]].forEach(function (w) { var c = cyl(.19, .19, .12, 0x23282D, w[0], .3, w[1], 10); c.rotation.x = Math.PI / 2; car.add(c); });
-      car.position.set(0, 0, 2.1); g.add(car);
-      for (k = 0; k < 3; k++) { var rg = new T.Mesh(new T.RingGeometry(.5 + k * .45, .56 + k * .45, 32), bm(0x4DB8FF, .7 - k * .2)); rg.rotation.x = -Math.PI / 2; rg.position.set(0, 1.16, 2.1); g.add(rg); }
-      g.add(cyl(.06, .08, 2.6, 0x7A8288, 0, 1.45, 0, 8), ball(.2, 0x4DB8FF, 0, 2.85, 0, { flatShading: false, emissive: 0x4DB8FF, emissiveIntensity: .8 }));
-      [.5, .85].forEach(function (r, i) { var arc = mesh(new T.TorusGeometry(r, .04, 6, 16, 1.6), M(0x4DB8FF, SM), 0, 2.85, 0); arc.rotation.z = .77; arc.castShadow = false; g.add(arc); });
+    mobility: function () { /* lối rẽ không vào: phòng thí nghiệm vật liệu, thể hiện bằng một ô mạng tinh thể lớn, vòng phân tử và bình thí nghiệm; có thanh chắn */
+      var g = new T.Group(), k, A = 0x4DA3FF, B = 0xFF8A5B, lat = new T.Group(), L = 1.15; pad(g, 3.9, 0xE8EEF4);
+      g.add(cyl(1.5, 1.7, .5, 0xD7DEE5, 0, .39, -.3, 6));
+      for (k = 0; k < 8; k++) lat.add(ball(.3, A, (k & 1 ? L : -L), (k & 2 ? L : -L), (k & 4 ? L : -L), { flatShading: false, roughness: .3, metalness: .2 }));
+      lat.add(ball(.42, B, 0, 0, 0, { flatShading: false, roughness: .3 }));
+      [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]].forEach(function (e) {
+        var a = lat.children[e[0]].position, b = lat.children[e[1]].position, m = cyl(.07, .07, 2 * L, 0xB8C4CF, (a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2, 6, SM);
+        if (a.x !== b.x) m.rotation.z = Math.PI / 2; else if (a.z !== b.z) m.rotation.x = Math.PI / 2; lat.add(m);
+      });
+      lat.position.set(0, 2.6, -.3); lat.rotation.set(.45, .65, 0); g.add(lat);
+      var hex = new T.Group(); for (k = 0; k < 6; k++) { var a2 = k / 6 * 6.283; hex.add(ball(.2, k % 2 ? B : 0x8FD96B, Math.cos(a2) * .72, 0, Math.sin(a2) * .72, { flatShading: false })); var bd = cyl(.05, .05, .72, 0xB8C4CF, Math.cos(a2 + .5236) * .62, 0, Math.sin(a2 + .5236) * .62, 5, SM); bd.rotation.z = Math.PI / 2; bd.rotation.y = -(a2 + .5236) + Math.PI / 2; hex.add(bd); }
+      hex.position.set(-2.1, .5, 1.3); g.add(hex, cyl(.05, .05, .36, C.steel, -2.1, .3, 1.3, 5));
+      g.add(cyl(.5, .62, .7, 0xBFE9F5, 2, .5, 1.1, 12, { flatShading: false, transparent: true, opacity: .6, roughness: .1 }), cyl(.44, .55, .34, 0x7ADFC8, 2, .34, 1.1, 12, SM), cyl(.2, .2, .5, 0xBFE9F5, 2, 1.05, 1.1, 10, { flatShading: false, transparent: true, opacity: .6, roughness: .1 }));
       g.add(box(.2, 1.1, .2, 0x4A5157, -2.2, .65, 3.3)); for (k = 0; k < 6; k++) g.add(box(.72, .16, .12, k % 2 ? C.white : 0xE5484D, -1.84 + k * .72, 1.05, 3.3));
-      g.userData.h = 3.4; return g;
+      g.userData.h = 4.6; return g;
     },
     green: function () { /* trung tâm nghiên cứu "xanh": hai tầng, mái phủ cây, pin mặt trời nằm trên mái, mảng tường cây */
       var g = new T.Group(), k; pad(g, 4.8);
@@ -351,7 +361,7 @@
     draw(); redraw.push(draw);
     var sg = new T.Group(), bd = new T.Mesh(new T.PlaneGeometry(11.4, 3.34), new T.MeshBasicMaterial({ map: tex })); bd.position.z = .09; sg.add(box(11.6, 3.54, .14, 0x2C5E0C, 0, 0, 0), bd); sg.position.set(0, 6.5, 0); sg.rotation.x = -.3;
     g.add(sg, box(.24, 5.2, .24, C.steel, -w, 2.6, 0), box(.24, 5.2, .24, C.steel, w, 2.6, 0), box(2 * w + .24, .22, .22, C.steel, 0, 4.9, 0), box(.14, .5, .14, C.steel, -2.4, 4.9, 0), box(.14, .5, .14, C.steel, 2.4, 4.9, 0));
-    var p = pos(gu); g.position.copy(p); g.rotation.y = FRONT; g.userData = { u: gu, s: 1, gy: 1 }; scene.add(g); grow.push(g);
+    var p = pos(gu); g.position.copy(p); g.rotation.y = FRONT; g.userData = { u: gu, s: 1 }; scene.add(g);
     [-1, 1].forEach(function (sd) { var q = pV(gu, vOf(gu) + sd * w); claim(q.x, q.z, .5, 0, 1); }); veil.push([p.x, p.z, 5.8, 8.3, 1]);
     var fr = pos(gu + 3.2); [-1, 1].forEach(function (sd) { var q = pV(gu + 3.4, vOf(gu + 3.4) + sd * (w + 2.2)); claim(q.x, q.z, 2.2); }); /* giữ trống phía trước biển để cây không che chữ */
     return g;
@@ -360,7 +370,16 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { redraw.forEach(function (f) { f(); }); });
 
   /* ---------- ngã rẽ: tách khỏi đường chính theo tiếp tuyến, có vạch kẻ, đèn tín hiệu, biển chỉ hướng ---------- */
+  function roundabout(u) {
+    var c = pos(u), y = .1, disc = function (r, col, yy, basic) { var m = new T.Mesh(new T.CircleGeometry(r, 48), basic ? new T.MeshBasicMaterial({ color: col }) : M(col, { flatShading: false, roughness: .95 })); m.rotation.x = -Math.PI / 2; m.position.set(c.x, yy, c.z); m.receiveShadow = true; scene.add(m); };
+    disc(5.1, C.shoulder, .098); disc(4.8, C.road, .141); disc(2.25, C.white, .146); disc(2.05, 0xA9D46A, .15);
+    var ringL = new T.Mesh(new T.RingGeometry(4.5, 4.58, 56), M(C.white, SM)); ringL.rotation.x = -Math.PI / 2; ringL.position.set(c.x, .147, c.z); scene.add(ringL);
+    for (var k = 0; k < 12; k++) { var a = k / 12 * 6.283, d = box(.7, .01, .09, C.white, c.x + Math.cos(a) * 3.4, .148, c.z + Math.sin(a) * 3.4); d.rotation.y = -a + Math.PI / 2; d.castShadow = false; scene.add(d); }
+    var isl = new T.Group(); isl.add(cyl(.09, .12, .8, C.trunk, 0, .5, 0, 6), ball(.75, C.g2, 0, 1.35, 0), ball(.45, C.g3, .5, 1.05, .2), ball(.3, 0xFFD23F, -.9, .32, .5), ball(.3, 0xFF8FA3, .8, .32, -.7), ball(.3, C.white, -.2, .32, -1));
+    isl.position.set(c.x, .15, c.z); scene.add(isl); claim(c.x, c.z, 5.3, 0, 1); rbU.push(u);
+  }
   function fork(u, side, len, endObj) {
+    roundabout(u + 1.2);
     var a = pos(u, side * (RW - 1.5)), t = tan(u), nx = side * -t.z, nz = side * t.x, k;
     function dir(ang) { return [t.x * Math.cos(ang) + nx * Math.sin(ang), t.z * Math.cos(ang) + nz * Math.sin(ang)]; }
     var d0 = dir(.1), d1 = dir(1.3), b = [a.x + d0[0] * len * .3, a.z + d0[1] * len * .3], c = [b[0] + d1[0] * len * .95, b[1] + d1[1] * len * .95]; /* tách sớm và rẽ hẳn ra, không chạy song song với đường chính */
@@ -385,26 +404,26 @@
     var sg = new T.Group(), bd = new T.Mesh(new T.PlaneGeometry(2.2, 1.1), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); bd.position.y = 2.6; sg.add(cyl(.06, .06, 2.2, C.steel, 0, 1.1, 0, 8), bd);
     var sp = pos(u - 6, side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
-  if (stages[0].icon === 'school') fork(mainU[0] + 19, -S, 15, model.design());
+  if (stages[0].icon === 'school') fork(mainU[0] + 24, -S, 15, model.design());
   if (seaOn) fork(uSea + 13, -S, 16, model.mobility());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
   stages.forEach(function (s, k) {
-    var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 2.2), p = seat(g, mainU[k], off, cr, 1, true);
+    var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 22, S * 9.4, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 26, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
       if (pj.anchor === 'buoy' && buoys) o = buoys[0];
-      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 21 : 29) + j * 14; p = seat(o, uu, S * (o.userData.pr + RW + 2.8), o.userData.pr); if (!p) return; drive(o.userData.u, S, p, o.userData.pr); }
+      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 26 : 47) + j * 14; p = seat(o, uu, S * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, S, p, o.userData.pr); }
       anchors.push({ o: o, h: (o.userData.h || 4) * (o.userData.s || 1), s: k, j: j });
     });
     (s.milestones || []).forEach(function (ms, j) {
-      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : 1, r = o.userData.pr * sc, uu = mainU[k] + 33 + j * 9;
-      if (seat(o, uu, S * (r + RW + 2.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
+      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : 1, r = o.userData.pr * sc, uu = mainU[k] + 67 + j * 18;
+      if (seat(o, uu, S * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
     });
   });
 
@@ -459,7 +478,7 @@
       var ring = new T.LineLoop(new T.BufferGeometry().setFromPoints(new T.EllipseCurve(0, 0, 4.4, 4.4).getPoints(60).map(function (q) { return new T.Vector3(q.x, .05, q.y); })), lm); ring.computeLineDistances(); g.add(ring);
       var sy = symbol[k](); sy.position.set(-2.9, 0, 3.3); sy.scale.setScalar(1.9); g.add(sy);
       sy.traverse(function (o) { if (!o.isMesh) return; o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = .42; o.castShadow = false; var ed = new T.LineSegments(new T.EdgesGeometry(o.geometry, 30), lm); ed.computeLineDistances(); o.add(ed); }); /* chưa đạt được: mờ, viền nét đứt */
-      g.userData.h = [7, 5.2, 5.6][k]; if (seat(g, uNow + UNK * f, S * 8.6, 4.9) && fut[k]) { g.updateMatrixWorld(true); var sv = new T.Vector3(-2.9, 0, 3.3).applyMatrix4(g.matrixWorld); miles.push({ o: { position: new T.Vector3(sv.x, 0, sv.z), userData: g.userData }, h: [3.6, 4.3, 7][k], label: fut[k], place: 1 }); } g.userData.gy = 0;
+      g.userData.h = [7, 5.2, 5.6][k]; if (seat(g, uNow + UNK * f, S * 10.6, 4.9) && fut[k]) { g.updateMatrixWorld(true); var sv = new T.Vector3(-2.9, 0, 3.3).applyMatrix4(g.matrixWorld); miles.push({ o: { position: new T.Vector3(sv.x, 0, sv.z), userData: g.userData }, h: [3.6, 4.3, 7][k], label: fut[k], place: 1 }); } g.userData.gy = 0;
     });
     /* mây: mỗi đám một dáng; đỉnh trắng, bụng xám xanh, có viền và bóng để tách khỏi nền sáng. Mây bay trên cao nên được phép che cảnh bên dưới. */
     var cg = new T.SphereGeometry(1, 20, 14), pa = cg.attributes.position, col = [], top = new T.Color(0xffffff), bot = new T.Color(0x7F9BC6), tc = new T.Color(), k;
@@ -647,6 +666,7 @@
     el.classList.toggle('below', !!below); el.style.transform = 'translate(-50%,' + (below ? '0' : '-100%') + ') translate(' + x.toFixed(1) + 'px,' + xy[1].toFixed(1) + 'px)'; el.style.setProperty('--sx', (xy[0] - x).toFixed(1) + 'px'); el.style.opacity = on ? 1 : 0; }
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
+  function carLat(u) { var l = RW / 2; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < 6.5) l += (3.45 - RW / 2) * Math.pow(Math.cos(du / 6.5 * Math.PI / 2), 2); } return l; }
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
@@ -661,8 +681,8 @@
     uS = reduce || !full ? uT : uS + (uT - uS) * Math.min(1, dt * 5);
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
-    var p = pos(uc, RW / 2), t = tan(uc), rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
-    car.position.set(p.x, .12 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
+    var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
+    car.position.set(p.x, .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
     /* máy quay: nhìn xéo từ trên; cảnh được đẩy sang phải đúng bằng nửa bề rộng thẻ nội dung để thẻ che ít nhất */
@@ -696,7 +716,7 @@
       });
       f.streaks.forEach(function (st, i) { var P = 6.5 + i * 1.7, t2 = tm + sd * (i + 3), c = Math.floor(t2 / P), q = (t2 / P - c) / .55, sp = spot(c, i + 4); if (q > 1) { st.material.opacity = 0; return; } st.position.x = sp[0] * .8 + q * 1.1; st.position.z = sp[1]; st.material.opacity = Math.sin(q * Math.PI) * .7; });
     });
-    marks.concat(grow).forEach(function (o) { if (o.userData.spin && o.visible) o.userData.spin.rotation.z = tm * 1.6; });
+    marks.concat(grow).forEach(function (o) { if (o.userData.spin && o.visible) o.userData.spin.forEach(function (h, q) { h.rotation.z = tm * (1.4 + q * .5); }); });
     waves.forEach(function (w) { var ph = (tm * .09 * w.userData.sp + w.userData.ph) % 1, d = ph * 2.4; w.position.set(-S * R2 * d, 0, S * R2 * d); w.userData.m.opacity = Math.sin(ph * Math.PI) * w.userData.op; });
     if (buoys) buoys.forEach(function (b) { b.position.y = .12 + Math.sin(tm * 1.4 + b.userData.bob) * .09; b.rotation.z = Math.sin(tm * 1.1 + b.userData.bob) * .06; b.userData.k = ease((lo + 3 - b.userData.u) / 9) * (b.userData.u > hi ? 1 : 0); });
     /* ghim dự án và nhãn cột mốc bám theo vật thể */

@@ -124,7 +124,7 @@ STAGE_PROJECTS = {
 # CỘT MỐC: việc có thật nhưng không phải dự án và không phải giai đoạn (vật thể nhỏ, nhãn nhỏ, không bấm được)
 #   (vật thể: cert = chứng chỉ | teky = lớp học nhỏ, nhãn vi, nhãn en)
 MILESTONES = {
-    0: [('cert', 'Chứng chỉ nghiệp vụ sư phạm (2025)', 'University teaching certificate (2025)'), ('teky', 'Trợ giảng lập trình tại TEKY', 'Programming teaching assistant at TEKY')],
+    0: [('cert', 'Chứng chỉ sư phạm', 'Teaching certificate'), ('teky', 'Trợ giảng', 'Teaching assistant')],
 }
 # Tên hiện trên công trình chính của từng giai đoạn
 PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity'), 3: ('Giảng dạy đại học tại Việt Nam', 'University teaching in Vietnam')}
