@@ -26,4 +26,9 @@ document.addEventListener('DOMContentLoaded',function(){
   if(tt){var jm=d.querySelector('.j3d');function tv(){var on=scrollY>innerHeight*.8;var ft=d.querySelector('.foot');if(on&&innerWidth<=820&&ft){on=ft.getBoundingClientRect().top<innerHeight-60}if(on&&jm){on=jm.getBoundingClientRect().bottom<innerHeight-120}tt.classList.toggle('show',on)}
     addEventListener('scroll',tv,{passive:true});addEventListener('resize',tv);tv();
     tt.addEventListener('click',function(){scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})})}
+  /* xem ảnh lớn ở trang Dấu ấn */
+  var lb=d.querySelector('.lb');
+  if(lb){var li=lb.querySelector('img');function close(){lb.hidden=true;li.src=''}
+    d.querySelectorAll('.hg-i').forEach(function(b){b.addEventListener('click',function(){li.src=b.getAttribute('data-full');lb.hidden=false;lb.querySelector('.lb-x').focus()})});
+    lb.addEventListener('click',close);addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close()})}
 });

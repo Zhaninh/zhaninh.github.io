@@ -15,7 +15,7 @@ GREENX = 'https://greenx.vinuni.edu.vn'
 ME = '<b class="me">N. N. G. Ninh</b>'
 
 T = {  # chuỗi giao diện
- 'vi': dict(home='Trang chủ', journey='Hành trình', work='Dự án', pubs='Công bố', about='Giới thiệu', notes='Ghi chép',
+ 'vi': dict(home='Trang chủ', journey='Hành trình', work='Dự án', pubs='Công bố', hl='Dấu ấn', about='Giới thiệu', notes='Ghi chép',
             slogan='Công nghệ chỉ có nghĩa khi <em>đến được với con người.</em>', slogan_plain='Công nghệ chỉ có nghĩa khi đến được với con người.',
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
             hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
@@ -27,9 +27,9 @@ T = {  # chuỗi giao diện
             d_journey='Quá trình học tập, nghiên cứu và định hướng sắp tới.', d_work='Các đề tài đã có công bố, bộ dữ liệu hoặc mã nguồn công khai.', d_about='Thế mạnh, hạn chế đang khắc phục, lý lịch khoa học và liên hệ.',
             h_journey='Hành trình nghiên cứu', s_journey='Các giai đoạn học tập và nghiên cứu từ năm 2021 đến nay, cùng định hướng sắp tới.',
             h_work='Dự án', s_work='Toàn bộ dự án tôi đã và đang làm. Mỗi dự án có trang riêng, và có thể xem nó nằm ở đâu trên hành trình.',
-            h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ. Chấm xanh đánh dấu công bố trọng điểm.',
+            h_hl='Dấu ấn', s_hl='Những chuyến công tác, sự kiện và khoảnh khắc trên đường đi. Mỗi tấm ảnh đi kèm câu chuyện của nó.', h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ. Chấm xanh đánh dấu công bố trọng điểm.',
             h_about='Giới thiệu', s_about='Tôi làm nghiên cứu ứng dụng về trí tuệ nhân tạo và định hướng theo con đường nghiên cứu, giảng dạy đại học.'),
- 'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', about='About', notes='Notes',
+ 'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', hl='Highlights', about='About', notes='Notes',
             slogan='Technology only matters when it <em>reaches people.</em>', slogan_plain='Technology only matters when it reaches people.',
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
             hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
@@ -41,11 +41,11 @@ T = {  # chuỗi giao diện
             d_journey='Study, research and the plan ahead.', d_work='Projects with a publication, dataset or public code.', d_about='Strengths, current limitations, CV and contact.',
             h_journey='Research journey', s_journey='Stages of study and research since 2021, and the plan ahead.',
             h_work='Projects', s_work='Every project I have worked on. Each has its own page, and you can see where it sits on the journey.',
-            h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
+            h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
-URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', about='about.html', notes='notes.html', workdir='work/'),  # tiếng Anh là mặc định (ở gốc)
-       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/')}
+URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/'),  # tiếng Anh là mặc định (ở gốc)
+       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/')}
 
 WORK = [
  dict(slug='ntcoral', star=True, title='NTCoral', year='2025–',
@@ -91,6 +91,51 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
  ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, et al.', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
  ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, et al.', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
 ]
+
+FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
+STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
+ ('2026-10-24', '24.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
+  'Chuyển giao sản phẩm số cho tỉnh Khánh Hòa', 'Handing digital products over to Khanh Hoa',
+  'Tại lễ khai mạc Ngày hội Chuyển đổi số Khánh Hòa 2026, các nền tảng số phục vụ chuyển đổi xanh do GREEN-X phát triển được trao cho tỉnh: quản lý du lịch xanh, nuôi biển thông minh và hỗ trợ bảo tồn san hô. Vài phút trên sân khấu, sau nhiều tháng làm việc của cả nhóm.',
+  'At the opening of Khanh Hoa Digital Transformation Day 2026, the green-transition platforms built by GREEN-X were formally handed to the province: green-tourism management, smart mariculture and coral conservation support. A few minutes on stage after months of team work.',
+  ['khdx_0', 'khdx_4', 'khdx_2'], [(FB_TA, 'https://www.facebook.com/share/p/1CGXUDyNnF/')], ['GREEN-X', 'Khánh Hòa']),
+ ('2026-10-25', '24–26.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
+  'Gian triển lãm GREEN-X tại Ngày hội Chuyển đổi số', 'GREEN-X booth at the Digital Transformation Expo',
+  'Lần đầu GREEN-X có gian trưng bày riêng, giới thiệu giải pháp cho đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển. Robot đại dương phát triển cùng VinaTech là điểm dừng chân đông khách nhất.',
+  'GREEN-X ran its own booth for the first time, showing solutions for green cities, sustainable tourism, mariculture and marine conservation. The ocean robot built with VinaTech drew the biggest crowd.',
+  ['expo_0', 'expo_1'], [(FB_GX, 'https://www.facebook.com/share/p/19jbPiY6e9/')], ['GREEN-X', 'Khánh Hòa']),
+ ('2026-07-01', '07.2026', 'Nha Trang và Vân Phong, Khánh Hòa', 'Nha Trang and Van Phong, Khanh Hoa',
+  'Trở lại Khánh Hòa: du lịch xanh, Hòn Mun và nuôi biển', 'Back in Khanh Hoa: green tourism, Hon Mun and mariculture',
+  'Chuyến công tác nối tiếp Cần Giờ: làm việc với Sở Văn hóa, Thể thao và Du lịch về Bộ tiêu chuẩn Du lịch Xanh, chuẩn bị hạ thủy hệ thống IoT quan trắc đa dạng sinh học ở Hòn Mun, và thăm trang trại cá chẽm công nghệ cao của Australis ở Vân Phong để bàn hướng AI cho nuôi biển.',
+  'A trip right after Can Gio: meetings with the provincial tourism department on the Green Tourism standard, preparing to deploy the IoT biodiversity-monitoring system at Hon Mun, and a visit to Australis’ high-tech sea-bass farm at Van Phong to discuss AI for mariculture.',
+  ['nhatrang_0', 'nhatrang_1'], [(FB_TA, 'https://www.facebook.com/share/p/14zHYMXiH5c/')], ['Công tác', 'IoT']),
+ ('2026-06-20', '06.2026', 'Cần Giờ, TP. Hồ Chí Minh', 'Can Gio, Ho Chi Minh City',
+  'Khảo sát rừng ngập mặn Cần Giờ', 'Surveying the Can Gio mangroves',
+  'Làm việc với Ban Quản lý rừng phòng hộ Cần Giờ và khảo sát thực địa. GREEN-X giới thiệu hệ thống bảo tồn rừng ngập mặn kết hợp viễn thám, IoT, AI và digital twin, với mục tiêu chung là biến Cần Giờ thành một living lab về công nghệ bảo tồn.',
+  'Meetings and a field survey with the Can Gio protection-forest board. GREEN-X presented a mangrove conservation system combining remote sensing, IoT, AI and a digital twin, with the shared aim of making Can Gio a living lab for conservation technology.',
+  ['cangio_0', 'cangio_1', 'cangio_2'], [(FB_TA, 'https://www.facebook.com/share/p/19k7V5EHyh/')], ['Công tác', 'Thực địa']),
+ ('2026-06-10', '06.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
+  'VinUni Research Day', 'VinUni Research Day',
+  'Gian GREEN-X kể các dự án chính sách qua poster và video, còn phần công nghệ thì cho xem tận mắt: nền tảng quan sát cá theo thời gian thực ở Nha Trang và robot đại dương vừa bơi vừa bay.',
+  'The GREEN-X booth told its policy projects through posters and video, and let visitors see the technology directly: a live fish-watching platform from Nha Trang and an ocean robot that both swims and flies.',
+  ['researchday_0', 'researchday_3', 'researchday_1'], [(FB_TA, 'https://www.facebook.com/share/p/1KzcXVeNf4/')], ['Sự kiện', 'VinUni']),
+ ('2026-03-09', '09.03.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
+  'GREEN-X Meet & Greet', 'GREEN-X Meet & Greet',
+  'Buổi gặp mặt đầu tiên để giới thiệu trung tâm GREEN-X với cộng đồng VinUni và cảm ơn các phòng ban đã đồng hành.',
+  'The first gathering to introduce GREEN-X to the VinUni community and thank the teams that supported the centre.',
+  ['meetgreet_0', 'meetgreet_3'], [(FB_GX, 'https://www.facebook.com/share/p/1QRhLrPxH5/')], ['GREEN-X', 'Sự kiện']),
+ ('2026-01-22', '01.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
+  'Buổi định hướng cho đội ngũ nghiên cứu', 'Orientation for the research team',
+  'Các nghiên cứu viên sau tiến sĩ và trợ lý nghiên cứu mới của GREEN-X làm quen, kết nối và chuẩn bị cho năm học thuật 2026.',
+  'New GREEN-X postdoctoral researchers and research assistants met, got connected and prepared for the 2026 academic year.',
+  ['orientation_0', 'orientation_1'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/')], ['GREEN-X']),
+ ('2026-01-20', '01.2026', 'Tầng 5, toà I, VinUniversity', 'Level 5, Building I, VinUniversity',
+  'Văn phòng mới của GREEN-X', 'GREEN-X moves into a new office',
+  'Từ tháng 1/2026, GREEN-X chuyển về không gian làm việc mới rộng hơn, cùng nhiều gương mặt trẻ vừa gia nhập nhóm.',
+  'From January 2026 GREEN-X moved into a larger new workspace, together with many new young faces on the team.',
+  ['newhome_0', 'newhome_2', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X']),
+]
+TAG_EN = {'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
 
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
  ('2021–2025', ('Trường Đại học FPT', 'Cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo. Đồ án tốt nghiệp: nhận dạng tiếng nói qua khẩu hình cho tiếng Việt.', 'Khó khăn lớn nhất của đồ án không nằm ở mô hình mà ở dữ liệu: tiếng Việt gần như chưa có bộ dữ liệu công khai cho bài toán đọc khẩu hình, nên nhóm phải tự xây dựng từ đầu.'),
@@ -167,7 +212,7 @@ def shell(lang, key, path, title, body, extra=''):
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     else: twin = URL[other][key]
-    items = ['journey', 'pubs'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
+    items = ['journey', 'pubs', 'hl'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
     nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items) + f'<a class="item" href="{rel(path, "assets/Aaron_CV.pdf")}">CV</a>'
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
@@ -269,6 +314,18 @@ for lang in ('vi', 'en'):
         return f'<li class="reveal{" star" if st else ""}">{th}<div><span class="mono">{y}</span>{tt}<div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div><div class="pacts">{acts}</div></div></li>'
     lis = ''.join(pub(*x) for x in PUBS)
     write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="pubs">{lis}</ol></div></section>'))
+    # ---- dấu ấn ----
+    p = U['hl']
+    def story(st):
+        iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
+        im = ''.join(f'<button type="button" class="hg-i" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>' for x in ims)
+        tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
+        sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)
+        return (f'<article class="hs reveal"><div class="hg n{len(ims)}">{im}</div><div class="hb"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div>'
+                f'<h3>{E(tv if lang == "vi" else te)}</h3><p>{E(sv if lang == "vi" else se)}</p><div class="ht">{tg}</div><div class="hsrc">{sl}</div></div></article>')
+    sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
+    body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'
+    write(p, shell(lang, 'hl', p, t['hl'] + ' · Aaron', body))
     # ---- giới thiệu ----
     p = U['about']
     parts = ''.join(f'<h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in ps) for h, ps in ABOUT[lang])
