@@ -76,7 +76,7 @@
 
   /* ---------- LUẬT CỨNG: sổ đăng ký chỗ đứng. Không vật thể nào được đè lên mặt đường, bãi biển hay vật thể khác ---------- */
   var fps = [], veil = [], roadPts = []; /* fps: chỗ đứng trên mặt đất; veil: vật treo trên cao (biển giai đoạn), chỉ tính khi xét che khuất */
-  for (u = RS; u <= uEnd + 14; u += 1.1) { var rp = pos(u); roadPts.push([rp.x, rp.z, RW + .5]); }
+  for (u = RS; u <= uGoal + 6; u += 1.1) { var rp = pos(u); roadPts.push([rp.x, rp.z, RW + .5]); }
   function onBeach(x, z, r) { if (!seaOn) return false; var pu = -(x + z) * R2, pv = (x - z) * R2; return Math.abs(pu - seaC) < seaH + 26 + r && (pv - vOf(pu)) * S + r > LAND - .8 + seaT(pu); }
   function clearOf(x, z, r, gap) {
     var k, d; gap = gap === undefined ? .6 : gap;
@@ -177,8 +177,8 @@
   });
 
   /* ---------- chặng chưa đi: đường quy hoạch nét đứt, rào "đang mở đường" ---------- */
-  scene.add(ribbon(uNow, uEnd + 3, RW, .03, 0, bm(C.g1, .12)));
-  for (u = uNow + .4; u < uEnd + 2.4; u += 1.7) [-1, 1].forEach(function (s) { var m = ribbon(u, u + .9, .07, .05, s * RW, bm(C.g2, 1)); m.receiveShadow = false; scene.add(m); });
+  scene.add(ribbon(uNow, uGoal + 3, RW, .03, 0, bm(C.g1, .12)));
+  for (u = uNow + .4; u < uGoal + 2.4; u += 1.7) [-1, 1].forEach(function (s) { var m = ribbon(u, u + .9, .07, .05, s * RW, bm(C.g2, 1)); m.receiveShadow = false; scene.add(m); });
   (function () {
     var g = new T.Group(), ft = tan(uNow);
     for (var k = -3; k <= 3; k++) g.add(box(.58, .34, .1, k % 2 ? C.white : 0xFF8A3D, k * .58, .78, 0));
