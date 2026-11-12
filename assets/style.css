@@ -489,3 +489,13 @@ body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){paddin
 .km .kk{font-size:15px}
 .kontakt{margin-top:calc(var(--hg) + var(--hd) * .5)}
 .km .kk{font-size:17px;line-height:1.05}
+/* ===== chân trang đồng bộ với cụm liên hệ trang đầu ===== */
+.fbrand small{font:400 14px/1.3 var(--sans);letter-spacing:.01em;text-transform:none;color:var(--ink2);margin-top:4px}
+.fq{font:400 21px/1.45 var(--serif);font-style:normal;color:var(--ink);max-width:28ch;text-wrap:balance}
+.fq em{font-style:normal;color:var(--leaf);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 62%);padding:0 2px}
+.fcol .ck{color:var(--leaf);font-weight:600}
+.fcol{gap:14px}
+.fm{display:flex;flex-direction:column;gap:5px;font:500 16px/1.25 var(--sans)}
+.fm i{font:italic 400 17px/1.05 var(--serif);letter-spacing:0;text-transform:none;color:var(--leaf-mid)}
+.fcol .ck{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.fl a i{color:var(--leaf)}
