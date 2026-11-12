@@ -488,3 +488,4 @@ body:has(.j3d[data-j3d="full"]) .foot{margin-top:0}.page-head:has(+ .j3d){paddin
 /* v7 */
 .km .kk{font-size:15px}
 .kontakt{margin-top:calc(var(--hg) + var(--hd) * .5)}
+.km .kk{font-size:17px;line-height:1.05}
