@@ -203,7 +203,7 @@ def shell(lang, key, path, title, body, extra=''):
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     else: twin = URL[other][key]
     items = ['journey', 'pubs', 'hl'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
-    nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items) + f'<a class="item" href="{rel(path, "assets/Aaron_CV.pdf")}">CV</a>'
+    nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items)
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
