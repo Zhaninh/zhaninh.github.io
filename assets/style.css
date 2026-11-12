@@ -728,3 +728,19 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .hg-row .hg-i{flex:var(--ar) 1 0;aspect-ratio:var(--ar);border-radius:10px;min-width:0}
 .hs{align-items:start}
 .hs .hb{padding-top:8px}
+/* ===== Dấu ấn v3: chữ ở trên, ảnh trải hết bề ngang thành một hàng canh đều (ảnh to, giữ nguyên tỉ lệ) ===== */
+.hl-list{gap:0}
+.hs{display:flex;flex-direction:column;gap:var(--s3);padding:var(--s5) 0;border-top:1px solid var(--line)}
+.hs:first-child{border-top:0;padding-top:var(--s2)}
+.hs:nth-child(even) .hg{order:0}
+.hb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:var(--s5);padding-top:0}
+.hb-l,.hb-r{display:flex;flex-direction:column;gap:12px}
+.hg{display:flex;flex-direction:row;gap:10px;width:100%}
+.hg>.hg-i{flex:var(--ar) 1 0;width:auto;aspect-ratio:var(--ar);max-height:none;border-radius:12px;min-width:0}
+@media (max-width:820px){
+  .hb{grid-template-columns:1fr;gap:14px}
+  .hg{flex-wrap:wrap}
+  .hg.n3>.hg-i:first-child{flex:1 1 100%}
+  .hg.n3>.hg-i:not(:first-child){flex:var(--ar) 1 0}
+}
+@media (max-width:820px){.hg{flex-wrap:wrap}.hg>.hg-i,.hg.n3>.hg-i:not(:first-child){flex:1 1 100%}.hg>.hg-i.pt{flex:1 1 60%;max-width:70%;margin:0 auto}}

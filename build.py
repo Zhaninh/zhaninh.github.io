@@ -313,12 +313,12 @@ for lang in ('vi', 'en'):
                 from PIL import Image as _I
                 w_, h_ = _I.open(os.path.join(ROOT, 'assets/hl', x + '.webp')).size; return w_ / h_
             except Exception: return 4 / 3
-        def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
-        im = f'<div class="hg-row">{"".join(btn(x) for x in ims)}</div>' if len(ims) == 2 else btn(ims[0]) + (f'<div class="hg-row">{"".join(btn(x) for x in ims[1:])}</div>' if len(ims) > 1 else '')
+        def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i{' pt' if a_ < 1 else ''}" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
+        im = ''.join(btn(x) for x in ims)
         tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
         sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)
-        return (f'<article class="hs reveal"><div class="hg">{im}</div><div class="hb"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div>'
-                f'<h3>{E(tv if lang == "vi" else te)}</h3><p>{E(sv if lang == "vi" else se)}</p><div class="ht">{tg}</div><div class="hsrc">{sl}</div></div></article>')
+        return (f'<article class="hs reveal"><div class="hb"><div class="hb-l"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div><h3>{E(tv if lang == "vi" else te)}</h3><div class="ht">{tg}</div></div>'
+                f'<div class="hb-r"><p>{E(sv if lang == "vi" else se)}</p><div class="hsrc">{sl}</div></div></div><div class="hg n{len(ims)}">{im}</div></article>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
     body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'
     write(p, shell(lang, 'hl', p, t['hl'] + ' · Aaron', body))
