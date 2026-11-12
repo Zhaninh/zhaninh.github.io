@@ -129,7 +129,7 @@ MILESTONES = {
 # Tên hiện trên công trình chính của từng giai đoạn
 PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity'), 3: ('Giảng dạy đại học tại Việt Nam', 'University teaching in Vietnam')}
 # Các mốc đã biết trên chặng tiếp theo (chưa biết ở trường nào)
-FUTURE = [('Thạc sĩ · trường nào?', 'Master’s · where?'), ('Tiến sĩ · trường nào?', 'PhD · where?'), ('Sau tiến sĩ · ở đâu?', 'Postdoc · where?')]
+FUTURE = [('Thạc sĩ', 'Master’s'), ('Tiến sĩ', 'PhD'), ('Sau tiến sĩ', 'Postdoc')]
 # Trở ngại trên đường ứng với "khó khăn và bài học" của giai đoạn: holes = ổ gà | flood = ngập nước, cát tràn | rocks = đá lở
 OBSTACLE = {0: 'holes', 2: 'flood'}
 
