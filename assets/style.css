@@ -744,3 +744,7 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
   .hg.n3>.hg-i:not(:first-child){flex:var(--ar) 1 0}
 }
 @media (max-width:820px){.hg{flex-wrap:wrap}.hg>.hg-i,.hg.n3>.hg-i:not(:first-child){flex:1 1 100%}.hg>.hg-i.pt{flex:1 1 60%;max-width:70%;margin:0 auto}}
+/* tách các dấu ấn rõ hơn */
+.hs{position:relative;padding:calc(var(--s5) + 16px) 0 var(--s5);border-top:1px solid color-mix(in srgb,var(--leaf-mid) 45%,var(--line))}
+.hs::before{content:"";position:absolute;left:0;top:-2px;width:64px;height:3px;border-radius:3px;background:var(--leaf-mid)}
+.hs:first-child::before{display:none}
