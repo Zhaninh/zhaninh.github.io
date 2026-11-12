@@ -243,7 +243,9 @@ for lang in ('vi', 'en'):
     def pcard(w):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
         jl = f'<a class="pc-j" href="{rel(p, U["journey"])}#{w["slug"]}">{"Xem trên hành trình" if lang == "vi" else "See it on the journey"} <i>↗</i></a>' if w['slug'] in onj else ''
-        return (f'<article class="pc reveal{" star" if w["star"] else ""}"><div class="pc-top"><span class="pc-y">{w["year"]}</span><span class="pc-s">{E(d["status"])}</span></div>'
+        cov = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
+        cv = f'<a class="pc-cover" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cov)}" alt="" loading="lazy"></a>' if cov else ''
+        return (f'<article class="pc reveal{" star" if w["star"] else ""}">{cv}<div class="pc-top"><span class="pc-y">{w["year"]}</span><span class="pc-s">{E(d["status"])}</span></div>'
                 f'<h3><a href="{href}">{E(title_of(w, lang))}</a></h3><p>{E(d["sub"])}</p>'
                 f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
                 f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
