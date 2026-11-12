@@ -22,11 +22,11 @@
   var n = stages.length, nowIdx = n - 2, S = -1; /* S = -1: công trình nằm bên phải màn hình, biển cũng ở bên phải */
   var GATE = [-6, 114, 172], MAIN = [10, 124, 180], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
   for (i = 0; i <= nowIdx; i++) { gateU[i] = i < GATE.length ? GATE[i] : gateU[i - 1] + 44; mainU[i] = i < MAIN.length ? MAIN[i] : gateU[i] + 8; if (stages[i].icon === 'vinuni') seaI = i; }
-  var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 48, seaH = 11, uB = uSea + 48;
-  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 60 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
+  var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 60, seaH = 11, uB = uSea + 60;
+  var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 72 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
   gateU[n - 1] = uNow + 6; mainU[n - 1] = uGoal;
   var rough = [];
-  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 33, uSea + 39] : [mainU[k] + 36, mainU[k] + 42], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
+  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 45, uSea + 51] : [mainU[k] + 48, mainU[k] + 54], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
   var rbU = []; /* các bùng binh ở ngã rẽ */
 
   /* ---------- hình học ---------- */
@@ -370,19 +370,21 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { redraw.forEach(function (f) { f(); }); });
 
   /* ---------- ngã rẽ: tách khỏi đường chính theo tiếp tuyến, có vạch kẻ, đèn tín hiệu, biển chỉ hướng ---------- */
-  function roundabout(u) {
-    var c = pos(u), y = .1, disc = function (r, col, yy, basic) { var m = new T.Mesh(new T.CircleGeometry(r, 48), basic ? new T.MeshBasicMaterial({ color: col }) : M(col, { flatShading: false, roughness: .95 })); m.rotation.x = -Math.PI / 2; m.position.set(c.x, yy, c.z); m.receiveShadow = true; scene.add(m); };
-    disc(5.1, C.shoulder, .098); disc(4.8, C.road, .141); disc(2.25, C.white, .146); disc(2.05, 0xA9D46A, .15);
-    var ringL = new T.Mesh(new T.RingGeometry(4.5, 4.58, 56), M(C.white, SM)); ringL.rotation.x = -Math.PI / 2; ringL.position.set(c.x, .147, c.z); scene.add(ringL);
-    for (var k = 0; k < 12; k++) { var a = k / 12 * 6.283, d = box(.7, .01, .09, C.white, c.x + Math.cos(a) * 3.4, .148, c.z + Math.sin(a) * 3.4); d.rotation.y = -a + Math.PI / 2; d.castShadow = false; scene.add(d); }
-    var isl = new T.Group(); isl.add(cyl(.09, .12, .8, C.trunk, 0, .5, 0, 6), ball(.75, C.g2, 0, 1.35, 0), ball(.45, C.g3, .5, 1.05, .2), ball(.3, 0xFFD23F, -.9, .32, .5), ball(.3, 0xFF8FA3, .8, .32, -.7), ball(.3, C.white, -.2, .32, -1));
-    isl.position.set(c.x, .15, c.z); scene.add(isl); claim(c.x, c.z, 5.3, 0, 1); rbU.push(u);
+  function roundabout(u, side) {
+    var c = pos(u), t = tan(u), disc = function (r, col, yy) { var m = new T.Mesh(new T.CircleGeometry(r, 48), M(col, { flatShading: false, roughness: .95 })); m.rotation.x = -Math.PI / 2; m.position.set(c.x, yy, c.z); m.receiveShadow = true; scene.add(m); };
+    disc(5.4, C.shoulder, .098); disc(5.1, C.road, .141); disc(1.95, C.white, .146); disc(1.75, 0xA9D46A, .15);
+    /* vạch mép ngoài: chỉ vẽ ở những cung không có đường nối vào (đường chính vào, đường chính ra, nhánh rẽ) */
+    var gaps = [[Math.atan2(-t.z, -t.x), .56], [Math.atan2(t.z, t.x), .56], [Math.atan2(side * t.x, side * -t.z), .44]], R = 4.82, N = 90, k, q;
+    for (k = 0; k < N; k++) { var a = (k + .5) / N * 6.283, open = false; for (q = 0; q < 3; q++) { var d = Math.abs(((a - gaps[q][0]) % 6.283 + 9.4245) % 6.283 - 3.1415); if (d < gaps[q][1]) open = true; } if (open) continue;
+      var seg = box(R * 6.283 / N + .02, .012, .12, C.white, c.x + Math.cos(a) * R, .147, c.z + Math.sin(a) * R, SM); seg.rotation.y = -a + Math.PI / 2; seg.castShadow = false; scene.add(seg); }
+    var isl = new T.Group(); isl.add(cyl(.09, .12, .8, C.trunk, 0, .5, 0, 6), ball(.7, C.g2, 0, 1.3, 0), ball(.42, C.g3, .45, 1, .2), ball(.24, 0xFFD23F, -.8, .28, .4), ball(.24, 0xFF8FA3, .7, .28, -.6), ball(.24, C.white, -.2, .28, -.9));
+    isl.position.set(c.x, .15, c.z); scene.add(isl); claim(c.x, c.z, 5.6, 0, 1); rbU.push(u);
   }
   function fork(u, side, len, endObj) {
-    roundabout(u + 1.2);
-    var a = pos(u, side * (RW - 1.5)), t = tan(u), nx = side * -t.z, nz = side * t.x, k;
+    roundabout(u, side);
+    var a = pos(u, side * 4.2), t = tan(u), nx = side * -t.z, nz = side * t.x, k; /* nhánh rẽ đi ra từ mép bùng binh, vuông góc với đường chính */
     function dir(ang) { return [t.x * Math.cos(ang) + nx * Math.sin(ang), t.z * Math.cos(ang) + nz * Math.sin(ang)]; }
-    var d0 = dir(.1), d1 = dir(1.3), b = [a.x + d0[0] * len * .3, a.z + d0[1] * len * .3], c = [b[0] + d1[0] * len * .95, b[1] + d1[1] * len * .95]; /* tách sớm và rẽ hẳn ra, không chạy song song với đường chính */
+    var d0 = dir(1.5), d1 = dir(.95), b = [a.x + d0[0] * len * .55, a.z + d0[1] * len * .55], c = [b[0] + d1[0] * len * .6, b[1] + d1[1] * len * .6]; /* tách sớm và rẽ hẳn ra, không chạy song song với đường chính */
     function at(q) { var m = 1 - q; return [m * m * a.x + 2 * m * q * b[0] + q * q * c[0], m * m * a.z + 2 * m * q * b[1] + q * q * c[1]]; }
     function band(half, y, mat, lat, q0, q1) {
       var P = [], I = [], N = Math.max(1, Math.round((q1 - q0) * 34));
@@ -393,19 +395,18 @@
     band(1.8, .085, M(C.shoulder, SM), 0, 0, 1); band(1.5, .105, M(C.road, { flatShading: false, roughness: .95 }), 0, 0, 1);
     [-1, 1].forEach(function (sd) { band(.06, .116, M(C.white, SM), sd * 1.27, .04, 1); });
     for (var q = .2; q < .97; q += .095) band(.07, .116, M(C.white, SM), 0, q, q + .05);
-    scene.add(ribbon(u + .6, u + 5, .1, .137, side * (RW - .25), M(C.road, { flatShading: false, roughness: .95 }))); /* ngắt vạch mép đường chính ở chỗ tách làn */
     for (k = 0; k <= 40; k++) { var pk = at(k / 40); roadPts.push([pk[0], pk[1], 1.85]); }
     var e = new T.Vector3(c[0] + d1[0] * 3.4, 0, c[1] + d1[1] * 3.4); endObj.position.copy(e); endObj.rotation.y = FACE; endObj.userData.u = u + len * .7; endObj.userData.s = 1; endObj.userData.gy = 1; scene.add(endObj); grow.push(endObj); claim(e.x, e.z, endObj.userData.pr + .3, endObj.userData.h || 4, 1);
-    var tl = new T.Group(), lamp = function (c, y, on) { return ball(.17, c, 0, y, .22, { flatShading: false, emissive: c, emissiveIntensity: on ? 1.6 : .08 }); };
-    tl.add(cyl(.07, .09, 3.4, 0x4A5157, 0, 1.7, 0, 8), box(.5, 1.5, .4, 0x23282D, 0, 3.6, 0), lamp(0xFF4B3E, 4.08, 0), lamp(0xFFC53D, 3.6, 0), lamp(0x35D07F, 3.12, 1));
-    var tp = pos(u - 2.5, -side * (RW + .9)); tl.position.copy(tp); tl.rotation.y = FACE; scene.add(tl); claim(tp.x, tp.z, .6, 0, 1);
-    var cv = document.createElement('canvas'); cv.width = 256; cv.height = 128; var x = cv.getContext('2d'); x.fillStyle = '#1E6FD9'; x.fillRect(0, 0, 256, 128); x.strokeStyle = '#fff'; x.lineWidth = 8; x.strokeRect(8, 8, 240, 112); x.lineWidth = 12; x.lineCap = x.lineJoin = 'round';
-    x.beginPath(); x.moveTo(128, 104); x.lineTo(128, 30); x.moveTo(108, 50); x.lineTo(128, 28); x.lineTo(148, 50); x.moveTo(128, 78); x.lineTo(side * S > 0 ? 196 : 60, 50); x.stroke();
-    var sg = new T.Group(), bd = new T.Mesh(new T.PlaneGeometry(2.2, 1.1), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); bd.position.y = 2.6; sg.add(cyl(.06, .06, 2.2, C.steel, 0, 1.1, 0, 8), bd);
-    var sp = pos(u - 6, side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
+    var cv = document.createElement('canvas'); cv.width = cv.height = 256; var x = cv.getContext('2d'); x.fillStyle = '#fff'; x.beginPath(); x.arc(128, 128, 126, 0, 7); x.fill(); x.fillStyle = '#1E6FD9'; x.beginPath(); x.arc(128, 128, 114, 0, 7); x.fill();
+    x.strokeStyle = x.fillStyle = '#fff'; x.lineWidth = 22; x.lineCap = 'butt';
+    for (k = 0; k < 3; k++) { var a0 = k * 2.094 + .5, a1 = a0 - 1.25; x.beginPath(); x.arc(128, 128, 66, a0, a1, true); x.stroke();
+      var hx = 128 + Math.cos(a1) * 66, hy = 128 + Math.sin(a1) * 66, tx = Math.sin(a1), ty = -Math.cos(a1), rx = Math.cos(a1), ry = Math.sin(a1);
+      x.beginPath(); x.moveTo(hx + tx * 34, hy + ty * 34); x.lineTo(hx + rx * 28, hy + ry * 28); x.lineTo(hx - rx * 28, hy - ry * 28); x.closePath(); x.fill(); }
+    var sg = new T.Group(), bd = new T.Mesh(new T.CircleGeometry(.95, 32), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); bd.position.y = 2.75; sg.add(cyl(.06, .06, 2.2, C.steel, 0, 1.1, 0, 8), bd);
+    var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
-  if (stages[0].icon === 'school') fork(mainU[0] + 24, -S, 15, model.design());
-  if (seaOn) fork(uSea + 13, -S, 16, model.mobility());
+  if (stages[0].icon === 'school') fork(mainU[0] + 30, -S, 15, model.design());
+  if (seaOn) fork(uSea + 24, -S, 16, model.mobility());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
@@ -413,16 +414,16 @@
     var g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = S * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], S, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 26, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 35, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
       if (pj.anchor === 'buoy' && buoys) o = buoys[0];
-      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 26 : 47) + j * 14; p = seat(o, uu, S * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, S, p, o.userData.pr); }
+      else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 34 : 60) + j * 14; p = seat(o, uu, S * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, S, p, o.userData.pr); }
       anchors.push({ o: o, h: (o.userData.h || 4) * (o.userData.s || 1), s: k, j: j });
     });
     (s.milestones || []).forEach(function (ms, j) {
-      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : 1, r = o.userData.pr * sc, uu = mainU[k] + 67 + j * 18;
+      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : 1, r = o.userData.pr * sc, uu = mainU[k] + 76 + j * 8;
       if (seat(o, uu, S * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
     });
   });
@@ -430,11 +431,11 @@
   /* ---------- bãi biển: trụ sở -> lán thiết bị -> cầu tàu có ROV -> trạm phao ---------- */
   if (seaOn) (function () {
     function put(g, u, k, sc, th, r) { var p = shore(u, k); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
-    put(model.office(), uSea + 39.5, 3.4, .8, undefined, 3.4);
+    put(model.office(), uSea + 51.5, 3.4, .8, undefined, 3.4);
     var tent = new T.Group(), Y = 0xFFCB2E, K0 = 0x20262B, k;
     tent.add(box(3, .1, 2.4, 0xE8DCC0, 0, 2.1, 0), box(1.5, .8, 1, 0x39434C, -.5, .42, 0), box(1.54, .1, 1.04, Y, -.5, .82, 0), box(.9, .6, .7, 0xB98B5E, .8, .3, .3));
     [[-1.3, 1], [1.3, 1], [-1.3, -1], [1.3, -1]].forEach(function (c) { tent.add(cyl(.05, .05, 2.1, C.steel, c[0], 1.05, c[1], 6)); });
-    put(tent, uSea + 45, 5.4, 1, undefined, 2.2);
+    put(tent, uSea + 57, 5.4, 1, undefined, 2.2);
     var pier = new T.Group();
     pier.add(box(7.2, .16, 1.4, 0xB98B5E, 0, .68, 0)); for (k = 0; k < 10; k++) pier.add(box(.05, .17, 1.4, 0x9A7248, -3.4 + k * .76, .682, 0));
     [-3.2, -1, 1.2, 3.3].forEach(function (x) { [-.6, .6].forEach(function (z) { pier.add(cyl(.09, .09, 1, 0x8A6A4B, x, .28, z, 6)); }); });
@@ -666,7 +667,7 @@
     el.classList.toggle('below', !!below); el.style.transform = 'translate(-50%,' + (below ? '0' : '-100%') + ') translate(' + x.toFixed(1) + 'px,' + xy[1].toFixed(1) + 'px)'; el.style.setProperty('--sx', (xy[0] - x).toFixed(1) + 'px'); el.style.opacity = on ? 1 : 0; }
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
-  function carLat(u) { var l = RW / 2; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < 6.5) l += (3.45 - RW / 2) * Math.pow(Math.cos(du / 6.5 * Math.PI / 2), 2); } return l; }
+  function carLat(u) { var l = RW / 2; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < 5.2) l += (3.5 - RW / 2) * Math.pow(Math.cos(du / 5.2 * Math.PI / 2), 2); } return l; }
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
