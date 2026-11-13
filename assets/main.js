@@ -36,7 +36,16 @@ document.addEventListener('DOMContentLoaded',function(){
     if(tg){if('scrollRestoration' in history)history.scrollRestoration='manual';
       tg.classList.add('in');tg.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
       var go=function(){tg.scrollIntoView({block:'start'})};go();addEventListener('load',go);setTimeout(go,400)}}
-  /* nút quay lại: trở về đúng chỗ người đọc vừa rời đi (trình duyệt tự khôi phục vị trí cuộn); nếu vào thẳng thì về mục tương ứng */
+  /* nút quay lại: ghi vị trí cuộn của mỗi trang khi rời đi; bấm "Quay lại" thì mở lại trang trước và cuộn đúng chỗ cũ */
+  var ss={get:function(k){try{return sessionStorage.getItem(k)}catch(_){return null}},set:function(k,v){try{sessionStorage.setItem(k,v)}catch(_){}},del:function(k){try{sessionStorage.removeItem(k)}catch(_){}}};
+  addEventListener('pagehide',function(){ss.set('pos:'+location.pathname,String(scrollY))});
+  d.querySelectorAll('a[href]:not(.js-back)').forEach(function(a){a.addEventListener('click',function(){ss.set('pos:'+location.pathname,String(scrollY));ss.set('prev',location.pathname)})});
   d.querySelectorAll('.js-back').forEach(function(a){a.addEventListener('click',function(e){
-    var r=d.referrer;try{if(r&&new URL(r).origin===location.origin&&history.length>1){e.preventDefault();history.back()}}catch(_){}})});
+    var r=ss.get('prev')||'',t=null;try{if(!r&&d.referrer&&new URL(d.referrer).origin===location.origin)r=new URL(d.referrer).pathname;if(r&&r!==location.pathname)t=new URL(r,location.href)}catch(_){}
+    if(!t)return; e.preventDefault(); ss.set('restore',t.pathname); location.href=t.origin+t.pathname+t.search})});
+  var want=ss.get('restore');
+  if(want&&want===location.pathname){ss.del('restore');var y=+ss.get('pos:'+location.pathname)||0;
+    if('scrollRestoration' in history)history.scrollRestoration='manual';
+    d.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
+    var go=function(){scrollTo(0,y)};go();requestAnimationFrame(go);addEventListener('load',function(){go();setTimeout(go,250);setTimeout(go,700)})}
 });
