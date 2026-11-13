@@ -47,5 +47,7 @@ document.addEventListener('DOMContentLoaded',function(){
   if(want&&want===location.pathname){ss.del('restore');var y=+ss.get('pos:'+location.pathname)||0;
     if('scrollRestoration' in history)history.scrollRestoration='manual';
     d.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
-    var go=function(){scrollTo(0,y)};go();requestAnimationFrame(go);addEventListener('load',function(){go();setTimeout(go,250);setTimeout(go,700)})}
+    var H=d.documentElement,done=false,go=function(){scrollTo(0,y)},show=function(){if(done)return;done=true;go();H.classList.remove('rs')};
+    go();var tries=0,chk=function(){go();if(Math.abs(scrollY-y)<2&&d.readyState==='complete'){requestAnimationFrame(show)}else if(++tries<120){requestAnimationFrame(chk)}else show()};
+    requestAnimationFrame(chk);addEventListener('load',function(){go();requestAnimationFrame(chk)});setTimeout(show,2500)}
 });

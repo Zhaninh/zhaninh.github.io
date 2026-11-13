@@ -971,3 +971,6 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 /* chân trang luôn giáp nội dung phía trên (không còn dải thừa); khoảng thở cuối trang do chính phần nội dung cuối đảm nhận */
 .foot{margin-top:0!important}
 main>section:last-child:not(.hlhome):not(.j3d):not(.mx){padding-bottom:max(var(--s6),64px)}
+/* khi quay lại: giấu trang cho đến khi đã ở đúng vị trí, tránh cảnh hiện đầu trang rồi kéo xuống */
+html.rs body{visibility:hidden}
+html.rs .reveal{transition:none!important}
