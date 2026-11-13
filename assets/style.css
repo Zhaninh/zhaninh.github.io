@@ -871,3 +871,9 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .hg-i::before{content:"";position:absolute;inset:0;z-index:1;background:rgba(12,20,14,0);transition:background .3s;pointer-events:none}
 .hg-i:hover::after,.hg-i:focus-visible::after{transform:none;opacity:1}
 .hg-i:hover::before,.hg-i:focus-visible::before{background:rgba(12,20,14,.14)}
+/* trang Dấu ấn: ảnh nổi lên + viền xanh (thay biểu tượng phóng to) */
+.hg-i::after,.hg-i::before{content:none;display:none}
+.hg-i{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;box-shadow:0 0 0 0 transparent}
+.hg-i:hover,.hg-i:focus-visible{transform:translateY(-6px);box-shadow:0 0 0 3px var(--leaf-mid),0 18px 36px rgba(20,40,15,.22);z-index:1}
+@media (prefers-reduced-motion:reduce){.hg-i{transition:box-shadow .2s}.hg-i:hover,.hg-i:focus-visible{transform:none}}
+.hg{overflow:visible}
