@@ -925,3 +925,9 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .mx-links a{font:500 14.5px var(--sans);color:var(--ink);text-decoration:none;background:linear-gradient(var(--leaf-mid),var(--leaf-mid)) 0 100%/100% 1px no-repeat;padding-bottom:2px}
 .mx-links a:hover{color:var(--leaf)}
 @media (max-width:820px){.mx-grid{grid-template-columns:1fr;gap:32px}.mx-ph{max-width:360px}.mx-with{grid-template-columns:1fr;gap:6px}}
+/* nút quay lại không chiếm chỗ, nội dung căn giữa màn hình */
+.mx{padding:0;min-height:calc(100svh - 67px);display:flex;align-items:center}
+.mx .wrap{position:relative;width:100%;padding-top:clamp(40px,6vh,72px);padding-bottom:clamp(40px,6vh,72px)}
+.mx-back{position:absolute;top:16px;left:var(--gut,24px);margin:0}
+@media (max-width:820px){.mx{min-height:0}.mx .wrap{padding-top:56px}}
+.mx-back{left:var(--s4)}
