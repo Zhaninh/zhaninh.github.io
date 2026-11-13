@@ -136,9 +136,9 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
 
 MENTORS = [  # (tên_vi, tên_en, chức danh_vi, chức danh_en, vai trò_vi, vai trò_en, link hồ sơ công khai)
  ('TS. Phùng Mạnh Dương', 'Dr. Phung Manh Duong', 'Assistant Professor ngành AI và Robotics, CECS, VinUniversity', 'Assistant Professor in AI & Robotics, CECS, VinUniversity',
-  'Người hướng dẫn trực tiếp (PI) · dự án NTCoral', 'Direct supervisor (PI) · NTCoral project', 'https://vinuni.edu.vn/?p=140853'),
+  'Người hướng dẫn trực tiếp (PI) · dự án NTCoral', 'Direct supervisor (PI) · NTCoral project', 'https://vinuni.edu.vn/?p=140853', 'duong'),
  ('TS. Đỗ Danh Cường', 'Dr. Do Danh Cuong', 'Assistant Professor, CECS, VinUniversity', 'Assistant Professor, CECS, VinUniversity',
-  'Đồng chủ nhiệm (Co-PI) · GREEN-X', 'Co-principal investigator (Co-PI) · GREEN-X', 'https://research.vinuni.edu.vn/person/do-cuong-danh/'),
+  'Đồng chủ nhiệm (Co-PI) · GREEN-X', 'Co-principal investigator (Co-PI) · GREEN-X', 'https://research.vinuni.edu.vn/person/do-cuong-danh/', 'cuong'),
 ]
 
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
@@ -287,9 +287,10 @@ for lang in ('vi', 'en'):
     hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
-        nv, ne, tv, te, rv, re_, url = m; nm = nv if vi_ else ne
+        nv, ne, tv, te, rv, re_, url, ph = m; nm = nv if vi_ else ne
         ini = ''.join(w[0] for w in ne.replace('Dr. ', '').split()[:2])
-        return (f'<a class="mc reveal" href="{url}" rel="noopener"><span class="mc-av">{ini}</span><span class="mc-b"><span class="mc-n">{E(nm)}</span>'
+        av = f'<img src="{rel(p, "assets/people/" + ph + ".webp")}" alt="{E(nm)}" loading="lazy">' if os.path.exists(os.path.join(ROOT, 'assets/people', ph + '.webp')) else ini
+        return (f'<a class="mc reveal" href="{url}" rel="noopener"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(nm)}</span>'
                 f'<span class="mc-t">{E(tv if vi_ else te)}</span><span class="mc-r">{E(rv if vi_ else re_)}</span><span class="mc-go">{"Hồ sơ" if vi_ else "Profile"} ↗</span></span></a>')
     mentor_html = f'<section class="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'

@@ -877,3 +877,6 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .hg-i:hover,.hg-i:focus-visible{transform:translateY(-6px);box-shadow:0 0 0 3px var(--leaf-mid),0 18px 36px rgba(20,40,15,.22);z-index:1}
 @media (prefers-reduced-motion:reduce){.hg-i{transition:box-shadow .2s}.hg-i:hover,.hg-i:focus-visible{transform:none}}
 .hg{overflow:visible}
+.mc-av{width:84px;height:84px;overflow:hidden;box-shadow:0 0 0 3px var(--paper),0 0 0 4px color-mix(in srgb,var(--leaf-mid) 55%,transparent)}
+.mc-av img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:760px){.mc-av{width:68px;height:68px}}
