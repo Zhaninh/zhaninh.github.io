@@ -136,13 +136,13 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
 
 MENTORS = [
  dict(slug='phung-manh-duong', photo='duong',
-  vi=dict(name='TS. Phùng Mạnh Dương', title='Assistant Professor ngành AI và Robotics, CECS, VinUniversity', role='Người hướng dẫn trực tiếp (PI) · GREEN-X',
+  vi=dict(name='TS. Phùng Mạnh Dương', title='Assistant Professor ngành AI và Robotics, CECS, VinUniversity', role='Người hướng dẫn trực tiếp (PI) · GREEN-X', short='Assistant Professor · AI & Robotics', lead='Nghiên cứu hệ tự hành, UAV và thị giác máy tính cho robot, với hơn 15 năm giảng dạy và nghiên cứu, trong đó gần một thập kỷ tại Úc.', facts=['Tiến sĩ, ĐHQG Hà Nội', 'Sau tiến sĩ, UTS', 'IEEE Senior Member', 'Ba giải Best Paper'],
           bio='Giảng viên ngành AI và Robotics tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
           edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
           areas='Hệ tự hành và trí tuệ nhân tạo; UAV; thị giác máy tính cho robot; SLAM, lập kế hoạch đường đi và điều khiển chuyển động; trí tuệ bầy đàn và IoT.',
           awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Chính phủ Úc (2015)'],
           withme='Thầy là người hướng dẫn trực tiếp các nghiên cứu của tôi tại Trung tâm GREEN-X, VinUniversity.'),
-  en=dict(name='Dr. Phung Manh Duong', title='Assistant Professor in AI & Robotics, CECS, VinUniversity', role='Direct supervisor (PI) · GREEN-X',
+  en=dict(name='Dr. Phung Manh Duong', title='Assistant Professor in AI & Robotics, CECS, VinUniversity', role='Direct supervisor (PI) · GREEN-X', short='Assistant Professor · AI & Robotics', lead='Works on autonomous systems, UAVs and robot vision, with more than fifteen years of teaching and research, nearly a decade of it in Australia.', facts=['PhD, VNU Hanoi', 'Postdoc, UTS', 'IEEE Senior Member', 'Three Best Paper Awards'],
           bio='Assistant Professor in AI and Robotics at the College of Engineering and Computer Science (CECS), VinUniversity, and a Senior Member of IEEE. Before joining VinUni he taught and researched for many years at the University of Technology Sydney and Western Sydney University.',
           edu=['PhD in Electronic Engineering, Vietnam National University, Hanoi (2015)', 'Postdoc in Mechatronic Engineering, University of Technology Sydney (2017)'],
           areas='Autonomous systems and AI; UAVs; robot vision; SLAM, path planning and motion control; swarm intelligence and IoT.',
@@ -151,13 +151,13 @@ MENTORS = [
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
  dict(slug='do-danh-cuong', photo='cuong',
-  vi=dict(name='TS. Đỗ Danh Cường', title='Assistant Professor, CECS, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X',
+  vi=dict(name='TS. Đỗ Danh Cường', title='Assistant Professor, CECS, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Assistant Professor · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
           bio='Giảng viên tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
           edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
           areas='Cảm biến MEMS và mạch tiêu thụ năng lượng thấp; thu hoạch năng lượng và mạng cảm biến không dây; tối ưu lưới điện thông minh và trạm sạc xe điện; AI cho tín hiệu y sinh (ECG) và chẩn đoán tại chỗ.',
           awards=[],
           withme='Thầy là đồng chủ nhiệm (Co-PI) tại Trung tâm GREEN-X, VinUniversity, nơi tôi làm trợ lý nghiên cứu.'),
-  en=dict(name='Dr. Do Danh Cuong', title='Assistant Professor, CECS, VinUniversity', role='Co-principal investigator (Co-PI) · GREEN-X',
+  en=dict(name='Dr. Do Danh Cuong', title='Assistant Professor, CECS, VinUniversity', role='Co-principal investigator (Co-PI) · GREEN-X', short='Assistant Professor · MESSI Lab', lead='Works on MEMS sensors, energy systems and AI for biomedical signals; formerly a research associate at the University of Cambridge.', facts=['PhD, Cork Institute of Technology', 'Research Associate, University of Cambridge', 'Leads the MESSI Lab'],
           bio='Assistant Professor at the College of Engineering and Computer Science (CECS), VinUniversity, where he leads the MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). He was previously a research associate in the Engineering Department, University of Cambridge (2013–2017).',
           edu=['BS in Electronics, Vietnam National University, Hanoi (2004)', 'MEng in Electronics and Semiconductor, Chungbuk National University, Korea (2007)', 'PhD in Electronics Engineering, Cork Institute of Technology, Ireland (2012)'],
           areas='MEMS sensors and low-power circuits; energy harvesting and wireless sensor networks; smart-grid and EV-charging optimisation; AI for biomedical signals (ECG) and point-of-care diagnostics.',
@@ -383,16 +383,14 @@ for lang in ('vi', 'en'):
     # ---- trang người hướng dẫn ----
     for m in MENTORS:
         d = m[lang]; p = U['mdir'] + m['slug'] + '.html'; vi_ = lang == 'vi'
-        lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)} <i>↗</i></a>' for n, u in m['links'])
-        sec = lambda h, body: f'<div class="ms-sec"><h2>{h}</h2>{body}</div>'
-        body = (f'<section class="ms"><div class="wrap"><a class="link ms-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a>'
-                f'<header class="ms-head"><span class="ms-ph"><img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}"></span><div><div class="mono">{"Người hướng dẫn" if vi_ else "Mentor"}</div><h1>{E(d["name"])}</h1><p class="ms-t">{E(d["title"])}</p><p class="ms-r">{E(d["role"])}</p><nav class="ms-links">{lk}</nav></div></header>'
-                + sec("Làm việc cùng tôi" if vi_ else "Working with me", f'<p>{E(d["withme"])}</p>')
-                + sec("Giới thiệu" if vi_ else "About", f'<p>{E(d["bio"])}</p>')
-                + sec("Hướng nghiên cứu" if vi_ else "Research areas", f'<p>{E(d["areas"])}</p>')
-                + sec("Học vấn" if vi_ else "Education", '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in d['edu']) + '</ul>')
-                + (sec("Giải thưởng" if vi_ else "Awards", '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in d['awards']) + '</ul>') if d['awards'] else '')
-                + f'<p class="ms-note">{"Thông tin tổng hợp từ các trang công khai của thầy (liên kết ở trên)." if vi_ else "Compiled from his public profiles linked above."}</p></div></section>')
+        lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)}</a>' for n, u in m['links'])
+        fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
+        body = (f'<section class="mx"><div class="wrap"><a class="mx-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a><div class="mx-grid">'
+                f'<figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure>'
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1><p class="mx-org">College of Engineering and Computer Science · VinUniversity</p>'
+                f'<p class="mx-lead">{E(d["lead"])}</p><ul class="mx-facts">{fx}</ul>'
+                f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
+                f'<nav class="mx-links">{lk}</nav></div></div></div></section>')
         write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))
     # ---- dấu ấn ----
     p = U['hl']

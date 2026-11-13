@@ -905,3 +905,23 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .ms-sec ul{margin:0;padding-left:1.1em}
 .ms-note{margin-top:var(--s3);font:400 13.5px var(--sans);color:var(--mute)}
 @media (max-width:700px){.ms-head{grid-template-columns:1fr;justify-items:center;text-align:center}.ms-ph{width:140px;height:140px}.ms-links{justify-content:center}.ms-sec{grid-template-columns:1fr;gap:8px}}
+/* ===== trang người hướng dẫn v2: biên tập, thoáng, tầm vóc ===== */
+.mx{padding:clamp(24px,4vh,48px) 0 clamp(72px,12vh,140px)}
+.mx-back{display:inline-block;font:500 14px var(--sans);color:var(--mute);text-decoration:none;margin-bottom:clamp(32px,6vh,72px)}
+.mx-back:hover{color:var(--ink)}
+.mx-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:center}
+.mx-ph{margin:0;aspect-ratio:4/5;overflow:hidden;border-radius:4px;background:#5d5d5d}
+.mx-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.mx-k{font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--leaf)}
+.mx-b h1{margin:18px 0 10px;font:400 clamp(44px,5.4vw,76px)/1.02 var(--serif);letter-spacing:-.02em}
+.mx-org{margin:0;font:400 15px var(--sans);color:var(--mute)}
+.mx-lead{margin:clamp(28px,4vh,44px) 0 0;max-width:30ch;font:400 clamp(22px,2vw,28px)/1.42 var(--serif);color:var(--ink)}
+.mx-facts{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 0;font:400 15px/1.6 var(--sans);color:var(--ink2)}
+.mx-facts li:not(:last-child)::after{content:"·";margin:0 12px;color:var(--leaf-mid)}
+.mx-with{margin-top:clamp(32px,5vh,52px);padding-top:20px;border-top:1px solid var(--line);display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline}
+.mx-with>span{font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.mx-with p{margin:0;font:italic 400 18px/1.55 var(--serif);color:var(--ink2)}
+.mx-links{margin-top:28px;display:flex;flex-wrap:wrap;gap:6px 22px}
+.mx-links a{font:500 14.5px var(--sans);color:var(--ink);text-decoration:none;background:linear-gradient(var(--leaf-mid),var(--leaf-mid)) 0 100%/100% 1px no-repeat;padding-bottom:2px}
+.mx-links a:hover{color:var(--leaf)}
+@media (max-width:820px){.mx-grid{grid-template-columns:1fr;gap:32px}.mx-ph{max-width:360px}.mx-with{grid-template-columns:1fr;gap:6px}}
