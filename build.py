@@ -398,8 +398,8 @@ for lang in ('vi', 'en'):
         d = m[lang]; p = U['mdir'] + m['slug'] + '.html'; vi_ = lang == 'vi'
         lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)}</a>' for n, u in m['links'])
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
-        body = (f'<section class="mx"><div class="wrap"><a class="mx-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a><div class="mx-grid">'
-                f'<figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure>'
+        body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
+                f'<div class="mx-l"><figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure><a class="mx-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a></div>'
                 f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1><p class="mx-org">College of Engineering and Computer Science · VinUniversity</p>'
                 f'<p class="mx-lead">{E(d["lead"])}</p><ul class="mx-facts">{fx}</ul>'
                 f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'

@@ -955,3 +955,15 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
   .mx-facts{margin-top:18px}.mx-with{margin-top:22px;padding-top:14px}.mx-links{margin-top:18px}
   .mx-ph{max-height:calc(100svh - 67px - 2 * var(--mp))}
 }
+/* căn giữa thị giác: nội dung nhích lên (khoảng trống dưới lớn hơn trên); nút quay lại lùi xa logo */
+@media (min-width:821px){
+  .mx .wrap{padding-top:calc(var(--mp) + 28px);padding-bottom:var(--mp)}
+  .mx-grid{min-height:calc(100svh - 67px - 2 * var(--mp) - 28px);padding-bottom:clamp(28px,7vh,72px);box-sizing:border-box}
+  .mx-back{top:calc(var(--mp) - 4px)}
+}
+/* nút quay lại: dưới ảnh, tách xa logo; khối nội dung nhích lên để cân thị giác */
+.mx-back{position:static;display:inline-block;margin-top:14px;font:500 13.5px var(--sans);color:var(--mute)}
+.mx-l{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.mx-l .mx-ph{width:100%}
+@media (min-width:821px){.mx .wrap{padding-top:var(--mp)}.mx-grid{min-height:calc(100svh - 67px - 2 * var(--mp))}}
+@media (min-width:821px){.mx-grid{padding-bottom:clamp(16px,4vh,48px)}}
