@@ -36,4 +36,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(tg){if('scrollRestoration' in history)history.scrollRestoration='manual';
       tg.classList.add('in');tg.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
       var go=function(){tg.scrollIntoView({block:'start'})};go();addEventListener('load',go);setTimeout(go,400)}}
+  /* nút quay lại: trở về đúng chỗ người đọc vừa rời đi (trình duyệt tự khôi phục vị trí cuộn); nếu vào thẳng thì về mục tương ứng */
+  d.querySelectorAll('.js-back').forEach(function(a){a.addEventListener('click',function(e){
+    var r=d.referrer;try{if(r&&new URL(r).origin===location.origin&&history.length>1){e.preventDefault();history.back()}}catch(_){}})});
 });

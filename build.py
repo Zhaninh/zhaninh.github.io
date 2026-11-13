@@ -317,21 +317,21 @@ for lang in ('vi', 'en'):
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
-    research_html = (f'<section class="research"><div class="wrap">{sec_head("02", "Nghiên cứu" if vi_ else "Research", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+    research_html = (f'<section class="research" id="research"><div class="wrap">{sec_head("02", "Nghiên cứu" if vi_ else "Research", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
         return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img" data-cap="{'Xem câu chuyện →' if vi_ else 'Read the story →'}"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
-    hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
+    hl_html = (f'<section class="hlhome" id="highlights"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">'
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
                 f'<span class="mc-t">{E(d["title"])}</span><span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
-    mentor_html = f'<section class="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
+    mentor_html = f'<section class="mentors" id="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
@@ -378,7 +378,7 @@ for lang in ('vi', 'en'):
     for w in WORK:
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'
         parts, lk = proj_parts(w, lang)
-        body = head(title_of(w, lang), d['sub'], w['year']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link" href="{rel(p, U['pubs'])}">{'← Công bố' if lang == 'vi' else '← Publications'}</a></p></div>
+        body = head(title_of(w, lang), d['sub'], w['year']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link js-back" href="{rel(p, U['pubs'])}">{'← Quay lại' if lang == 'vi' else '← Back'}</a></p></div>
 <aside class="box"><h4>{t['role']}</h4><div>{E(d['role'])}</div><h4>{t['where']}</h4><div>{E(d['where'])}</div><h4>{t['status']}</h4><div>{E(d['status'])}</div><h4>{t['links']}</h4>{lk}</aside></div></section>'''
         write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
     # ---- công bố ----
@@ -399,7 +399,7 @@ for lang in ('vi', 'en'):
         lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)}</a>' for n, u in m['links'])
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
-                f'<div class="mx-l"><figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure><a class="mx-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a></div>'
+                f'<div class="mx-l"><figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
                 f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1><p class="mx-org">College of Engineering and Computer Science · VinUniversity</p>'
                 f'<p class="mx-lead">{E(d["lead"])}</p><ul class="mx-facts">{fx}</ul>'
                 f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
