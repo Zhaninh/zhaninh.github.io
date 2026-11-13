@@ -856,3 +856,11 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .pubs .pth::after{padding:18px 10px 8px;font-size:12.5px}
 @media (hover:none){.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{display:none}}
 @media (prefers-reduced-motion:reduce){.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{transition:none}}
+/* slogan: ngắt dòng trước "khi"/"when" ở chỗ hiển thị 2 dòng; dòng slogan trang đầu (1 dòng) không ngắt */
+.fq em,.hslogan em{display:inline;width:auto;margin:0}
+.hslogan br.sb{display:none}
+@media (max-width:820px){.hslogan br.sb{display:inline}}
+/* mũi tên nút hành trình: căn giữa theo chiều dọc */
+.jbtn .ja{display:inline-flex;align-items:center;justify-content:center;line-height:0;height:1em}
+.jbtn .ja svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.belief q{max-width:none;font-size:clamp(26px,2.7vw,38px);line-height:1.25}.belief q em{white-space:nowrap}
