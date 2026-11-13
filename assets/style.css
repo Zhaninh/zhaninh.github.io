@@ -864,3 +864,10 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .jbtn .ja{display:inline-flex;align-items:center;justify-content:center;line-height:0;height:1em}
 .jbtn .ja svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
 .belief q{max-width:none;font-size:clamp(26px,2.7vw,38px);line-height:1.25}.belief q em{white-space:nowrap}
+/* trang Dấu ấn: hiệu ứng riêng — ảnh tối nhẹ và hiện biểu tượng phóng to ở góc (khác chú thích trượt của trang chủ) */
+.hg-i::after{content:"";left:auto;right:12px;bottom:auto;top:12px;width:40px;height:40px;padding:0;border-radius:50%;transform:scale(.6);opacity:0;
+  background:rgba(12,20,14,.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7'/%3E%3C/svg%3E") center/18px no-repeat;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.hg-i::before{content:"";position:absolute;inset:0;z-index:1;background:rgba(12,20,14,0);transition:background .3s;pointer-events:none}
+.hg-i:hover::after,.hg-i:focus-visible::after{transform:none;opacity:1}
+.hg-i:hover::before,.hg-i:focus-visible::before{background:rgba(12,20,14,.14)}
