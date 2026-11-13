@@ -44,8 +44,8 @@ T = {  # chuỗi giao diện
             h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
-URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/'),  # tiếng Anh là mặc định (ở gốc)
-       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/')}
+URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='mentors/'),  # tiếng Anh là mặc định (ở gốc)
+       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', mdir='vi/nguoi-huong-dan/')}
 
 WORK = [
  dict(slug='ntcoral', star=True, title='NTCoral', year='2025–',
@@ -134,11 +134,37 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
  ('2026', 'Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn được phát hành trên Zenodo.', 'Large-scale Vietnamese lip-reading dataset released on Zenodo.', ('work', 'vlr')),
 ]
 
-MENTORS = [  # (tên_vi, tên_en, chức danh_vi, chức danh_en, vai trò_vi, vai trò_en, link hồ sơ công khai)
- ('TS. Phùng Mạnh Dương', 'Dr. Phung Manh Duong', 'Assistant Professor ngành AI và Robotics, CECS, VinUniversity', 'Assistant Professor in AI & Robotics, CECS, VinUniversity',
-  'Người hướng dẫn trực tiếp (PI) · GREEN-X', 'Direct supervisor (PI) · GREEN-X', 'https://vinuni.edu.vn/?p=140853', 'duong'),
- ('TS. Đỗ Danh Cường', 'Dr. Do Danh Cuong', 'Assistant Professor, CECS, VinUniversity', 'Assistant Professor, CECS, VinUniversity',
-  'Đồng chủ nhiệm (Co-PI) · GREEN-X', 'Co-principal investigator (Co-PI) · GREEN-X', 'https://research.vinuni.edu.vn/person/do-cuong-danh/', 'cuong'),
+MENTORS = [
+ dict(slug='phung-manh-duong', photo='duong',
+  vi=dict(name='TS. Phùng Mạnh Dương', title='Assistant Professor ngành AI và Robotics, CECS, VinUniversity', role='Người hướng dẫn trực tiếp (PI) · GREEN-X',
+          bio='Giảng viên ngành AI và Robotics tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
+          edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
+          areas='Hệ tự hành và trí tuệ nhân tạo; UAV; thị giác máy tính cho robot; SLAM, lập kế hoạch đường đi và điều khiển chuyển động; trí tuệ bầy đàn và IoT.',
+          awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Chính phủ Úc (2015)'],
+          withme='Thầy là người hướng dẫn trực tiếp các nghiên cứu của tôi tại Trung tâm GREEN-X, VinUniversity.'),
+  en=dict(name='Dr. Phung Manh Duong', title='Assistant Professor in AI & Robotics, CECS, VinUniversity', role='Direct supervisor (PI) · GREEN-X',
+          bio='Assistant Professor in AI and Robotics at the College of Engineering and Computer Science (CECS), VinUniversity, and a Senior Member of IEEE. Before joining VinUni he taught and researched for many years at the University of Technology Sydney and Western Sydney University.',
+          edu=['PhD in Electronic Engineering, Vietnam National University, Hanoi (2015)', 'Postdoc in Mechatronic Engineering, University of Technology Sydney (2017)'],
+          areas='Autonomous systems and AI; UAVs; robot vision; SLAM, path planning and motion control; swarm intelligence and IoT.',
+          awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Australian Government (2015)'],
+          withme='He directly supervises my research at the GREEN-X centre, VinUniversity.'),
+  links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
+         ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
+ dict(slug='do-danh-cuong', photo='cuong',
+  vi=dict(name='TS. Đỗ Danh Cường', title='Assistant Professor, CECS, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X',
+          bio='Giảng viên tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
+          edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
+          areas='Cảm biến MEMS và mạch tiêu thụ năng lượng thấp; thu hoạch năng lượng và mạng cảm biến không dây; tối ưu lưới điện thông minh và trạm sạc xe điện; AI cho tín hiệu y sinh (ECG) và chẩn đoán tại chỗ.',
+          awards=[],
+          withme='Thầy là đồng chủ nhiệm (Co-PI) tại Trung tâm GREEN-X, VinUniversity, nơi tôi làm trợ lý nghiên cứu.'),
+  en=dict(name='Dr. Do Danh Cuong', title='Assistant Professor, CECS, VinUniversity', role='Co-principal investigator (Co-PI) · GREEN-X',
+          bio='Assistant Professor at the College of Engineering and Computer Science (CECS), VinUniversity, where he leads the MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). He was previously a research associate in the Engineering Department, University of Cambridge (2013–2017).',
+          edu=['BS in Electronics, Vietnam National University, Hanoi (2004)', 'MEng in Electronics and Semiconductor, Chungbuk National University, Korea (2007)', 'PhD in Electronics Engineering, Cork Institute of Technology, Ireland (2012)'],
+          areas='MEMS sensors and low-power circuits; energy harvesting and wireless sensor networks; smart-grid and EV-charging optimisation; AI for biomedical signals (ECG) and point-of-care diagnostics.',
+          awards=[],
+          withme='He is a co-principal investigator at the GREEN-X centre, VinUniversity, where I work as a research assistant.'),
+  links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/do-danh-cuong/'), ('VinUniversity', 'https://research.vinuni.edu.vn/person/do-cuong-danh/'), ('MESSI Lab', 'https://sites.google.com/view/messi-lab'),
+         ('Google Scholar', 'https://scholar.google.com/citations?user=_NdIi4AAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0003-4785-4524'), ('dblp', 'https://dblp.org/pid/27/10702')]),
 ]
 
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
@@ -215,6 +241,7 @@ def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
+    elif path.startswith(URL[lang]['mdir']): twin = URL[other]['mdir'] + os.path.basename(path)
     else: twin = URL[other][key]
     items = ['journey', 'pubs', 'hl'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
     nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items)
@@ -287,11 +314,10 @@ for lang in ('vi', 'en'):
     hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
-        nv, ne, tv, te, rv, re_, url, ph = m; nm = nv if vi_ else ne
-        ini = ''.join(w[0] for w in ne.replace('Dr. ', '').split()[:2])
-        av = f'<img src="{rel(p, "assets/people/" + ph + ".webp")}" alt="{E(nm)}" loading="lazy">' if os.path.exists(os.path.join(ROOT, 'assets/people', ph + '.webp')) else ini
-        return (f'<a class="mc reveal" href="{url}" rel="noopener"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(nm)}</span>'
-                f'<span class="mc-t">{E(tv if vi_ else te)}</span><span class="mc-r">{E(rv if vi_ else re_)}</span><span class="mc-go">{"Hồ sơ" if vi_ else "Profile"} ↗</span></span></a>')
+        d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
+        av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">'
+        return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
+                f'<span class="mc-t">{E(d["title"])}</span><span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
     mentor_html = f'<section class="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
@@ -354,6 +380,20 @@ for lang in ('vi', 'en'):
         return f'<li class="reveal{" star" if st else ""}">{th}<div><span class="mono">{y}</span>{tt}<div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div><div class="pacts">{acts}</div></div></li>'
     lis = ''.join(pub(*x) for x in PUBS)
     write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="pubs">{lis}</ol></div></section>'))
+    # ---- trang người hướng dẫn ----
+    for m in MENTORS:
+        d = m[lang]; p = U['mdir'] + m['slug'] + '.html'; vi_ = lang == 'vi'
+        lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)} <i>↗</i></a>' for n, u in m['links'])
+        sec = lambda h, body: f'<div class="ms-sec"><h2>{h}</h2>{body}</div>'
+        body = (f'<section class="ms"><div class="wrap"><a class="link ms-back" href="{rel(p, U["home"])}">← {"Trang chủ" if vi_ else "Home"}</a>'
+                f'<header class="ms-head"><span class="ms-ph"><img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}"></span><div><div class="mono">{"Người hướng dẫn" if vi_ else "Mentor"}</div><h1>{E(d["name"])}</h1><p class="ms-t">{E(d["title"])}</p><p class="ms-r">{E(d["role"])}</p><nav class="ms-links">{lk}</nav></div></header>'
+                + sec("Làm việc cùng tôi" if vi_ else "Working with me", f'<p>{E(d["withme"])}</p>')
+                + sec("Giới thiệu" if vi_ else "About", f'<p>{E(d["bio"])}</p>')
+                + sec("Hướng nghiên cứu" if vi_ else "Research areas", f'<p>{E(d["areas"])}</p>')
+                + sec("Học vấn" if vi_ else "Education", '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in d['edu']) + '</ul>')
+                + (sec("Giải thưởng" if vi_ else "Awards", '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in d['awards']) + '</ul>') if d['awards'] else '')
+                + f'<p class="ms-note">{"Thông tin tổng hợp từ các trang công khai của thầy (liên kết ở trên)." if vi_ else "Compiled from his public profiles linked above."}</p></div></section>')
+        write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))
     # ---- dấu ấn ----
     p = U['hl']
     def story(st):
