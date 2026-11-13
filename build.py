@@ -134,6 +134,13 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
  ('2026', 'Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn được phát hành trên Zenodo.', 'Large-scale Vietnamese lip-reading dataset released on Zenodo.', ('work', 'vlr')),
 ]
 
+MENTORS = [  # (tên_vi, tên_en, chức danh_vi, chức danh_en, vai trò_vi, vai trò_en, link hồ sơ công khai)
+ ('TS. Phùng Mạnh Dương', 'Dr. Phung Manh Duong', 'Assistant Professor ngành AI và Robotics, CECS, VinUniversity', 'Assistant Professor in AI & Robotics, CECS, VinUniversity',
+  'Người hướng dẫn trực tiếp (PI) · dự án NTCoral', 'Direct supervisor (PI) · NTCoral project', 'https://vinuni.edu.vn/?p=140853'),
+ ('TS. Đỗ Danh Cường', 'Dr. Do Danh Cuong', 'Assistant Professor, CECS, VinUniversity', 'Assistant Professor, CECS, VinUniversity',
+  'Đồng chủ nhiệm (Co-PI) · GREEN-X', 'Co-principal investigator (Co-PI) · GREEN-X', 'https://research.vinuni.edu.vn/person/do-cuong-danh/'),
+]
+
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
  ('2021–2025', ('Trường Đại học FPT', 'Cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo. Đồ án tốt nghiệp: nhận dạng tiếng nói qua khẩu hình cho tiếng Việt.', 'Khó khăn lớn nhất của đồ án không nằm ở mô hình mà ở dữ liệu: tiếng Việt gần như chưa có bộ dữ liệu công khai cho bài toán đọc khẩu hình, nên nhóm phải tự xây dựng từ đầu.'),
                ('FPT University', 'Bachelor in Information Technology, Artificial Intelligence specialisation. Capstone project: visual speech recognition for Vietnamese.', 'The main difficulty of the capstone was data rather than models: Vietnamese had almost no public lip-reading dataset, so the team had to build one from scratch.'), False, 'school'),
@@ -277,8 +284,14 @@ for lang in ('vi', 'en'):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
         return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
-    hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("05", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
+    hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
+    def mcard(m):
+        nv, ne, tv, te, rv, re_, url = m; nm = nv if vi_ else ne
+        ini = ''.join(w[0] for w in ne.replace('Dr. ', '').split()[:2])
+        return (f'<a class="mc reveal" href="{url}" rel="noopener"><span class="mc-av">{ini}</span><span class="mc-b"><span class="mc-n">{E(nm)}</span>'
+                f'<span class="mc-t">{E(tv if vi_ else te)}</span><span class="mc-r">{E(rv if vi_ else re_)}</span><span class="mc-go">{"Hồ sơ" if vi_ else "Profile"} ↗</span></span></a>')
+    mentor_html = f'<section class="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
@@ -291,9 +304,10 @@ for lang in ('vi', 'en'):
 <div class="kontakt reveal"><div class="kbar"><a class="km" href="mailto:{EMAIL_WORK}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_work']}</span><span class="kv">{EMAIL_WORK}</span></a><i class="ksep"></i><a class="km" href="mailto:{EMAIL}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_me']}</span><span class="kv">{EMAIL}</span></a><i class="ksep k2"></i><nav class="kl"><a href="{rel(p, 'assets/Aaron_CV.pdf')}">CV<i>↓</i></a><a href="{SCHOLAR}">Scholar<i>↗</i></a><a href="https://github.com/Zhaninh">GitHub<i>↗</i></a><a href="{LINKEDIN}">LinkedIn<i>↗</i></a></nav></div></div></div></section>
 {news_html}
 {research_html}
-<section class="belief dir"><div class="wrap">{sec_head("03", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
+{mentor_html}
+<section class="belief dir"><div class="wrap">{sec_head("04", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
 <div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></div></section>
-<section class="teaser-wrap jhome"><div class="wrap">{sec_head("04", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
+<section class="teaser-wrap jhome"><div class="wrap">{sec_head("05", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
 {hl_html}
 '''
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))

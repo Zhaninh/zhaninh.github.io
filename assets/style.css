@@ -821,3 +821,24 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
     .rgrid .rc-go{margin:0 24px 22px;padding-left:0;padding-right:0}
   }
 }
+/* ===== tách mục rõ ràng: dải nền xen kẽ, khoảng thở lớn, tiêu đề đậm hơn ===== */
+.news,.research,.mentors,.belief.dir,.jhome,.hlhome{padding:clamp(64px,9vh,104px) 0;margin:0;position:relative}
+.research,.belief.dir,.hlhome{background:color-mix(in srgb,var(--leaf-soft) 55%,var(--paper));border-top:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line))}
+.research+.belief{margin-top:0}
+.shead{border-bottom:0;padding-bottom:0;margin-bottom:clamp(28px,4vh,44px)}
+.shead .mono{display:inline-flex;align-items:center;gap:10px;font:600 13px/1 var(--mono);color:var(--leaf);margin-bottom:12px}
+.shead .mono::after{content:"";width:36px;height:2px;border-radius:2px;background:var(--leaf-mid)}
+.shead h2{font-weight:500;font-size:clamp(34px,3.6vw,50px)}
+.hlhome+.foot{margin-top:0}
+/* người hướng dẫn */
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}
+.mc{display:flex;gap:20px;align-items:flex-start;padding:26px 28px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--card) 85%,transparent);text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
+.mc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--leaf-mid) 45%,var(--line));box-shadow:0 14px 34px rgba(30,60,20,.10)}
+.mc-av{flex:none;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#111a13;color:#D9F99D;font:500 22px/1 var(--serif);letter-spacing:.02em}
+.mc-b{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mc-n{font:500 24px/1.2 var(--serif)}
+.mc-t{font:400 15px/1.45 var(--sans);color:var(--ink2)}
+.mc-r{font:italic 400 16px/1.4 var(--serif);color:var(--leaf)}
+.mc-go{font:500 14px var(--sans);color:var(--ink);margin-top:6px}
+.mc:hover .mc-go{color:var(--leaf)}
+@media (max-width:760px){.mgrid{grid-template-columns:1fr}.mc{padding:22px 20px}.mc-av{width:52px;height:52px;font-size:19px}}
