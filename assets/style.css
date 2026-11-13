@@ -974,3 +974,12 @@ main>section:last-child:not(.hlhome):not(.j3d):not(.mx){padding-bottom:max(var(-
 /* khi quay lại: giấu trang cho đến khi đã ở đúng vị trí, tránh cảnh hiện đầu trang rồi kéo xuống */
 html.rs body{visibility:hidden}
 html.rs .reveal{transition:none!important}
+.mc-ini{width:100%;height:100%;display:grid;place-items:center;font:500 24px/1 var(--serif);color:#D9F99D;letter-spacing:.04em}
+.mx-ph:has(.mx-ini){display:grid;place-items:center;background:#111a13}
+.mx-ini{font:400 clamp(64px,8vw,120px)/1 var(--serif);color:#D9F99D;letter-spacing:.04em}
+/* 3 người hướng dẫn: 3 cột đều nhau trên màn rộng, ảnh ở trên — không còn thẻ lẻ một hàng */
+.mgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mc{flex-direction:column;align-items:flex-start;gap:16px;padding:26px 26px 22px}
+.mc-b{flex:1;width:100%}
+.mc-go{margin-top:auto;padding-top:10px}
+@media (max-width:980px){.mgrid{grid-template-columns:1fr}.mc{flex-direction:row;align-items:flex-start}}

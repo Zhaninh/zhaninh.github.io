@@ -151,6 +151,12 @@ MENTORS = [
           withme='He directly supervises my research at the GREEN-X centre, VinUniversity.'),
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
+ dict(slug='dinh-van-dung', photo=None, guided=[],
+  vi=dict(name='Thầy Đinh Văn Dũng', title='', role='Làm việc và hướng dẫn trực tiếp', short='Người hướng dẫn', lead='', facts=[], bio='', edu=[], areas='', awards=[],
+          withme='Thầy làm việc trực tiếp và hướng dẫn tôi trong công việc nghiên cứu.'),
+  en=dict(name='Dinh Van Dung', title='', role='Works with me directly', short='Mentor', lead='', facts=[], bio='', edu=[], areas='', awards=[],
+          withme='He works with me directly and guides my research work.'),
+  links=[]),
  dict(slug='do-danh-cuong', photo='cuong',
   guided=[],
   vi=dict(name='TS. Đỗ Danh Cường', title='Assistant Professor, CECS, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Assistant Professor · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
@@ -328,9 +334,10 @@ for lang in ('vi', 'en'):
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
-        av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">'
+        ini = ''.join(w_[0] for w_ in m['en']['name'].replace('Dr. ', '').split()[:3:2]) if m['en']['name'].count(' ') >= 2 else m['en']['name'][:2]
+        av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
-                f'<span class="mc-t">{E(d["title"])}</span><span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
+                + (f'<span class="mc-t">{E(d["title"])}</span>' if d['title'] else '') + f'<span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
     mentor_html = f'<section class="mentors" id="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
@@ -399,11 +406,11 @@ for lang in ('vi', 'en'):
         lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)}</a>' for n, u in m['links'])
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
-                f'<div class="mx-l"><figure class="mx-ph"><img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}"></figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
-                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1><p class="mx-org">College of Engineering and Computer Science · VinUniversity</p>'
-                f'<p class="mx-lead">{E(d["lead"])}</p><ul class="mx-facts">{fx}</ul>'
-                f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
-                f'<nav class="mx-links">{lk}</nav></div></div>' + guided_html(m, p, lang) + '</div></section>')
+                f'<div class="mx-l"><figure class="mx-ph">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m['photo'] else '')
+                + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
+                + f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
+                + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')
         write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))
     # ---- dấu ấn ----
     p = U['hl']
