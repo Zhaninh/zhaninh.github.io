@@ -968,3 +968,6 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 @media (min-width:821px){.mx .wrap{padding-top:var(--mp)}.mx-grid{min-height:calc(100svh - 67px - 2 * var(--mp))}}
 @media (min-width:821px){.mx-grid{padding-bottom:clamp(16px,4vh,48px)}}
 #mentors,#research,#highlights{scroll-margin-top:60px}
+/* chân trang luôn giáp nội dung phía trên (không còn dải thừa); khoảng thở cuối trang do chính phần nội dung cuối đảm nhận */
+.foot{margin-top:0!important}
+main>section:last-child:not(.hlhome):not(.j3d):not(.mx){padding-bottom:max(var(--s6),64px)}
