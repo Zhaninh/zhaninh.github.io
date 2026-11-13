@@ -750,3 +750,74 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .hs:first-child::before{display:none}
 /* slogan thống nhất: cụm nhấn luôn nghiêng + màu xanh + vệt tô */
 .hslogan em,.fq em,.fslogan em,.belief q em{font-style:italic;color:var(--leaf);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 62%);padding:0 3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* ===== trang chủ v2: Tin mới · Nghiên cứu · Định hướng · Hành trình · Dấu ấn ===== */
+.news,.research,.hlhome{padding:var(--s6) 0 0}
+.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s4);padding-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--leaf-mid) 45%,var(--line))}
+.shead .mono{font:500 13px/1 var(--mono);color:var(--leaf);margin-bottom:10px}
+.shead h2{margin:0;font:400 clamp(30px,3.2vw,44px)/1.1 var(--serif);letter-spacing:-.01em}
+.shead-more{font:500 15px var(--sans);color:var(--ink);text-decoration:none;white-space:nowrap}
+.shead-more i{font-style:normal;color:var(--leaf);display:inline-block;transition:transform .25s}
+.shead-more:hover{color:var(--leaf)}.shead-more:hover i{transform:translateX(3px)}
+/* tin mới */
+.nlist{list-style:none;margin:0;padding:0}
+.nlist li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:var(--s3);align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.nlist time{font:500 14px var(--mono);color:var(--leaf)}
+.nlist a,.nlist span{font:400 19px/1.5 var(--serif);color:var(--ink);text-decoration:none}
+.nlist a i{font-style:normal;color:var(--leaf);display:inline-block;transition:transform .25s}
+.nlist a:hover{color:var(--leaf)}.nlist a:hover i{transform:translateX(3px)}
+/* nghiên cứu */
+.rc{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--card) 85%,transparent);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
+.rc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--leaf-mid) 45%,var(--line));box-shadow:0 14px 34px rgba(30,60,20,.10)}
+.rc-img{display:block;aspect-ratio:16/9;overflow:hidden;background:var(--leaf-soft)}
+.rc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.rc:hover .rc-img img{transform:scale(1.04)}
+.rc-b{display:flex;flex-direction:column;gap:10px;padding:22px 24px 22px;flex:1}
+.rc-m{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.rc-m b{font:500 13px var(--mono);color:var(--leaf)}
+.rc-m em{font:500 12px/1.3 var(--sans);font-style:normal;color:var(--ink2);background:var(--leaf-soft);padding:5px 10px;border-radius:8px}
+.rc-t{font:400 clamp(22px,1.9vw,27px)/1.2 var(--serif);text-wrap:balance}
+.rc-s{color:var(--ink2);font-size:16.5px;line-height:1.55}
+.rc-r{font:400 14px/1.45 var(--sans);color:var(--mute);margin-top:auto}
+.rc-go{font:500 14.5px var(--sans);color:var(--ink);padding-top:12px;border-top:1px solid var(--line)}
+.rc:hover .rc-go{color:var(--leaf)}
+.rc.big{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);margin-bottom:var(--s3);background:#111a13;border-color:#111a13;color:#E9F2E2}
+.rc.big .rc-img{aspect-ratio:auto;min-height:100%}
+.rc.big .rc-b{padding:36px 40px;justify-content:center}
+.rc.big .rc-t{font-size:clamp(32px,3.4vw,48px)}
+.rc.big .rc-s{color:#C7D3C0;font-size:18px}
+.rc.big .rc-r{color:#9DB094}
+.rc.big .rc-m b{color:#B9E27A}.rc.big .rc-m em{background:rgba(185,226,122,.14);color:#D9F0B8}
+.rc.big .rc-go{color:#E9F2E2;border-top-color:rgba(255,255,255,.12)}.rc.big:hover .rc-go{color:#B9E27A}
+.rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
+/* định hướng sau nghiên cứu */
+.research+.belief{margin-top:var(--s6)}
+/* dấu ấn */
+.hcgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
+.hc{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink)}
+.hc-img{display:block;aspect-ratio:3/2;border-radius:14px;overflow:hidden;background:var(--leaf-soft)}
+.hc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.hc:hover .hc-img img{transform:scale(1.04)}
+.hc-m{font:400 13.5px/1.4 var(--sans);color:var(--mute)}
+.hc-m time{font:500 13px var(--mono);color:var(--leaf)}
+.hc-t{font:400 22px/1.25 var(--serif);text-wrap:balance}
+.hc:hover .hc-t{color:var(--leaf)}
+@media (max-width:980px){.rgrid,.hcgrid{grid-template-columns:1fr 1fr}.rc.big{grid-template-columns:1fr}.rc.big .rc-img{aspect-ratio:16/9}.rc.big .rc-b{padding:26px 24px}}
+@media (max-width:640px){.rgrid,.hcgrid{grid-template-columns:1fr}.nlist li{grid-template-columns:1fr;gap:4px}.nlist a,.nlist span{font-size:17.5px}.shead{flex-direction:column;align-items:flex-start}}
+/* định hướng & hành trình theo cùng kiểu tiêu đề mục */
+.belief.dir{padding:var(--s6) 0 0}
+.belief.dir .belief-grid{border-top:0;border-bottom:0;padding-top:var(--s2);padding-bottom:0}
+.jhome{padding-top:var(--s6)}
+/* thẻ nghiên cứu nhỏ: các dòng thẳng hàng giữa các thẻ */
+@supports (grid-template-rows:subgrid){
+  @media (min-width:981px){
+    .rgrid{grid-template-rows:auto auto auto auto auto auto}
+    .rgrid .rc{display:grid;grid-row:span 6;grid-template-rows:subgrid;row-gap:0}
+    .rgrid .rc-b{display:contents}
+    .rgrid .rc-b>*{padding-left:24px;padding-right:24px}
+    .rgrid .rc-m{padding-top:22px;padding-bottom:10px;align-self:start}
+    .rgrid .rc-t{padding-bottom:10px}
+    .rgrid .rc-s{padding-bottom:12px}
+    .rgrid .rc-r{align-self:end;padding-bottom:12px}
+    .rgrid .rc-go{margin:0 24px 22px;padding-left:0;padding-right:0}
+  }
+}

@@ -16,7 +16,7 @@ ME = '<b class="me">N. N. G. Ninh</b>'
 
 T = {  # chuỗi giao diện
  'vi': dict(home='Trang chủ', journey='Hành trình', work='Dự án', pubs='Công bố', hl='Dấu ấn', about='Giới thiệu', notes='Ghi chép',
-            slogan='Công nghệ chỉ có nghĩa khi <em>đến được với con người.</em>', slogan_plain='Công nghệ chỉ có nghĩa khi đến được với con người.',
+            slogan='Công nghệ thật sự có ý nghĩa khi <em>đến được với con người.</em>', slogan_plain='Công nghệ thật sự có ý nghĩa khi đến được với con người.',
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
             hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
             interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
@@ -30,7 +30,7 @@ T = {  # chuỗi giao diện
             h_hl='Dấu ấn', s_hl='Những chuyến công tác, sự kiện và khoảnh khắc trên đường đi. Mỗi tấm ảnh đi kèm câu chuyện của nó.', h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ. Chấm xanh đánh dấu công bố trọng điểm.',
             h_about='Giới thiệu', s_about='Tôi làm nghiên cứu ứng dụng về trí tuệ nhân tạo và định hướng theo con đường nghiên cứu, giảng dạy đại học.'),
  'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', hl='Highlights', about='About', notes='Notes',
-            slogan='Technology only matters when it <em>reaches people.</em>', slogan_plain='Technology only matters when it reaches people.',
+            slogan='Technology is truly meaningful when it <em>reaches people.</em>', slogan_plain='Technology is truly meaningful when it reaches people.',
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
             hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
             interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.')], h_int='research interests', featured='featured project',
@@ -127,6 +127,13 @@ STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi,
 ]
 TAG_EN = {'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
 
+NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id) | ('work', slug) | None)
+ ('10.2026', 'GREEN-X lần đầu có gian trưng bày tại Ngày hội Chuyển đổi số Khánh Hòa 2026.', 'GREEN-X ran its first exhibition booth at Khanh Hoa Digital Transformation Day 2026.', ('hl', 'expo')),
+ ('04.2026', 'Chính thức là trợ lý nghiên cứu tại GREEN-X, VinUniversity, phụ trách dự án NTCoral.', 'Started as a research assistant at GREEN-X, VinUniversity, leading the NTCoral project.', ('work', 'ntcoral')),
+ ('2026', 'Chương sách về phát hiện phình động mạch nội sọ được xuất bản trong Intelligent Precision Healthcare (CRC Press).', 'Book chapter on intracranial aneurysm detection published in Intelligent Precision Healthcare (CRC Press).', ('work', 'aneurysm')),
+ ('2026', 'Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn được phát hành trên Zenodo.', 'Large-scale Vietnamese lip-reading dataset released on Zenodo.', ('work', 'vlr')),
+]
+
 JOURNEY = [  # GIAI ĐOẠN: (thời gian, vi(tiêu đề, đoạn, [khó khăn và bài học]), en(...), next?, công trình chính: school|tower|vinuni|goal)
  ('2021–2025', ('Trường Đại học FPT', 'Cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo. Đồ án tốt nghiệp: nhận dạng tiếng nói qua khẩu hình cho tiếng Việt.', 'Khó khăn lớn nhất của đồ án không nằm ở mô hình mà ở dữ liệu: tiếng Việt gần như chưa có bộ dữ liệu công khai cho bài toán đọc khẩu hình, nên nhóm phải tự xây dựng từ đầu.'),
                ('FPT University', 'Bachelor in Information Technology, Artificial Intelligence specialisation. Capstone project: visual speech recognition for Vietnamese.', 'The main difficulty of the capstone was data rather than models: Vietnamese had almost no public lip-reading dataset, so the team had to build one from scratch.'), False, 'school'),
@@ -222,7 +229,7 @@ def shell(lang, key, path, title, body, extra=''):
 <button type="button" class="totop" aria-label="{'Lên đầu trang' if lang == 'vi' else 'Back to top'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></button>
 <script src="{a('assets/main.js')}?v={VER}"></script>{extra}</body></html>'''
 
-KEEP = ['GREEN-X, VinUniversity', 'reaches people.', 'đến được với con người.', 'Google Scholar', 'Nguyễn Ngọc Gia Ninh', 'Nguyen Ngoc Gia Ninh']
+KEEP = ['GREEN-X, VinUniversity', 'reaches people.', 'đến được với con người.', 'truly meaningful', 'thật sự có ý nghĩa', 'Google Scholar', 'Nguyễn Ngọc Gia Ninh', 'Nguyen Ngoc Gia Ninh']
 def nobreak(html):
     parts = re.split(r'(<script\b.*?</script>|<style\b.*?</style>|<title\b.*?</title>|<textarea\b.*?</textarea>|<[^>]+>)', html, flags=re.S)
     for i, seg in enumerate(parts):
@@ -246,6 +253,32 @@ for lang in ('vi', 'en'):
     doors = ''.join(f'<a class="row reveal" href="{rel(p, U[k])}"><h3>{t[k]}</h3><p>{E(t["d_" + k])}</p><span class="mono">{n}</span></a>'
                     for k, n in (('journey', f'{len(JOURNEY)}'), ('work', f'{len(WORK)}'), ('about', 'CV')))
     ints = ''.join(f'<li><b>{E(a)}</b><span>{E(d)}</span></li>' for a, d in t['interests'])
+    vi_ = lang == 'vi'
+    def cov(sl):
+        return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
+    def sec_head(k, h, more=None):
+        m = f'<a class="shead-more" href="{more[0]}">{more[1]} <i>→</i></a>' if more else ''
+        return f'<div class="shead reveal"><div><div class="mono">{k}</div><h2>{h}</h2></div>{m}</div>'
+    def target(tg):
+        if not tg: return None
+        return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, U['workdir'] + tg[1] + '.html')
+    nl = ''.join((f'<li class="reveal"><time>{d}</time>' + (f'<a href="{target(tg)}">{E(nv if vi_ else ne)} <i>→</i></a>' if tg else f'<span>{E(nv if vi_ else ne)}</span>') + '</li>') for d, nv, ne, tg in NEWS)
+    news_html = f'<section class="news"><div class="wrap">{sec_head("01", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
+    def rcard(w, big=False):
+        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
+        img = f'<span class="rc-img"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
+        return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
+                f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
+    others = [w for w in WORK if not w['star']]
+    research_html = (f'<section class="research"><div class="wrap">{sec_head("02", "Nghiên cứu" if vi_ else "Research", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+                     f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
+    sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
+    def hcard(st):
+        iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
+        return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
+                f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
+    hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("05", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
+               f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
@@ -256,10 +289,12 @@ for lang in ('vi', 'en'):
 <figure class="pfig reveal"><div class="portrait"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></figure></div>
 <p class="hslogan reveal"><span>{t['slogan']}</span></p>
 <div class="kontakt reveal"><div class="kbar"><a class="km" href="mailto:{EMAIL_WORK}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_work']}</span><span class="kv">{EMAIL_WORK}</span></a><i class="ksep"></i><a class="km" href="mailto:{EMAIL}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_me']}</span><span class="kv">{EMAIL}</span></a><i class="ksep k2"></i><nav class="kl"><a href="{rel(p, 'assets/Aaron_CV.pdf')}">CV<i>↓</i></a><a href="{SCHOLAR}">Scholar<i>↗</i></a><a href="https://github.com/Zhaninh">GitHub<i>↗</i></a><a href="{LINKEDIN}">LinkedIn<i>↗</i></a></nav></div></div></div></section>
-<section><div class="wrap"><a class="feature spot reveal" href="{rel(p, U['workdir'] + f['slug'] + '.html')}"><div><div class="mono">{t['featured']}</div><h2>{E(title_of(f, lang))}</h2><p>{E(fw['sub'])}</p></div><span class="go">{t['read']}</span></a></div></section>
-<section class="teaser-wrap"><div class="wrap"><a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><h2>{t['t_title']}</h2><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
-<section class="belief"><div class="wrap belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
-<div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></section>
+{news_html}
+{research_html}
+<section class="belief dir"><div class="wrap">{sec_head("03", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
+<div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></div></section>
+<section class="teaser-wrap jhome"><div class="wrap">{sec_head("04", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
+{hl_html}
 '''
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))
     # ---- hành trình ----
@@ -317,7 +352,7 @@ for lang in ('vi', 'en'):
         im = ''.join(btn(x) for x in ims)
         tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
         sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)
-        return (f'<article class="hs reveal"><div class="hb"><div class="hb-l"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div><h3>{E(tv if lang == "vi" else te)}</h3><div class="ht">{tg}</div></div>'
+        return (f'<article class="hs reveal" id="{ims[0].split("_")[0]}"><div class="hb"><div class="hb-l"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div><h3>{E(tv if lang == "vi" else te)}</h3><div class="ht">{tg}</div></div>'
                 f'<div class="hb-r"><p>{E(sv if lang == "vi" else se)}</p><div class="hsrc">{sl}</div></div></div><div class="hg n{len(ims)}">{im}</div></article>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
     body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'
