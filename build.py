@@ -136,6 +136,7 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
 
 MENTORS = [
  dict(slug='phung-manh-duong', photo='duong',
+  guided=[('ntcoral', 'Chủ trì dự án (PI).', 'Principal investigator of the project.')],
   vi=dict(name='TS. Phùng Mạnh Dương', title='Assistant Professor ngành AI và Robotics, CECS, VinUniversity', role='Người hướng dẫn trực tiếp (PI) · GREEN-X', short='Assistant Professor · AI & Robotics', lead='Nghiên cứu hệ tự hành, UAV và thị giác máy tính cho robot, với hơn 15 năm giảng dạy và nghiên cứu, trong đó gần một thập kỷ tại Úc.', facts=['Tiến sĩ, ĐHQG Hà Nội', 'Sau tiến sĩ, UTS', 'IEEE Senior Member', 'Ba giải Best Paper'],
           bio='Giảng viên ngành AI và Robotics tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
           edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
@@ -151,6 +152,7 @@ MENTORS = [
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
  dict(slug='do-danh-cuong', photo='cuong',
+  guided=[],
   vi=dict(name='TS. Đỗ Danh Cường', title='Assistant Professor, CECS, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Assistant Professor · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
           bio='Giảng viên tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
           edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
@@ -277,6 +279,17 @@ def nobreak(html):
 def write(path, s):
     full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(nobreak(s) if path.endswith('.html') else s)
 
+def guided_html(m, p, lang):
+    if not m['guided']: return ''
+    vi_ = lang == 'vi'; cards = ''
+    for sl, hv, he in m['guided']:
+        w = next(x for x in WORK if x['slug'] == sl); href = rel(p, URL[lang]['workdir'] + sl + '.html')
+        cov = next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
+        img = f'<span class="gd-img"><img src="{rel(p, cov)}" alt="" loading="lazy"></span>' if cov else ''
+        cards += (f'<a class="gd" href="{href}">{img}<span class="gd-b"><span class="gd-y">{w["year"]}</span><span class="gd-t">{E(title_of(w, lang))}</span>'
+                  f'<span class="gd-h">{E(hv if vi_ else he)}</span><span class="gd-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
+    return f'<div class="gd-wrap"><h2>{"Hướng dẫn tôi trong" if vi_ else "Guided my work on"}</h2><div class="gd-list">{cards}</div></div>'
+
 def head(t1, p, label=''):
     return f'<section class="page-head"><div class="wrap">{f"<div class=mono>{E(label)}</div>" if label else ""}<h1>{E(t1)}</h1><p>{E(p)}</p></div></section>'
 
@@ -390,7 +403,7 @@ for lang in ('vi', 'en'):
                 f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1><p class="mx-org">College of Engineering and Computer Science · VinUniversity</p>'
                 f'<p class="mx-lead">{E(d["lead"])}</p><ul class="mx-facts">{fx}</ul>'
                 f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
-                f'<nav class="mx-links">{lk}</nav></div></div></div></section>')
+                f'<nav class="mx-links">{lk}</nav></div></div>' + guided_html(m, p, lang) + '</div></section>')
         write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))
     # ---- dấu ấn ----
     p = U['hl']
