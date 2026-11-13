@@ -129,14 +129,14 @@ TAG_EN = {'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa
 
 NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id) | ('work', slug) | None)
  ('10.2026', 'GREEN-X lần đầu có gian trưng bày tại Ngày hội Chuyển đổi số Khánh Hòa 2026.', 'GREEN-X ran its first exhibition booth at Khanh Hoa Digital Transformation Day 2026.', ('hl', 'expo')),
- ('04.2026', 'Chính thức là trợ lý nghiên cứu tại GREEN-X, VinUniversity, phụ trách dự án NTCoral.', 'Started as a research assistant at GREEN-X, VinUniversity, leading the NTCoral project.', ('work', 'ntcoral')),
+ ('04.2026', 'Chính thức là trợ lý nghiên cứu tại GREEN-X, VinUniversity.', 'Started as a research assistant at GREEN-X, VinUniversity.', None),
  ('2026', 'Chương sách về phát hiện phình động mạch nội sọ được xuất bản trong Intelligent Precision Healthcare (CRC Press).', 'Book chapter on intracranial aneurysm detection published in Intelligent Precision Healthcare (CRC Press).', ('work', 'aneurysm')),
  ('2026', 'Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn được phát hành trên Zenodo.', 'Large-scale Vietnamese lip-reading dataset released on Zenodo.', ('work', 'vlr')),
 ]
 
 MENTORS = [  # (tên_vi, tên_en, chức danh_vi, chức danh_en, vai trò_vi, vai trò_en, link hồ sơ công khai)
  ('TS. Phùng Mạnh Dương', 'Dr. Phung Manh Duong', 'Assistant Professor ngành AI và Robotics, CECS, VinUniversity', 'Assistant Professor in AI & Robotics, CECS, VinUniversity',
-  'Người hướng dẫn trực tiếp (PI) · dự án NTCoral', 'Direct supervisor (PI) · NTCoral project', 'https://vinuni.edu.vn/?p=140853', 'duong'),
+  'Người hướng dẫn trực tiếp (PI) · GREEN-X', 'Direct supervisor (PI) · GREEN-X', 'https://vinuni.edu.vn/?p=140853', 'duong'),
  ('TS. Đỗ Danh Cường', 'Dr. Do Danh Cuong', 'Assistant Professor, CECS, VinUniversity', 'Assistant Professor, CECS, VinUniversity',
   'Đồng chủ nhiệm (Co-PI) · GREEN-X', 'Co-principal investigator (Co-PI) · GREEN-X', 'https://research.vinuni.edu.vn/person/do-cuong-danh/', 'cuong'),
 ]
