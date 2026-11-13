@@ -151,7 +151,7 @@ MENTORS = [
           withme='He directly supervises my research at the GREEN-X centre, VinUniversity.'),
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
- dict(slug='dinh-van-dung', photo=None, guided=[],
+ dict(slug='dinh-van-dung', photo='dung', org='', guided=[],
   vi=dict(name='Thầy Đinh Văn Dũng', title='', role='Làm việc và hướng dẫn trực tiếp', short='Người hướng dẫn', lead='', facts=[], bio='', edu=[], areas='', awards=[],
           withme='Thầy làm việc trực tiếp và hướng dẫn tôi trong công việc nghiên cứu.'),
   en=dict(name='Dinh Van Dung', title='', role='Works with me directly', short='Mentor', lead='', facts=[], bio='', edu=[], areas='', awards=[],
@@ -407,7 +407,7 @@ for lang in ('vi', 'en'):
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
                 f'<div class="mx-l"><figure class="mx-ph">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
-                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m['photo'] else '')
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m.get("org", True) else '')
                 + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
                 + f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
                 + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')
