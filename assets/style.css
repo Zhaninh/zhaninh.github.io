@@ -880,3 +880,7 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .mc-av{width:84px;height:84px;overflow:hidden;box-shadow:0 0 0 3px var(--paper),0 0 0 4px color-mix(in srgb,var(--leaf-mid) 55%,transparent)}
 .mc-av img{width:100%;height:100%;object-fit:cover;display:block}
 @media (max-width:760px){.mc-av{width:68px;height:68px}}
+/* mở một dấu ấn từ trang chủ: chừa chỗ cho thanh menu, hiện trọn câu chuyện */
+.hs{scroll-margin-top:72px}
+.hs:target .hb{animation:hlflash 1.6s ease 1}
+@keyframes hlflash{0%,30%{background:color-mix(in srgb,var(--leaf-soft) 80%,transparent)}100%{background:transparent}}

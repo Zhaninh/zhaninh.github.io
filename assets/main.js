@@ -31,4 +31,9 @@ document.addEventListener('DOMContentLoaded',function(){
   if(lb){var li=lb.querySelector('img');function close(){lb.hidden=true;li.src=''}
     d.querySelectorAll('.hg-i').forEach(function(b){b.addEventListener('click',function(){li.src=b.getAttribute('data-full');lb.hidden=false;lb.querySelector('.lb-x').focus()})});
     lb.addEventListener('click',close);addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close()})}
+  /* mở đúng câu chuyện khi đến từ link #id: cuộn lại sau khi ảnh và bố cục đã ổn định */
+  if(location.hash&&d.querySelector('.hl-list')){var tg=d.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if(tg){if('scrollRestoration' in history)history.scrollRestoration='manual';
+      tg.classList.add('in');tg.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
+      var go=function(){tg.scrollIntoView({block:'start'})};go();addEventListener('load',go);setTimeout(go,400)}}
 });
