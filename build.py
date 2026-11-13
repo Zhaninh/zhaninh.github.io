@@ -273,7 +273,7 @@ for lang in ('vi', 'en'):
     news_html = f'<section class="news"><div class="wrap">{sec_head("01", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
     def rcard(w, big=False):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
-        img = f'<span class="rc-img"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
+        img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
@@ -282,7 +282,7 @@ for lang in ('vi', 'en'):
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
-        return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
+        return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img" data-cap="{'Xem câu chuyện →' if vi_ else 'Read the story →'}"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
     hl_html = (f'<section class="hlhome"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
@@ -328,7 +328,7 @@ for lang in ('vi', 'en'):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
         jl = f'<a class="pc-j" href="{rel(p, U["journey"])}#{w["slug"]}">{"Xem trên hành trình" if lang == "vi" else "See it on the journey"} <i>↗</i></a>' if w['slug'] in onj else ''
         cov = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
-        cv = f'<a class="pc-cover" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cov)}" alt="" loading="lazy"></a>' if cov else ''
+        cv = f'<a class="pc-cover" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cov)}" alt="" loading="lazy"></a>' if cov else ''
         return (f'<article class="pc reveal{" star" if w["star"] else ""}">{cv}<div class="pc-top"><span class="pc-y">{w["year"]}</span><span class="pc-s">{E(d["status"])}</span></div>'
                 f'<h3><a href="{href}">{E(title_of(w, lang))}</a></h3><p>{E(d["sub"])}</p>'
                 f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
@@ -347,7 +347,7 @@ for lang in ('vi', 'en'):
         return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
     def pub(y, st, ti, au, vv, ve, u, sl):
         href = rel(p, U['workdir'] + sl + '.html') if sl else None; cv = cov_of(sl) if sl else None
-        th = f'<a class="pth" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cv)}" alt="" loading="lazy"></a>' if cv else '<span class="pth"></span>'
+        th = f'<a class="pth" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cv)}" alt="" loading="lazy"></a>' if cv else '<span class="pth"></span>'
         tt = f'<a class="t" href="{href}">{E(ti)}</a>' if href else f'<div class="t">{E(ti)}</div>'
         acts = (f'<a class="pgo" href="{href}">{"Trang dự án" if lang == "vi" else "Project page"} <i>→</i></a>' if href else '') + (f'<a class="pdoi" href="{u}">DOI <i>↗</i></a>' if u else '')
         return f'<li class="reveal{" star" if st else ""}">{th}<div><span class="mono">{y}</span>{tt}<div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div><div class="pacts">{acts}</div></div></li>'
@@ -362,7 +362,7 @@ for lang in ('vi', 'en'):
                 from PIL import Image as _I
                 w_, h_ = _I.open(os.path.join(ROOT, 'assets/hl', x + '.webp')).size; return w_ / h_
             except Exception: return 4 / 3
-        def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i{' pt' if a_ < 1 else ''}" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
+        def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i{' pt' if a_ < 1 else ''}" data-cap="{'Xem ảnh lớn ↗' if lang == 'vi' else 'View full size ↗'}" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
         im = ''.join(btn(x) for x in ims)
         tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
         sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)

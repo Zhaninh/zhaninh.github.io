@@ -845,12 +845,14 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 /* bỏ hiệu ứng phóng ảnh khi rê chuột (dùng quá nhiều, không tạo thêm giá trị) */
 .pc:hover .pc-cover img,.pubs li:hover .pth img,.hg-i:hover img,.rc:hover .rc-img img,.hc:hover .hc-img img{transform:none}
 .pc-cover img,.pubs .pth img,.hg-i img,.rc-img img,.hc-img img{transition:none}
-/* ===== hiệu ứng ảnh: tiết chế kiểu ấn phẩm học thuật — ảnh hơi trầm khi nghỉ, rõ màu khi rê chuột, viền mảnh bên trong ===== */
-.pc-cover,.pubs .pth,.hg-i,.rc-img,.hc-img{position:relative}
-.pc-cover img,.pubs .pth img,.hg-i img,.rc-img img,.hc-img img{filter:saturate(.82) brightness(.97);transition:filter .45s ease}
-.pc:hover .pc-cover img,.pubs li:hover .pth img,.hg-i:hover img,.rc:hover .rc-img img,.hc:hover .hc-img img,.rc:focus-visible .rc-img img,.hc:focus-visible .hc-img img{filter:none}
-.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 0 transparent;transition:box-shadow .35s ease}
-.pc:hover .pc-cover::after,.pubs li:hover .pth::after,.hg-i:hover::after,.rc:hover .rc-img::after,.hc:hover .hc-img::after{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--leaf-mid) 70%,transparent)}
-.hc-t,.rc-t{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .4s ease,color .25s}
-.hc:hover .hc-t{background-size:100% 1px}
-@media (prefers-reduced-motion:reduce){.pc-cover img,.pubs .pth img,.hg-i img,.rc-img img,.hc-img img{transition:none}}
+/* ===== hiệu ứng ảnh: chú thích trượt lên ===== */
+.pc-cover,.pubs .pth,.hg-i,.rc-img,.hc-img{position:relative;overflow:hidden}
+.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{
+  content:attr(data-cap);position:absolute;left:0;right:0;bottom:0;z-index:2;pointer-events:none;
+  padding:28px 18px 14px;font:500 14.5px/1.2 var(--sans);letter-spacing:.01em;color:#fff;
+  background:linear-gradient(180deg,transparent,rgba(12,20,14,.78) 55%);
+  transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+.pc:hover .pc-cover::after,.pubs li:hover .pth::after,.hg-i:hover::after,.hg-i:focus-visible::after,.rc:hover .rc-img::after,.hc:hover .hc-img::after,.rc:focus-visible .rc-img::after,.hc:focus-visible .hc-img::after{transform:none}
+.pubs .pth::after{padding:18px 10px 8px;font-size:12.5px}
+@media (hover:none){.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{display:none}}
+@media (prefers-reduced-motion:reduce){.pc-cover::after,.pubs .pth::after,.hg-i::after,.rc-img::after,.hc-img::after{transition:none}}
