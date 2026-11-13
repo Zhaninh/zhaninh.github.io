@@ -842,3 +842,6 @@ b.me{color:inherit;font-weight:700;text-decoration:underline;text-decoration-thi
 .mc-go{font:500 14px var(--sans);color:var(--ink);margin-top:6px}
 .mc:hover .mc-go{color:var(--leaf)}
 @media (max-width:760px){.mgrid{grid-template-columns:1fr}.mc{padding:22px 20px}.mc-av{width:52px;height:52px;font-size:19px}}
+/* bỏ hiệu ứng phóng ảnh khi rê chuột (dùng quá nhiều, không tạo thêm giá trị) */
+.pc:hover .pc-cover img,.pubs li:hover .pth img,.hg-i:hover img,.rc:hover .rc-img img,.hc:hover .hc-img img{transform:none}
+.pc-cover img,.pubs .pth img,.hg-i img,.rc-img img,.hc-img img{transition:none}
