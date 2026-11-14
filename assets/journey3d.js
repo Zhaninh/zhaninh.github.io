@@ -36,13 +36,14 @@
   function pV(u, v, y) { return new T.Vector3((-u + v) * R2, y || 0, (-u - v) * R2); }
   function tan(u) { var d = (vOf(u + .01) - vOf(u - .01)) / .02, x = (-1 + d) * R2, z = (-1 - d) * R2, l = Math.hypot(x, z); return { x: x / l, z: z / l }; }
   /* đèo AI Valley: đoạn đường sau bùng binh của giai đoạn đầu lên dốc rồi xuống dốc; mặt đất nhô lên thành sống đồi theo đường */
-  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 18, mainU[0] + 58] : null, PH = 7; PW = PASS;
+  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 18, mainU[0] + 58] : null, PH = 9; PW = PASS;
   function hU(u) { if (!PASS || u <= PASS[0] || u >= PASS[1]) return 0; var q = Math.sin(Math.PI * (u - PASS[0]) / (PASS[1] - PASS[0])); return PH * q * q; }
   function bell(off) { off = off || 0; var a = Math.abs(off), f0 = 6, f1 = 26; if (a <= f0) return 1; if (a >= f1) return 0; var q = 1 - (a - f0) / (f1 - f0); return q * q * (3 - 2 * q); } /* phía AI Valley (off > 0) có nền phẳng rộng; phía kia là sườn dốc */
   function terr(u, off) { return hU(u) * bell(off); }
   function inPass(u, off, m) { return PASS && u > PASS[0] - (m || 0) && u < PASS[1] + (m || 0) && Math.abs(off || 0) < 28 + (m || 0); }
   var PS = null; /* mẫu đường trên đèo: [x, z, nx, nz, u] */
-  function hAt(x, z) { if (!PS) return 0; var h = 0; for (var i = 0; i < PS.length; i++) { var e = PS[i], dx = x - e[0], dz = z - e[1], d = dx * dx + dz * dz; if (d < 26 * 26) { var v = hU(e[4]) * bell(Math.sqrt(d)); if (v > h) h = v; } } return h; } /* lấy cao nhất trong các đoạn đường gần đó: mặt đồi liền, không có vách */
+  var FLAT = []; /* nền phẳng cho công trình trên đèo: [x, z, r, h] */
+  function hAt(x, z) { if (!PS) return 0; for (var fi = 0; fi < FLAT.length; fi++) { var F = FLAT[fi], fd = Math.hypot(x - F[0], z - F[1]); if (fd < F[2]) return F[3]; } var h = 0; for (var i = 0; i < PS.length; i++) { var e = PS[i], dx = x - e[0], dz = z - e[1], d = dx * dx + dz * dz; if (d < 26 * 26) { var v = hU(e[4]) * bell(Math.sqrt(d)); if (v > h) h = v; } } for (fi = 0; fi < FLAT.length; fi++) { F = FLAT[fi]; fd = Math.hypot(x - F[0], z - F[1]); if (fd < F[2] + 5) { var w = (fd - F[2]) / 5; w = w * w * (3 - 2 * w); h = F[3] * (1 - w) + h * w; } } return h; } /* lấy cao nhất trong các đoạn đường gần đó: mặt đồi liền, không có vách */
   function pos(u, off, y) { var p = pV(u, vOf(u), y); if (off) { var t = tan(u); p.x += -t.z * off; p.z += t.x * off; } p.y += PS ? hAt(p.x, p.z) : 0; return p; }
   if (PASS) { PS = []; for (var su = PASS[0] - 3; su <= PASS[1] + 3; su += .25) { var sp0 = pV(su, vOf(su)), st = tan(su); PS.push([sp0.x, sp0.z, -st.z, st.x, su]); } }
   function strip(u0, u1, fa, fb, y, mat) {
@@ -116,7 +117,7 @@
   }
   function drive(u, sg, p, r) { /* lối vào ngắn nối đường với nền công trình */
     if (!p) return; var a = pos(u, sg * RW), dx = p.x - a.x, dz = p.z - a.z, L = Math.hypot(dx, dz) - r + .4; if (L < .5) return;
-    var d = box(L, .04, 1.5, C.shoulder, a.x + dx / Math.hypot(dx, dz) * L / 2, .1, a.z + dz / Math.hypot(dx, dz) * L / 2, SM); d.position.y = .1 + (a.y + (p.y || 0)) / 2; d.rotation.y = -Math.atan2(dz, dx); d.castShadow = false; scene.add(d);
+    var d = box(L, .04, 1.5, C.shoulder, a.x + dx / Math.hypot(dx, dz) * L / 2, .1, a.z + dz / Math.hypot(dx, dz) * L / 2, SM); var hy = Math.hypot(dx, dz), ty = a.y + ((p.y || 0) - a.y) * (L / 2 + RW * 0) / hy; d.position.y = .1 + (a.y + ((p.y || 0) - a.y) * (L / hy) / 2); d.rotation.order = 'YZX'; d.rotation.y = -Math.atan2(dz, dx); d.rotation.z = Math.atan2(((p.y || 0) - a.y) * (L / hy), L); d.castShadow = false; scene.add(d);
   }
 
   if (seaOn) {
@@ -161,14 +162,16 @@
   }
 
   /* ---------- đường: lề, nhựa, vạch. Mỗi lớp một cao độ riêng để không bị nhấp nháy ---------- */
+  var VSPOT = null; /* chỗ đặt toà AI Valley: nền phẳng trên sườn đèo, giữ trống từ trước */
+  if (PASS) { var vq = pos(mainU[0] + 38, 13.5); VSPOT = [vq.x, vq.z, vq.y]; FLAT.push([vq.x, vq.z, 5, vq.y]); claim(vq.x, vq.z, 6.5, 0, 1); }
   if (PASS) (function () {
     var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, u, k3;
     PS.forEach(function (e) { x0 = Math.min(x0, e[0]); x1 = Math.max(x1, e[0]); z0 = Math.min(z0, e[1]); z1 = Math.max(z1, e[1]); });
     x0 -= 30; x1 += 30; z0 -= 30; z1 += 30; var ST = 1, nx = Math.ceil((x1 - x0) / ST) + 1, nz = Math.ceil((z1 - z0) / ST) + 1, P = [], CL = [], H = [], I = [];
-    for (var iz = 0; iz < nz; iz++) for (var ix = 0; ix < nx; ix++) { var X = x0 + ix * ST, Z = z0 + iz * ST, h = hAt(X, Z), f = Math.min(1, Math.floor(h / PH * 6 + .35) / 6 * 1.05); H.push(h); P.push(X, h - .03, Z); CL.push(.984 + (.70 - .984) * f, .992 + (.84 - .992) * f, .973 + (.50 - .973) * f); }
-    for (iz = 0; iz < nz - 1; iz++) for (var ix2 = 0; ix2 < nx - 1; ix2++) { var a0 = iz * nx + ix2, b0 = a0 + nx; if (H[a0] + H[a0 + 1] + H[b0] + H[b0 + 1] < .01) continue; I.push(a0, b0, a0 + 1, a0 + 1, b0, b0 + 1); }
-    var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setAttribute('color', new T.Float32BufferAttribute(CL, 3)); g.setIndex(I); g.computeVertexNormals();
-    var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, flatShading: false, roughness: 1 })); hill.receiveShadow = true; scene.add(hill);
+    for (var iz = 0; iz < nz; iz++) for (var ix = 0; ix < nx; ix++) { var X = x0 + ix * ST, Z = z0 + iz * ST, h = hAt(X, Z), f = Math.min(1, Math.floor(h / PH * 6 + .35) / 6 * 1.05); H.push(h); P.push(X, h - .03, Z); var g0 = Math.min(1, h / PH); CL.push(.86 - .22 * g0, .93 - .14 * g0, .70 - .25 * g0, Math.min(1, h / .9)); }
+    for (iz = 0; iz < nz - 1; iz++) for (var ix2 = 0; ix2 < nx - 1; ix2++) { var a0 = iz * nx + ix2, b0 = a0 + nx; if (H[a0] + H[a0 + 1] + H[b0] + H[b0 + 1] < .002) continue; I.push(a0, b0, a0 + 1, a0 + 1, b0, b0 + 1); }
+    var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setAttribute('color', new T.Float32BufferAttribute(CL, 4)); g.setIndex(I); g.computeVertexNormals();
+    var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, transparent: true, depthWrite: true, flatShading: false, roughness: 1 })); hill.receiveShadow = true; scene.add(hill);
     function plate(txt) { var cv = document.createElement('canvas'); cv.width = 256; cv.height = 96; var x = cv.getContext('2d'); x.fillStyle = '#1F5FA8'; x.fillRect(0, 0, 256, 96); x.strokeStyle = '#fff'; x.lineWidth = 6; x.strokeRect(6, 6, 244, 84); x.fillStyle = '#fff'; x.font = '600 40px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(txt, 128, 50); return new T.Mesh(new T.PlaneGeometry(1.5, .56), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); }
     function face(up) { /* biển cảnh báo dốc theo kiểu biển Việt Nam: tam giác viền đỏ, nền vàng, hình dốc đen nằm gọn bên trong */
       var cv = document.createElement('canvas'); cv.width = 256; cv.height = 230; var x = cv.getContext('2d');
@@ -481,7 +484,7 @@
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
       if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 38 : mainU[k] + 128 + (jj++) * 12; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
-      var sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') drive(o.userData.u, SIDE(k), sp_, o.userData.pr * sc); }
+      var sp_; if (ms.kind === 'valley' && VSPOT) { sp_ = new T.Vector3(VSPOT[0], VSPOT[2], VSPOT[1]); o.position.copy(sp_); o.rotation.y = FACE; o.userData.u = uu; o.userData.s = sc; o.userData.gy = 1; o.userData.pr = r; o.scale.setScalar(sc); scene.add(o); keep.push([o, r]); grow.push(o); } else sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') drive(o.userData.u, SIDE(k), sp_, o.userData.pr * sc); }
     });
   });
 
@@ -596,7 +599,7 @@
   }
   for (u = U0 - 4; u < uGoal + 4; u += 9) [1, -1].forEach(function (side) {
     if (rnd() < .42) return; var isM = rnd() < .45, g = isM ? mountain() : lake(), r = g.userData.r, hh = isM ? g.userData.h : 0, t, p, uu, off;
-    for (t = 0; t < 6; t++) { uu = u + (rnd() - .5) * 6; off = side * Math.min(31, RW + 3.5 + r + rnd() * 7 + t * 2); p = pos(uu, off); if (!inPass(uu, Math.abs(off) - r, r + 2) && clearOf(p.x, p.z, r, 1.4) && viewOK(p.x, p.z, r, hh, !hh)) { g.position.copy(p); g.rotation.y = rnd() * 6.28; g.userData.u = uu; g.userData.s = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, hh, !hh); return; } }
+    for (t = 0; t < 6; t++) { uu = u + (rnd() - .5) * 6; off = side * Math.min(31, RW + 3.5 + r + rnd() * 7 + t * 2); p = pos(uu, off); if (!(PS && (hAt(p.x, p.z) > .01 || hAt(p.x + r, p.z) > .01 || hAt(p.x - r, p.z) > .01 || hAt(p.x, p.z + r) > .01 || hAt(p.x, p.z - r) > .01)) && clearOf(p.x, p.z, r, 1.4) && viewOK(p.x, p.z, r, hh, !hh)) { g.position.copy(p); g.rotation.y = rnd() * 6.28; g.userData.u = uu; g.userData.s = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, hh, !hh); return; } }
   });
 
   /* ---------- cây: chỉ mọc ở chỗ còn trống ---------- */
@@ -750,9 +753,13 @@
     el.classList.toggle('below', !!below); el.style.transform = 'translate(-50%,' + (below ? '0' : '-100%') + ') translate(' + x.toFixed(1) + 'px,' + xy[1].toFixed(1) + 'px)'; el.style.setProperty('--sx', (xy[0] - x).toFixed(1) + 'px'); el.style.opacity = on ? 1 : 0; }
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
-  function carLat(u) { var b = RW / 2, Rl = 3.6 * RB, c = 0, k = .9, sm = function (x, y) { return (x + y + Math.sqrt((x - y) * (x - y) + k * k)) / 2; };
-    for (var q = 0; q < rbU.length; q++) { var du = u - rbU[q]; if (Math.abs(du) < Rl) c = Math.max(c, Math.sqrt(Rl * Rl - du * du)); }
-    return sm(b, c) - (sm(b, 0) - b); } /* trong bùng binh xe chạy theo vòng tròn quanh đảo, ra vào êm */ /* vào bùng binh từ xa, vòng êm quanh đảo */
+  function carLat(u) { /* xe giữ làn, rồi lượn dần vào vòng quanh đảo theo đường cong trơn (cả vị trí lẫn hướng đều liên tục) */
+    var b0 = RW / 2, R = 3.75 * RB, A = 2.6 * RB, B = 6.2 * RB, l = b0;
+    for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]), v;
+      if (du <= A) v = Math.sqrt(R * R - du * du);
+      else if (du < B) { var h = B - A, t = (du - A) / h, p0 = Math.sqrt(R * R - A * A), m0 = -A / p0 * h, t2 = t * t, t3 = t2 * t; v = (2 * t3 - 3 * t2 + 1) * p0 + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * b0; }
+      else continue; if (v > l) l = v; }
+    return l; } /* trong bùng binh xe chạy theo vòng tròn quanh đảo, ra vào êm */ /* vào bùng binh từ xa, vòng êm quanh đảo */
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
@@ -768,7 +775,7 @@
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
     var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
-    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh);
+    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh) * 1.35;
     car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
