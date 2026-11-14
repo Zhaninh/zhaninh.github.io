@@ -380,7 +380,7 @@ def toc_html(lang, path, key, twin):
      ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
      ('03', 'Dự án tiêu biểu' if vi_ else 'Selected projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
-     ('04', 'Công bố' if vi_ else 'Publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
+     ('04', 'Công bố tiêu biểu' if vi_ else 'Selected publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
      ('05', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('06', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
      ('07', 'Hành trình' if vi_ else 'Journey', r(U['journey']), [((when.split('–')[0] or ('Tiếp' if vi_ else 'Next')), (vi if vi_ else en)[0], r(U['journey']) + f'#stage-{i+1}') for i, (when, vi, en, nx, _) in enumerate(JOURNEY)]),
@@ -406,6 +406,7 @@ def toc_html(lang, path, key, twin):
                f'<div class="toc-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div></div>')
     cn, ct = (cur, names[cur]) if cur else ('', start)
     if cur == '03' and (key == 'work' or path.startswith(U['workdir'])): ct = 'Dự án' if vi_ else 'Projects'
+    if cur == '04' and key == 'pubs': ct = 'Công bố' if vi_ else 'Publications'
     return (f'<header class="nav"><a class="brand" href="{home}"><img src="{r("assets/clover.svg")}" alt="">Aaron</a>'
             f'<div class="toc" data-home="{E(start)}" data-names="{E(json.dumps(names, ensure_ascii=False))}">'
             f'<button type="button" class="pill" aria-expanded="false" aria-controls="tocpanel" aria-label="{T[lang]["menu"]}">'
@@ -497,8 +498,8 @@ for lang in ('vi', 'en'):
         tt = f'<a class="t" href="{u}" rel="noopener">{E(ti)}</a>' if u else f'<span class="t">{E(ti)}</span>'
         acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '') + ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, [])) + (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
-    pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố" if vi_ else "Publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
-                 f'<ol class="plist">{"".join(hpub(*x) for x in PUBS[:4])}</ol></div></section>')
+    pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố tiêu biểu" if vi_ else "Selected publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+                 f'<ol class="plist">{"".join(hpub(*x) for x in sorted(PUBS, key=lambda x: next((i for i, w in enumerate(RANKED) if w["slug"] == x[7]), 99))[:3])}</ol></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
