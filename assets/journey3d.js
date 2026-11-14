@@ -12,7 +12,7 @@
   var T = THREE, full = root.getAttribute('data-j3d') === 'full';
   var canvas = root.querySelector('canvas'), holder = canvas.parentNode, renderer;
   var LITE = matchMedia('(hover:none)').matches || Math.min(screen.width, screen.height) < 820, DPRc = 1.5;
-  try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: !LITE, powerPreference: 'high-performance' }); } catch (e) { return; }
+  try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true }); } catch (e) { return; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var stages = [];
   try { stages = JSON.parse(root.getAttribute('data-stages')); } catch (e) { return; }
@@ -82,10 +82,10 @@
   /* ---------- cảnh ---------- */
   var scene = new T.Scene(), cam = new T.OrthographicCamera(-1, 1, 1, -1, -300, 500);
   scene.add(new T.HemisphereLight(0xffffff, 0xEAF8DA, 1.55));
-  var sun = new T.DirectionalLight(0xffffff, 2.1); sun.castShadow = true; sun.shadow.mapSize.set(LITE ? 1024 : 2048, LITE ? 1024 : 2048);
+  var sun = new T.DirectionalLight(0xffffff, 2.1); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
   var sc = sun.shadow.camera; sc.left = -70; sc.right = 70; sc.top = 70; sc.bottom = -70; sc.near = 1; sc.far = 200; sun.shadow.bias = -0.0008;
   scene.add(sun, sun.target);
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = LITE ? T.PCFShadowMap : T.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
   var ground = new T.Mesh(new T.PlaneGeometry(900, 900), new T.ShadowMaterial({ opacity: .11 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 
   /* ---------- biển ---------- */
@@ -724,7 +724,7 @@
   var DIR = new T.Vector3(-1, 1.02, -1).normalize(), SIN = DIR.y, look = new T.Vector3(), tmp = new T.Vector3(), mob = false;
   function size() {
     W = holder.clientWidth; H = holder.clientHeight; if (!W || !H) return;
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, LITE ? DPRc : 2)); renderer.setSize(W, H, false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setSize(W, H, false);
     var a = W / H; mob = W < 860; VH = full ? (mob ? Math.max(40, 34 / a) : Math.max(40, 58 / a)) : Math.max(18, 30 / a); /* màn hình hẹp thì lùi máy quay ra để công trình hai bên không bị cắt */
     cam.left = -VH * a / 2; cam.right = VH * a / 2; cam.top = VH / 2; cam.bottom = -VH / 2; cam.updateProjectionMatrix();
     stacked = !!(full && card && card.offsetWidth > W * .6); /* thẻ nội dung nằm ngang phía trên (màn hẹp) hay đứng bên trái (màn rộng) */
@@ -782,7 +782,7 @@
   var fq = [], lastT = 0; /* máy yếu: tự hạ độ phân giải khi khung hình bị chậm */
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
-    if (LITE) { var nt = performance.now(); if (lastT) { fq.push(nt - lastT); if (fq.length > 40) { var avg = fq.reduce(function (a, b) { return a + b; }, 0) / fq.length; fq = []; if (avg > 24 && DPRc > 1) { DPRc = Math.max(1, DPRc - .25); size(); } } } lastT = nt; }
+
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
     if (zm.dir) {
       zm.t = reduce ? (zm.dir > 0 ? 1 : 0) : Math.min(1, Math.max(0, zm.t + zm.dir * Math.min(.12, raw) / (zm.dir > 0 ? 1.5 : 1)));
@@ -804,7 +804,11 @@
     var ahead = full ? (stacked ? 4 - cardB / 2 * VH * fS / H / SIN : 7) : 4, sh = full ? (stacked ? 0 : cardR / 2 * VH / H) : (W >= 700 ? .16 * VH * W / H : 0), uc2 = uS + ahead;
     look.set(-uc2 * R2 + R2 * sh, 0, -uc2 * R2 - R2 * sh);
     if (full) { /* khung nhìn lấy từ bảng tính sẵn theo vị trí trên đường: đi nhanh hay chậm thì máy quay vẫn khớp đúng chỗ, không trễ */
-      var fr = frameAt(uc2); fS = fr[0]; shL = fr[1]; look.set(-uc2 * R2 - R2 * shL, 0, -uc2 * R2 + R2 * shL);
+      var fr = frameAt(uc2);
+      if (stacked) { /* màn hẹp: điểm nhìn phụ thuộc độ zoom, độ zoom phụ thuộc điểm nhìn -> giải trong cùng khung hình (trước đây lấy zoom của khung trước nên máy quay nhảy qua lại giữa hai vị trí) */
+        var fz = fS; for (var it = 0; it < 12; it++) { var u2 = uS + 4 - cardB / 2 * VH * fz / H / SIN, f2 = frameAt(u2)[0]; fz = fz + (f2 - fz) * .5; }
+        uc2 = uS + 4 - cardB / 2 * VH * fz / H / SIN; fr = frameAt(uc2); fr[0] = fz; }
+      fS = fr[0]; shL = fr[1]; look.set(-uc2 * R2 - R2 * shL, 0, -uc2 * R2 + R2 * shL);
     }
     if (ze > 0) look.lerp(zm.tg, ze); var zz = (1 + ze * (zm.z - 1)) / (full ? fS : 1); if (cam.zoom !== zz) { cam.zoom = zz; cam.updateProjectionMatrix(); }
     cam.position.copy(look).addScaledVector(DIR, 160); cam.lookAt(look);
@@ -866,6 +870,6 @@
     var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + uToP(uu - 6) * (root.offsetHeight - innerHeight);
     scrollTo({ top: Math.max(0, y), left: 0, behavior: 'instant' }); uT = uS = uu - 6; }
   toStage(); addEventListener('hashchange', toStage);
-  if (full) window.__j3d = { pV: pV, vOf: vOf, RS: RS, uNow: uNow, PASS: PASS, rbU: rbU, keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
+  if (full) window.__j3d = { look: function () { return [look.x, look.z, fS]; }, pV: pV, vOf: vOf, RS: RS, uNow: uNow, PASS: PASS, rbU: rbU, keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
   frame();
 })();
