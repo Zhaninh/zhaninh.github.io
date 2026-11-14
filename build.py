@@ -527,7 +527,9 @@ for lang in ('vi', 'en'):
         acts = f'<a href="{href}">{"Trang dự án" if vi_w else "Project page"} <i>→</i></a>'
         if pb_ and pb_[6]: acts += f'<a href="{pb_[6]}" rel="noopener">{"Bài báo" if vi_w else "Paper"} <i>↗</i></a>'
         acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_w else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(w['slug'], []))
-        return (f'<li class="reveal"><span class="py mono">{w["year"]}</span><div><a class="t" href="{href}">{E(title_of(w, lang))}</a>'
+        c = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
+        im = f'<a class="wl-img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, c)}" alt="" loading="lazy"></a>' if c else '<span class="wl-img"></span>'
+        return (f'<li class="reveal">{im}<div><span class="py mono">{w["year"]}</span><a class="t" href="{href}">{E(title_of(w, lang))}</a>'
                 f'<div class="s">{E(d["sub"])}</div><div class="v">{E(d["status"])} · {E(d["role"])}</div><div class="pl-acts">{acts}</div></div></li>')
     body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia, xếp theo mức độ nổi bật. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on, ordered by prominence. Projects that produced a paper are also listed under Publications.')
               + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in sorted(WORK, key=lambda w: w.get("rank", 99)))}</ol></div></section>')
