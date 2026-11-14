@@ -1349,3 +1349,8 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .plist .pl-acts a{font:500 14.5px var(--sans);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
 .plist .pl-acts a:hover{color:var(--leaf);border-color:var(--leaf)}.plist .pl-acts i{font-style:normal;color:var(--leaf)}
 @media (max-width:640px){.plist li{grid-template-columns:minmax(0,1fr);row-gap:8px;padding:32px 0}}
+/* ---- trang tất cả dự án ---- */
+.wlist{padding:clamp(24px,4vh,48px) 0 clamp(80px,12vh,140px)}
+.wlist .rc.big{margin-bottom:clamp(40px,6vh,64px)}
+.rgrid.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,4vw,48px)}
+@media (max-width:760px){.rgrid.two{grid-template-columns:minmax(0,1fr)}}

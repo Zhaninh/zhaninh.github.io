@@ -103,7 +103,7 @@ WORK = [
   en=dict(sub='A system-level survey: from monitoring to action.', role='Author of Section 6, Autonomous Decision-Making and Closed-Loop Control', where='Multi-institution collaboration', status='Preprint, under review',
           body=[('Overview', ['The survey connects four stages of smart aquaculture: sensing, AI-based understanding, decision-making and actuation. I wrote the section on autonomous decision-making and closed-loop control.'], [])]),
   links=[('Preprint', 'https://doi.org/10.13140/RG.2.2.24130.95688')]),
- dict(slug='vnplant', star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
+ dict(slug='vnplant', star=False, feat=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
   vi=dict(sub='Đánh giá nhiều mô hình học sâu trên bộ ảnh 255 loài cây thuốc Việt Nam.', role='Huấn luyện và đánh giá mô hình', where='Đại học FPT · cùng Đàm Nguyễn Quỳnh Hoa và Phạm Thị Thảo Nguyên', status='Dự án nhóm, không công bố',
           body=[('Bối cảnh', ['VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021) là bộ ảnh công khai đầu tiên về 200 loài cây thuốc Việt Nam. Nhóm chúng tôi mở rộng bộ này thành VNPlant-255: thêm 55 loài, tổng cộng khoảng 34.800 ảnh chụp ngoài thực địa, với ánh sáng, nền và góc chụp thay đổi tự nhiên.', 'Mục tiêu là một bộ chuẩn đánh giá cho bài toán phân loại chi tiết: so sánh mạng tích chập, Transformer, mô hình lai và mô hình gọn nhẹ trong cùng một cấu hình.'], []),
                 ('Cách đánh giá', [], ['Chia 80/10/10 cho huấn luyện, kiểm định, kiểm thử, giữ tỉ lệ từng loài.', 'Cùng độ phân giải 224 px, cùng kích thước lô, 20 epoch cho mọi mô hình.', 'Ghi lại độ chính xác, số tham số và chi phí tính toán để xét khả năng triển khai.']),
@@ -350,7 +350,7 @@ def toc_html(lang, path, key, twin):
     rows = [
      ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
-     ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
+     ('03', 'Dự án' if vi_ else 'Projects', r(U['work']), [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
      ('04', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('05', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
      ('06', 'Hành trình' if vi_ else 'Journey', r(U['journey']), [((when.split('–')[0] or ('Tiếp' if vi_ else 'Next')), (vi if vi_ else en)[0], r(U['journey']) + f'#stage-{i+1}') for i, (when, vi, en, nx, _) in enumerate(JOURNEY)]),
@@ -359,7 +359,7 @@ def toc_html(lang, path, key, twin):
     ]
     if path.startswith(U['workdir']): cur = '03'
     elif path.startswith(U['mdir']): cur = '04'
-    else: cur = {'journey': '06', 'hl': '07', 'pubs': '08', 'home': '01', 'about': '01'}.get(key, '')
+    else: cur = {'journey': '06', 'hl': '07', 'pubs': '08', 'work': '03', 'home': '01', 'about': '01'}.get(key, '')
     names = {n: h for n, h, _, _ in rows}
     start = 'Trang chủ' if vi_ else 'Home'
     li = ''
@@ -459,8 +459,8 @@ for lang in ('vi', 'en'):
         img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
-    others = [w for w in WORK if not w['star']]
-    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects")}'
+    others = [w for w in WORK if not w['star'] and w.get('feat', True)][:3]
+    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án tiêu biểu" if vi_ else "Selected projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
@@ -517,8 +517,17 @@ for lang in ('vi', 'en'):
                 f'<h3><a href="{href}">{E(title_of(w, lang))}</a></h3><p>{E(d["sub"])}</p>'
                 f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
                 f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
-    cards = ''.join(pcard(w) for w in WORK)
-    write(p, f'<!DOCTYPE html><meta charset="utf-8"><title>{t["pubs"]}</title><meta http-equiv="refresh" content="0;url={rel(p, U["pubs"])}"><link rel="canonical" href="{rel(p, U["pubs"])}"><a href="{rel(p, U["pubs"])}">{t["pubs"]}</a>')
+    def wcard(w, big=False):
+        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
+        c = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
+        img = f'<span class="rc-img" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
+        return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
+                f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if lang == "vi" else "Project page"} →</span></span></a>')
+    stars = [w for w in WORK if w['star']]; rest = [w for w in WORK if not w['star']]
+    vi_w = lang == 'vi'
+    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on. Projects that produced a paper are also listed under Publications.')
+              + f'<section class="wlist"><div class="wrap">{"".join(wcard(w, True) for w in stars)}<div class="rgrid two">{"".join(wcard(w) for w in rest)}</div></div></section>')
+    write(p, shell(lang, 'work', p, ('Dự án' if vi_w else 'Projects') + ' · Aaron', body_w))
     onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
     for w in WORK:
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'; vi_ = lang == 'vi'
@@ -564,7 +573,7 @@ for lang in ('vi', 'en'):
                 + (f'<nav class="pj-btns">{btns}</nav>' if btns else '') + f'</div></section>'
                 + f'<div class="x-wrap">{teaser}<p class="x-lead reveal">{E(d["sub"])}</p>'
                 + (f'<div class="x-stats reveal">{stats}</div>' if stats else '') + f'<div class="x-secs">{secs}</div>'
-                + f'<p class="pj-back"><a class="link js-back" href="{rel(p, U["home"])}#research">{"← Quay lại" if vi_ else "← Back"}</a></p></div>')
+                + f'<p class="pj-back"><a class="link js-back" href="{rel(p, U["work"])}">{"← Quay lại" if vi_ else "← Back"}</a></p></div>')
         write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
     # ---- công bố ----
     p = U['pubs']
