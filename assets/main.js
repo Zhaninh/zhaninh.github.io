@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded',function(){
           var dm=d.createElementNS(NS,'feDisplacementMap');dm.setAttribute('in','SourceGraphic');dm.setAttribute('in2','m');dm.setAttribute('scale',Math.min(30,H*.6));dm.setAttribute('xChannelSelector','R');dm.setAttribute('yChannelSelector','G');
           f.appendChild(fi);f.appendChild(dm);defs.appendChild(f);cache[key]=id}
         el.style.setProperty('--lens','url(#'+cache[key]+')')}
-      function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop,.j3d-card').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav'))lens(e)})}
+      function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop,.j3d-card,.totop').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav')||e.classList.contains('totop'))lens(e)})}
       var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});setTimeout(all,60);if(window.ResizeObserver){var ro=new ResizeObserver(function(es){es.forEach(function(e){lens(e.target)})});d.querySelectorAll('.nav,.toc-panel,.j3d-card').forEach(function(e){ro.observe(e)})}
       d.querySelectorAll('.pill,.toc-i,.toc-pp,.pill .pl').forEach(function(e){e.addEventListener('pointerenter',function(){setTimeout(all,30)},{passive:true});e.addEventListener('click',function(){setTimeout(all,30)})})}
   })();

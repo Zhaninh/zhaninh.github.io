@@ -786,5 +786,10 @@
     var uu = a.o.userData.u, y = root.getBoundingClientRect().top + scrollY + (uu - 6 - U0) / (uEnd - U0) * (root.offsetHeight - innerHeight);
     scrollTo(0, y); uT = uS = uu - 6; openP(a, true);
   });
+  /* #stage-N: mở trang hành trình ngay tại giai đoạn N (dùng cho mục con trong mục lục) */
+  function toStage() { var m = /^#stage-(\d+)$/.exec(location.hash); if (!full || !m) return; var k = +m[1] - 1; if (!(k >= 0 && k < mainU.length)) return;
+    var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + (uu - 6 - U0) / (uEnd - U0) * (root.offsetHeight - innerHeight);
+    scrollTo({ top: Math.max(0, y), left: 0, behavior: 'instant' }); uT = uS = uu - 6; }
+  toStage(); addEventListener('hashchange', toStage);
   frame();
 })();

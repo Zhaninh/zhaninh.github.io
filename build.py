@@ -94,6 +94,11 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
 
 FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
 STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
+ ('2023-09-05', '09–12.2023', 'Quy Nhơn, Bình Định', 'Quy Nhon, Binh Dinh',
+  'Ba tháng thực tập ở FPT Software Quy Nhơn AI Valley', 'Three months at FPT Software Quy Nhon AI Valley',
+  'Kỳ thực tập đầu tiên của tôi, từ tháng 9 đến tháng 12/2023, cùng các bạn sinh viên Đại học FPT. Tôi tham gia ba dự án: phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R, một ứng dụng Smart Menu, và xây dựng bộ dữ liệu chữ viết tay tiếng Việt cho một cuộc thi OCR. Đây là tấm ảnh hiếm hoi tôi có lúc làm việc; tôi là người chụp nên không có mặt trong ảnh. Phần lớn ảnh còn lại ở Quy Nhơn là biển và những chuyến đi cuối tuần.',
+  'My first internship, from September to December 2023, together with fellow FPT University students. I worked on three projects: Vietnamese review analysis with PhoBERT and XLM-R, a Smart Menu application, and a Vietnamese handwriting dataset for an OCR competition. This is one of the few photos I have from work; I took it, so I am not in it. Most of my other photos from Quy Nhon are of the sea and weekend trips.',
+  ['aivalley_0'], [('Facebook', 'https://www.facebook.com/share/1M2dTchPix/'), ('Facebook', 'https://www.facebook.com/share/p/1FQpTYngum/')], ['Thực tập', 'FPT Software']),
  ('2026-10-25', '24–26.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
   'Gian triển lãm GREEN-X tại Ngày hội Chuyển đổi số', 'GREEN-X booth at the Digital Transformation Expo',
   'Lần đầu GREEN-X có gian trưng bày riêng, giới thiệu giải pháp cho đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển. Robot đại dương phát triển cùng VinaTech là điểm dừng chân đông khách nhất.',
@@ -125,7 +130,7 @@ STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi,
   'I joined GREEN-X as a research assistant just before the centre moved into its new office. My first weeks began with an orientation alongside the new postdoctoral researchers and research assistants, and then the whole team moved into the new workspace on level 5 of Building I. A start shared with many new faces.',
   ['orientation_0', 'newhome_0', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/'), (FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X', 'Cột mốc']),
 ]
-TAG_EN = {'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
+TAG_EN = {'Thực tập': 'Internship', 'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
 
 NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id) | ('work', slug) | None)
  ('10.2026', 'GREEN-X lần đầu có gian trưng bày tại Ngày hội Chuyển đổi số Khánh Hòa 2026.', 'GREEN-X ran its first exhibition booth at Khanh Hoa Digital Transformation Day 2026.', ('hl', 'expo')),
@@ -142,20 +147,20 @@ MENTORS = [
           edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
           areas='Hệ tự hành và trí tuệ nhân tạo; UAV; thị giác máy tính cho robot; SLAM, lập kế hoạch đường đi và điều khiển chuyển động; trí tuệ bầy đàn và IoT.',
           awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Chính phủ Úc (2015)'],
-          withme='Thầy là người hướng dẫn trực tiếp các nghiên cứu của tôi tại Trung tâm GREEN-X, VinUniversity.'),
+          withme='Người định hướng nghiên cứu của tôi tại GREEN-X: thầy theo sát từng dự án, từ lúc đặt bài toán đến khi công bố.'),
   en=dict(name='Dr. Phung Manh Duong', title='Assistant Professor in AI & Robotics, CECS, VinUniversity', role='Direct supervisor (PI) · GREEN-X', short='Assistant Professor · AI & Robotics', lead='Works on autonomous systems, UAVs and robot vision, with more than fifteen years of teaching and research, nearly a decade of it in Australia.', facts=['PhD, VNU Hanoi', 'Postdoc, UTS', 'IEEE Senior Member', 'Three Best Paper Awards'],
           bio='Assistant Professor in AI and Robotics at the College of Engineering and Computer Science (CECS), VinUniversity, and a Senior Member of IEEE. Before joining VinUni he taught and researched for many years at the University of Technology Sydney and Western Sydney University.',
           edu=['PhD in Electronic Engineering, Vietnam National University, Hanoi (2015)', 'Postdoc in Mechatronic Engineering, University of Technology Sydney (2017)'],
           areas='Autonomous systems and AI; UAVs; robot vision; SLAM, path planning and motion control; swarm intelligence and IoT.',
           awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Australian Government (2015)'],
-          withme='He directly supervises my research at the GREEN-X centre, VinUniversity.'),
+          withme='The person who sets the direction of my research at GREEN-X, following each project from framing the problem to publication.'),
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
- dict(slug='dinh-van-dung', photo='dung', org='', guided=[],
-  vi=dict(name='Thầy Đinh Văn Dũng', title='', role='Làm việc và hướng dẫn trực tiếp', short='Người hướng dẫn', lead='', facts=[], bio='', edu=[], areas='', awards=[],
-          withme='Thầy làm việc trực tiếp và hướng dẫn tôi trong công việc nghiên cứu.'),
-  en=dict(name='Dinh Van Dung', title='', role='Works with me directly', short='Mentor', lead='', facts=[], bio='', edu=[], areas='', awards=[],
-          withme='He works with me directly and guides my research work.'),
+ dict(slug='dinh-van-dung', photo='dung', org='Information Technology Institute · Vietnam National University, Hanoi', guided=[('ntcoral', 'Điều phối khảo sát thực địa, làm việc trực tiếp với tôi.', 'Coordinates the field surveys and works with me directly.')],
+  vi=dict(name='TS. Đinh Văn Dũng', title='Nghiên cứu viên cao cấp, Viện Công nghệ Thông tin, ĐHQG Hà Nội', role='Nghiên cứu viên (Research Associate) · GREEN-X', short='Senior Researcher · ĐHQG Hà Nội', lead='', facts=['Nghiên cứu viên cao cấp, Viện Công nghệ Thông tin, ĐHQG Hà Nội', 'Research Associate, GREEN-X, VinUniversity'], bio='', edu=[], areas='', awards=[],
+          withme='Người cùng tôi làm việc hằng ngày: thầy điều phối các chuyến khảo sát thực địa và trực tiếp góp ý cho công việc của tôi.'),
+  en=dict(name='Dr. Dinh Van Dzung', title='Senior Researcher, Information Technology Institute, Vietnam National University, Hanoi', role='Research Associate · GREEN-X', short='Senior Researcher · VNU Hanoi', lead='', facts=['Senior Researcher, Information Technology Institute, VNU Hanoi', 'Research Associate, GREEN-X, VinUniversity'], bio='', edu=[], areas='', awards=[],
+          withme='The person I work with day to day: he coordinates our field surveys and gives direct feedback on my work.'),
   links=[]),
  dict(slug='do-danh-cuong', photo='cuong',
   guided=[],
@@ -164,13 +169,13 @@ MENTORS = [
           edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
           areas='Cảm biến MEMS và mạch tiêu thụ năng lượng thấp; thu hoạch năng lượng và mạng cảm biến không dây; tối ưu lưới điện thông minh và trạm sạc xe điện; AI cho tín hiệu y sinh (ECG) và chẩn đoán tại chỗ.',
           awards=[],
-          withme='Thầy là đồng chủ nhiệm (Co-PI) tại Trung tâm GREEN-X, VinUniversity, nơi tôi làm trợ lý nghiên cứu.'),
+          withme='Đồng chủ nhiệm các dự án tại GREEN-X, nơi tôi làm trợ lý nghiên cứu.'),
   en=dict(name='Dr. Do Danh Cuong', title='Assistant Professor, CECS, VinUniversity', role='Co-principal investigator (Co-PI) · GREEN-X', short='Assistant Professor · MESSI Lab', lead='Works on MEMS sensors, energy systems and AI for biomedical signals; formerly a research associate at the University of Cambridge.', facts=['PhD, Cork Institute of Technology', 'Research Associate, University of Cambridge', 'Leads the MESSI Lab'],
           bio='Assistant Professor at the College of Engineering and Computer Science (CECS), VinUniversity, where he leads the MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). He was previously a research associate in the Engineering Department, University of Cambridge (2013–2017).',
           edu=['BS in Electronics, Vietnam National University, Hanoi (2004)', 'MEng in Electronics and Semiconductor, Chungbuk National University, Korea (2007)', 'PhD in Electronics Engineering, Cork Institute of Technology, Ireland (2012)'],
           areas='MEMS sensors and low-power circuits; energy harvesting and wireless sensor networks; smart-grid and EV-charging optimisation; AI for biomedical signals (ECG) and point-of-care diagnostics.',
           awards=[],
-          withme='He is a co-principal investigator at the GREEN-X centre, VinUniversity, where I work as a research assistant.'),
+          withme='Co-principal investigator of the projects at GREEN-X, where I work as a research assistant.'),
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/do-danh-cuong/'), ('VinUniversity', 'https://research.vinuni.edu.vn/person/do-cuong-danh/'), ('MESSI Lab', 'https://sites.google.com/view/messi-lab'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=_NdIi4AAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0003-4785-4524'), ('dblp', 'https://dblp.org/pid/27/10702')]),
 ]
@@ -266,6 +271,7 @@ EDU = [('2021 – 2025', ('Cử nhân Công nghệ thông tin, chuyên ngành Tr
                         ('Bachelor in Information Technology, Artificial Intelligence specialisation', 'FPT University, Ho Chi Minh City', 'Capstone: an automatic lip reading system based on deep learning. Honor Student, Summer 2023.'))]
 EXP = [('04.2026 –', ('Trợ lý nghiên cứu', 'GREEN-X, VinUniversity · Hà Nội'), ('Research Assistant', 'GREEN-X, VinUniversity · Hanoi')),
        ('07.2025 – 04.2026', ('Chuyên viên công nghệ (nhánh nghiên cứu AI)', 'VinBigData · Hà Nội'), ('Technology Specialist (AI research track)', 'VinBigData · Hanoi')),
+       ('11.2024 – 05.2025', ('Trợ giảng lập trình', 'Học viện Công nghệ TEKY · TP. Hồ Chí Minh'), ('Programming teaching assistant', 'TEKY Academy of Technology · Ho Chi Minh City')),
        ('01.2024 – 07.2025', ('Nghiên cứu viên AI', 'Perception Technology Solutions · làm từ xa'), ('AI Researcher', 'Perception Technology Solutions · remote')),
        ('09 – 12.2023', ('Thực tập sinh kỹ sư AI', 'FPT Software Quy Nhơn AI Valley · Quy Nhơn'), ('AI Engineer Intern', 'FPT Software Quy Nhon AI Valley · Quy Nhon'))]
 ABOUT_SECS = {'vi': [('bio', 'Tiểu sử'), ('interests', 'Hướng nghiên cứu'), ('education', 'Học vấn'), ('experience', 'Kinh nghiệm'), ('selected', 'Công bố tiêu biểu')],
@@ -306,7 +312,7 @@ def toc_html(lang, path, key, twin):
      ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
      ('04', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('05', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
-     ('06', 'Hành trình' if vi_ else 'Journey', r(U['journey']), []),
+     ('06', 'Hành trình' if vi_ else 'Journey', r(U['journey']), [((when.split('–')[0] or ('Tiếp' if vi_ else 'Next')), (vi if vi_ else en)[0], r(U['journey']) + f'#stage-{i+1}') for i, (when, vi, en, nx, _) in enumerate(JOURNEY)]),
      ('07', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
      ('08', 'Công bố' if vi_ else 'Publications', r(U['pubs']), []),
     ]

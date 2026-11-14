@@ -1251,3 +1251,14 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
   .jbtn{padding-top:10px;padding-bottom:10px}
   .hero{--hg:clamp(16px,3vh,32px);--hd:clamp(8px,1.6vh,16px)}
 }
+/* trang Giới thiệu: số thứ tự mỗi phần to, rõ để các phần tách bạch */
+.ab-h{gap:14px}
+.ab-h .mono{font:400 clamp(40px,4.4vw,60px)/.9 var(--serif);color:var(--leaf-mid);letter-spacing:-.02em}
+.ab-s{border-top:1px solid color-mix(in srgb,var(--leaf-mid) 35%,var(--line))}
+@media (max-width:820px){.ab-h{flex-direction:row;align-items:baseline;gap:16px}.ab-h .mono{font-size:40px}}
+/* nút lên đầu trang: cùng chất kính với topbar */
+.totop{background:none;color:var(--leaf);isolation:isolate;border:1px solid color-mix(in srgb,var(--line) 75%,#fff);box-shadow:0 14px 34px -18px rgba(10,20,12,.42),0 1px 2px rgba(10,20,12,.08);opacity:1!important;transform:scale(.6);transition:transform .3s var(--ease),visibility 0s .3s,box-shadow .3s}
+.totop::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--glass);backdrop-filter:var(--lens,) var(--glass-fx);-webkit-backdrop-filter:var(--glass-fx);box-shadow:var(--rim)}
+.totop.show{transform:none;transition:transform .3s var(--ease),visibility 0s,box-shadow .3s}
+.totop:hover{transform:translateY(-2px);box-shadow:0 0 0 3px color-mix(in srgb,var(--leaf-bright) 35%,transparent),0 14px 34px -18px rgba(10,20,12,.42)}
+.hg.n1{max-width:min(100%,760px)}
