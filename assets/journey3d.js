@@ -762,12 +762,12 @@
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
   var fS = 1, shL = 0, fInit = true, vF = 0, vS = 0;
   var uT = U0, uS = U0, clock = new T.Clock(), visible = true, tAuto = 0;
-  var CWs = [], CWt = 0; (function () { /* tốc độ theo đoạn: lên đèo rất chậm, đổ đèo chậm vừa, đường xấu chậm khoảng 20 lần, vào bùng binh giảm ga */
+  var CWs = [], CWt = 0; (function () { /* tốc độ theo đoạn: lên đèo chậm 6 lần, đổ đèo chậm vừa, đường xấu chậm 18 lần, vào bùng binh giảm ga */
     for (var u = U0; u <= uEnd + .25; u += .5) { var w = 1;
       if (PASS) { var mid = (PASS[0] + PASS[1]) / 2, e0 = Math.min(1, (u - PASS[0] + 4) / 6), e1 = Math.min(1, (PASS[1] + 4 - u) / 6);
-        if (u < mid && e0 > 0) w += 4.5 * e0; else if (u >= mid && e1 > 0) w += 1.5 * e1; }
-      rbU.forEach(function (rb) { var c = 1 - Math.abs(u - rb) / 10; if (c > 0) w += 2.5 * c * c * (3 - 2 * c); });
-      rough.forEach(function (rg) { var b = Math.min(u - rg.r[0] + 5, rg.r[1] + 3 - u) / 4; if (b > 0) w += 19 * Math.min(1, b); });
+        if (u < mid && e0 > 0) w += 5 * e0; else if (u >= mid && e1 > 0) w += 1.5 * e1; }
+      rbU.forEach(function (rb) { var c = 1 - Math.abs(u - (rb - 8)) / 8; if (c > 0) w += 2.5 * c * c * (3 - 2 * c); var c2 = 1 - Math.abs(u - rb) / 6; if (c2 > 0) w += .8 * c2 * c2 * (3 - 2 * c2); }); /* giảm ga mạnh nhất ngay trước khi vào bùng binh */
+      rough.forEach(function (rg) { var b = Math.min(u - rg.r[0] + 5, rg.r[1] + 3 - u) / 4; if (b > 0) w += 17 * Math.min(1, b); });
       CWs.push(CWt); CWt += w * .5; }
     if (full) root.style.height = 'calc(' + (getComputedStyle(root).getPropertyValue('--n') || n) + ' * 105vh * ' + (CWt / (uEnd - U0)).toFixed(3) + ')'; /* trang dài thêm để đường thường giữ tốc độ cũ */
   })(); /* đoạn đèo và đoạn đường xấu: xe đi chậm lại để người đọc thấy dốc, thấy xe rung lắc và đọc khó khăn */
