@@ -286,8 +286,8 @@ def about_page(lang, t, U):
     dg = next(m for m in MENTORS if m['slug'] == 'phung-manh-duong')
     lk = (f'<a href="{rel(p, "assets/Aaron_CV.pdf")}">CV ↓</a><a href="{SCHOLAR}" rel="noopener">Google Scholar</a><a href="https://github.com/Zhaninh" rel="noopener">GitHub</a>'
           f'<a href="{LINKEDIN}" rel="noopener">LinkedIn</a><a href="mailto:{EMAIL_WORK}">Email</a>')
-    head_ = (f'<section class="mx ab-top"><div class="wrap"><div class="mx-grid"><div class="mx-l"><figure class="mx-ph" style="view-transition-name:me"><img src="{rel(p, "assets/people/aaron_tall.webp")}" alt="{E(t["name"].replace("<br>", " "))}"></figure></div>'
-             f'<div class="mx-b"><div class="mx-k">{"Giới thiệu" if vi_ else "About"}</div><h1 style="view-transition-name:nm">{t["name"]}</h1><p class="mx-org">Aaron · {E(t["myrole"])}</p>'
+    head_ = (f'<section class="mx ab-top"><div class="wrap"><div class="mx-grid"><div class="mx-l"><figure class="mx-ph"><img src="{rel(p, "assets/people/aaron_tall.webp")}" alt="{E(t["name"].replace("<br>", " "))}"></figure></div>'
+             f'<div class="mx-b"><div class="mx-k">{"Giới thiệu" if vi_ else "About"}</div><h1>{t["name"]}</h1><p class="mx-org">Aaron · {E(t["myrole"])}</p>'
              f'<p class="mx-lead">{t["bio"]}</p>'
              f'<ul class="mx-facts"><li>{"Người hướng dẫn" if vi_ else "Supervisor"}: <a href="{rel(p, U["mdir"] + dg["slug"] + ".html")}">{E(dg[lang]["name"])}</a></li></ul>'
              f'<nav class="mx-links">{lk}</nav></div></div></div></section>')
@@ -411,7 +411,7 @@ for lang in ('vi', 'en'):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
         img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
-                f'<span class="rc-t" style="view-transition-name:p-{w['slug']}">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
+                f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
     research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
@@ -426,17 +426,17 @@ for lang in ('vi', 'en'):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
         ini = ''.join(w_[0] for w_ in m['en']['name'].replace('Dr. ', '').split()[:3:2]) if m['en']['name'].count(' ') >= 2 else m['en']['name'][:2]
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
-        return (f'<a class="mc reveal" href="{href}"><span class="mc-av" style="view-transition-name:m-{m['slug']}">{av}</span><span class="mc-b"><span class="mc-n" style="view-transition-name:mn-{m['slug']}">{E(d["name"])}</span>'
+        return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
                 + (f'<span class="mc-t">{E(d["title"])}</span>' if d['title'] else '') + f'<span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
     mentor_html = f'<section class="mentors" id="mentors" data-toc="04"><div class="wrap">{sec_head("04", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero" id="about" data-toc="01"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
-<h1 class="name" style="view-transition-name:nm">{t['name']}</h1>
+<h1 class="name">{t['name']}</h1>
 <p class="role">{t['role_pre']} <a class="gxt" href="{GREENX}">GREEN-X, VinUniversity</a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
 <p class="bio">{t['bio']} <a class="bio-more" href="{rel(p, U['about'])}">{'Giới thiệu đầy đủ' if vi_ else 'Full profile'}&nbsp;→</a></p>
 <a class="jbtn" href="{rel(p, U['journey'])}"><span class="ji"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42c0-10 14-8 16-18S14 12 18 6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 6"/><circle cx="18" cy="6" r="4" fill="currentColor"/><circle cx="8" cy="42" r="3" fill="currentColor"/></svg></span><span class="jt"><b>{t['go_journey']}</b><small>{t['j_sub']}</small></span><span class="ja"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a></div>
-<figure class="pfig reveal"><div class="portrait"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" style="view-transition-name:me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></figure></div>
+<figure class="pfig reveal"><div class="portrait"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></figure></div>
 <p class="hslogan reveal"><span>{t['slogan']}</span></p>
 <div class="kontakt reveal"><div class="kbar"><a class="km" href="mailto:{EMAIL_WORK}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_work']}</span><span class="kv">{EMAIL_WORK}</span></a><i class="ksep"></i><a class="km" href="mailto:{EMAIL}"><span class="kic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="kk">{t['mail_me']}</span><span class="kv">{EMAIL}</span></a><i class="ksep k2"></i><nav class="kl"><a href="{rel(p, 'assets/Aaron_CV.pdf')}">CV<i>↓</i></a><a href="{SCHOLAR}">Scholar<i>↗</i></a><a href="https://github.com/Zhaninh">GitHub<i>↗</i></a><a href="{LINKEDIN}">LinkedIn<i>↗</i></a></nav></div></div></div></section>
 {news_html}
@@ -475,7 +475,7 @@ for lang in ('vi', 'en'):
     for w in WORK:
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'
         parts, lk = proj_parts(w, lang)
-        body = head(title_of(w, lang), d['sub'], w['year']).replace('<h1>', f'<h1 style="view-transition-name:p-{w["slug"]}">', 1) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link js-back" href="{rel(p, U['pubs'])}">{'← Quay lại' if lang == 'vi' else '← Back'}</a></p></div>
+        body = head(title_of(w, lang), d['sub'], w['year']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}<p style="margin-top:48px"><a class="link js-back" href="{rel(p, U['pubs'])}">{'← Quay lại' if lang == 'vi' else '← Back'}</a></p></div>
 <aside class="box"><h4>{t['role']}</h4><div>{E(d['role'])}</div><h4>{t['where']}</h4><div>{E(d['where'])}</div><h4>{t['status']}</h4><div>{E(d['status'])}</div><h4>{t['links']}</h4>{lk}</aside></div></section>'''
         write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
     # ---- công bố ----
@@ -496,8 +496,8 @@ for lang in ('vi', 'en'):
         lk = ''.join(f'<a href="{u}" rel="noopener">{E(n)}</a>' for n, u in m['links'])
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
-                f'<div class="mx-l"><figure class="mx-ph" style="view-transition-name:m-{m["slug"]}">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
-                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1 style="view-transition-name:mn-{m["slug"]}">{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m.get("org", True) else '')
+                f'<div class="mx-l"><figure class="mx-ph">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m.get("org", True) else '')
                 + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
                 + f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
                 + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')

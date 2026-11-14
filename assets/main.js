@@ -29,9 +29,9 @@ document.addEventListener('DOMContentLoaded',function(){
       plg.addEventListener('mouseenter',lo);plg.addEventListener('mouseleave',lc);pp.addEventListener('mouseenter',lo);pp.addEventListener('mouseleave',lc);
       pl.addEventListener('click',function(){tc.classList.remove('lgo')})}
     /* màn hình ngang rộng: bảng mục lục mở ra ở khoảng trống bên phải thanh trên, không che nội dung */
-    var nav=d.querySelector('.nav');var yd=false;function unyield(){if(!yd)return;yd=false;nav.style.maxWidth='';nav.style.marginLeft=''}
-    function side(){unyield();if(innerWidth<1100){if(tc.classList.contains('side'))tc.classList.remove('side');return}var r=nav.getBoundingClientRect(),sp=innerWidth-r.right-24,z=Math.max(.8,Math.min(1,sp/356));tc.style.setProperty('--tz',z.toFixed(3));if(!tc.classList.contains('side'))tc.classList.add('side');
-      if(tc.classList.contains('open')&&sp<356*z){var need=356*z+24+16;yd=true;nav.style.marginLeft=r.left+'px';nav.style.maxWidth=Math.round(innerWidth-r.left-need)+'px'}}
+    var nav=d.querySelector('.nav');var yd=false,yt;function unyield(now){if(!yd)return;yd=false;nav.style.maxWidth='';clearTimeout(yt);if(now)nav.style.marginLeft='';else yt=setTimeout(function(){if(!yd)nav.style.marginLeft=''},450)}
+    function side(ev){unyield(ev&&ev.type==='resize');if(innerWidth<1100){if(tc.classList.contains('side'))tc.classList.remove('side');return}var r=nav.getBoundingClientRect(),sp=innerWidth-r.right-24,z=1;tc.style.setProperty('--tz',z.toFixed(3));if(!tc.classList.contains('side'))tc.classList.add('side');
+      if(tc.classList.contains('open')&&sp<356*z){var need=356*z+24+16;yd=true;clearTimeout(yt);nav.style.marginLeft=r.left+'px';nav.style.maxWidth=Math.round(innerWidth-r.left-need)+'px'}}
     addEventListener('resize',side);side();var lo_=false;new MutationObserver(function(){var o=tc.classList.contains('open');if(o!==lo_){lo_=o;side()}}).observe(tc,{attributes:true,attributeFilter:['class']});
     var secs=[].slice.call(d.querySelectorAll('[data-toc]'));
     if(secs.length){var nm=JSON.parse(tc.getAttribute('data-names')),pn=pl.querySelector('.pn'),pt=pl.querySelector('.pt'),last='-';

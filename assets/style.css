@@ -12,7 +12,7 @@
   --r:10px; --w:1120px; --ease:cubic-bezier(.2,.7,.2,1);
 }
 @view-transition{navigation:auto}
-::view-transition-old(root){animation:.25s ease both vt-out}::view-transition-new(root){animation:.45s var(--ease) both vt-in}
+::view-transition-old(root){animation:.18s ease both vt-out}::view-transition-new(root){animation:.22s ease both vt-fade}
 @keyframes vt-out{to{opacity:0}}@keyframes vt-in{from{opacity:0;transform:translateY(12px)}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 19px/1.65 var(--serif);-webkit-font-smoothing:antialiased;
@@ -1162,7 +1162,9 @@ html.rs .reveal{transition:none!important}
 /* ô nội dung trên bản đồ hành trình: cùng chất kính với topbar */
 .j3d-card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;isolation:isolate;border-color:color-mix(in srgb,var(--line) 75%,#fff);box-shadow:0 14px 34px -18px rgba(10,20,12,.42),0 1px 2px rgba(10,20,12,.08)}
 .j3d-card::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--glass);backdrop-filter:var(--lens,) var(--glass-fx);-webkit-backdrop-filter:var(--glass-fx);box-shadow:var(--rim);pointer-events:none}
-::view-transition-old(root){animation-duration:.3s}::view-transition-new(root){animation-duration:.55s}
+
 .nav{transition:max-width .4s var(--ease),color .3s}
 @media (max-width:1099px){.toc.side .toc-panel{zoom:1}}
 @media (min-width:821px){.pfig .portrait{margin-bottom:7%}}
+
+@keyframes vt-fade{from{opacity:0}}
