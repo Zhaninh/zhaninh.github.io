@@ -294,7 +294,7 @@ def toc_html(lang, path, key, twin):
             f'<span class="dot" aria-hidden="true"></span><span class="pn">{cn}</span><span class="pt">{E(ct)}</span><i class="psep"></i>'
             f'<span class="pl">{lang.upper()}</span><i class="psep"></i><span class="hbg" aria-hidden="true"><i></i><i></i><i></i></span></button>'
             f'<div class="toc-lgpop pill-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div>'
-            f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot">{langbox}<i class="fsep"></i><div class="toc-icons">{icons}</div></div></div></div></header>')
+            f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot"><div class="toc-icons">{icons}</div></div></div></div></header>')
 
 def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'

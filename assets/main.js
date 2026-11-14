@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded',function(){
     tc.querySelectorAll('.toc-pp').forEach(function(pp){pp.querySelector('button').addEventListener('click',function(e){e.stopPropagation();var o=!pp.classList.contains('open');tc.querySelectorAll('.toc-pp.open').forEach(function(x){x.classList.remove('open')});pp.classList.toggle('open',o)})});
     /* rê chuột vào ngôn ngữ đang dùng trên nút (VI/EN) cũng mở danh sách ngôn ngữ, ngay dưới chữ đó */
     var plg=pl.querySelector('.pl'),pp=tc.querySelector('.pill-lgpop'),lt=null;
-    if(plg&&pp&&fine){function lo(){clearTimeout(lt);if(tc.classList.contains('open'))return;var a=plg.getBoundingClientRect(),b=tc.getBoundingClientRect();pp.style.left=Math.min(a.left+a.width/2-b.left,b.width+9-pp.offsetWidth/2)+'px';tc.classList.add('lgo')}
+    function posLg(){var a=plg.getBoundingClientRect(),o=(pp.offsetParent||tc).getBoundingClientRect(),nr=d.querySelector('.nav').getBoundingClientRect();pp.style.left=(Math.min(a.left+a.width/2,nr.right-pp.offsetWidth/2)-o.left)+'px'}
+    if(plg&&pp&&!fine)plg.addEventListener('click',function(e){e.stopPropagation();setO(false);posLg();tc.classList.toggle('lgo')});
+    d.addEventListener('click',function(e){if(!pp||!pp.contains(e.target))tc.classList.remove('lgo')});
+    if(plg&&pp&&fine){function lo(){clearTimeout(lt);if(tc.classList.contains('open'))return;posLg();tc.classList.add('lgo')}
       function lc(){lt=setTimeout(function(){tc.classList.remove('lgo')},160)}
       plg.addEventListener('mouseenter',lo);plg.addEventListener('mouseleave',lc);pp.addEventListener('mouseenter',lo);pp.addEventListener('mouseleave',lc);
       pl.addEventListener('click',function(){tc.classList.remove('lgo')})}
