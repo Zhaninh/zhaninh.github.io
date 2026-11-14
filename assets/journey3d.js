@@ -26,18 +26,24 @@
   var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 105 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
   gateU[n - 1] = uNow + 6; mainU[n - 1] = uGoal;
   var rough = [];
-  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 73, uSea + 79] : [mainU[k] + 48, mainU[k] + 54], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
-  var rbU = []; /* các bùng binh ở ngã rẽ */
+  stages.forEach(function (s, k) { if (s.lesson && k <= nowIdx) rough.push({ r: k === seaI ? [uSea + 73, uSea + 79] : k === 0 && stages[0].icon === 'school' ? [mainU[k] + 53, mainU[k] + 58] : [mainU[k] + 48, mainU[k] + 54], kind: s.obstacle || 'holes' }); }); /* đường xấu nằm ngay trước dự án gặp khó khăn, không nằm trước cổng trường */
+  var rbU = [], RB = 1.45; /* RB: độ to của bùng binh */ /* các bùng binh ở ngã rẽ */
 
   /* ---------- hình học ---------- */
   var R2 = Math.SQRT1_2, AMP = 7.5, K = Math.PI / 28, RW = 2.25, RS = U0 - 46;
   function vOf(u) { return AMP * Math.sin(u * K); }
   function pV(u, v, y) { return new T.Vector3((-u + v) * R2, y || 0, (-u - v) * R2); }
   function tan(u) { var d = AMP * K * Math.cos(u * K), x = (-1 + d) * R2, z = (-1 - d) * R2, l = Math.hypot(x, z); return { x: x / l, z: z / l }; }
-  function pos(u, off, y) { var p = pV(u, vOf(u), y); if (off) { var t = tan(u); p.x += -t.z * off; p.z += t.x * off; } return p; }
+  /* đèo AI Valley: đoạn đường sau bùng binh của giai đoạn đầu lên dốc rồi xuống dốc; mặt đất nhô lên thành sống đồi theo đường */
+  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 16, mainU[0] + 34] : null, PH = 3.4;
+  function hU(u) { if (!PASS || u <= PASS[0] || u >= PASS[1]) return 0; var q = Math.sin(Math.PI * (u - PASS[0]) / (PASS[1] - PASS[0])); return PH * q * q; }
+  function bell(off) { var a = Math.abs(off || 0); if (a <= 12) return 1; if (a >= 22) return 0; var q = 1 - (a - 12) / 10; return q * q * (3 - 2 * q); }
+  function terr(u, off) { return hU(u) * bell(off); }
+  function inPass(u, off, m) { return PASS && u > PASS[0] - (m || 0) && u < PASS[1] + (m || 0) && Math.abs(off || 0) < 22 + (m || 0); }
+  function pos(u, off, y) { var p = pV(u, vOf(u), y); if (off) { var t = tan(u); p.x += -t.z * off; p.z += t.x * off; } p.y += terr(u, off); return p; }
   function strip(u0, u1, fa, fb, y, mat) {
     var P = [], I = [], k = 0;
-    for (var u = u0; u <= u1 + 1e-6; u += .5, k++) { var a = fa(u), b = fb(u); P.push(a.x, y, a.z, b.x, y, b.z); if (k) { var i = k * 2; I.push(i - 2, i - 1, i, i - 1, i + 1, i); } }
+    for (var u = u0; u <= u1 + 1e-6; u += .5, k++) { var a = fa(u), b = fb(u); P.push(a.x, y + a.y, a.z, b.x, y + b.y, b.z); if (k) { var i = k * 2; I.push(i - 2, i - 1, i, i - 1, i + 1, i); } }
     var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setIndex(I); g.computeVertexNormals();
     var m = new T.Mesh(g, mat); m.receiveShadow = true; return m;
   }
@@ -106,7 +112,7 @@
   }
   function drive(u, sg, p, r) { /* lối vào ngắn nối đường với nền công trình */
     if (!p) return; var a = pos(u, sg * RW), dx = p.x - a.x, dz = p.z - a.z, L = Math.hypot(dx, dz) - r + .4; if (L < .5) return;
-    var d = box(L, .04, 1.5, C.shoulder, a.x + dx / Math.hypot(dx, dz) * L / 2, .1, a.z + dz / Math.hypot(dx, dz) * L / 2, SM); d.rotation.y = -Math.atan2(dz, dx); d.castShadow = false; scene.add(d);
+    var d = box(L, .04, 1.5, C.shoulder, a.x + dx / Math.hypot(dx, dz) * L / 2, .1, a.z + dz / Math.hypot(dx, dz) * L / 2, SM); d.position.y = .1 + (a.y + (p.y || 0)) / 2; d.rotation.y = -Math.atan2(dz, dx); d.castShadow = false; scene.add(d);
   }
 
   if (seaOn) {
@@ -151,6 +157,23 @@
   }
 
   /* ---------- đường: lề, nhựa, vạch. Mỗi lớp một cao độ riêng để không bị nhấp nháy ---------- */
+  if (PASS) (function () {
+    var P = [], I = [], CL = [], cols = 0, rows = 0, u, o;
+    for (u = PASS[0] - 1; u <= PASS[1] + 1; u += .5, rows++) { cols = 0; for (o = -24; o <= 24.01; o += 1.5, cols++) { var q = pos(u, o), f = Math.pow(Math.min(1, q.y / PH), .6); P.push(q.x, q.y - .02, q.z); CL.push(.984 + (.73 - .984) * f, .992 + (.86 - .992) * f, .973 + (.55 - .973) * f); } }
+    for (var r = 0; r < rows - 1; r++) for (var c = 0; c < cols - 1; c++) { var a = r * cols + c, b = a + cols; I.push(a, b, a + 1, a + 1, b, b + 1); }
+    var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setAttribute('color', new T.Float32BufferAttribute(CL, 3)); g.setIndex(I); g.computeVertexNormals();
+    var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 1, side: T.DoubleSide })); hill.receiveShadow = true; scene.add(hill);
+    function plate(txt) { var cv = document.createElement('canvas'); cv.width = 256; cv.height = 96; var x = cv.getContext('2d'); x.fillStyle = '#1F5FA8'; x.fillRect(0, 0, 256, 96); x.strokeStyle = '#fff'; x.lineWidth = 6; x.strokeRect(6, 6, 244, 84); x.fillStyle = '#fff'; x.font = '600 40px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(txt, 128, 50); return new T.Mesh(new T.PlaneGeometry(1.5, .56), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); }
+    function slope(uu, up, txt) { /* biển báo dốc: tam giác vàng có hình dốc, kèm bảng tên đèo */
+      var sp = pos(uu, -S * (RW + 1.3)), sign = new T.Group(), tri = new T.Shape(), sl = new T.Shape();
+      tri.moveTo(-.62, 0); tri.lineTo(.62, 0); tri.lineTo(0, 1.06); tri.closePath();
+      if (up) { sl.moveTo(-.34, .2); sl.lineTo(.34, .2); sl.lineTo(.34, .62); sl.closePath(); } else { sl.moveTo(-.34, .2); sl.lineTo(.34, .2); sl.lineTo(-.34, .62); sl.closePath(); }
+      var pl = plate(txt); pl.position.set(0, 1.0, .06);
+      sign.add(cyl(.05, .05, 2.3, C.steel, 0, 1.15, 0, 8), mesh(new T.ExtrudeGeometry(tri, { depth: .07, bevelEnabled: false }), M(C.gold), 0, 1.5, -.035), mesh(new T.ExtrudeGeometry(sl, { depth: .02, bevelEnabled: false }), M(0x22262A), 0, 1.5, .04), pl);
+      sign.position.copy(sp); sign.rotation.y = FACE; scene.add(sign); claim(sp.x, sp.z, .7, 0, 1);
+    }
+    slope(PASS[0] - 1.5, true, 'Đèo AI Valley'); slope((PASS[0] + PASS[1]) / 2 + 2, false, 'Xuống dốc');
+  })();
   scene.add(ribbon(RS, uNow, RW + .32, .1, 0, M(C.shoulder, SM)));
   scene.add(ribbon(RS, uNow, RW, .12, 0, M(C.road, { flatShading: false, roughness: .95 })));
   [-1, 1].forEach(function (s) { scene.add(ribbon(RS, uNow, .07, .135, s * (RW - .25), M(C.white, SM))); });
@@ -386,17 +409,17 @@
   /* ---------- ngã rẽ: tách khỏi đường chính theo tiếp tuyến, có vạch kẻ, đèn tín hiệu, biển chỉ hướng ---------- */
   function roundabout(u, side) {
     var c = pos(u), t = tan(u), disc = function (r, col, yy) { var m = new T.Mesh(new T.CircleGeometry(r, 48), M(col, { flatShading: false, roughness: .95 })); m.rotation.x = -Math.PI / 2; m.position.set(c.x, yy, c.z); m.receiveShadow = true; scene.add(m); };
-    disc(5.4, C.shoulder, .098); disc(5.1, C.road, .141); disc(1.95, C.white, .146); disc(1.75, 0xA9D46A, .15);
+    disc(5.4 * RB, C.shoulder, .098); disc(5.1 * RB, C.road, .141); disc(1.95 * RB, C.white, .146); disc(1.75 * RB, 0xA9D46A, .15);
     /* vạch mép ngoài: chỉ vẽ ở những cung không có đường nối vào (đường chính vào, đường chính ra, nhánh rẽ) */
-    var gaps = [[Math.atan2(-t.z, -t.x), .56], [Math.atan2(t.z, t.x), .56], [Math.atan2(side * t.x, side * -t.z), .44]], R = 4.82, N = 90, k, q;
+    var gaps = [[Math.atan2(-t.z, -t.x), .56], [Math.atan2(t.z, t.x), .56], [Math.atan2(side * t.x, side * -t.z), .34]], R = 4.82 * RB, N = 90, k, q;
     for (k = 0; k < N; k++) { var a = (k + .5) / N * 6.283, open = false; for (q = 0; q < 3; q++) { var d = Math.abs(((a - gaps[q][0]) % 6.283 + 9.4245) % 6.283 - 3.1415); if (d < gaps[q][1]) open = true; } if (open) continue;
       var seg = box(R * 6.283 / N + .02, .012, .12, C.white, c.x + Math.cos(a) * R, .147, c.z + Math.sin(a) * R, SM); seg.rotation.y = -a + Math.PI / 2; seg.castShadow = false; scene.add(seg); }
     var isl = new T.Group(); isl.add(cyl(.09, .12, .8, C.trunk, 0, .5, 0, 6), ball(.7, C.g2, 0, 1.3, 0), ball(.42, C.g3, .45, 1, .2), ball(.24, 0xFFD23F, -.8, .28, .4), ball(.24, 0xFF8FA3, .7, .28, -.6), ball(.24, C.white, -.2, .28, -.9));
-    isl.position.set(c.x, .15, c.z); scene.add(isl); claim(c.x, c.z, 5.6, 0, 1); rbU.push(u);
+    isl.scale.setScalar(RB); isl.position.set(c.x, .15, c.z); scene.add(isl); claim(c.x, c.z, 5.6 * RB, 0, 1); rbU.push(u);
   }
   function fork(u, side, len, endObj) {
     roundabout(u, side);
-    var a = pos(u, side * 4.2), t = tan(u), nx = side * -t.z, nz = side * t.x, k; /* nhánh rẽ đi ra từ mép bùng binh, vuông góc với đường chính */
+    var a = pos(u, side * 4.2 * RB), t = tan(u), nx = side * -t.z, nz = side * t.x, k; /* nhánh rẽ đi ra từ mép bùng binh, vuông góc với đường chính */
     function dir(ang) { return [t.x * Math.cos(ang) + nx * Math.sin(ang), t.z * Math.cos(ang) + nz * Math.sin(ang)]; }
     var d0 = dir(1.5), d1 = dir(.95), b = [a.x + d0[0] * len * .55, a.z + d0[1] * len * .55], c = [b[0] + d1[0] * len * .6, b[1] + d1[1] * len * .6]; /* tách sớm và rẽ hẳn ra, không chạy song song với đường chính */
     function at(q) { var m = 1 - q; return [m * m * a.x + 2 * m * q * b[0] + q * q * c[0], m * m * a.z + 2 * m * q * b[1] + q * q * c[1]]; }
@@ -419,7 +442,7 @@
     var sg = new T.Group(), bd = new T.Mesh(new T.CircleGeometry(.95, 32), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); bd.position.y = 2.75; sg.add(cyl(.06, .06, 2.2, C.steel, 0, 1.1, 0, 8), bd);
     var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
-  if (stages[0].icon === 'school') fork(mainU[0] + 30, S, 15, model.design());
+  if (stages[0].icon === 'school') fork(mainU[0] + 43, S, 15, model.design());
   if (seaOn) fork(uSea + 24, -S, 16, model.mobility());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
@@ -439,8 +462,8 @@
       if (keep.every(function (e) { return e[0] !== o; })) keep.push([o, (o.userData.pr || 2) + 1]);
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
-      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 42 : mainU[k] + 84 + (jj++) * 14; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
-      if (seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
+      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 25 : mainU[k] + 84 + (jj++) * 14; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
+      var sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') drive(o.userData.u, SIDE(k), sp_, o.userData.pr * sc); }
     });
   });
 
@@ -555,7 +578,7 @@
   }
   for (u = U0 - 4; u < uGoal + 4; u += 9) [1, -1].forEach(function (side) {
     if (rnd() < .42) return; var isM = rnd() < .45, g = isM ? mountain() : lake(), r = g.userData.r, hh = isM ? g.userData.h : 0, t, p, uu, off;
-    for (t = 0; t < 6; t++) { uu = u + (rnd() - .5) * 6; off = side * Math.min(31, RW + 3.5 + r + rnd() * 7 + t * 2); p = pos(uu, off); if (clearOf(p.x, p.z, r, 1.4) && viewOK(p.x, p.z, r, hh, !hh)) { g.position.copy(p); g.rotation.y = rnd() * 6.28; g.userData.u = uu; g.userData.s = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, hh, !hh); return; } }
+    for (t = 0; t < 6; t++) { uu = u + (rnd() - .5) * 6; off = side * Math.min(31, RW + 3.5 + r + rnd() * 7 + t * 2); p = pos(uu, off); if (!inPass(uu, Math.abs(off) - r, r + 2) && clearOf(p.x, p.z, r, 1.4) && viewOK(p.x, p.z, r, hh, !hh)) { g.position.copy(p); g.rotation.y = rnd() * 6.28; g.userData.u = uu; g.userData.s = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, hh, !hh); return; } }
   });
 
   /* ---------- cây: chỉ mọc ở chỗ còn trống ---------- */
@@ -709,7 +732,7 @@
     el.classList.toggle('below', !!below); el.style.transform = 'translate(-50%,' + (below ? '0' : '-100%') + ') translate(' + x.toFixed(1) + 'px,' + xy[1].toFixed(1) + 'px)'; el.style.setProperty('--sx', (xy[0] - x).toFixed(1) + 'px'); el.style.opacity = on ? 1 : 0; }
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
-  function carLat(u) { var l = RW / 2; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < 5.2) l += (3.5 - RW / 2) * Math.pow(Math.cos(du / 5.2 * Math.PI / 2), 2); } return l; }
+  function carLat(u) { var l = RW / 2, W = 5.2 * RB * 1.25; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < W) l += (3.5 * RB - RW / 2) * Math.pow(Math.cos(du / W * Math.PI / 2), 2); } return l; } /* vào bùng binh từ xa, vòng êm quanh đảo */
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
@@ -725,7 +748,7 @@
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
     var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
-    car.position.set(p.x, .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
+    car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
     /* máy quay: nhìn xéo từ trên; cảnh được đẩy sang phải đúng bằng nửa bề rộng thẻ nội dung để thẻ che ít nhất */
