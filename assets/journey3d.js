@@ -11,7 +11,8 @@
   if (!root || !window.THREE) return;
   var T = THREE, full = root.getAttribute('data-j3d') === 'full';
   var canvas = root.querySelector('canvas'), holder = canvas.parentNode, renderer;
-  try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true }); } catch (e) { return; }
+  var LITE = matchMedia('(hover:none)').matches || Math.min(screen.width, screen.height) < 820, DPRc = 1.5;
+  try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: !LITE, powerPreference: 'high-performance' }); } catch (e) { return; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var stages = [];
   try { stages = JSON.parse(root.getAttribute('data-stages')); } catch (e) { return; }
@@ -57,6 +58,7 @@
       RY0 = PASS[0] - 20; var raw = [], i, q; for (i = 0; RY0 + i * .5 <= PASS[1] + 30; i++) raw.push(rawRY(RY0 + i * .5)); RYT = [];
       for (i = 0; i < raw.length; i++) { var w = 0, a = 0; for (q = -8; q <= 8; q++) { var j = Math.min(raw.length - 1, Math.max(0, i + q)), g = Math.exp(-q * q / 18); w += g; a += raw[j] * g; } RYT.push(Math.max(a / w, raw[i] - .02)); } }
     var x = (u - RY0) / .5; if (x <= 0 || x >= RYT.length - 1) return 0; var i0 = Math.floor(x), f = x - i0; return RYT[i0] + (RYT[i0 + 1] - RYT[i0]) * f; }
+  function nearRoad(x, z) { var b = 1e9, bu = 0; for (var i = 0; i < PS.length; i++) { var e = PS[i], d = (x - e[0]) * (x - e[0]) + (z - e[1]) * (z - e[1]); if (d < b) { b = d; bu = e[4]; } } return [Math.sqrt(b), bu]; }
   function rpos(u, off) { var p = pos(u, off); p.y = roadY(u); return p; } /* điểm trên mặt đường: cả mặt cắt ngang cùng một độ cao */
   function ribbon(u0, u1, half, y, off, mat) { off = off || 0; return strip(u0, u1, function (u) { return rpos(u, off - half); }, function (u) { return rpos(u, off + half); }, y, mat); }
   function ease(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
@@ -80,10 +82,10 @@
   /* ---------- cảnh ---------- */
   var scene = new T.Scene(), cam = new T.OrthographicCamera(-1, 1, 1, -1, -300, 500);
   scene.add(new T.HemisphereLight(0xffffff, 0xEAF8DA, 1.55));
-  var sun = new T.DirectionalLight(0xffffff, 2.1); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+  var sun = new T.DirectionalLight(0xffffff, 2.1); sun.castShadow = true; sun.shadow.mapSize.set(LITE ? 1024 : 2048, LITE ? 1024 : 2048);
   var sc = sun.shadow.camera; sc.left = -70; sc.right = 70; sc.top = 70; sc.bottom = -70; sc.near = 1; sc.far = 200; sun.shadow.bias = -0.0008;
   scene.add(sun, sun.target);
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = LITE ? T.PCFShadowMap : T.PCFSoftShadowMap;
   var ground = new T.Mesh(new T.PlaneGeometry(900, 900), new T.ShadowMaterial({ opacity: .11 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 
   /* ---------- biển ---------- */
@@ -175,7 +177,8 @@
     var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, u, k3;
     PS.forEach(function (e) { x0 = Math.min(x0, e[0]); x1 = Math.max(x1, e[0]); z0 = Math.min(z0, e[1]); z1 = Math.max(z1, e[1]); });
     x0 -= 30; x1 += 30; z0 -= 30; z1 += 30; var ST = 1, nx = Math.ceil((x1 - x0) / ST) + 1, nz = Math.ceil((z1 - z0) / ST) + 1, P = [], CL = [], H = [], I = [];
-    for (var iz = 0; iz < nz; iz++) for (var ix = 0; ix < nx; ix++) { var X = x0 + ix * ST, Z = z0 + iz * ST, h = hAt(X, Z), f = Math.min(1, Math.floor(h / PH * 6 + .35) / 6 * 1.05); H.push(h); P.push(X, h - .03, Z); var g0 = Math.min(1, h / PH); CL.push(.86 - .22 * g0, .93 - .14 * g0, .70 - .25 * g0, Math.min(1, h / .9)); }
+    for (var iz = 0; iz < nz; iz++) for (var ix = 0; ix < nx; ix++) { var X = x0 + ix * ST, Z = z0 + iz * ST, h = hAt(X, Z), nr = nearRoad(X, Z); if (nr[0] < RW + 2.2) { var ry = roadY(nr[1]) + .08; h = nr[0] < RW + .9 ? Math.min(h, ry - .12) : Math.min(h, ry + (nr[0] - RW - .9) * .9); }
+      var f = Math.min(1, Math.floor(h / PH * 6 + .35) / 6 * 1.05); H.push(h); P.push(X, h - .03, Z); var g0 = Math.min(1, h / PH); CL.push(.86 - .22 * g0, .93 - .14 * g0, .70 - .25 * g0, Math.min(1, h / .9)); }
     for (iz = 0; iz < nz - 1; iz++) for (var ix2 = 0; ix2 < nx - 1; ix2++) { var a0 = iz * nx + ix2, b0 = a0 + nx; if (H[a0] + H[a0 + 1] + H[b0] + H[b0 + 1] < .002) continue; I.push(a0, b0, a0 + 1, a0 + 1, b0, b0 + 1); }
     var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setAttribute('color', new T.Float32BufferAttribute(CL, 4)); g.setIndex(I); g.computeVertexNormals();
     var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, transparent: true, depthWrite: true, flatShading: false, roughness: 1 })); hill.receiveShadow = true; scene.add(hill);
@@ -721,7 +724,7 @@
   var DIR = new T.Vector3(-1, 1.02, -1).normalize(), SIN = DIR.y, look = new T.Vector3(), tmp = new T.Vector3(), mob = false;
   function size() {
     W = holder.clientWidth; H = holder.clientHeight; if (!W || !H) return;
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setSize(W, H, false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, LITE ? DPRc : 2)); renderer.setSize(W, H, false);
     var a = W / H; mob = W < 860; VH = full ? (mob ? Math.max(40, 34 / a) : Math.max(40, 58 / a)) : Math.max(18, 30 / a); /* màn hình hẹp thì lùi máy quay ra để công trình hai bên không bị cắt */
     cam.left = -VH * a / 2; cam.right = VH * a / 2; cam.top = VH / 2; cam.bottom = -VH / 2; cam.updateProjectionMatrix();
     stacked = !!(full && card && card.offsetWidth > W * .6); /* thẻ nội dung nằm ngang phía trên (màn hẹp) hay đứng bên trái (màn rộng) */
@@ -776,8 +779,10 @@
       else if (du < B) { var h = B - A, t = (du - A) / h, p0 = Math.sqrt(R * R - A * A), m0 = -A / p0 * h, t2 = t * t, t3 = t2 * t; v = (2 * t3 - 3 * t2 + 1) * p0 + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * b0; }
       else continue; if (v > l) l = v; }
     return l; } /* trong bùng binh xe chạy theo vòng tròn quanh đảo, ra vào êm */ /* vào bùng binh từ xa, vòng êm quanh đảo */
+  var fq = [], lastT = 0; /* máy yếu: tự hạ độ phân giải khi khung hình bị chậm */
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
+    if (LITE) { var nt = performance.now(); if (lastT) { fq.push(nt - lastT); if (fq.length > 40) { var avg = fq.reduce(function (a, b) { return a + b; }, 0) / fq.length; fq = []; if (avg > 24 && DPRc > 1) { DPRc = Math.max(1, DPRc - .25); size(); } } } lastT = nt; }
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
     if (zm.dir) {
       zm.t = reduce ? (zm.dir > 0 ? 1 : 0) : Math.min(1, Math.max(0, zm.t + zm.dir * Math.min(.12, raw) / (zm.dir > 0 ? 1.5 : 1)));
