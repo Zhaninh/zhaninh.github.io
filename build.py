@@ -245,14 +245,55 @@ def proj_template(w, lang, p):
 <dl class="pmeta"><div><dt>{t['role']}</dt><dd>{E(d['role'])}</dd></div><div><dt>{t['where']}</dt><dd>{E(d['where'])}</dd></div><div><dt>{t['status']}</dt><dd>{E(d['status'])}</dd></div></dl>
 <div class="prose">{parts}</div></template>'''
 
+ICON = dict(
+ cv='<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 17h6M9 13h6"/>',
+ scholar='<path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4"/>',
+ github='<path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/>',
+ linkedin='<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/>',
+ mail='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>')
+
+def toc_html(lang, path, key, twin):
+    """Thanh trên: logo + một viên mục lục (mục đang đọc · ngôn ngữ · ba gạch); bấm mở bảng mục lục, rê chuột vào mục thì hiện mục con."""
+    U = URL[lang]; vi_ = lang == 'vi'; r = lambda x: rel(path, x)
+    home = r(U['home']) or './'
+    sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
+    def nt(tg): return (r(U['hl']) + '#' + tg[1]) if tg[0] == 'hl' else r(U['workdir'] + tg[1] + '.html')
+    rows = [
+     ('01', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
+     ('02', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
+     ('03', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
+     ('04', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
+     ('05', 'Hành trình' if vi_ else 'Journey', r(U['journey']), []),
+     ('06', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
+     ('07', 'Công bố' if vi_ else 'Publications', r(U['pubs']), []),
+    ]
+    if path.startswith(U['workdir']): cur = '02'
+    elif path.startswith(U['mdir']): cur = '03'
+    else: cur = {'journey': '05', 'hl': '06', 'pubs': '07'}.get(key, '')
+    names = {n: h for n, h, _, _ in rows}
+    start = 'Trang chủ' if vi_ else 'Home'
+    li = ''
+    for n, h, href, sub in rows:
+        fly = ('<div class="toc-fly"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
+        li += f'<li class="toc-i{" has" if sub else ""}{" on" if n == cur else ""}" data-n="{n}"><a href="{href}"><span class="tn">{n}</span><span class="tt">{E(h)}</span></a>{fly}</li>'
+    def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" title="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
+    icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + ic('mail', 'mailto:' + EMAIL_WORK, 'Email')
+    vi_l = '<span class="on" aria-current="true">Tiếng Việt</span>' if vi_ else f'<a href="{r(twin)}" hreflang="vi" lang="vi">Tiếng Việt</a>'
+    en_l = '<span class="on" aria-current="true">English</span>' if not vi_ else f'<a href="{r(twin)}" hreflang="en" lang="en">English</a>'
+    cn, ct = (cur, names[cur]) if cur else ('', start)
+    return (f'<header class="nav"><a class="brand" href="{home}"><img src="{r("assets/clover.svg")}" alt="">Aaron</a>'
+            f'<div class="toc" data-home="{E(start)}" data-names="{E(json.dumps(names, ensure_ascii=False))}">'
+            f'<button type="button" class="pill" aria-expanded="false" aria-controls="tocpanel" aria-label="{T[lang]["menu"]}">'
+            f'<span class="dot" aria-hidden="true"></span><span class="pn">{cn}</span><span class="pt">{E(ct)}</span><i class="psep"></i>'
+            f'<span class="pl">{lang.upper()}</span><i class="psep"></i><span class="hb" aria-hidden="true"><i></i><i></i><i></i></span></button>'
+            f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot"><div class="toc-lang">{vi_l}<i></i>{en_l}</div><div class="toc-icons">{icons}</div></div></div></div></header>')
+
 def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
     elif path.startswith(URL[lang]['mdir']): twin = URL[other]['mdir'] + os.path.basename(path)
     else: twin = URL[other][key]
-    items = ['journey', 'pubs', 'hl'] + (['notes'] if NOTES else [])  # đã bỏ 'work' và 'about' khỏi thanh điều hướng (vẫn sinh trang để link cũ không hỏng)
-    nav = ''.join(f'<a class="item{" on" if k == key else ""}" href="{rel(path, URL[lang][k])}">{t[k]}</a>' for k in items)
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -261,7 +302,7 @@ def shell(lang, key, path, title, body, extra=''):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
-<header class="nav"><a class="brand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt="">Aaron</a><nav class="links" id="navlinks">{nav}<a class="lang" href="{a(twin)}" hreflang="{other}">{other.upper()}</a></nav><button type="button" class="burger" aria-label="{t['menu']}" aria-expanded="false" aria-controls="navlinks"><i></i><i></i><i></i></button></header>
+{toc_html(lang, path, key, twin)}
 <main>{body}</main>
 <footer class="foot"><div class="wrap"><div class="ftop">
 <div class="fc fc1"><a class="fbrand" href="{a(URL[lang]['home'])}"><img src="{a('assets/clover.svg')}" alt=""><span><b>Aaron</b><small>{'Nguyễn Ngọc Gia Ninh' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh'}</small></span></a><p class="fq">{t['slogan']}</p></div>
@@ -316,21 +357,21 @@ for lang in ('vi', 'en'):
         if not tg: return None
         return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, U['workdir'] + tg[1] + '.html')
     nl = ''.join((f'<li class="reveal"><time>{d}</time>' + (f'<a href="{target(tg)}">{E(nv if vi_ else ne)} <i>→</i></a>' if tg else f'<span>{E(nv if vi_ else ne)}</span>') + '</li>') for d, nv, ne, tg in NEWS)
-    news_html = f'<section class="news"><div class="wrap">{sec_head("01", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
+    news_html = f'<section class="news" id="news" data-toc="01"><div class="wrap">{sec_head("01", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
     def rcard(w, big=False):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
         img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
-    research_html = (f'<section class="research" id="research"><div class="wrap">{sec_head("02", "Nghiên cứu" if vi_ else "Research", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+    research_html = (f'<section class="research" id="research" data-toc="02"><div class="wrap">{sec_head("02", "Dự án" if vi_ else "Projects", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
         return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img" data-cap="{'Xem câu chuyện →' if vi_ else 'Read the story →'}"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
-    hl_html = (f'<section class="hlhome" id="highlights"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
+    hl_html = (f'<section class="hlhome" id="highlights" data-toc="06"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
@@ -338,7 +379,7 @@ for lang in ('vi', 'en'):
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
                 + (f'<span class="mc-t">{E(d["title"])}</span>' if d['title'] else '') + f'<span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
-    mentor_html = f'<section class="mentors" id="mentors"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
+    mentor_html = f'<section class="mentors" id="mentors" data-toc="03"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
@@ -352,9 +393,9 @@ for lang in ('vi', 'en'):
 {news_html}
 {research_html}
 {mentor_html}
-<section class="belief dir"><div class="wrap">{sec_head("04", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
+<section class="belief dir" id="direction" data-toc="04"><div class="wrap">{sec_head("04", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
 <div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></div></section>
-<section class="teaser-wrap jhome"><div class="wrap">{sec_head("05", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
+<section class="teaser-wrap jhome" data-toc="05"><div class="wrap">{sec_head("05", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
 {hl_html}
 '''
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))
