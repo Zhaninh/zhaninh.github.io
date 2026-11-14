@@ -312,15 +312,18 @@
       var seal = cyl(.2, .2, .04, C.gold, .58, -.36, .09, 12, SM); seal.rotation.x = Math.PI / 2; fr.add(seal, box(.1, .34, .02, 0xE5484D, .52, -.6, .09), box(.1, .34, .02, 0xE5484D, .66, -.6, .09));
       fr.position.set(0, 1.75, 0); fr.rotation.x = -.22; g.add(fr, cyl(.06, .06, 1.1, 0x8A6A4B, -.5, .62, -.1, 6), cyl(.06, .06, 1.1, 0x8A6A4B, .5, .62, -.1, 6), cyl(.06, .06, 1.2, 0x8A6A4B, 0, .6, -.6, 6)); g.userData.h = 3; return g;
     },
-    valley: function () { /* cột mốc: văn phòng FPT Software Quy Nhơn AI Valley (khối nhà kính, sọc cam, hàng dừa ven biển) */
-      var g = new T.Group(); pad(g, 3.6);
-      g.add(box(3.4, 2.4, 2.2, 0xF4F1EA, 0, 1.4, 0), box(3.44, .26, 2.24, 0xF37021, 0, 2.66, 0));
-      [.75, 1.55].forEach(function (y) { g.add(box(3.1, .5, .04, 0x4DABF7, 0, y, 1.11)); });
-      g.add(box(.7, 1, .05, 0x23282D, 0, .5, 1.12), box(1.4, .5, .08, C.white, 0, 3.15, .3), box(.5, .12, .09, 0xF37021, -.3, 3.15, .35), box(.5, .12, .09, 0x2FA84F, .3, 3.15, .35));
-      [[2.3, .9], [-2.3, 1.2]].forEach(function (c) {
-        var t = cyl(.09, .13, 2.6, 0x9C7A55, c[0], 1.3, c[1], 6); t.rotation.z = c[0] > 0 ? -.12 : .12; g.add(t);
-        for (var k = 0; k < 5; k++) { var l = box(1.2, .06, .3, C.g1, c[0] + Math.cos(k * 1.26) * .5, 2.62, c[1] + Math.sin(k * 1.26) * .5); l.rotation.y = -k * 1.26; l.rotation.z = -.25; g.add(l); }
-      }); g.userData.h = 3.6; return g;
+    valley: function () { /* cột mốc: toà nhà FPT Software tại AI Valley Quy Nhơn — khối giữa có mái đua trắng, hai cột ốp xanh lá, kính hai tầng, biển FPT trên mái; hai cánh nhà ốp tôn xám tím */
+      var g = new T.Group(), GR = 0x9DA6B8, WH = 0xF4F4F2, GL = 0x7FB2D6, LM = 0x9CCB3B; pad(g, 4.4, 0xE7DCCB);
+      [-2.6, 2.6].forEach(function (x) { g.add(box(2, 2.1, 2.2, GR, x, 1.05, -.2)); for (var k = 0; k < 5; k++) g.add(box(2.02, .03, 2.22, 0xB4BCCB, x, .3 + k * .4, -.2)); g.add(box(1.4, .9, .04, GL, x, 1.3, .92)); });
+      g.add(box(3.4, 2.4, 2.4, WH, 0, 1.2, 0), box(4.2, .22, 3, WH, 0, 2.5, .2));
+      g.add(box(1.2, 1.9, .05, GL, -1.05, 1.05, 1.21), box(1.2, 1.9, .05, GL, 1.05, 1.05, 1.21));
+      [-.3, .3].forEach(function (x) { g.add(box(.42, 2.3, .08, LM, x, 1.15, 1.23)); });
+      g.add(box(1.1, .45, .06, 0x6A3FA0, 1.05, 1.95, 1.25), box(.9, .8, .06, 0x2B3138, 1.05, .45, 1.24));
+      var sg = new T.Group(); sg.add(box(.42, .42, .08, 0x2E7BD8, -.48, 0, 0), box(.42, .42, .08, 0xF37021, 0, 0, 0), box(.42, .42, .08, 0x2FA84F, .48, 0, 0), box(.7, .16, .06, 0x2E7BD8, 1.08, -.08, 0));
+      sg.position.set(-.2, 2.95, .4); g.add(sg, cyl(.03, .03, .4, C.steel, -.6, 2.75, .4, 6), cyl(.03, .03, .4, C.steel, .6, 2.75, .4, 6));
+      [[-3.9, 1.6], [3.9, 1.5]].forEach(function (c) { var t = cyl(.09, .13, 2.2, 0x9C7A55, c[0], 1.1, c[1], 6); t.rotation.z = c[0] > 0 ? -.1 : .1; g.add(t);
+        for (var k = 0; k < 5; k++) { var l = box(1.1, .06, .28, C.g1, c[0] + Math.cos(k * 1.26) * .45, 2.22, c[1] + Math.sin(k * 1.26) * .45); l.rotation.y = -k * 1.26; l.rotation.z = -.25; g.add(l); } });
+      g.userData.h = 3.4; return g;
     },
     teky: function () { /* cột mốc: lớp học nhỏ (bảng, bàn, chồng sách) */
       var g = new T.Group(); pad(g, 3.8);
@@ -436,7 +439,7 @@
       if (keep.every(function (e) { return e[0] !== o; })) keep.push([o, (o.userData.pr || 2) + 1]);
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
-      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .5 : 1, r = o.userData.pr * sc, uu = ms.kind === 'valley' ? mainU[k] + 45 : mainU[k] + 80 + (jj++) * 12; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
+      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 42 : mainU[k] + 84 + (jj++) * 14; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
       if (seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
     });
   });

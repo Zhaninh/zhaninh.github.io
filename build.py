@@ -96,9 +96,9 @@ FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
 STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
  ('2023-09-05', '09–12.2023', 'Quy Nhơn, Bình Định', 'Quy Nhon, Binh Dinh',
   'Thực tập tại FPT AI Creative Valley', 'Internship at FPT AI Creative Valley',
-  'Kỳ thực tập đầu tiên của tôi: ba tháng, từ tháng 9 đến tháng 12/2023, tại FPT AI Creative Valley (AI Valley) ở Quy Nhơn, cùng các bạn sinh viên Đại học FPT. Tôi tham gia ba dự án: phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R, một ứng dụng Smart Menu, và xây dựng bộ dữ liệu chữ viết tay tiếng Việt cho một cuộc thi OCR. Đây là tấm ảnh hiếm hoi tôi có lúc làm việc; tôi là người chụp nên không có mặt trong ảnh. Phần lớn ảnh còn lại ở Quy Nhơn là biển và những chuyến đi cuối tuần.',
-  'My first internship: three months, from September to December 2023, at FPT AI Creative Valley (AI Valley) in Quy Nhon, together with fellow FPT University students. I worked on three projects: Vietnamese review analysis with PhoBERT and XLM-R, a Smart Menu application, and a Vietnamese handwriting dataset for an OCR competition. This is one of the few photos I have from work; I took it, so I am not in it. Most of my other photos from Quy Nhon are of the sea and weekend trips.',
-  ['aivalley_0'], [('Facebook', 'https://www.facebook.com/share/1M2dTchPix/'), ('Facebook', 'https://www.facebook.com/share/p/1FQpTYngum/')], ['Thực tập', 'FPT AI Valley']),
+  'Kỳ thực tập đầu tiên của tôi: ba tháng, từ tháng 9 đến tháng 12/2023, tại FPT AI Creative Valley (AI Valley) ở Quy Nhơn, với vai trò AI Intern, cùng các bạn sinh viên Đại học FPT. Tôi tham gia ba dự án: phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R, một ứng dụng Smart Menu, và xây dựng bộ dữ liệu chữ viết tay tiếng Việt cho một cuộc thi OCR. Đây là tấm ảnh hiếm hoi tôi có lúc làm việc; tôi là người chụp nên không có mặt trong ảnh. Phần lớn ảnh còn lại ở Quy Nhơn là biển và những chuyến đi cuối tuần.',
+  'My first internship: three months, from September to December 2023, at FPT AI Creative Valley (AI Valley) in Quy Nhon, as an AI Intern, together with fellow FPT University students. I worked on three projects: Vietnamese review analysis with PhoBERT and XLM-R, a Smart Menu application, and a Vietnamese handwriting dataset for an OCR competition. This is one of the few photos I have from work; I took it, so I am not in it. Most of my other photos from Quy Nhon are of the sea and weekend trips.',
+  ['aivalley_0'], [('Facebook', 'https://www.facebook.com/share/1M2dTchPix/'), ('Facebook', 'https://www.facebook.com/share/p/1FQpTYngum/')], ['FPT AI Valley', 'Quy Nhơn']),
  ('2026-10-25', '24–26.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
   'Gian triển lãm GREEN-X tại Ngày hội Chuyển đổi số', 'GREEN-X booth at the Digital Transformation Expo',
   'Lần đầu GREEN-X có gian trưng bày riêng, giới thiệu giải pháp cho đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển. Robot đại dương phát triển cùng VinaTech là điểm dừng chân đông khách nhất.',
@@ -130,7 +130,7 @@ STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi,
   'I joined GREEN-X as a research assistant just before the centre moved into its new office. My first weeks began with an orientation alongside the new postdoctoral researchers and research assistants, and then the whole team moved into the new workspace on level 5 of Building I. A start shared with many new faces.',
   ['orientation_0', 'newhome_0', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/'), (FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X', 'Cột mốc']),
 ]
-TAG_EN = {'Thực tập': 'Internship', 'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
+TAG_EN = {'Quy Nhơn': 'Quy Nhon', 'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
 
 NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id) | ('work', slug) | None)
  ('10.2026', 'GREEN-X lần đầu có gian trưng bày tại Ngày hội Chuyển đổi số Khánh Hòa 2026.', 'GREEN-X ran its first exhibition booth at Khanh Hoa Digital Transformation Day 2026.', ('hl', 'expo')),
@@ -142,8 +142,8 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
 MENTORS = [
  dict(slug='phung-manh-duong', photo='duong',
   guided=[('ntcoral', 'Chủ trì dự án (PI).', 'Principal investigator of the project.')],
-  vi=dict(name='TS. Phùng Mạnh Dương', title='Giảng viên ngành AI và Robotics, Trường Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Người hướng dẫn trực tiếp; Chủ nhiệm (PI) · GREEN-X', short='Giảng viên · AI và Robotics', lead='Nghiên cứu hệ tự hành, UAV và thị giác máy tính cho robot, với hơn 15 năm giảng dạy và nghiên cứu, trong đó gần một thập kỷ tại Úc.', facts=['Tiến sĩ, ĐHQG Hà Nội', 'Sau tiến sĩ, UTS', 'IEEE Senior Member', 'Ba giải Best Paper'],
-          bio='Giảng viên ngành AI và Robotics tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
+  vi=dict(name='TS. Phùng Mạnh Dương', title='Giảng viên ngành AI và Robotics, Viện Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Người hướng dẫn trực tiếp; Chủ nhiệm (PI) · GREEN-X', short='Giảng viên · AI và Robotics', lead='Nghiên cứu hệ tự hành, UAV và thị giác máy tính cho robot, với hơn 15 năm giảng dạy và nghiên cứu, trong đó gần một thập kỷ tại Úc.', facts=['Tiến sĩ, ĐHQG Hà Nội', 'Sau tiến sĩ, UTS', 'IEEE Senior Member', 'Ba giải Best Paper'],
+          bio='Giảng viên ngành AI và Robotics tại Viện Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
           edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
           areas='Hệ tự hành và trí tuệ nhân tạo; UAV; thị giác máy tính cho robot; SLAM, lập kế hoạch đường đi và điều khiển chuyển động; trí tuệ bầy đàn và IoT.',
           awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Chính phủ Úc (2015)'],
@@ -166,8 +166,8 @@ MENTORS = [
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/dinh-van-dung/')]),
  dict(slug='do-danh-cuong', photo='cuong',
   guided=[],
-  vi=dict(name='TS. Đỗ Danh Cường', title='Giảng viên, Trường Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Giảng viên · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
-          bio='Giảng viên tại Trường Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
+  vi=dict(name='TS. Đỗ Danh Cường', title='Giảng viên, Viện Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Giảng viên · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
+          bio='Giảng viên tại Viện Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
           edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
           areas='Cảm biến MEMS và mạch tiêu thụ năng lượng thấp; thu hoạch năng lượng và mạng cảm biến không dây; tối ưu lưới điện thông minh và trạm sạc xe điện; AI cho tín hiệu y sinh (ECG) và chẩn đoán tại chỗ.',
           awards=[],
@@ -275,7 +275,7 @@ EXP = [('04.2026 –', ('Trợ lý nghiên cứu', 'GREEN-X, VinUniversity · H�
        ('07.2025 – 04.2026', ('Chuyên viên công nghệ (nhánh nghiên cứu AI)', 'VinBigData · Hà Nội'), ('Technology Specialist (AI research track)', 'VinBigData · Hanoi')),
        ('11.2024 – 05.2025', ('Trợ giảng lập trình', 'Học viện Công nghệ TEKY · TP. Hồ Chí Minh'), ('Programming teaching assistant', 'TEKY Academy of Technology · Ho Chi Minh City')),
        ('01.2024 – 07.2025', ('Nghiên cứu viên AI', 'Perception Technology Solutions · làm từ xa'), ('AI Researcher', 'Perception Technology Solutions · remote')),
-       ('09 – 12.2023', ('Thực tập sinh kỹ sư AI', 'FPT AI Creative Valley (AI Valley) · Quy Nhơn'), ('AI Engineer Intern', 'FPT AI Creative Valley (AI Valley) · Quy Nhon'))]
+       ('09 – 12.2023', ('AI Intern', 'FPT AI Creative Valley (AI Valley) · Quy Nhơn'), ('AI Engineer Intern', 'FPT AI Creative Valley (AI Valley) · Quy Nhon'))]
 ABOUT_SECS = {'vi': [('bio', 'Tiểu sử'), ('interests', 'Hướng nghiên cứu'), ('education', 'Học vấn'), ('experience', 'Kinh nghiệm'), ('selected', 'Công bố tiêu biểu')],
               'en': [('bio', 'Biography'), ('interests', 'Research interests'), ('education', 'Education'), ('experience', 'Experience'), ('selected', 'Selected publications')]}
 
@@ -327,9 +327,9 @@ def toc_html(lang, path, key, twin):
     for n, h, href, sub in rows:
         fly = (f'<div class="toc-fly{" stack" if max(len(k) for k, _, _ in sub) > 4 else ""}"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
         li += f'<li class="toc-i{" has" if sub else ""}{" on" if n == cur else ""}" data-n="{n}"><a href="{href}"><span class="tn">{n}</span><span class="tt">{E(h)}</span></a>{fly}</li>'
-    def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" title="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
+    def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" data-tip="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
     mails = ''.join(f'<a class="ml" href="mailto:{m}"><small>{T[lang][k]}</small>{m}</a>' for k, m in (('mail_work', EMAIL_WORK), ('mail_me', EMAIL)))
-    mailbox = (f'<div class="toc-pp"><button type="button" class="toc-ic" aria-label="Email" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["mail"]}</svg></button>'
+    mailbox = (f'<div class="toc-pp"><button type="button" class="toc-ic" aria-label="Email" data-tip="Email" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["mail"]}</svg></button>'
                f'<div class="toc-lgpop toc-mlpop"><span class="lgk">2 email</span>{mails}</div></div>')
     icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + mailbox
     nl_ = 'ngôn ngữ' if vi_ else 'languages'
@@ -521,7 +521,7 @@ for lang in ('vi', 'en'):
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
                 f'<div class="mx-l"><figure class="mx-ph">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
-                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + f'<p class="mx-org">{E(m.get("org", ("Trường Kỹ thuật và Khoa học Máy tính · VinUniversity", "College of Engineering and Computer Science · VinUniversity"))[0 if vi_ else 1])}</p>'
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + f'<p class="mx-org">{E(m.get("org", ("Viện Kỹ thuật và Khoa học Máy tính · VinUniversity", "College of Engineering and Computer Science · VinUniversity"))[0 if vi_ else 1])}</p>'
                 + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
                 + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')
         write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))

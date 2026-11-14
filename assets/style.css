@@ -1285,3 +1285,8 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .pj-cite{font-size:15.5px!important;padding:16px 18px;border-radius:10px;background:var(--leaf-tint);border:1px solid var(--line)}
 .pj-cite a{color:var(--leaf)}
 .pj-back{margin:36px 0 clamp(48px,8vh,96px);text-align:center}
+/* chú thích khi rê chuột vào biểu tượng ở chân mục lục */
+.toc-ic{position:relative}
+.toc-ic[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 8px);transform:translate(-50%,-3px);white-space:nowrap;padding:5px 9px;border-radius:6px;background:var(--ink);color:#fff;font:500 12px/1 var(--sans);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:5}
+.toc-ic[data-tip]:hover::after,.toc-ic[data-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.toc-pp.open .toc-ic[data-tip]::after,.toc-pp:hover .toc-ic[data-tip]::after{opacity:0}
