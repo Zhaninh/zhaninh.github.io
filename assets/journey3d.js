@@ -465,7 +465,7 @@
     var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
   if (stages[0].icon === 'school') fork(mainU[0] + 80, S, 15, model.design()); /* bùng binh cách chân đèo một quãng */
-  if (seaOn) fork(uSea + 58, -S, 16, model.mobility());
+  if (seaOn) fork(uSea + 40, -S, 16, model.mobility()); /* VinUni → nhánh CMIT → GREEN-X */
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
@@ -474,7 +474,7 @@
     var sd = SIDE(k), g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = sd * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], sd, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 30, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 62, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
@@ -762,7 +762,7 @@
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
   function carLat(u) { /* xe giữ làn, rồi lượn dần vào vòng quanh đảo theo đường cong trơn (cả vị trí lẫn hướng đều liên tục) */
-    var b0 = RW / 2, R = 3.2 * RB, A = 1.4 * RB, B = 5.4 * RB, l = b0; /* ngoài vòng xuyến xe luôn ở giữa làn */
+    var b0 = RW / 2, R = 4.2, A = 1, B = 6.6, l = b0; /* chỉ lượn ra khi đã vào hẳn trong vòng xuyến (bán kính 7,4) */ /* ngoài vòng xuyến xe luôn ở giữa làn */
     for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]), v;
       if (du <= A) v = Math.sqrt(R * R - du * du);
       else if (du < B) { var h = B - A, t = (du - A) / h, p0 = Math.sqrt(R * R - A * A), m0 = -A / p0 * h, t2 = t * t, t3 = t2 * t; v = (2 * t3 - 3 * t2 + 1) * p0 + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * b0; }
