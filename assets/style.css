@@ -1205,3 +1205,11 @@ html.js.ready main,html.js.ready .foot{opacity:1;transition:opacity .38s ease}
 html.arrive .reveal{transition:none!important}
 html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .reveal{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+/* ===== màn hình hẹp (điện thoại, iPad dọc) ===== */
+@media (max-width:860px){
+  .news,.research,.mentors,.belief.dir,.jhome,.hlhome{padding:clamp(56px,8vh,88px) 0}
+  .news{margin-top:clamp(12px,2vh,24px)}
+  .toc-panel{width:max-content;min-width:260px;left:auto;right:0}
+}
+@media (max-width:600px){.toc-panel{left:0;right:0;width:auto;min-width:0}}
+@media (max-width:820px){.bio-more{margin-left:auto;margin-right:auto}}
