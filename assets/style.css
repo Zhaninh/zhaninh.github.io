@@ -1292,3 +1292,8 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .toc-pp.open .toc-ic[data-tip]::after,.toc-pp:hover .toc-ic[data-tip]::after{opacity:0}
 /* điện thoại, máy tính bảng: kính trên bản đồ 3D không làm mờ nền (đỡ nặng máy khi bản đồ chạy) */
 @media (hover:none){.j3d-card::before{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--card) 88%,transparent)}}
+/* tách các phần ở trang chủ: dải nền xen kẽ bắt đầu ngay sau phần giới thiệu (Tin mới có nền, Dự án không, Người hướng dẫn có...) */
+.research,.belief.dir,.hlhome{background:transparent;border-top:0;border-bottom:0}
+.news,.mentors,.jhome{background:color-mix(in srgb,var(--leaf-soft) 55%,var(--paper));border-top:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line))}
+.news{margin-top:0}
+.mentors .mc{background:var(--card)}
