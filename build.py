@@ -346,7 +346,7 @@ def shell(lang, key, path, title, body, extra=''):
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(title)}</title><script>try{{if(sessionStorage.getItem('restore')===location.pathname||(location.hash.length>1&&/(highlights|dau-an)[.]html$/.test(location.pathname))){{document.documentElement.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}</script><meta name="description" content="{E(t['slogan_plain'])} Aaron (Nguyen Ngoc Gia Ninh), GREEN-X, VinUniversity.">
+<title>{E(title)}</title><script>(function(){{var h=document.documentElement;h.classList.add('js');setTimeout(function(){{h.classList.add('ready')}},1600);try{{if(sessionStorage.getItem('restore')===location.pathname||(location.hash.length>1&&/(highlights|dau-an)[.]html$/.test(location.pathname))){{h.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}}})()</script><meta name="description" content="{E(t['slogan_plain'])} Aaron (Nguyen Ngoc Gia Ninh), GREEN-X, VinUniversity.">
 <link rel="icon" href="{a('assets/clover.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">

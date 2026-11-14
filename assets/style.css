@@ -1183,7 +1183,7 @@ html.rs .reveal{transition:none!important}
 .toc-i.has>a .tt{margin-right:28px}
 /* đổi trang êm: nội dung mới hiện dần nhẹ nhàng, topbar giữ nguyên */
 @keyframes pagein{from{opacity:0}}
-main{animation:pagein .5s cubic-bezier(.2,.7,.2,1) both}
+
 @media (prefers-reduced-motion:reduce){main{animation:none}}
 /* tô sáng trong mục lục cùng màu với các chỗ tô sáng khác (slogan, hướng nghiên cứu) */
 .toc-i.on>a .tt{background-image:linear-gradient(transparent 60%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 60%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 94%,transparent 94%)}
@@ -1197,3 +1197,9 @@ main{animation:pagein .5s cubic-bezier(.2,.7,.2,1) both}
 .toc-mlpop{left:-1px;right:-1px;min-width:0}
 .toc-mlpop .ml{white-space:normal;overflow-wrap:anywhere}
 .toc-mlpop .ml{white-space:nowrap;overflow-wrap:normal;font-size:13px;letter-spacing:-.005em}
+
+/* vào trang: topbar giữ nguyên; nội dung đứng yên đúng chỗ rồi hiện dần một lần, không có gì trượt hay chồng lên nhau */
+html.rs body{visibility:visible}
+html.js main,html.js .foot{opacity:0}
+html.js.ready main,html.js.ready .foot{opacity:1;transition:opacity .38s ease}
+html.arrive .reveal{transition:none!important}
