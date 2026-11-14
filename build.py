@@ -260,22 +260,23 @@ def toc_html(lang, path, key, twin):
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def nt(tg): return (r(U['hl']) + '#' + tg[1]) if tg[0] == 'hl' else r(U['workdir'] + tg[1] + '.html')
     rows = [
-     ('01', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
-     ('02', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
-     ('03', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
-     ('04', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
-     ('05', 'Hành trình' if vi_ else 'Journey', r(U['journey']), []),
-     ('06', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
-     ('07', 'Công bố' if vi_ else 'Publications', r(U['pubs']), []),
+     ('01', 'Giới thiệu' if vi_ else 'About', home + '#about', []),
+     ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
+     ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
+     ('04', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
+     ('05', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
+     ('06', 'Hành trình' if vi_ else 'Journey', r(U['journey']), []),
+     ('07', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
+     ('08', 'Công bố' if vi_ else 'Publications', r(U['pubs']), []),
     ]
-    if path.startswith(U['workdir']): cur = '02'
-    elif path.startswith(U['mdir']): cur = '03'
-    else: cur = {'journey': '05', 'hl': '06', 'pubs': '07'}.get(key, '')
+    if path.startswith(U['workdir']): cur = '03'
+    elif path.startswith(U['mdir']): cur = '04'
+    else: cur = {'journey': '06', 'hl': '07', 'pubs': '08', 'home': '01'}.get(key, '')
     names = {n: h for n, h, _, _ in rows}
     start = 'Trang chủ' if vi_ else 'Home'
     li = ''
     for n, h, href, sub in rows:
-        fly = (f'<div class="toc-fly" style="--tw:{max(len(k) for k, _, _ in sub)}ch"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
+        fly = (f'<div class="toc-fly{" stack" if max(len(k) for k, _, _ in sub) > 4 else ""}"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
         li += f'<li class="toc-i{" has" if sub else ""}{" on" if n == cur else ""}" data-n="{n}"><a href="{href}"><span class="tn">{n}</span><span class="tt">{E(h)}</span></a>{fly}</li>'
     def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" title="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
     icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + ic('mail', 'mailto:' + EMAIL_WORK, 'Email')
@@ -360,21 +361,21 @@ for lang in ('vi', 'en'):
         if not tg: return None
         return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, U['workdir'] + tg[1] + '.html')
     nl = ''.join((f'<li class="reveal"><time>{d}</time>' + (f'<a href="{target(tg)}">{E(nv if vi_ else ne)} <i>→</i></a>' if tg else f'<span>{E(nv if vi_ else ne)}</span>') + '</li>') for d, nv, ne, tg in NEWS)
-    news_html = f'<section class="news" id="news" data-toc="01"><div class="wrap">{sec_head("01", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
+    news_html = f'<section class="news" id="news" data-toc="02"><div class="wrap">{sec_head("02", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
     def rcard(w, big=False):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
         img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
-    research_html = (f'<section class="research" id="research" data-toc="02"><div class="wrap">{sec_head("02", "Dự án" if vi_ else "Projects", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
         return (f'<a class="hc reveal" href="{rel(p, U["hl"])}#{ims[0].split("_")[0]}"><span class="hc-img" data-cap="{'Xem câu chuyện →' if vi_ else 'Read the story →'}"><img src="{rel(p, "assets/hl/" + ims[0] + ".webp")}" alt="" loading="lazy"></span>'
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
-    hl_html = (f'<section class="hlhome" id="highlights" data-toc="06"><div class="wrap">{sec_head("06", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
+    hl_html = (f'<section class="hlhome" id="highlights" data-toc="07"><div class="wrap">{sec_head("07", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
     def mcard(m):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
@@ -382,9 +383,9 @@ for lang in ('vi', 'en'):
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
                 + (f'<span class="mc-t">{E(d["title"])}</span>' if d['title'] else '') + f'<span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
-    mentor_html = f'<section class="mentors" id="mentors" data-toc="03"><div class="wrap">{sec_head("03", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
+    mentor_html = f'<section class="mentors" id="mentors" data-toc="04"><div class="wrap">{sec_head("04", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
-    body = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div class="hero-l">
+    body = f'''<section class="hero" id="about" data-toc="01"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
 <h1 class="name">{t['name']}</h1>
 <p class="role">{t['role_pre']} <a class="gxt" href="{GREENX}">GREEN-X, VinUniversity</a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
@@ -396,9 +397,9 @@ for lang in ('vi', 'en'):
 {news_html}
 {research_html}
 {mentor_html}
-<section class="belief dir" id="direction" data-toc="04"><div class="wrap">{sec_head("04", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
+<section class="belief dir" id="direction" data-toc="05"><div class="wrap">{sec_head("05", "Định hướng" if vi_ else "Direction")}<div class="belief-grid"><div class="reveal"><div class="mono">{t['believe']}</div><q>{t['slogan']}</q></div>
 <div class="reveal"><div class="mono">{t['h_int']}</div><ol class="ints">{ints}</ol></div></div></div></section>
-<section class="teaser-wrap jhome" data-toc="05"><div class="wrap">{sec_head("05", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
+<section class="teaser-wrap jhome" data-toc="06"><div class="wrap">{sec_head("06", t['t_title'])}<a class="teaser reveal" href="{rel(p, U['journey'])}" data-j3d="teaser" data-stages="{stage_json(lang)}"><canvas></canvas><div class="cap"><div class="mono">{len(JOURNEY)} {t['t_n']}</div><p>{E(t['d_journey'])}</p><span class="btn pri">{t['t_btn']}</span></div></a></div></section>
 {hl_html}
 '''
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))
