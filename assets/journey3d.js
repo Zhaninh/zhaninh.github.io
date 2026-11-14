@@ -32,7 +32,7 @@
   /* ---------- hình học ---------- */
   var R2 = Math.SQRT1_2, AMP = 7.5, K = Math.PI / 28, RW = 2.6, RS = U0 - 46;
   var PW = null; /* đoạn đèo: đường uốn lượn thêm */
-  function vOf(u) { var v = AMP * Math.sin(u * K); if (PW && u > PW[0] && u < PW[1]) { var s_ = (u - PW[0]) / (PW[1] - PW[0]), win = Math.pow(Math.sin(Math.PI * s_), 2); v += 3 * Math.sin(2 * Math.PI * (u - PW[0]) / 17) * win; } return v; }
+  function vOf(u) { var v = AMP * Math.sin(u * K); if (PW && u > PW[0] && u < PW[1]) { var s_ = (u - PW[0]) / (PW[1] - PW[0]), win = Math.pow(Math.sin(Math.PI * s_), 2); v += 1.8 * Math.sin(2 * Math.PI * (u - PW[0]) / 30) * win; } return v; }
   function pV(u, v, y) { return new T.Vector3((-u + v) * R2, y || 0, (-u - v) * R2); }
   function tan(u) { var d = (vOf(u + .01) - vOf(u - .01)) / .02, x = (-1 + d) * R2, z = (-1 - d) * R2, l = Math.hypot(x, z); return { x: x / l, z: z / l }; }
   /* đèo AI Valley: đoạn đường sau bùng binh của giai đoạn đầu lên dốc rồi xuống dốc; mặt đất nhô lên thành sống đồi theo đường */
@@ -853,6 +853,6 @@
     var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + uToP(uu - 6) * (root.offsetHeight - innerHeight);
     scrollTo({ top: Math.max(0, y), left: 0, behavior: 'instant' }); uT = uS = uu - 6; }
   toStage(); addEventListener('hashchange', toStage);
-  if (full) window.__j3d = { keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
+  if (full) window.__j3d = { pV: pV, vOf: vOf, RS: RS, uNow: uNow, PASS: PASS, rbU: rbU, keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
   frame();
 })();
