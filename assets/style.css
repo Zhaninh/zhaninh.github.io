@@ -1175,3 +1175,13 @@ html.rs .reveal{transition:none!important}
 /* popup kính: không làm mờ dần bằng opacity (opacity < 1 làm kính tạm mất hiệu ứng, ảnh phía sau lộ ra rồi giật); chỉ trượt nhẹ khi hiện */
 .toc-panel,.toc-fly,.toc-lgpop{opacity:1!important;transition:transform .22s var(--ease),visibility 0s .22s!important}
 .toc.open .toc-panel,.toc-i.fo .toc-fly,.toc-pp:hover .toc-lgpop,.toc-pp.open .toc-lgpop,.toc-pp:focus-within .toc-lgpop,.toc.lgo .pill-lgpop{transition:transform .22s var(--ease),visibility 0s!important}
+/* bảng mục lục vừa khít nội dung, không kéo dài */
+.toc-panel{width:max-content;min-width:250px}
+@media (min-width:861px){.toc.side .toc-panel{width:max-content}}
+.toc-i.has>a::after{margin-left:auto;padding-left:0}
+.toc-i>a{gap:14px;padding-right:12px}
+.toc-i.has>a .tt{margin-right:28px}
+/* đổi trang êm: nội dung mới hiện dần nhẹ nhàng, topbar giữ nguyên */
+@keyframes pagein{from{opacity:0}}
+main{animation:pagein .5s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){main{animation:none}}
