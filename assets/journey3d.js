@@ -36,12 +36,15 @@
   function pV(u, v, y) { return new T.Vector3((-u + v) * R2, y || 0, (-u - v) * R2); }
   function tan(u) { var d = (vOf(u + .01) - vOf(u - .01)) / .02, x = (-1 + d) * R2, z = (-1 - d) * R2, l = Math.hypot(x, z); return { x: x / l, z: z / l }; }
   /* đèo AI Valley: đoạn đường sau bùng binh của giai đoạn đầu lên dốc rồi xuống dốc; mặt đất nhô lên thành sống đồi theo đường */
-  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 18, mainU[0] + 58] : null, PH = 5.5; PW = PASS;
+  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 18, mainU[0] + 58] : null, PH = 7; PW = PASS;
   function hU(u) { if (!PASS || u <= PASS[0] || u >= PASS[1]) return 0; var q = Math.sin(Math.PI * (u - PASS[0]) / (PASS[1] - PASS[0])); return PH * q * q; }
-  function bell(off) { off = off || 0; var vs = off > 0, a = Math.abs(off), f0 = vs ? 15 : 4.5, f1 = vs ? 27 : 16; if (a <= f0) return 1; if (a >= f1) return 0; var q = 1 - (a - f0) / (f1 - f0); return q * q * (3 - 2 * q); } /* phía AI Valley (off > 0) có nền phẳng rộng; phía kia là sườn dốc */
+  function bell(off) { off = off || 0; var a = Math.abs(off), f0 = 6, f1 = 26; if (a <= f0) return 1; if (a >= f1) return 0; var q = 1 - (a - f0) / (f1 - f0); return q * q * (3 - 2 * q); } /* phía AI Valley (off > 0) có nền phẳng rộng; phía kia là sườn dốc */
   function terr(u, off) { return hU(u) * bell(off); }
   function inPass(u, off, m) { return PASS && u > PASS[0] - (m || 0) && u < PASS[1] + (m || 0) && Math.abs(off || 0) < 28 + (m || 0); }
-  function pos(u, off, y) { var p = pV(u, vOf(u), y); if (off) { var t = tan(u); p.x += -t.z * off; p.z += t.x * off; } p.y += terr(u, off); return p; }
+  var PS = null; /* mẫu đường trên đèo: [x, z, nx, nz, u] */
+  function hAt(x, z) { if (!PS) return 0; var h = 0; for (var i = 0; i < PS.length; i++) { var e = PS[i], dx = x - e[0], dz = z - e[1], d = dx * dx + dz * dz; if (d < 26 * 26) { var v = hU(e[4]) * bell(Math.sqrt(d)); if (v > h) h = v; } } return h; } /* lấy cao nhất trong các đoạn đường gần đó: mặt đồi liền, không có vách */
+  function pos(u, off, y) { var p = pV(u, vOf(u), y); if (off) { var t = tan(u); p.x += -t.z * off; p.z += t.x * off; } p.y += PS ? hAt(p.x, p.z) : 0; return p; }
+  if (PASS) { PS = []; for (var su = PASS[0] - 3; su <= PASS[1] + 3; su += .25) { var sp0 = pV(su, vOf(su)), st = tan(su); PS.push([sp0.x, sp0.z, -st.z, st.x, su]); } }
   function strip(u0, u1, fa, fb, y, mat) {
     var P = [], I = [], k = 0;
     for (var u = u0; u <= u1 + 1e-6; u += .5, k++) { var a = fa(u), b = fb(u); P.push(a.x, y + a.y, a.z, b.x, y + b.y, b.z); if (k) { var i = k * 2; I.push(i - 2, i - 1, i, i - 1, i + 1, i); } }
@@ -159,18 +162,26 @@
 
   /* ---------- đường: lề, nhựa, vạch. Mỗi lớp một cao độ riêng để không bị nhấp nháy ---------- */
   if (PASS) (function () {
-    var P = [], I = [], CL = [], cols = 0, rows = 0, u, o;
-    for (u = PASS[0] - 1; u <= PASS[1] + 1; u += .5, rows++) { cols = 0; for (o = -30; o <= 30.01; o += 1.5, cols++) { var q = pos(u, o), f = Math.pow(Math.min(1, q.y / PH), .6); P.push(q.x, q.y - .02, q.z); CL.push(.984 + (.73 - .984) * f, .992 + (.86 - .992) * f, .973 + (.55 - .973) * f); } }
-    for (var r = 0; r < rows - 1; r++) for (var c = 0; c < cols - 1; c++) { var a = r * cols + c, b = a + cols; I.push(a, b, a + 1, a + 1, b, b + 1); }
+    var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, u, k3;
+    PS.forEach(function (e) { x0 = Math.min(x0, e[0]); x1 = Math.max(x1, e[0]); z0 = Math.min(z0, e[1]); z1 = Math.max(z1, e[1]); });
+    x0 -= 30; x1 += 30; z0 -= 30; z1 += 30; var ST = 1, nx = Math.ceil((x1 - x0) / ST) + 1, nz = Math.ceil((z1 - z0) / ST) + 1, P = [], CL = [], H = [], I = [];
+    for (var iz = 0; iz < nz; iz++) for (var ix = 0; ix < nx; ix++) { var X = x0 + ix * ST, Z = z0 + iz * ST, h = hAt(X, Z), f = Math.min(1, Math.floor(h / PH * 6 + .35) / 6 * 1.05); H.push(h); P.push(X, h - .03, Z); CL.push(.984 + (.70 - .984) * f, .992 + (.84 - .992) * f, .973 + (.50 - .973) * f); }
+    for (iz = 0; iz < nz - 1; iz++) for (var ix2 = 0; ix2 < nx - 1; ix2++) { var a0 = iz * nx + ix2, b0 = a0 + nx; if (H[a0] + H[a0 + 1] + H[b0] + H[b0 + 1] < .01) continue; I.push(a0, b0, a0 + 1, a0 + 1, b0, b0 + 1); }
     var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setAttribute('color', new T.Float32BufferAttribute(CL, 3)); g.setIndex(I); g.computeVertexNormals();
-    var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 1, side: T.DoubleSide })); hill.receiveShadow = true; scene.add(hill);
+    var hill = new T.Mesh(g, new T.MeshStandardMaterial({ vertexColors: true, flatShading: false, roughness: 1 })); hill.receiveShadow = true; scene.add(hill);
     function plate(txt) { var cv = document.createElement('canvas'); cv.width = 256; cv.height = 96; var x = cv.getContext('2d'); x.fillStyle = '#1F5FA8'; x.fillRect(0, 0, 256, 96); x.strokeStyle = '#fff'; x.lineWidth = 6; x.strokeRect(6, 6, 244, 84); x.fillStyle = '#fff'; x.font = '600 40px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(txt, 128, 50); return new T.Mesh(new T.PlaneGeometry(1.5, .56), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), side: T.DoubleSide })); }
-    function slope(uu, up, txt) { /* biển báo dốc: tam giác vàng có hình dốc, kèm bảng tên đèo */
-      var sp = pos(uu, -S * (RW + 1.3)), sign = new T.Group(), tri = new T.Shape(), sl = new T.Shape();
-      tri.moveTo(-.62, 0); tri.lineTo(.62, 0); tri.lineTo(0, 1.06); tri.closePath();
-      if (up) { sl.moveTo(-.34, .2); sl.lineTo(.34, .2); sl.lineTo(.34, .62); sl.closePath(); } else { sl.moveTo(-.34, .2); sl.lineTo(.34, .2); sl.lineTo(-.34, .62); sl.closePath(); }
-      var pl = plate(txt); pl.position.set(0, 1.0, .06);
-      sign.add(cyl(.05, .05, 2.3, C.steel, 0, 1.15, 0, 8), mesh(new T.ExtrudeGeometry(tri, { depth: .07, bevelEnabled: false }), M(C.gold), 0, 1.5, -.035), mesh(new T.ExtrudeGeometry(sl, { depth: .02, bevelEnabled: false }), M(0x22262A), 0, 1.5, .04), pl);
+    function face(up) { /* biển cảnh báo dốc theo kiểu biển Việt Nam: tam giác viền đỏ, nền vàng, hình dốc đen nằm gọn bên trong */
+      var cv = document.createElement('canvas'); cv.width = 256; cv.height = 230; var x = cv.getContext('2d');
+      function tri(m) { x.beginPath(); x.moveTo(128, 8 + m * 1.6); x.lineTo(248 - m * 1.4, 222 - m * .8); x.lineTo(8 + m * 1.4, 222 - m * .8); x.closePath(); }
+      x.lineJoin = 'round'; tri(0); x.fillStyle = '#fff'; x.fill(); tri(7); x.fillStyle = '#D7262E'; x.fill(); tri(24); x.fillStyle = '#F5C542'; x.fill();
+      x.fillStyle = '#1C1F22'; x.beginPath(); if (up) { x.moveTo(78, 186); x.lineTo(178, 186); x.lineTo(178, 118); } else { x.moveTo(78, 186); x.lineTo(178, 186); x.lineTo(78, 118); } x.closePath(); x.fill();
+      x.font = '700 30px system-ui,sans-serif'; x.textAlign = 'center'; x.fillText('10%', up ? 112 : 144, 176);
+      var m = new T.Mesh(new T.PlaneGeometry(1.25, 1.12), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), transparent: true, alphaTest: .5, side: T.DoubleSide })); return m;
+    }
+    function slope(uu, up, txt) {
+      var sp = pos(uu, -S * (RW + 1.3)), sign = new T.Group(), f = face(up), pl = plate(txt);
+      f.position.set(0, 2.05, .06); pl.position.set(0, 1.18, .06);
+      sign.add(cyl(.05, .05, 2.6, C.steel, 0, 1.3, 0, 8), f, pl);
       sign.position.copy(sp); sign.rotation.y = FACE; scene.add(sign); claim(sp.x, sp.z, .7, 0, 1);
     }
     for (u = PASS[0] + 1.5; u < PASS[1] - 1.5; u += 1.6) { /* hộ lan bên phía vực */
@@ -739,7 +750,9 @@
     el.classList.toggle('below', !!below); el.style.transform = 'translate(-50%,' + (below ? '0' : '-100%') + ') translate(' + x.toFixed(1) + 'px,' + xy[1].toFixed(1) + 'px)'; el.style.setProperty('--sx', (xy[0] - x).toFixed(1) + 'px'); el.style.opacity = on ? 1 : 0; }
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
-  function carLat(u) { var l = RW / 2, W = 5.2 * RB * 1.25; for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]); if (du < W) l += (3.5 * RB - RW / 2) * Math.pow(Math.cos(du / W * Math.PI / 2), 2); } return l; } /* vào bùng binh từ xa, vòng êm quanh đảo */
+  function carLat(u) { var b = RW / 2, Rl = 3.6 * RB, c = 0, k = .9, sm = function (x, y) { return (x + y + Math.sqrt((x - y) * (x - y) + k * k)) / 2; };
+    for (var q = 0; q < rbU.length; q++) { var du = u - rbU[q]; if (Math.abs(du) < Rl) c = Math.max(c, Math.sqrt(Rl * Rl - du * du)); }
+    return sm(b, c) - (sm(b, 0) - b); } /* trong bùng binh xe chạy theo vòng tròn quanh đảo, ra vào êm */ /* vào bùng binh từ xa, vòng êm quanh đảo */
   function frame() {
     requestAnimationFrame(frame); if (!visible) return;
     var raw = clock.getDelta(), dt = Math.min(.05, raw), tm = clock.elapsedTime, k;
@@ -755,6 +768,7 @@
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
     var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
+    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh);
     car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
