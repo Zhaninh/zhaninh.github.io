@@ -1,3 +1,6 @@
+/* chuyển cảnh giữa hai trang: topbar chỉ được gắn tên chuyển cảnh trong lúc chuyển, vì gắn thường trực sẽ chặn hiệu ứng kính */
+addEventListener('pageswap',function(e){if(e.viewTransition){var n=document.querySelector('.nav');if(n)n.style.viewTransitionName='topbar'}});
+addEventListener('pagereveal',function(e){if(e.viewTransition){var n=document.querySelector('.nav');if(n){n.style.viewTransitionName='topbar';e.viewTransition.finished.finally(function(){n.style.viewTransitionName=''})}}});
 document.addEventListener('DOMContentLoaded',function(){
   var d=document,h=d.querySelector('.name');
   if(h){var i=0;h.innerHTML=h.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g,function(m,tag,w){return tag?tag:'<span class="w" style="--i:'+(i++)+'">'+w+'</span>'});}
@@ -48,11 +51,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav'))lens(e)})}
       var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});(window.requestIdleCallback||setTimeout)(all);
       d.querySelectorAll('.pill,.toc-i,.toc-pp,.pill .pl').forEach(function(e){e.addEventListener('pointerenter',function(){setTimeout(all,30)},{passive:true});e.addEventListener('click',function(){setTimeout(all,30)})})}
-    function lum(c){var m=c.match(/[\d.]+/g);if(!m||(m.length>3&&+m[3]<.5))return null;return(.2126*m[0]+.7152*m[1]+.0722*m[2])/255}
-    function under(x,y){var es=d.elementsFromPoint(x,y);for(var i=0;i<es.length;i++){var e=es[i];if(nav.contains(e)||e.classList.contains('bar'))continue;if(e.tagName==='IMG'||e.tagName==='VIDEO')return 0.3;
-      for(var a=e;a&&a!==d.documentElement;a=a.parentElement){var L=lum(getComputedStyle(a).backgroundColor);if(L!==null)return L}return 1}return 1}
-    var busy=false;function tone(){busy=false;var r=nav.getBoundingClientRect(),y=r.top+r.height/2,dk=0,xs=[.1,.3,.5,.7,.9];xs.forEach(function(f){if(under(r.left+r.width*f,y)<.45)dk++});nav.classList.toggle('tone-dark',dk>=3)}
-    addEventListener('scroll',function(){if(!busy){busy=true;requestAnimationFrame(tone)}},{passive:true});addEventListener('resize',tone);tone()})();
+  })();
   /* thanh tiến độ cuộn */
   var bar=d.createElement('div');bar.className='bar';d.body.appendChild(bar);
   function sc(){var m=d.documentElement.scrollHeight-innerHeight;bar.style.setProperty('--p',m>0?scrollY/m:0)}addEventListener('scroll',sc,{passive:true});sc();

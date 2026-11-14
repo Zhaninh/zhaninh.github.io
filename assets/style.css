@@ -1145,3 +1145,12 @@ html.rs .reveal{transition:none!important}
 .nav.tone-dark .brand{color:#F1F7EC}
 #lens-defs{position:absolute;width:0;height:0;overflow:hidden}
 .ab-r b .nw,.ab-ri b .nw,.ab-r b span{font:inherit;color:inherit}
+/* bỏ đổi tông cả thanh: kính chỉ phản ánh từng điểm phía sau; chữ thương hiệu có quầng sáng nhẹ để luôn đọc được */
+.nav.tone-dark{--glass:color-mix(in srgb,var(--card) 50%,transparent);--rim:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.4),inset 1px 0 0 rgba(255,255,255,.45),inset -1px 0 0 rgba(255,255,255,.3),inset 0 0 16px rgba(255,255,255,.3);border-color:color-mix(in srgb,var(--line) 75%,#fff)}
+.nav.tone-dark .brand{color:inherit}
+.brand{text-shadow:0 0 10px rgba(255,255,255,.85),0 0 2px rgba(255,255,255,.9)}
+
+/* chuyển cảnh: cùng một yếu tố có mặt ở cả hai trang (topbar, ảnh chân dung, ảnh người hướng dẫn, tên dự án) sẽ trượt từ trang cũ sang trang mới */
+::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(topbar),::view-transition-new(topbar){animation:none}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*){animation:none}}
