@@ -213,7 +213,7 @@ STAGE_PROJECTS = {
 # CỘT MỐC: việc có thật nhưng không phải dự án và không phải giai đoạn (vật thể nhỏ, nhãn nhỏ, không bấm được)
 #   (vật thể: cert = chứng chỉ | teky = lớp học nhỏ, nhãn vi, nhãn en)
 MILESTONES = {
-    0: [('cert', 'Chứng chỉ sư phạm', 'Teaching certificate'), ('teky', 'Trợ giảng', 'Teaching assistant')],
+    0: [('valley', 'Thực tập · FPT Software Quy Nhơn AI Valley', 'Internship · FPT Software Quy Nhon AI Valley'), ('cert', 'Chứng chỉ sư phạm', 'Teaching certificate'), ('teky', 'Trợ giảng', 'Teaching assistant')],
 }
 # Tên hiện trên công trình chính của từng giai đoạn
 PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity'), 3: ('Giảng dạy đại học tại Việt Nam', 'University teaching in Vietnam')}
@@ -279,10 +279,13 @@ def toc_html(lang, path, key, twin):
         fly = (f'<div class="toc-fly{" stack" if max(len(k) for k, _, _ in sub) > 4 else ""}"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
         li += f'<li class="toc-i{" has" if sub else ""}{" on" if n == cur else ""}" data-n="{n}"><a href="{href}"><span class="tn">{n}</span><span class="tt">{E(h)}</span></a>{fly}</li>'
     def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" title="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
-    icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + ic('mail', 'mailto:' + EMAIL_WORK, 'Email')
+    mails = ''.join(f'<a class="ml" href="mailto:{m}"><small>{T[lang][k]}</small>{m}</a>' for k, m in (('mail_work', EMAIL_WORK), ('mail_me', EMAIL)))
+    mailbox = (f'<div class="toc-pp"><button type="button" class="toc-ic" aria-label="Email" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["mail"]}</svg></button>'
+               f'<div class="toc-lgpop toc-mlpop"><span class="lgk">2 email</span>{mails}</div></div>')
+    icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + mailbox
     nl_ = 'ngôn ngữ' if vi_ else 'languages'
     opts = ''.join((f'<span class="on" aria-current="true">{nm}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></span>' if lg == lang else f'<a href="{r(twin)}" hreflang="{lg}" lang="{lg}">{nm}</a>') for lg, nm in (('vi', 'Tiếng Việt'), ('en', 'English')))
-    langbox = (f'<div class="toc-lg"><button type="button" class="toc-ic" aria-label="{"Ngôn ngữ" if vi_ else "Language"}" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["lang"]}</svg></button>'
+    langbox = (f'<div class="toc-lg toc-pp"><button type="button" class="toc-ic" aria-label="{"Ngôn ngữ" if vi_ else "Language"}" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["lang"]}</svg></button>'
                f'<div class="toc-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div></div>')
     cn, ct = (cur, names[cur]) if cur else ('', start)
     return (f'<header class="nav"><a class="brand" href="{home}"><img src="{r("assets/clover.svg")}" alt="">Aaron</a>'

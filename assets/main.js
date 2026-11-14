@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded',function(){
   /* viên mục lục: bấm mở bảng; rê chuột vào mục thì hiện mục con; trang chủ thì đổi mục đang đọc theo vị trí cuộn */
   var tc=d.querySelector('.toc');
   if(tc){var pl=tc.querySelector('.pill'),fine=matchMedia('(hover:hover)').matches,tm=null;
-    function setO(o){tc.classList.toggle('open',o);pl.setAttribute('aria-expanded',o?'true':'false');if(!o){var g=tc.querySelector('.toc-lg');if(g)g.classList.remove('open')}if(!o)tc.querySelectorAll('.toc-i.fo').forEach(function(x){x.classList.remove('fo')})}
+    function setO(o){tc.classList.toggle('open',o);pl.setAttribute('aria-expanded',o?'true':'false');if(!o)tc.querySelectorAll('.toc-pp.open').forEach(function(g){g.classList.remove('open')});if(!o)tc.querySelectorAll('.toc-i.fo').forEach(function(x){x.classList.remove('fo')})}
     pl.addEventListener('click',function(e){e.stopPropagation();setO(!tc.classList.contains('open'))});
     d.addEventListener('click',function(e){if(!tc.contains(e.target))setO(false)});
     addEventListener('keydown',function(e){if(e.key==='Escape')setO(false)});
@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded',function(){
     if(fine)tc.querySelectorAll('.toc-i').forEach(function(it){
       it.addEventListener('mouseenter',function(){clearTimeout(tm);tc.querySelectorAll('.toc-i.fo').forEach(function(x){if(x!==it)x.classList.remove('fo')});if(it.classList.contains('has'))it.classList.add('fo')});
       it.addEventListener('mouseleave',function(){tm=setTimeout(function(){it.classList.remove('fo')},160)})});
-    var lg=tc.querySelector('.toc-lg');if(lg)lg.querySelector('button').addEventListener('click',function(e){e.stopPropagation();lg.classList.toggle('open')});
+    tc.querySelectorAll('.toc-pp').forEach(function(pp){pp.querySelector('button').addEventListener('click',function(e){e.stopPropagation();var o=!pp.classList.contains('open');tc.querySelectorAll('.toc-pp.open').forEach(function(x){x.classList.remove('open')});pp.classList.toggle('open',o)})});
+    /* màn hình ngang rộng: bảng mục lục mở ra ở khoảng trống bên phải thanh trên, không che nội dung */
+    var nav=d.querySelector('.nav');function side(){var sp=innerWidth-nav.getBoundingClientRect().right-24;tc.classList.toggle('side',sp>=300);tc.style.setProperty('--sw',Math.min(356,sp)+'px')}addEventListener('resize',side);side();
     var secs=[].slice.call(d.querySelectorAll('[data-toc]'));
     if(secs.length){var nm=JSON.parse(tc.getAttribute('data-names')),pn=pl.querySelector('.pn'),pt=pl.querySelector('.pt'),last='-';
       function spy(){var y=innerHeight*.35,c='';secs.forEach(function(s){if(s.getBoundingClientRect().top<=y)c=s.getAttribute('data-toc')});
