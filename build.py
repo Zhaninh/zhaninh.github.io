@@ -20,7 +20,7 @@ T = {  # chuỗi giao diện
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
             hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
             interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
-            bio='Tôi nghiên cứu trí tuệ nhân tạo ứng dụng, trọng tâm là thị giác máy tính, với mong muốn đưa kết quả nghiên cứu vào các bài toán thực tế tại Việt Nam.',
+            bio='Tôi nghiên cứu <span class="ri">trí tuệ nhân tạo ứng dụng</span>, trọng tâm là <span class="ri">thị giác máy tính</span>, với mong muốn đưa kết quả nghiên cứu vào các bài toán thực tế tại Việt Nam.',
             go_journey='Đi cùng tôi qua hành trình', j_sub='Bản đồ 3D: các giai đoạn, dự án và chặng phía trước', c_label='liên hệ', believe='quan điểm nghiên cứu', now='đang thực hiện', t_title='Hành trình nghiên cứu', t_btn='Xem hành trình', t_n='giai đoạn', bump='khó khăn và bài học', hint='cuộn xuống để đi tiếp ↓', unknown='chưa xác định', p_in='dự án trong chặng này', p_tag='dự án', p_stage='giai đoạn', menu='Mục lục', more='Xem thêm', less='Thu gọn', p_close='Quay lại hành trình', p_page='Mở trang riêng của dự án',
             doing='đang thực hiện', read='Xem đề tài', role='Vai trò', where='Nơi thực hiện', status='Trạng thái', links='Minh chứng', nolinks='Sẽ bổ sung khi kết quả được công bố.',
             back='Tất cả đề tài', cv='Lý lịch khoa học (PDF)', contact='Liên hệ',
@@ -34,7 +34,7 @@ T = {  # chuỗi giao diện
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
             hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
             interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.')], h_int='research interests', featured='featured project',
-            bio='I work on applied artificial intelligence with a focus on computer vision, aiming to bring research results to real-world problems in Vietnam.',
+            bio='I work on <span class="ri">applied artificial intelligence</span> with a focus on <span class="ri">computer vision</span>, aiming to bring research results to real-world problems in Vietnam.',
             go_journey='Take the journey with me', j_sub='A 3D map of stages, projects and the road ahead', c_label='contact', believe='research outlook', now='in progress', t_title='Research journey', t_btn='See the journey', t_n='stages', bump='difficulties and lessons', hint='scroll down to continue ↓', unknown='not yet known', p_in='projects in this stage', p_tag='project', p_stage='stage', menu='Menu', more='More', less='Less', p_close='Back to the journey', p_page='Open the project page',
             doing='in progress', read='View project', role='Role', where='Where', status='Status', links='Evidence', nolinks='Links will appear when results are public.',
             back='All projects', cv='Download CV (PDF)', contact='Contact',
@@ -253,6 +253,47 @@ ICON = dict(
  mail='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
  lang='<path d="M4 5h7M9 3v2c0 4.4-2.2 8-5 8"/><path d="M5 9c0 2.1 3 3.9 6.7 4M12 20l4-9 4 9M19.1 18h-6.2"/>')
 
+# ---- trang Giới thiệu (kiểu trang hồ sơ giảng viên) ----
+BIO = {
+ 'vi': ['Tôi là trợ lý nghiên cứu tại GREEN-X (Smart Green Transformation Center), VinUniversity, làm việc dưới sự hướng dẫn của TS. Phùng Mạnh Dương. Tôi tốt nghiệp cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo, tại Trường Đại học FPT năm 2025.',
+        'Trước khi đến GREEN-X, tôi thực tập tại FPT Software Quy Nhơn AI Valley, làm nghiên cứu viên AI tại Perception Technology Solutions và chuyên viên công nghệ tại VinBigData, chủ yếu với các bài toán thị giác máy tính. Hiện tôi phụ trách xây dựng NTCoral, bộ dữ liệu ảnh rạn san hô Việt Nam, cùng các nhà sinh học biển.',
+        'Tôi dự định học tiếp thạc sĩ và tiến sĩ, với mong muốn sau này giảng dạy đại học tại Việt Nam.'],
+ 'en': ['I am a research assistant at GREEN-X (Smart Green Transformation Center), VinUniversity, working under the supervision of Dr. Phung Manh Duong. I received my bachelor’s degree in Information Technology, with a specialisation in Artificial Intelligence, from FPT University in 2025.',
+        'Before GREEN-X, I interned at FPT Software Quy Nhon AI Valley, worked as an AI researcher at Perception Technology Solutions and as a technology specialist at VinBigData, mostly on computer vision problems. I currently lead the data work of NTCoral, an image dataset of Vietnamese coral reefs built with marine biologists.',
+        'I plan to pursue a master’s degree and a PhD, and later to teach at a university in Vietnam.'],
+}
+EDU = [('2021 – 2025', ('Cử nhân Công nghệ thông tin, chuyên ngành Trí tuệ nhân tạo', 'Trường Đại học FPT, TP. Hồ Chí Minh', 'Khoá luận: hệ thống đọc khẩu hình tự động dựa trên học sâu. Sinh viên xuất sắc học kỳ Hè 2023.'),
+                        ('Bachelor in Information Technology, Artificial Intelligence specialisation', 'FPT University, Ho Chi Minh City', 'Capstone: an automatic lip reading system based on deep learning. Honor Student, Summer 2023.'))]
+EXP = [('04.2026 –', ('Trợ lý nghiên cứu', 'GREEN-X, VinUniversity · Hà Nội'), ('Research Assistant', 'GREEN-X, VinUniversity · Hanoi')),
+       ('07.2025 – 04.2026', ('Chuyên viên công nghệ (nhánh nghiên cứu AI)', 'VinBigData · Hà Nội'), ('Technology Specialist (AI research track)', 'VinBigData · Hanoi')),
+       ('01.2024 – 07.2025', ('Nghiên cứu viên AI', 'Perception Technology Solutions · làm từ xa'), ('AI Researcher', 'Perception Technology Solutions · remote')),
+       ('09 – 12.2023', ('Thực tập sinh kỹ sư AI', 'FPT Software Quy Nhơn AI Valley · Quy Nhơn'), ('AI Engineer Intern', 'FPT Software Quy Nhon AI Valley · Quy Nhon'))]
+ABOUT_SECS = {'vi': [('bio', 'Tiểu sử'), ('interests', 'Hướng nghiên cứu'), ('education', 'Học vấn'), ('experience', 'Kinh nghiệm'), ('selected', 'Công bố tiêu biểu')],
+              'en': [('bio', 'Biography'), ('interests', 'Research interests'), ('education', 'Education'), ('experience', 'Experience'), ('selected', 'Selected publications')]}
+
+def about_page(lang, t, U):
+    p = U['about']; vi_ = lang == 'vi'; S = dict(ABOUT_SECS[lang])
+    def sec(i, k, inner): return f'<section class="ab-s reveal" id="{k}"><div class="ab-h"><span class="mono">{i:02d}</span><h2>{S[k]}</h2></div><div class="ab-c">{inner}</div></section>'
+    bio = ''.join(f'<p>{E(x)}</p>' for x in BIO[lang])
+    ints = '<ul class="ab-ri">' + ''.join(f'<li><b>{E(a)}</b><span>{E(d)}</span></li>' for a, d in t['interests']) + '</ul>'
+    edu = ''.join(f'<div class="ab-r"><span class="ab-d">{w}</span><div><b>{E(v[0])}</b><span>{E(v[1])}</span><small>{E(v[2])}</small></div></div>' for w, a, b in EDU for v in [a if vi_ else b])
+    exp = ''.join(f'<div class="ab-r"><span class="ab-d">{w}</span><div><b>{E(v[0])}</b><span>{E(v[1])}</span></div></div>' for w, a, b in EXP for v in [a if vi_ else b])
+    def pub(x):
+        y, st, tt, au, vv, ve, u, sl = x
+        href = rel(p, U['workdir'] + sl + '.html') if sl else (u or '')
+        return f'<div class="ab-r"><span class="ab-d">{y}</span><div><b>{f"<a href={chr(34)}{href}{chr(34)}>{E(tt)}</a>" if href else E(tt)}</b><span class="au">{au}</span><small>{E(vv if vi_ else ve)}</small></div></div>'
+    pubs = ''.join(pub(x) for x in PUBS[:3]) + f'<a class="ab-more" href="{rel(p, U["pubs"])}">{"Tất cả công bố" if vi_ else "All publications"} <i>→</i></a>'
+    dg = next(m for m in MENTORS if m['slug'] == 'phung-manh-duong')
+    lk = (f'<a href="{rel(p, "assets/Aaron_CV.pdf")}">CV ↓</a><a href="{SCHOLAR}" rel="noopener">Google Scholar</a><a href="https://github.com/Zhaninh" rel="noopener">GitHub</a>'
+          f'<a href="{LINKEDIN}" rel="noopener">LinkedIn</a><a href="mailto:{EMAIL_WORK}">Email</a>')
+    head_ = (f'<section class="mx ab-top"><div class="wrap"><div class="mx-grid"><div class="mx-l"><figure class="mx-ph ab-ph"><img src="{rel(p, "assets/aaron_cut.webp")}" alt="{E(t["name"].replace("<br>", " "))}"></figure></div>'
+             f'<div class="mx-b"><div class="mx-k">{"Giới thiệu" if vi_ else "About"}</div><h1>{t["name"]}</h1><p class="mx-org">Aaron · {E(t["myrole"])}</p>'
+             f'<p class="mx-lead">{t["bio"]}</p>'
+             f'<ul class="mx-facts"><li>{"Người hướng dẫn" if vi_ else "Supervisor"}: <a href="{rel(p, U["mdir"] + dg["slug"] + ".html")}">{E(dg[lang]["name"])}</a></li></ul>'
+             f'<nav class="mx-links">{lk}</nav></div></div></div></section>')
+    body = head_ + '<div class="ab"><div class="wrap">' + sec(1, 'bio', bio) + sec(2, 'interests', ints) + sec(3, 'education', edu) + sec(4, 'experience', exp) + sec(5, 'selected', pubs) + '</div></div>'
+    write(p, shell(lang, 'about', p, ('Giới thiệu' if vi_ else 'About') + ' · Aaron', body))
+
 def toc_html(lang, path, key, twin):
     """Thanh trên: logo + một viên mục lục (mục đang đọc · ngôn ngữ · ba gạch); bấm mở bảng mục lục, rê chuột vào mục thì hiện mục con."""
     U = URL[lang]; vi_ = lang == 'vi'; r = lambda x: rel(path, x)
@@ -260,7 +301,7 @@ def toc_html(lang, path, key, twin):
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def nt(tg): return (r(U['hl']) + '#' + tg[1]) if tg[0] == 'hl' else r(U['workdir'] + tg[1] + '.html')
     rows = [
-     ('01', 'Giới thiệu' if vi_ else 'About', home + '#about', []),
+     ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
      ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in WORK]),
      ('04', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
@@ -271,7 +312,7 @@ def toc_html(lang, path, key, twin):
     ]
     if path.startswith(U['workdir']): cur = '03'
     elif path.startswith(U['mdir']): cur = '04'
-    else: cur = {'journey': '06', 'hl': '07', 'pubs': '08', 'home': '01'}.get(key, '')
+    else: cur = {'journey': '06', 'hl': '07', 'pubs': '08', 'home': '01', 'about': '01'}.get(key, '')
     names = {n: h for n, h, _, _ in rows}
     start = 'Trang chủ' if vi_ else 'Home'
     li = ''
@@ -393,7 +434,7 @@ for lang in ('vi', 'en'):
 <div class="hello">{t['hello']}</div>
 <h1 class="name">{t['name']}</h1>
 <p class="role">{t['role_pre']} <a class="gxt" href="{GREENX}">GREEN-X, VinUniversity</a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
-<p class="bio">{t['bio']}</p>
+<p class="bio">{t['bio']} <a class="bio-more" href="{rel(p, U['about'])}">{'Giới thiệu đầy đủ' if vi_ else 'Full profile'}&nbsp;→</a></p>
 <a class="jbtn" href="{rel(p, U['journey'])}"><span class="ji"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42c0-10 14-8 16-18S14 12 18 6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 6"/><circle cx="18" cy="6" r="4" fill="currentColor"/><circle cx="8" cy="42" r="3" fill="currentColor"/></svg></span><span class="jt"><b>{t['go_journey']}</b><small>{t['j_sub']}</small></span><span class="ja"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a></div>
 <figure class="pfig reveal"><div class="portrait"><div class="disc"></div><div class="orbit"><i></i></div><img class="me" src="{rel(p, 'assets/aaron_cut.webp')}" alt="{E(t['name'].replace('<br>', ' '))}" width="760" height="1000"></div></figure></div>
 <p class="hslogan reveal"><span>{t['slogan']}</span></p>
@@ -479,12 +520,7 @@ for lang in ('vi', 'en'):
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
     body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'
     write(p, shell(lang, 'hl', p, t['hl'] + ' · Aaron', body))
-    # ---- giới thiệu ----
-    p = U['about']
-    parts = ''.join(f'<h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in ps) for h, ps in ABOUT[lang])
-    body = head(t['h_about'], t['s_about']) + f'''<section><div class="wrap split"><div class="prose reveal">{parts}</div>
-<aside class="box"><h4>CV</h4><div><a class="link" href="{rel(p, 'assets/Aaron_CV.pdf')}">{t['cv']}</a></div><h4>{t['contact']}</h4><div><a class="link" href="mailto:{EMAIL}">{EMAIL}</a></div></aside></div></section>'''
-    write(p, shell(lang, 'about', p, t['about'] + ' · Aaron', body))
+    about_page(lang, t, U)
 
 open(os.path.join(ROOT, '.nojekyll'), 'w').write('')
 # README.md được viết tay, build.py không ghi đè

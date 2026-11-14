@@ -32,6 +32,27 @@ document.addEventListener('DOMContentLoaded',function(){
         if(c===last)return;last=c;pn.textContent=c;pt.textContent=c?nm[c]:tc.getAttribute('data-home');
         tc.querySelectorAll('.toc-i').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-n')===c)})}
       addEventListener('scroll',spy,{passive:true});addEventListener('resize',spy);spy()}}
+  /* chất kính: khúc xạ ở mép (chỉ trình duyệt nhân Chromium hỗ trợ bộ lọc SVG cho backdrop-filter) và tông tự đổi theo nền phía sau topbar */
+  (function(){var nav=d.querySelector('.nav');if(!nav)return;
+    if(navigator.userAgentData&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var NS='http://www.w3.org/2000/svg',defs=d.createElementNS(NS,'svg'),cache={},n=0;defs.id='lens-defs';d.body.appendChild(defs);
+      function map(W,H,R,E){var c=d.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d'),im=x.createImageData(W,H),D=im.data;
+        function sdf(px,py){var qx=Math.abs(px-W/2)-(W/2-R),qy=Math.abs(py-H/2)-(H/2-R);return Math.hypot(Math.max(qx,0),Math.max(qy,0))+Math.min(Math.max(qx,qy),0)-R}
+        for(var j=0;j<H;j++)for(var i=0;i<W;i++){var k=(j*W+i)*4,s=-sdf(i+.5,j+.5),dx=0,dy=0;if(s<E){var t=1-Math.max(s,0)/E,q=t*t*t,gx=sdf(i+1.5,j+.5)-sdf(i-.5,j+.5),gy=sdf(i+.5,j+1.5)-sdf(i+.5,j-.5),l=Math.hypot(gx,gy)||1;dx=-gx/l*q;dy=-gy/l*q}D[k]=128+dx*127;D[k+1]=128+dy*127;D[k+2]=128;D[k+3]=255}
+        x.putImageData(im,0,0);return c.toDataURL()}
+      function lens(el){var W=Math.round(el.offsetWidth),H=Math.round(el.offsetHeight);if(W<4||H<4)return;var R=parseFloat(getComputedStyle(el).borderTopLeftRadius)||0,key=W+'x'+H+'r'+R;
+        if(!cache[key]){var id='lens'+(n++),E=Math.min(14,H/3),f=d.createElementNS(NS,'filter');f.setAttribute('id',id);f.setAttribute('filterUnits','userSpaceOnUse');f.setAttribute('x','0');f.setAttribute('y','0');f.setAttribute('width',W);f.setAttribute('height',H);f.setAttribute('color-interpolation-filters','sRGB');
+          var fi=d.createElementNS(NS,'feImage');fi.setAttribute('href',map(W,H,R,E));fi.setAttribute('x','0');fi.setAttribute('y','0');fi.setAttribute('width',W);fi.setAttribute('height',H);fi.setAttribute('preserveAspectRatio','none');fi.setAttribute('result','m');
+          var dm=d.createElementNS(NS,'feDisplacementMap');dm.setAttribute('in','SourceGraphic');dm.setAttribute('in2','m');dm.setAttribute('scale',Math.min(30,H*.6));dm.setAttribute('xChannelSelector','R');dm.setAttribute('yChannelSelector','G');
+          f.appendChild(fi);f.appendChild(dm);defs.appendChild(f);cache[key]=id}
+        el.style.setProperty('--lens','url(#'+cache[key]+')')}
+      function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav'))lens(e)})}
+      var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});(window.requestIdleCallback||setTimeout)(all);
+      d.querySelectorAll('.pill,.toc-i,.toc-pp,.pill .pl').forEach(function(e){e.addEventListener('pointerenter',function(){setTimeout(all,30)},{passive:true});e.addEventListener('click',function(){setTimeout(all,30)})})}
+    function lum(c){var m=c.match(/[\d.]+/g);if(!m||(m.length>3&&+m[3]<.5))return null;return(.2126*m[0]+.7152*m[1]+.0722*m[2])/255}
+    function under(x,y){var es=d.elementsFromPoint(x,y);for(var i=0;i<es.length;i++){var e=es[i];if(nav.contains(e)||e.classList.contains('bar'))continue;if(e.tagName==='IMG'||e.tagName==='VIDEO')return 0.3;
+      for(var a=e;a&&a!==d.documentElement;a=a.parentElement){var L=lum(getComputedStyle(a).backgroundColor);if(L!==null)return L}return 1}return 1}
+    var busy=false;function tone(){busy=false;var r=nav.getBoundingClientRect(),y=r.top+r.height/2,dk=0,xs=[.1,.3,.5,.7,.9];xs.forEach(function(f){if(under(r.left+r.width*f,y)<.45)dk++});nav.classList.toggle('tone-dark',dk>=3)}
+    addEventListener('scroll',function(){if(!busy){busy=true;requestAnimationFrame(tone)}},{passive:true});addEventListener('resize',tone);tone()})();
   /* thanh tiến độ cuộn */
   var bar=d.createElement('div');bar.className='bar';d.body.appendChild(bar);
   function sc(){var m=d.documentElement.scrollHeight-innerHeight;bar.style.setProperty('--p',m>0?scrollY/m:0)}addEventListener('scroll',sc,{passive:true});sc();

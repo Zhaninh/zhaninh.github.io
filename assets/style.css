@@ -1108,3 +1108,40 @@ html.rs .reveal{transition:none!important}
 .toc-panel,.toc-fly,.toc-lgpop{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;isolation:isolate}
 .toc-panel::before,.toc-fly::before,.toc-lgpop::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--glass);backdrop-filter:var(--glass-fx);-webkit-backdrop-filter:var(--glass-fx)}
 .toc-foot .toc-icons{justify-content:space-between;padding:0 17px}
+
+/* ===== giới thiệu ===== */
+.bio .ri,.mx-lead .ri{color:var(--ink);background:linear-gradient(transparent 60%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 60%);padding:0 2px}
+.bio-more{white-space:nowrap;font:500 15px var(--sans);color:var(--leaf);text-decoration:none;margin-left:4px}
+.bio-more:hover{text-decoration:underline;text-underline-offset:3px}
+.ab-ph{background:var(--leaf-soft)}.ab-ph img{object-fit:contain;object-position:50% 100%}
+.mx-facts a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--leaf-mid)}.mx-facts a:hover{color:var(--leaf)}
+.ab{padding:clamp(24px,4vh,48px) 0 clamp(72px,10vh,120px)}
+.ab-s{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,5vw,72px);padding:clamp(32px,5vh,52px) 0;border-top:1px solid var(--line);scroll-margin-top:84px}
+.ab-h{display:flex;flex-direction:column;gap:8px}
+.ab-h h2{margin:0;font:400 clamp(26px,2.4vw,34px)/1.15 var(--serif)}
+.ab-c>p{margin:0 0 1em;font:400 18px/1.7 var(--serif);color:var(--ink2);max-width:62ch}.ab-c>p:last-child{margin-bottom:0}
+.ab-ri{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ab-ri li{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);display:flex;flex-direction:column;gap:8px}
+.ab-ri b{font:400 20px/1.25 var(--serif);color:var(--ink)}.ab-ri span{font:400 14.5px/1.55 var(--sans);color:var(--ink2)}
+.ab-r{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;padding:14px 0}
+.ab-r+.ab-r{border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.ab-d{font:400 13px/1.6 var(--mono);color:var(--mute);padding-top:2px}
+.ab-r>div{display:flex;flex-direction:column;gap:4px}
+.ab-r b{font:400 19px/1.35 var(--serif);color:var(--ink)}.ab-r b a{color:inherit;text-decoration:none}.ab-r b a:hover{color:var(--leaf)}
+.ab-r span{font:400 15px/1.5 var(--sans);color:var(--ink2)}.ab-r small{font:400 14px/1.55 var(--sans);color:var(--mute)}
+.ab-more{display:inline-block;margin-top:18px;font:500 15px var(--sans);color:var(--leaf);text-decoration:none}
+@media (max-width:820px){.ab-s{grid-template-columns:1fr;gap:16px}.ab-ri{grid-template-columns:1fr}.ab-r{grid-template-columns:1fr;gap:4px}}
+
+/* ===== topbar dài hơn vùng nội dung một chút trên màn hình rộng ===== */
+@media (min-width:1280px){.nav{max-width:calc(var(--w) + var(--s4))}}
+
+/* ===== chất kính kiểu Liquid Glass: trong hơn, viền bắt sáng, khúc xạ ở mép (Chrome/Edge), tông tự đổi theo nền ===== */
+:root{--glass:color-mix(in srgb,var(--card) 50%,transparent);--glass-fx:blur(6px) saturate(1.7);
+  --rim:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.4),inset 1px 0 0 rgba(255,255,255,.45),inset -1px 0 0 rgba(255,255,255,.3),inset 0 0 16px rgba(255,255,255,.3)}
+.nav::before,.toc-panel::before,.toc-fly::before,.toc-lgpop::before{background:var(--glass);backdrop-filter:var(--lens,) var(--glass-fx);-webkit-backdrop-filter:var(--glass-fx);box-shadow:var(--rim)}
+.nav,.toc-panel,.toc-fly,.toc-lgpop{border-color:color-mix(in srgb,var(--line) 75%,#fff);box-shadow:0 14px 34px -18px rgba(10,20,12,.42),0 1px 2px rgba(10,20,12,.08)}
+.nav{transition:color .3s}
+.nav.tone-dark{--glass:color-mix(in srgb,#0f1b15 34%,transparent);--rim:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.18),inset 0 0 16px rgba(255,255,255,.12);border-color:rgba(255,255,255,.22)}
+.nav.tone-dark .brand{color:#F1F7EC}
+#lens-defs{position:absolute;width:0;height:0;overflow:hidden}
+.ab-r b .nw,.ab-ri b .nw,.ab-r b span{font:inherit;color:inherit}
