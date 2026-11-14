@@ -1203,3 +1203,5 @@ html.rs body{visibility:visible}
 html.js main,html.js .foot{opacity:0}
 html.js.ready main,html.js.ready .foot{opacity:1;transition:opacity .38s ease}
 html.arrive .reveal{transition:none!important}
+html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
+.reveal{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1)}

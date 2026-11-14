@@ -2,9 +2,13 @@ document.addEventListener('DOMContentLoaded',function(){
   var d=document,h=d.querySelector('.name');
   if(h){var i=0;h.innerHTML=h.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g,function(m,tag,w){return tag?tag:'<span class="w" style="--i:'+(i++)+'">'+w+'</span>'});}
   var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12}):null;
-  var H=d.documentElement;H.classList.add('arrive');
-  d.querySelectorAll('.reveal').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0||!io)el.classList.add('in');else io.observe(el)});
-  function ready(){requestAnimationFrame(function(){H.classList.add('ready');setTimeout(function(){H.classList.remove('arrive')},60)})}
+  var H=d.documentElement;
+  /* đến trang mới: các khối đang trong màn hình lần lượt nổi lên (giống phần giới thiệu ở trang chủ); khối bên dưới hiện khi cuộn tới */
+  d.querySelectorAll('.page-head .wrap>*,.mx-l,.mx-b>*').forEach(function(el){el.style.transition='none';el.classList.add('reveal');getComputedStyle(el).opacity;el.style.transition=''});
+  var first=[];d.querySelectorAll('.reveal').forEach(function(el){if(!io){el.classList.add('in');return}first.push(el)});
+  function ready(){requestAnimationFrame(function(){H.classList.add('ready');var k=0;
+    first.forEach(function(el){if(el.classList.contains('in'))return;var r=el.getBoundingClientRect();
+      if(r.top<innerHeight&&r.bottom>0){el.style.transitionDelay=(Math.min(k++,7)*90+60)+'ms';getComputedStyle(el).opacity;requestAnimationFrame(function(){el.classList.add('in')});setTimeout(function(){el.style.transitionDelay=''},1600)}else io.observe(el)})})}
   if(!H.classList.contains('rs'))ready();
   /* viên mục lục: bấm mở bảng; rê chuột vào mục thì hiện mục con; trang chủ thì đổi mục đang đọc theo vị trí cuộn */
   var tc=d.querySelector('.toc');
@@ -87,8 +91,7 @@ document.addEventListener('DOMContentLoaded',function(){
   /* mở đúng câu chuyện khi đến từ link #id: cuộn lại sau khi ảnh và bố cục đã ổn định */
   if(location.hash&&d.querySelector('.hl-list')){var tg=d.getElementById(decodeURIComponent(location.hash.slice(1)));var H0=d.documentElement;
     if(tg){if('scrollRestoration' in history)history.scrollRestoration='manual';
-      d.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
-      var go=function(){tg.scrollIntoView({block:'start',behavior:'instant'})},shown=false,show=function(){if(shown)return;shown=true;go();H0.classList.remove('rs');ready()};
+      var go=function(){var y=0,e=tg;for(;e;e=e.offsetParent)y+=e.offsetTop;scrollTo({top:y-(parseFloat(getComputedStyle(tg).scrollMarginTop)||0),left:0,behavior:'instant'})},shown=false,show=function(){if(shown)return;shown=true;go();H0.classList.remove('rs');ready()};
       go();(d.fonts&&d.fonts.ready?d.fonts.ready:Promise.resolve()).then(function(){requestAnimationFrame(function(){go();requestAnimationFrame(show)})});setTimeout(show,600)}else{H0.classList.remove('rs');ready()}}
   /* nút quay lại: ghi vị trí cuộn của mỗi trang khi rời đi; bấm "Quay lại" thì mở lại trang trước và cuộn đúng chỗ cũ */
   var ss={get:function(k){try{return sessionStorage.getItem(k)}catch(_){return null}},set:function(k,v){try{sessionStorage.setItem(k,v)}catch(_){}},del:function(k){try{sessionStorage.removeItem(k)}catch(_){}}};
