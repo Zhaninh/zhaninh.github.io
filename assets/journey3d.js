@@ -52,7 +52,11 @@
     var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setIndex(I); g.computeVertexNormals();
     var m = new T.Mesh(g, mat); m.receiveShadow = true; return m;
   }
-  var RYc = {}; function roadY(u) { if (!PS) return 0; var k = Math.round(u * 4); if (RYc[k] !== undefined) return RYc[k]; var h = 0; for (var o = -RW - .6; o <= RW + .61; o += (RW + .6) / 3) { var q = pV(u, vOf(u)), t = tan(u); h = Math.max(h, hAt(q.x - t.z * o, q.z + t.x * o)); } return (RYc[k] = h); }
+  var RYT = null, RY0 = 0; function rawRY(u) { var h = 0, q = pV(u, vOf(u)), t = tan(u); for (var o = -RW - .6; o <= RW + .61; o += (RW + .6) / 3) h = Math.max(h, hAt(q.x - t.z * o, q.z + t.x * o)); return h; }
+  function roadY(u) { if (!PS) return 0; if (!RYT) { /* bảng độ cao mặt đường, làm mượt để xe lên dốc êm, không rung */
+      RY0 = PASS[0] - 20; var raw = [], i, q; for (i = 0; RY0 + i * .5 <= PASS[1] + 30; i++) raw.push(rawRY(RY0 + i * .5)); RYT = [];
+      for (i = 0; i < raw.length; i++) { var w = 0, a = 0; for (q = -8; q <= 8; q++) { var j = Math.min(raw.length - 1, Math.max(0, i + q)), g = Math.exp(-q * q / 18); w += g; a += raw[j] * g; } RYT.push(Math.max(a / w, raw[i] - .02)); } }
+    var x = (u - RY0) / .5; if (x <= 0 || x >= RYT.length - 1) return 0; var i0 = Math.floor(x), f = x - i0; return RYT[i0] + (RYT[i0 + 1] - RYT[i0]) * f; }
   function rpos(u, off) { var p = pos(u, off); p.y = roadY(u); return p; } /* điểm trên mặt đường: cả mặt cắt ngang cùng một độ cao */
   function ribbon(u0, u1, half, y, off, mat) { off = off || 0; return strip(u0, u1, function (u) { return rpos(u, off - half); }, function (u) { return rpos(u, off + half); }, y, mat); }
   function ease(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
@@ -754,7 +758,7 @@
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
   var fS = 1, shL = 0, fInit = true, vF = 0, vS = 0;
   var uT = U0, uS = U0, clock = new T.Clock(), visible = true, tAuto = 0;
-  var CWs = [], CWt = 0; (function () { for (var u = U0; u <= uEnd + .25; u += .5) { var w = 1; if (PASS) { var a = Math.min(u - PASS[0] + 4, PASS[1] + 4 - u) / 6; if (a > 0) w += 1.8 * Math.min(1, a); } rough.forEach(function (rg) { var b = Math.min(u - rg.r[0] + 5, rg.r[1] + 3 - u) / 4; if (b > 0) w += 3.4 * Math.min(1, b); }); CWs.push(CWt); CWt += w * .5; } })(); /* đoạn đèo và đoạn đường xấu: xe đi chậm lại để người đọc thấy dốc, thấy xe rung lắc và đọc khó khăn */
+  var CWs = [], CWt = 0; (function () { for (var u = U0; u <= uEnd + .25; u += .5) { var w = 1; if (PASS) { var a = Math.min(u - PASS[0] + 4, PASS[1] + 4 - u) / 6; if (a > 0) w += 1.8 * Math.min(1, a); } rbU.forEach(function (rb) { var c = 1 - Math.abs(u - rb) / 9; if (c > 0) w += 1.1 * c * c * (3 - 2 * c); }); rough.forEach(function (rg) { var b = Math.min(u - rg.r[0] + 5, rg.r[1] + 3 - u) / 4; if (b > 0) w += 3.4 * Math.min(1, b); }); CWs.push(CWt); CWt += w * .5; } })(); /* đoạn đèo và đoạn đường xấu: xe đi chậm lại để người đọc thấy dốc, thấy xe rung lắc và đọc khó khăn */
   function uToP(u) { var i = Math.max(0, Math.min(CWs.length - 1, (u - U0) / .5)), i0 = Math.floor(i), f = i - i0, a = CWs[i0], b = CWs[Math.min(CWs.length - 1, i0 + 1)]; return (a + (b - a) * f) / CWt; }
   function pToU(p) { var t = p * CWt, lo = 0, hi = CWs.length - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (CWs[m] <= t) lo = m; else hi = m; } var a = CWs[lo], b = CWs[hi]; return U0 + (lo + (b > a ? (t - a) / (b - a) : 0)) * .5; }
   function scrollU() { var r = root.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); return pToU(p); }
@@ -787,7 +791,7 @@
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
     var p = rpos(uc, carLat(uc)), p2 = rpos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
-    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh);
+    car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(roadY(uc + .8) - roadY(uc - .8), 1.6);
     car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
