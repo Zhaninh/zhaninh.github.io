@@ -379,8 +379,8 @@ def toc_html(lang, path, key, twin):
     rows = [
      ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
-     ('03', 'Dự án tiêu biểu' if vi_ else 'Selected projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
-     ('04', 'Công bố tiêu biểu' if vi_ else 'Selected publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
+     ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
+     ('04', 'Công bố' if vi_ else 'Publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
      ('05', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('06', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
      ('07', 'Hành trình' if vi_ else 'Journey', r(U['journey']), [((when.split('–')[0] or ('Tiếp' if vi_ else 'Next')), (vi if vi_ else en)[0], r(U['journey']) + f'#stage-{i+1}') for i, (when, vi, en, nx, _) in enumerate(JOURNEY)]),
@@ -491,14 +491,14 @@ for lang in ('vi', 'en'):
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     top = RANKED[:4]; f = top[0]; others = top[1:]
-    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án tiêu biểu" if vi_ else "Selected projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
+    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     def hpub(y, st, ti, au, vv, ve, u, sl):
         href = rel(p, U['workdir'] + sl + '.html') if sl else None
         tt = f'<a class="t" href="{u}" rel="noopener">{E(ti)}</a>' if u else f'<span class="t">{E(ti)}</span>'
         acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '') + ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, [])) + (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
-    pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố tiêu biểu" if vi_ else "Selected publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+    pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố" if vi_ else "Publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                  f'<ol class="plist">{"".join(hpub(*x) for x in sorted(PUBS, key=lambda x: next((i for i, w in enumerate(RANKED) if w["slug"] == x[7]), 99))[:3])}</ol></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
