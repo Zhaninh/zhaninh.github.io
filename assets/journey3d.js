@@ -163,6 +163,7 @@
 
   /* ---------- đường: lề, nhựa, vạch. Mỗi lớp một cao độ riêng để không bị nhấp nháy ---------- */
   var VSPOT = null; /* chỗ đặt toà AI Valley: nền phẳng trên sườn đèo, giữ trống từ trước */
+  if (PASS) { var rq = pV(mainU[0] + 80, vOf(mainU[0] + 80)); FLAT.push([rq.x, rq.z, 11, 0]); }
   if (PASS) { var vq = pos(mainU[0] + 38, 13.5); VSPOT = [vq.x, vq.z, vq.y]; FLAT.push([vq.x, vq.z, 5, vq.y]); claim(vq.x, vq.z, 6.5, 0, 1); }
   if (PASS) (function () {
     var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, u, k3;
@@ -464,7 +465,7 @@
     var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
   if (stages[0].icon === 'school') fork(mainU[0] + 80, S, 15, model.design()); /* bùng binh cách chân đèo một quãng */
-  if (seaOn) fork(uSea + 24, -S, 16, model.mobility());
+  if (seaOn) fork(uSea + 58, -S, 16, model.mobility());
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
@@ -473,7 +474,7 @@
     var sd = SIDE(k), g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = sd * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], sd, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 38, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 30, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
@@ -749,7 +750,10 @@
   var SL = new T.Vector3(-6, -60, 34).normalize(), SR = new T.Vector3().crossVectors(SL, new T.Vector3(0, 1, 0)).normalize(), SU = new T.Vector3().crossVectors(SR, SL).normalize(), TX = 140 / 2048;
   var fS = 1, shL = 0, fInit = true, vF = 0, vS = 0;
   var uT = U0, uS = U0, clock = new T.Clock(), visible = true, tAuto = 0;
-  function scrollU() { var r = root.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); return U0 + p * (uEnd - U0); }
+  var CWs = [], CWt = 0; (function () { for (var u = U0; u <= uEnd + .25; u += .5) { var w = 1; if (PASS) { var a = Math.min(u - PASS[0] + 4, PASS[1] + 4 - u) / 6; if (a > 0) w += 1.8 * Math.min(1, a); } CWs.push(CWt); CWt += w * .5; } })(); /* đoạn đèo: cuộn chậm hơn 2,8 lần */
+  function uToP(u) { var i = Math.max(0, Math.min(CWs.length - 1, (u - U0) / .5)), i0 = Math.floor(i), f = i - i0, a = CWs[i0], b = CWs[Math.min(CWs.length - 1, i0 + 1)]; return (a + (b - a) * f) / CWt; }
+  function pToU(p) { var t = p * CWt, lo = 0, hi = CWs.length - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (CWs[m] <= t) lo = m; else hi = m; } var a = CWs[lo], b = CWs[hi]; return U0 + (lo + (b > a ? (t - a) / (b - a) : 0)) * .5; }
+  function scrollU() { var r = root.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); return pToU(p); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
   var placed = [], cardBox = null, fc = 0;
   function tag(el, w, xy, on, below) { var hw = (w || 120) / 2 + 8, x = Math.min(W - hw, Math.max(hw, xy[0]));
@@ -758,7 +762,7 @@
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
   function carLat(u) { /* xe giữ làn, rồi lượn dần vào vòng quanh đảo theo đường cong trơn (cả vị trí lẫn hướng đều liên tục) */
-    var b0 = RW / 2, R = 3.75 * RB, A = 2.2 * RB, B = 5.25 * RB, l = b0; /* ngoài vòng xuyến xe luôn ở giữa làn */
+    var b0 = RW / 2, R = 3.2 * RB, A = 1.4 * RB, B = 5.4 * RB, l = b0; /* ngoài vòng xuyến xe luôn ở giữa làn */
     for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]), v;
       if (du <= A) v = Math.sqrt(R * R - du * du);
       else if (du < B) { var h = B - A, t = (du - A) / h, p0 = Math.sqrt(R * R - A * A), m0 = -A / p0 * h, t2 = t * t, t3 = t2 * t; v = (2 * t3 - 3 * t2 + 1) * p0 + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * b0; }
@@ -841,12 +845,12 @@
   /* mở thẳng một dự án khi đường dẫn có #slug */
   if (full && panel && location.hash.length > 1) anchors.forEach(function (a) {
     if (stages[a.s].projects[a.j].slug !== location.hash.slice(1)) return;
-    var uu = a.o.userData.u, y = root.getBoundingClientRect().top + scrollY + (uu - 6 - U0) / (uEnd - U0) * (root.offsetHeight - innerHeight);
+    var uu = a.o.userData.u, y = root.getBoundingClientRect().top + scrollY + uToP(uu - 6) * (root.offsetHeight - innerHeight);
     scrollTo(0, y); uT = uS = uu - 6; openP(a, true);
   });
   /* #stage-N: mở trang hành trình ngay tại giai đoạn N (dùng cho mục con trong mục lục) */
   function toStage() { var m = /^#stage-(\d+)$/.exec(location.hash); if (!full || !m) return; var k = +m[1] - 1; if (!(k >= 0 && k < mainU.length)) return;
-    var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + (uu - 6 - U0) / (uEnd - U0) * (root.offsetHeight - innerHeight);
+    var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + uToP(uu - 6) * (root.offsetHeight - innerHeight);
     scrollTo({ top: Math.max(0, y), left: 0, behavior: 'instant' }); uT = uS = uu - 6; }
   toStage(); addEventListener('hashchange', toStage);
   if (full) window.__j3d = { keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
