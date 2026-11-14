@@ -56,6 +56,14 @@ document.addEventListener('DOMContentLoaded',function(){
       var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});setTimeout(all,60);if(window.ResizeObserver){var ro=new ResizeObserver(function(es){es.forEach(function(e){lens(e.target)})});d.querySelectorAll('.nav,.toc-panel,.j3d-card').forEach(function(e){ro.observe(e)})}
       d.querySelectorAll('.pill,.toc-i,.toc-pp,.pill .pl').forEach(function(e){e.addEventListener('pointerenter',function(){setTimeout(all,30)},{passive:true});e.addEventListener('click',function(){setTimeout(all,30)})})}
   })();
+  /* trang chủ: cụm ảnh cao đúng bằng cụm chữ (từ "Xin chào" đến nút hành trình), hai cụm tạo thành một khối chữ nhật */
+  (function(){var hl=d.querySelector('.hero-l'),pf=d.querySelector('.pfig');if(!hl||!pf)return;
+    var im=pf.querySelector('img.me'),ob=pf.querySelector('.orbit');
+    function vis(){var t=im.getBoundingClientRect(),p=ob.offsetParent.getBoundingClientRect(),ot=p.top+ob.offsetTop;return [Math.min(t.top,ot),Math.max(t.bottom,ot+ob.offsetHeight)]}
+    function fit(){if(innerWidth<=820){pf.style.width='';pf.style.transform='';return}pf.style.transform='none';var at=function(e){var y=0;for(;e;e=e.offsetParent)y+=e.offsetTop;return y-scrollY},f0=hl.firstElementChild,l0=hl.lastElementChild,a={top:at(f0)},b={bottom:at(l0)+l0.offsetHeight},h=b.bottom-a.top,col=pf.parentElement.getBoundingClientRect().width-hl.getBoundingClientRect().width-24;
+      for(var k=0;k<2;k++){var w=pf.getBoundingClientRect().width,v=vis();pf.style.width=Math.round(Math.max(220,Math.min(w*h/(v[1]-v[0]),col,520)))+'px'}
+      var v2=vis();pf.style.transform='translateY('+Math.round((a.top+b.bottom)/2-(v2[0]+v2[1])/2)+'px)'}
+    fit();addEventListener('resize',fit);addEventListener('load',fit);setTimeout(fit,1300);pf.addEventListener('transitionend',function(e){if(e.target===pf)fit()});if(d.fonts&&d.fonts.ready)d.fonts.ready.then(fit)})();
   /* thanh tiến độ cuộn */
   var bar=d.createElement('div');bar.className='bar';d.body.appendChild(bar);
   function sc(){var m=d.documentElement.scrollHeight-innerHeight;bar.style.setProperty('--p',m>0?scrollY/m:0)}addEventListener('scroll',sc,{passive:true});sc();

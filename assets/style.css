@@ -1165,3 +1165,4 @@ html.rs .reveal{transition:none!important}
 ::view-transition-old(root){animation-duration:.3s}::view-transition-new(root){animation-duration:.55s}
 .nav{transition:max-width .4s var(--ease),color .3s}
 @media (max-width:1099px){.toc.side .toc-panel{zoom:1}}
+@media (min-width:821px){.pfig .portrait{margin-bottom:7%}}
