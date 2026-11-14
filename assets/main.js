@@ -52,15 +52,17 @@ document.addEventListener('DOMContentLoaded',function(){
   /* nút quay lại: ghi vị trí cuộn của mỗi trang khi rời đi; bấm "Quay lại" thì mở lại trang trước và cuộn đúng chỗ cũ */
   var ss={get:function(k){try{return sessionStorage.getItem(k)}catch(_){return null}},set:function(k,v){try{sessionStorage.setItem(k,v)}catch(_){}},del:function(k){try{sessionStorage.removeItem(k)}catch(_){}}};
   addEventListener('pagehide',function(){ss.set('pos:'+location.pathname,String(scrollY))});
-  d.querySelectorAll('a[href]:not(.js-back)').forEach(function(a){a.addEventListener('click',function(){ss.set('pos:'+location.pathname,String(scrollY));ss.set('prev',location.pathname)})});
+  d.querySelectorAll('a[href]:not(.js-back)').forEach(function(a){a.addEventListener('click',function(){ss.set('pos:'+location.pathname,String(scrollY));ss.set('prev',location.pathname);try{var u=new URL(a.href,location.href);if(u.origin===location.origin&&u.pathname!==location.pathname)ss.set('from:'+u.pathname,location.pathname)}catch(_){}})});
   d.querySelectorAll('.js-back').forEach(function(a){a.addEventListener('click',function(e){
     var r=ss.get('prev')||'',t=null;try{if(!r&&d.referrer&&new URL(d.referrer).origin===location.origin)r=new URL(d.referrer).pathname;if(r&&r!==location.pathname)t=new URL(r,location.href)}catch(_){}
-    if(!t)return; e.preventDefault(); ss.set('restore',t.pathname); location.href=t.origin+t.pathname+t.search})});
+    if(!t)return; e.preventDefault(); if(history.length>1&&!location.hash&&ss.get('from:'+location.pathname)===t.pathname){history.back();return} ss.set('restore',t.pathname); location.href=t.origin+t.pathname+t.search})});
   var want=ss.get('restore');
   if(want&&want===location.pathname){ss.del('restore');var y=+ss.get('pos:'+location.pathname)||0;
     if('scrollRestoration' in history)history.scrollRestoration='manual';
     d.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});
     var H=d.documentElement,done=false,go=function(){scrollTo(0,y)},show=function(){if(done)return;done=true;go();H.classList.remove('rs')};
-    go();var tries=0,chk=function(){go();if(Math.abs(scrollY-y)<2&&d.readyState==='complete'){requestAnimationFrame(show)}else if(++tries<120){requestAnimationFrame(chk)}else show()};
-    requestAnimationFrame(chk);addEventListener('load',function(){go();requestAnimationFrame(chk)});setTimeout(show,2500)}
+    var stable=0,last=-1,chk=function(){go();if(Math.abs(scrollY-y)<2){if(++stable>1){show();return}}else stable=0;requestAnimationFrame(chk)};
+    requestAnimationFrame(chk);setTimeout(show,700);
+    var moved=false;addEventListener('wheel',function(){moved=true},{passive:true,once:true});addEventListener('touchstart',function(){moved=true},{passive:true,once:true});
+    addEventListener('load',function(){if(!moved)go()})}
 });

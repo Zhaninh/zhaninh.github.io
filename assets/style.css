@@ -996,10 +996,10 @@ html.rs .reveal{transition:none!important}
 .psep{width:1px;height:16px;background:var(--line)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--leaf);animation:breathe 2.4s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(.75);opacity:.55}50%{transform:scale(1.15);opacity:1}}
-.hb{position:relative;width:16px;height:12px}
-.hb i{position:absolute;left:0;width:16px;height:1.5px;border-radius:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
-.hb i:nth-child(1){top:0}.hb i:nth-child(2){top:5.25px}.hb i:nth-child(3){top:10.5px}
-.toc.open .hb i:nth-child(1){transform:translateY(5.25px) rotate(45deg)}.toc.open .hb i:nth-child(2){opacity:0}.toc.open .hb i:nth-child(3){transform:translateY(-5.25px) rotate(-45deg)}
+.hbg{position:relative;width:16px;height:12px}
+.hbg i{position:absolute;left:0;width:16px;height:1.5px;border-radius:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
+.hbg i:nth-child(1){top:0}.hbg i:nth-child(2){top:5.25px}.hbg i:nth-child(3){top:10.5px}
+.toc.open .hbg i:nth-child(1){transform:translateY(5.25px) rotate(45deg)}.toc.open .hbg i:nth-child(2){opacity:0}.toc.open .hbg i:nth-child(3){transform:translateY(-5.25px) rotate(-45deg)}
 .toc-panel{position:absolute;right:0;top:calc(100% + 10px);width:356px;padding:10px 8px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   box-shadow:0 24px 50px -26px rgba(24,36,26,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .25s var(--ease),visibility 0s .25s}
 .toc.open .toc-panel{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .25s var(--ease)}
@@ -1075,3 +1075,10 @@ html.rs .reveal{transition:none!important}
 .toc-lgpop{left:auto;right:calc(100% + 16px);bottom:-1px;transform:translateX(6px)}
 .toc-lgpop::after{left:100%;right:auto;top:0;bottom:0;width:18px;height:auto}
 @media (max-width:860px){.toc-lgpop{right:auto;left:var(--s1);bottom:calc(100% + 8px);transform:translateY(4px)}.toc-lgpop::after{display:none}}
+
+.toc-foot{padding:var(--s1) var(--s2) 0}
+.toc-foot .fsep{margin-left:-8px}
+.toc-foot{display:flex;justify-content:flex-start;align-items:center;gap:0;padding:var(--s1) 0 0}
+.toc-foot .toc-lg{width:64px;display:flex;justify-content:center;flex:none}
+.toc-foot .fsep{margin:0;flex:none}
+.toc-foot .toc-icons{display:flex;flex:1;justify-content:space-between;padding:0 var(--s3)}

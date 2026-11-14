@@ -289,7 +289,7 @@ def toc_html(lang, path, key, twin):
             f'<div class="toc" data-home="{E(start)}" data-names="{E(json.dumps(names, ensure_ascii=False))}">'
             f'<button type="button" class="pill" aria-expanded="false" aria-controls="tocpanel" aria-label="{T[lang]["menu"]}">'
             f'<span class="dot" aria-hidden="true"></span><span class="pn">{cn}</span><span class="pt">{E(ct)}</span><i class="psep"></i>'
-            f'<span class="pl">{lang.upper()}</span><i class="psep"></i><span class="hb" aria-hidden="true"><i></i><i></i><i></i></span></button>'
+            f'<span class="pl">{lang.upper()}</span><i class="psep"></i><span class="hbg" aria-hidden="true"><i></i><i></i><i></i></span></button>'
             f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot">{langbox}<i class="fsep"></i><div class="toc-icons">{icons}</div></div></div></div></header>')
 
 def shell(lang, key, path, title, body, extra=''):
