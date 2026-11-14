@@ -1187,3 +1187,5 @@ main{animation:pagein .5s cubic-bezier(.2,.7,.2,1) both}
 @media (prefers-reduced-motion:reduce){main{animation:none}}
 /* tô sáng trong mục lục cùng màu với các chỗ tô sáng khác (slogan, hướng nghiên cứu) */
 .toc-i.on>a .tt{background-image:linear-gradient(transparent 60%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 60%,color-mix(in srgb,var(--leaf-bright) 32%,transparent) 94%,transparent 94%)}
+/* popup nhỏ ẩn ngay khi rời, không chồng lên popup mới */
+.toc-fly,.toc-lgpop{transition:transform .22s var(--ease),visibility 0s!important}
