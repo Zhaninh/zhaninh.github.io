@@ -47,8 +47,9 @@ T = {  # chuỗi giao diện
 URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='mentors/'),  # tiếng Anh là mặc định (ở gốc)
        'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', mdir='vi/nguoi-huong-dan/')}
 
-WORK = [
- dict(slug='ntcoral', star=True, title='NTCoral', year='2025–',
+WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu lên trang chủ
+
+ dict(slug='ntcoral', rank=1, star=True, title='NTCoral', year='2025–',
   vi=dict(sub='Bộ dữ liệu ảnh rạn san hô Việt Nam, xây dựng từ video khảo sát dưới nước và được chuyên gia sinh học biển kiểm chứng.',
           role='Phụ trách dữ liệu; tác giả thứ nhất của bài báo đang chuẩn bị', where='GREEN-X, VinUniversity', status='Đang thực hiện',
           body=[('Đặt vấn đề', ['Phần lớn bộ dữ liệu san hô công khai được thu ở các vùng biển khác. Ảnh rạn san hô Việt Nam có nhãn còn rất ít, nên chưa thể đánh giá các mô hình hiện có hoạt động ra sao trên dữ liệu trong nước và cần bổ sung bao nhiêu nhãn.'], []),
@@ -60,7 +61,7 @@ WORK = [
                 ('What I do', [], ['Lead the pipeline from survey video to released images: video review, frame selection, quality checks, annotation hand-off.', 'Coordinate genus-level annotation with marine biologists.', 'Design frame selection: remove near-duplicates, screen quality, keep coverage across survey sites.', 'Evaluate few-shot segmentation models on local data.']),
                 ('Pipeline', [], ['Survey video', 'Frame selection', 'Quality loop', 'Model proposals', 'Expert verification', 'Open dataset'])]),
   links=[]),
- dict(slug='vlr', star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
+ dict(slug='vlr', rank=2, star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
   vi=dict(sub='Tiếng Việt có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. VLR là bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, kèm một quy trình cải tiến đưa tỉ lệ lỗi từ xuống 29,5%.', dek='Bộ dữ liệu và quy trình nhận dạng tiếng nói qua hình ảnh cho tiếng Việt', teaser_cap='Quy trình xây dựng VLR: tách âm thanh và hình; Whisper nhận dạng lời thoại theo từng từ; MediaPipe tìm khuôn mặt rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.', stats=[('116.000', 'đoạn video'), ('198', 'giờ nói'), ('1.794', 'video nguồn'), ('29,5%', 'WER tốt nhất')],
           role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Tiền ấn phẩm · Dữ liệu trên Zenodo',
           body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
@@ -97,13 +98,13 @@ WORK = [
   doi     = {10.22541/au.177368999.91959735/v1}
 }''',
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
- dict(slug='aquaculture', star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
+ dict(slug='aquaculture', rank=4, star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
   vi=dict(sub='Bài tổng quan về chuỗi từ giám sát đến tác động trong nuôi trồng thuỷ sản.', role='Tác giả Mục 6: Ra quyết định tự động và điều khiển vòng kín', where='Hợp tác nhiều đơn vị', status='Tiền ấn phẩm; đang bình duyệt',
           body=[('Nội dung', ['Bài tổng quan liên kết bốn khâu của nuôi trồng thuỷ sản thông minh: thu nhận dữ liệu, phân tích bằng AI, ra quyết định và cơ cấu chấp hành. Tôi viết phần ra quyết định tự động và điều khiển vòng kín.'], [])]),
   en=dict(sub='A system-level survey: from monitoring to action.', role='Author of Section 6, Autonomous Decision-Making and Closed-Loop Control', where='Multi-institution collaboration', status='Preprint, under review',
           body=[('Overview', ['The survey connects four stages of smart aquaculture: sensing, AI-based understanding, decision-making and actuation. I wrote the section on autonomous decision-making and closed-loop control.'], [])]),
   links=[('Preprint', 'https://doi.org/10.13140/RG.2.2.24130.95688')]),
- dict(slug='vnplant', star=False, feat=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
+ dict(slug='vnplant', rank=5, star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
   vi=dict(sub='Đánh giá nhiều mô hình học sâu trên bộ ảnh 255 loài cây thuốc Việt Nam.', role='Huấn luyện và đánh giá mô hình', where='Đại học FPT · cùng Đàm Nguyễn Quỳnh Hoa và Phạm Thị Thảo Nguyên', status='Dự án nhóm, không công bố',
           body=[('Bối cảnh', ['VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021) là bộ ảnh công khai đầu tiên về 200 loài cây thuốc Việt Nam. Nhóm chúng tôi mở rộng bộ này thành VNPlant-255: thêm 55 loài, tổng cộng khoảng 34.800 ảnh chụp ngoài thực địa, với ánh sáng, nền và góc chụp thay đổi tự nhiên.', 'Mục tiêu là một bộ chuẩn đánh giá cho bài toán phân loại chi tiết: so sánh mạng tích chập, Transformer, mô hình lai và mô hình gọn nhẹ trong cùng một cấu hình.'], []),
                 ('Cách đánh giá', [], ['Chia 80/10/10 cho huấn luyện, kiểm định, kiểm thử, giữ tỉ lệ từng loài.', 'Cùng độ phân giải 224 px, cùng kích thước lô, 20 epoch cho mọi mô hình.', 'Ghi lại độ chính xác, số tham số và chi phí tính toán để xét khả năng triển khai.']),
@@ -115,7 +116,7 @@ WORK = [
                 ('What I did', [], ['Trained and evaluated seven model families: ConvNeXtV2-Tiny, MaxViT-Tiny, CoAtNet-0, SwinV2-Tiny, Xception, Xception with MIGT, and YOLOv8 classification.', 'Managed the team’s data, weights and training logs on Kaggle.']),
                 ('Note', ['The team decided not to publish the paper. Images of the original 200 species belong to VNPlant-200 and are not redistributed here.'], [])]),
   links=[]),
- dict(slug='aneurysm', star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
+ dict(slug='aneurysm', rank=3, star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
   vi=dict(sub='Phương pháp học sâu nhiều giai đoạn; công bố dưới dạng chương sách.', role='Đồng tác giả', where='CRC Press, Intelligent Precision Healthcare', status='Chương sách · CRC Press',
           body=[('Nội dung', ['Chương sách trong tuyển tập Intelligent Precision Healthcare (CRC Press, 2026), trang 287–301.'], [])]),
   en=dict(sub='A multistage deep learning approach, published as a book chapter.', role='Co-author', where='CRC Press, Intelligent Precision Healthcare', status='Book chapter · CRC Press',
@@ -193,6 +194,7 @@ MENTORS = [
           areas='Autonomous systems and AI; UAVs; robot vision; SLAM, path planning and motion control; swarm intelligence and IoT.',
           awards=['Best Paper Award, ICCRI (2024)', 'Best Paper Award, Applied Soft Computing, Elsevier (2023)', 'Best Paper Award, ACRA (2019)', 'Endeavour Research Fellowship, Australian Government (2015)'],
           withme='The person who sets the direction of my research at GREEN-X, following each project from framing the problem to publication.'),
+  emails=['duong.pm@vinuni.edu.vn'],
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
  dict(slug='dinh-van-dung', photo='dung', org=('Viện Công nghệ Thông tin · Đại học Quốc gia Hà Nội', 'Information Technology Institute · Vietnam National University, Hanoi'), guided=[],
@@ -202,6 +204,7 @@ MENTORS = [
   en=dict(name='Dr. Dinh Van Dzung', title='Senior Researcher, Information Technology Institute, Vietnam National University, Hanoi', role='Co-principal investigator (Co-PI) · GREEN-X', short='Senior Researcher · VNU Hanoi',
           lead='Works on digital transformation and digital platforms (cloud, IoT, MLOps), applied to education, health, smart agriculture and green transformation.',
           facts=['PhD, Posts and Telecommunications Institute of Technology', 'MEE, University of Technology Sydney', 'Fulbright Scholar, New York University'], bio='', edu=[], areas='', awards=[], withme=''),
+  emails=['dzung.dinh@vnu.edu.vn', 'dung.dv@vinuni.edu.vn'],
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/dinh-van-dung/')]),
  dict(slug='do-danh-cuong', photo='cuong',
   guided=[],
@@ -217,6 +220,7 @@ MENTORS = [
           areas='MEMS sensors and low-power circuits; energy harvesting and wireless sensor networks; smart-grid and EV-charging optimisation; AI for biomedical signals (ECG) and point-of-care diagnostics.',
           awards=[],
           withme='Co-principal investigator of the projects at GREEN-X, where I work as a research assistant.'),
+  emails=['cuong.dd@vinuni.edu.vn'],
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/do-danh-cuong/'), ('VinUniversity', 'https://research.vinuni.edu.vn/person/do-cuong-danh/'), ('MESSI Lab', 'https://sites.google.com/view/messi-lab'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=_NdIi4AAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0003-4785-4524'), ('dblp', 'https://dblp.org/pid/27/10702')]),
 ]
@@ -459,7 +463,7 @@ for lang in ('vi', 'en'):
         img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
-    others = [w for w in WORK if not w['star'] and w.get('feat', True)][:3]
+    top = sorted(WORK, key=lambda w: w.get('rank', 99))[:4]; f = top[0]; others = top[1:]
     research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án tiêu biểu" if vi_ else "Selected projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
@@ -517,16 +521,16 @@ for lang in ('vi', 'en'):
                 f'<h3><a href="{href}">{E(title_of(w, lang))}</a></h3><p>{E(d["sub"])}</p>'
                 f'<div class="pc-meta"><span>{E(d["role"])}</span><span>{E(d["where"])}</span></div>'
                 f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
-    def wcard(w, big=False):
-        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
-        c = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
-        img = f'<span class="rc-img" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
-        return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
-                f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if lang == "vi" else "Project page"} →</span></span></a>')
-    stars = [w for w in WORK if w['star']]; rest = [w for w in WORK if not w['star']]
     vi_w = lang == 'vi'
-    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on. Projects that produced a paper are also listed under Publications.')
-              + f'<section class="wlist"><div class="wrap">{"".join(wcard(w, True) for w in stars)}<div class="rgrid two">{"".join(wcard(w) for w in rest)}</div></div></section>')
+    def wrow(w):
+        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); pb_ = next((x for x in PUBS if x[7] == w['slug']), None)
+        acts = f'<a href="{href}">{"Trang dự án" if vi_w else "Project page"} <i>→</i></a>'
+        if pb_ and pb_[6]: acts += f'<a href="{pb_[6]}" rel="noopener">{"Bài báo" if vi_w else "Paper"} <i>↗</i></a>'
+        acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_w else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(w['slug'], []))
+        return (f'<li class="reveal"><span class="py mono">{w["year"]}</span><div><a class="t" href="{href}">{E(title_of(w, lang))}</a>'
+                f'<div class="s">{E(d["sub"])}</div><div class="v">{E(d["status"])} · {E(d["role"])}</div><div class="pl-acts">{acts}</div></div></li>')
+    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia, xếp theo mức độ nổi bật. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on, ordered by prominence. Projects that produced a paper are also listed under Publications.')
+              + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in sorted(WORK, key=lambda w: w.get("rank", 99)))}</ol></div></section>')
     write(p, shell(lang, 'work', p, ('Dự án' if vi_w else 'Projects') + ' · Aaron', body_w))
     onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
     for w in WORK:
@@ -597,6 +601,7 @@ for lang in ('vi', 'en'):
                 f'<div class="mx-l"><figure class="mx-ph">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
                 f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + f'<p class="mx-org">{E(m.get("org", ("Viện Kỹ thuật và Khoa học Máy tính · VinUniversity", "College of Engineering and Computer Science · VinUniversity"))[0 if vi_ else 1])}</p>'
                 + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
+                + (f'<div class="mx-mail"><span class="mono">Email</span>' + ''.join(f'<a href="mailto:{x}">{x}</a>' for x in m.get('emails', [])) + '</div>' if m.get('emails') else '')
                 + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')
         write(p, shell(lang, 'home', p, d['name'] + ' · Aaron', body))
     # ---- dấu ấn ----

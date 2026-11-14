@@ -1354,3 +1354,8 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .wlist .rc.big{margin-bottom:clamp(40px,6vh,64px)}
 .rgrid.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,4vw,48px)}
 @media (max-width:760px){.rgrid.two{grid-template-columns:minmax(0,1fr)}}
+.plist .s{margin-top:10px;max-width:68ch;font:400 17px/1.65 var(--serif);color:var(--ink2)}
+.mx-mail{margin-top:26px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 20px}
+.mx-mail .mono{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.mx-mail a{font:500 15.5px var(--sans);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.mx-mail a:hover{color:var(--leaf);border-color:var(--leaf)}
