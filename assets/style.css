@@ -1393,3 +1393,4 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
   .mentors .mc-n{margin-bottom:8px}
   .mentors .mc-r{margin-top:0;align-self:start}
 }
+.mentors .mc-w{font:400 14px/1.6 var(--sans);font-style:normal;color:var(--mute)}
