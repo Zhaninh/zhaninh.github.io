@@ -250,7 +250,8 @@ ICON = dict(
  scholar='<path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4"/>',
  github='<path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/>',
  linkedin='<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/>',
- mail='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>')
+ mail='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+ lang='<path d="M4 5h7M9 3v2c0 4.4-2.2 8-5 8"/><path d="M5 9c0 2.1 3 3.9 6.7 4M12 20l4-9 4 9M19.1 18h-6.2"/>')
 
 def toc_html(lang, path, key, twin):
     """Thanh trên: logo + một viên mục lục (mục đang đọc · ngôn ngữ · ba gạch); bấm mở bảng mục lục, rê chuột vào mục thì hiện mục con."""
@@ -274,19 +275,21 @@ def toc_html(lang, path, key, twin):
     start = 'Trang chủ' if vi_ else 'Home'
     li = ''
     for n, h, href, sub in rows:
-        fly = ('<div class="toc-fly"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
+        fly = (f'<div class="toc-fly" style="--tw:{max(len(k) for k, _, _ in sub)}ch"><ol>' + ''.join(f'<li><a href="{u}"><span class="tn">{E(k)}</span><span class="tt">{E(x)}</span></a></li>' for k, x, u in sub) + '</ol></div>') if sub else ''
         li += f'<li class="toc-i{" has" if sub else ""}{" on" if n == cur else ""}" data-n="{n}"><a href="{href}"><span class="tn">{n}</span><span class="tt">{E(h)}</span></a>{fly}</li>'
     def ic(k, u, lab): return f'<a class="toc-ic" href="{u}" aria-label="{lab}" title="{lab}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON[k]}</svg></a>'
     icons = ic('cv', r('assets/Aaron_CV.pdf'), 'CV') + ic('scholar', SCHOLAR, 'Google Scholar') + ic('github', 'https://github.com/Zhaninh', 'GitHub') + ic('linkedin', LINKEDIN, 'LinkedIn') + ic('mail', 'mailto:' + EMAIL_WORK, 'Email')
-    vi_l = '<span class="on" aria-current="true">Tiếng Việt</span>' if vi_ else f'<a href="{r(twin)}" hreflang="vi" lang="vi">Tiếng Việt</a>'
-    en_l = '<span class="on" aria-current="true">English</span>' if not vi_ else f'<a href="{r(twin)}" hreflang="en" lang="en">English</a>'
+    nl_ = 'ngôn ngữ' if vi_ else 'languages'
+    opts = ''.join((f'<span class="on" aria-current="true">{nm}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></span>' if lg == lang else f'<a href="{r(twin)}" hreflang="{lg}" lang="{lg}">{nm}</a>') for lg, nm in (('vi', 'Tiếng Việt'), ('en', 'English')))
+    langbox = (f'<div class="toc-lg"><button type="button" class="toc-ic" aria-label="{"Ngôn ngữ" if vi_ else "Language"}" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true">{ICON["lang"]}</svg></button>'
+               f'<div class="toc-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div></div>')
     cn, ct = (cur, names[cur]) if cur else ('', start)
     return (f'<header class="nav"><a class="brand" href="{home}"><img src="{r("assets/clover.svg")}" alt="">Aaron</a>'
             f'<div class="toc" data-home="{E(start)}" data-names="{E(json.dumps(names, ensure_ascii=False))}">'
             f'<button type="button" class="pill" aria-expanded="false" aria-controls="tocpanel" aria-label="{T[lang]["menu"]}">'
             f'<span class="dot" aria-hidden="true"></span><span class="pn">{cn}</span><span class="pt">{E(ct)}</span><i class="psep"></i>'
             f'<span class="pl">{lang.upper()}</span><i class="psep"></i><span class="hb" aria-hidden="true"><i></i><i></i><i></i></span></button>'
-            f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot"><div class="toc-lang">{vi_l}<i></i>{en_l}</div><div class="toc-icons">{icons}</div></div></div></div></header>')
+            f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot">{langbox}<i class="fsep"></i><div class="toc-icons">{icons}</div></div></div></div></header>')
 
 def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
