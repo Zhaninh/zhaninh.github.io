@@ -20,7 +20,7 @@
 
   /* ---------- bố cục dọc đường (đơn vị u), theo đúng thứ tự thời gian ---------- */
   var n = stages.length, nowIdx = n - 2, S = -1; /* S = -1: công trình nằm bên phải màn hình, biển cũng ở bên phải */
-  var GATE = [-6, 160, 218], MAIN = [10, 170, 226], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
+  var GATE = [-6, 160, 240], MAIN = [10, 170, 250], /* công trình chính nằm ở khúc đường lệch trái, để bên phải đủ chỗ */ gateU = [], mainU = [], seaI = -1;
   for (i = 0; i <= nowIdx; i++) { gateU[i] = i < GATE.length ? GATE[i] : gateU[i - 1] + 44; mainU[i] = i < MAIN.length ? MAIN[i] : gateU[i] + 8; if (stages[i].icon === 'vinuni') seaI = i; }
   var seaOn = seaI >= 0, uSea = seaOn ? mainU[seaI] : -999, seaC = uSea + 87, seaH = 16, uB = uSea + 93;
   var U0 = -12, uNow = seaOn && seaI === nowIdx ? uSea + 105 : mainU[nowIdx] + 30, UNK = 80, uGoal = uNow + UNK, uEnd = uGoal - 12; /* dừng cuộn khi đích nằm giữa khung, không để trống phía dưới */
@@ -36,7 +36,7 @@
   function pV(u, v, y) { return new T.Vector3((-u + v) * R2, y || 0, (-u - v) * R2); }
   function tan(u) { var d = (vOf(u + .01) - vOf(u - .01)) / .02, x = (-1 + d) * R2, z = (-1 - d) * R2, l = Math.hypot(x, z); return { x: x / l, z: z / l }; }
   /* đèo AI Valley: đoạn đường sau bùng binh của giai đoạn đầu lên dốc rồi xuống dốc; mặt đất nhô lên thành sống đồi theo đường */
-  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 18, mainU[0] + 58] : null, PH = 9; PW = PASS;
+  var PASS = stages[0] && stages[0].icon === 'school' ? [mainU[0] + 16, mainU[0] + 62] : null, PH = 5.5; PW = PASS;
   function hU(u) { if (!PASS || u <= PASS[0] || u >= PASS[1]) return 0; var q = Math.sin(Math.PI * (u - PASS[0]) / (PASS[1] - PASS[0])); return PH * q * q; }
   function bell(off) { off = off || 0; var a = Math.abs(off), f0 = 6, f1 = 26; if (a <= f0) return 1; if (a >= f1) return 0; var q = 1 - (a - f0) / (f1 - f0); return q * q * (3 - 2 * q); } /* phía AI Valley (off > 0) có nền phẳng rộng; phía kia là sườn dốc */
   function terr(u, off) { return hU(u) * bell(off); }
@@ -182,7 +182,7 @@
       var m = new T.Mesh(new T.PlaneGeometry(1.25, 1.12), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), transparent: true, alphaTest: .5, side: T.DoubleSide })); return m;
     }
     function slope(uu, up, txt) {
-      var sp = pos(uu, -S * (RW + 1.3)), sign = new T.Group(), f = face(up), pl = plate(txt);
+      var sp = pos(uu, S * (RW + 2.4)), sign = new T.Group(), f = face(up), pl = plate(txt);
       f.position.set(0, 2.05, .06); pl.position.set(0, 1.18, .06);
       sign.add(cyl(.05, .05, 2.6, C.steel, 0, 1.3, 0, 8), f, pl);
       sign.position.copy(sp); sign.rotation.y = FACE; scene.add(sign); claim(sp.x, sp.z, .7, 0, 1);
@@ -193,7 +193,7 @@
     for (var k2 = 0; k2 < 16; k2++) { /* đá lộ ra trên sườn dốc */
       var ru = PASS[0] + 2 + rnd() * (PASS[1] - PASS[0] - 4), ro = -(6 + rnd() * 9), rp = pos(ru, ro); if (rp.y < .6) continue;
       var rk = mesh(new T.DodecahedronGeometry(.45 + rnd() * .7, 0), M(k2 % 3 ? 0xA7AEA3 : 0x8C9489), rp.x, rp.y + .1, rp.z); rk.rotation.set(rnd() * 3, rnd() * 3, rnd() * 3); rk.scale.y = .7; scene.add(rk); claim(rp.x, rp.z, .9); }
-    slope(PASS[0] - 1.5, true, 'Đèo AI Valley'); slope((PASS[0] + PASS[1]) / 2 + 2, false, 'Xuống dốc');
+    slope(PASS[0] - 4, true, 'Đèo AI Valley'); slope((PASS[0] + PASS[1]) / 2 + 3, false, 'Xuống dốc');
   })();
   scene.add(ribbon(RS, uNow, RW + .32, .1, 0, M(C.shoulder, SM)));
   scene.add(ribbon(RS, uNow, RW, .12, 0, M(C.road, { flatShading: false, roughness: .95 })));
@@ -484,7 +484,11 @@
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
       if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 38 : mainU[k] + 128 + (jj++) * 12; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
-      var sp_; if (ms.kind === 'valley' && VSPOT) { sp_ = new T.Vector3(VSPOT[0], VSPOT[2], VSPOT[1]); o.position.copy(sp_); o.rotation.y = FACE; o.userData.u = uu; o.userData.s = sc; o.userData.gy = 1; o.userData.pr = r; o.scale.setScalar(sc); scene.add(o); keep.push([o, r]); grow.push(o); } else sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') drive(o.userData.u, SIDE(k), sp_, o.userData.pr * sc); }
+      var sp_; if (ms.kind === 'valley' && VSPOT) { sp_ = new T.Vector3(VSPOT[0], VSPOT[2], VSPOT[1]); o.position.copy(sp_); o.rotation.y = FACE; o.userData.u = uu; o.userData.s = sc; o.userData.gy = 1; o.userData.pr = r; o.scale.setScalar(sc); scene.add(o); keep.push([o, r]); grow.push(o); } else sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') { /* lối vào bám theo mặt đất, từ mép đường tới mép nền */
+        var bu = uu, bd = 1e9, cu; for (cu = uu - 10; cu <= uu + 10; cu += .25) { var cp = pos(cu, 0), dd = Math.hypot(cp.x - sp_.x, cp.z - sp_.z); if (dd < bd) { bd = dd; bu = cu; } }
+        var ra = pos(bu, 0), dx_ = sp_.x - ra.x, dz_ = sp_.z - ra.z, dl = Math.hypot(dx_, dz_), ux = dx_ / dl, uz = dz_ / dl, L0 = RW + .1, L1 = dl - o.userData.pr * sc + .3, PP = [], II = [], n_ = 0;
+        for (var tq = L0; tq <= L1 + 1e-6; tq += .4, n_++) { var cx = ra.x + ux * tq, cz = ra.z + uz * tq, hy = Math.max(hAt(cx, cz), tq > L1 - 1.2 ? sp_.y : 0) + .07; PP.push(cx - uz * .8, hy, cz + ux * .8, cx + uz * .8, hy, cz - ux * .8); if (n_) { var j = n_ * 2; II.push(j - 2, j - 1, j, j - 1, j + 1, j); } }
+        var dg = new T.BufferGeometry(); dg.setAttribute('position', new T.Float32BufferAttribute(PP, 3)); dg.setIndex(II); dg.computeVertexNormals(); var dm = new T.Mesh(dg, M(C.shoulder, { side: T.DoubleSide })); dm.receiveShadow = true; scene.add(dm); } }
     });
   });
 
@@ -754,7 +758,7 @@
   function project(o, h, dy) { tmp.copy(o.position); tmp.y += h; tmp.project(cam); return [(tmp.x * .5 + .5) * W, (-tmp.y * .5 + .5) * H - dy]; }
 
   function carLat(u) { /* xe giữ làn, rồi lượn dần vào vòng quanh đảo theo đường cong trơn (cả vị trí lẫn hướng đều liên tục) */
-    var b0 = RW / 2, R = 3.75 * RB, A = 2.6 * RB, B = 6.2 * RB, l = b0;
+    var b0 = RW / 2, R = 3.75 * RB, A = 2.2 * RB, B = 5.25 * RB, l = b0; /* ngoài vòng xuyến xe luôn ở giữa làn */
     for (var q = 0; q < rbU.length; q++) { var du = Math.abs(u - rbU[q]), v;
       if (du <= A) v = Math.sqrt(R * R - du * du);
       else if (du < B) { var h = B - A, t = (du - A) / h, p0 = Math.sqrt(R * R - A * A), m0 = -A / p0 * h, t2 = t * t, t3 = t2 * t; v = (2 * t3 - 3 * t2 + 1) * p0 + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * b0; }
@@ -775,7 +779,7 @@
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
     var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
-    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh) * 1.35;
+    var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh);
     car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));
     car.userData.wheels.forEach(function (w) { w.rotation.z = -uc * 3.2; });
@@ -845,5 +849,6 @@
     var uu = k > nowIdx ? Math.min(uEnd - 1, uNow + 14) : Math.max(mainU[k] - 6, (gateU[k] || mainU[k]) - 2) + 6, y = root.getBoundingClientRect().top + scrollY + (uu - 6 - U0) / (uEnd - U0) * (root.offsetHeight - innerHeight);
     scrollTo({ top: Math.max(0, y), left: 0, behavior: 'instant' }); uT = uS = uu - 6; }
   toStage(); addEventListener('hashchange', toStage);
+  if (full) window.__j3d = { keep: keep.map(function (e) { return [e[0].position.x, e[0].position.z, e[1], e[0].userData.u]; }), signs: fps.filter(function (f) { return f[4]; }).length };
   frame();
 })();
