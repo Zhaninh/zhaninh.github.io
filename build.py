@@ -485,7 +485,7 @@ for lang in ('vi', 'en'):
         return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
     def sec_head(k, h, more=None):
         m = f'<a class="shead-more" href="{more[0]}">{more[1]} <i>→</i></a>' if more else ''
-        return f'<div class="shead reveal"><div><div class="mono">{k}</div><h2>{h}</h2></div>{m}</div>'
+        return f'<div class="shead reveal"><div class="sh-t"><span class="sh-n">{k}</span><i aria-hidden="true"></i><h2>{h}</h2></div>{m}</div>'
     def target(tg):
         if not tg: return None
         return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, U['workdir'] + tg[1] + '.html')

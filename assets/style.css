@@ -1394,3 +1394,10 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
   .mentors .mc-r{margin-top:0;align-self:start}
 }
 .mentors .mc-w{font:400 14px/1.6 var(--sans);font-style:normal;color:var(--mute)}
+/* số phân mục: số lớn hơn tiêu đề một chút, ngăn bằng vạch dọc */
+.shead{align-items:center}
+.sh-t{display:flex;align-items:center;gap:clamp(18px,2vw,28px);min-width:0}
+.sh-n{font:400 clamp(44px,4.8vw,66px)/1 var(--serif);color:var(--leaf-mid);letter-spacing:-.01em;font-variant-numeric:lining-nums}
+.sh-t i{flex:none;width:1.5px;align-self:stretch;min-height:44px;background:color-mix(in srgb,var(--leaf-mid) 55%,var(--line))}
+.sh-t h2{margin:0}
+@media (max-width:640px){.shead{align-items:flex-start;gap:20px}.sh-t{gap:16px}}
