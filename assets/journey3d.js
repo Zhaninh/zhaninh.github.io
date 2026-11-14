@@ -52,7 +52,9 @@
     var g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(P, 3)); g.setIndex(I); g.computeVertexNormals();
     var m = new T.Mesh(g, mat); m.receiveShadow = true; return m;
   }
-  function ribbon(u0, u1, half, y, off, mat) { off = off || 0; return strip(u0, u1, function (u) { return pos(u, off - half); }, function (u) { return pos(u, off + half); }, y, mat); }
+  var RYc = {}; function roadY(u) { if (!PS) return 0; var k = Math.round(u * 4); if (RYc[k] !== undefined) return RYc[k]; var h = 0; for (var o = -RW - .6; o <= RW + .61; o += (RW + .6) / 3) { var q = pV(u, vOf(u)), t = tan(u); h = Math.max(h, hAt(q.x - t.z * o, q.z + t.x * o)); } return (RYc[k] = h); }
+  function rpos(u, off) { var p = pos(u, off); p.y = roadY(u); return p; } /* điểm trên mặt đường: cả mặt cắt ngang cùng một độ cao */
+  function ribbon(u0, u1, half, y, off, mat) { off = off || 0; return strip(u0, u1, function (u) { return rpos(u, off - half); }, function (u) { return rpos(u, off + half); }, y, mat); }
   function ease(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
   function hsh(a, b, c, k) { var v = Math.sin(a * 127.1 + b * 311.7 + c * 74.7 + k * 19.3) * 43758.5453; return v - Math.floor(v); }
   var seed = 11; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
@@ -743,7 +745,9 @@
     var sg = 5 / FTS, R = Math.ceil(sg * 2.5), out = []; /* làm mượt theo quãng đường (Gauss ~5 đơn vị) để chuyển cảnh êm */
     for (i = 0; i < n; i++) { var w = 0, sf = 0, ss = 0, mf = 0; for (q = -R; q <= R; q++) { var j = Math.min(n - 1, Math.max(0, i + q)), g = Math.exp(-q * q / (2 * sg * sg)); w += g; sf += raw[j][0] * g; ss += raw[j][1] * g; if (Math.abs(q) < sg) mf = Math.max(mf, raw[j][0]); }
       out.push([Math.max(sf / w, mf * .97), ss / w]); }
-    FT = out; FT0 = a;
+    var sg2 = 9 / FTS, R2b = Math.ceil(sg2 * 2.5), out2 = []; /* lượt làm mượt thứ hai: không đổi zoom đột ngột */
+    for (i = 0; i < n; i++) { var w2 = 0, f2 = 0, s2 = 0; for (q = -R2b; q <= R2b; q++) { var j2 = Math.min(n - 1, Math.max(0, i + q)), g2 = Math.exp(-q * q / (2 * sg2 * sg2)); w2 += g2; f2 += out[j2][0] * g2; s2 += out[j2][1] * g2; } out2.push([Math.max(out[i][0] * .9, f2 / w2), s2 / w2]); }
+    FT = out2; FT0 = a;
   }
   function frameAt(u) { if (!FT) return [1, 0]; var x = (u - FT0) / FTS, i = Math.max(0, Math.min(FT.length - 2, Math.floor(x))), t = Math.min(1, Math.max(0, x - i)); return [FT[i][0] + (FT[i + 1][0] - FT[i][0]) * t, FT[i][1] + (FT[i + 1][1] - FT[i][1]) * t]; }
   size(); addEventListener('resize', size);
@@ -782,7 +786,7 @@
     uS = reduce || !full ? uT : uS + (uT - uS) * Math.min(1, dt * 5);
     var uc = Math.min(uS, uNow), speed = uT - uS;
     /* xe: chạy giữa làn bên phải */
-    var p = pos(uc, carLat(uc)), p2 = pos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
+    var p = rpos(uc, carLat(uc)), p2 = rpos(uc + .25, carLat(uc + .25)), t = { x: p2.x - p.x, z: p2.z - p.z }, rg = inRough(uc), bump = rg && uc > rg[0] && uc < rg[1] ? 1 : 0;
     var dh = Math.hypot(t.x, t.z) || 1; car.rotation.order = 'YZX'; car.rotation.z = Math.atan2(p2.y - p.y, dh);
     car.position.set(p.x, p.y + .15 + bump * Math.abs(Math.sin(uc * 9)) * .05, p.z); car.rotation.y = Math.atan2(-t.z, t.x);
     body.rotation.x = bump * Math.sin(uc * 13) * .035; body.rotation.z = bump * Math.sin(uc * 7) * .03 - Math.max(-.03, Math.min(.03, speed * .01));

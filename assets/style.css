@@ -1290,3 +1290,5 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .toc-ic[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 8px);transform:translate(-50%,-3px);white-space:nowrap;padding:5px 9px;border-radius:6px;background:var(--ink);color:#fff;font:500 12px/1 var(--sans);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:5}
 .toc-ic[data-tip]:hover::after,.toc-ic[data-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
 .toc-pp.open .toc-ic[data-tip]::after,.toc-pp:hover .toc-ic[data-tip]::after{opacity:0}
+/* điện thoại, máy tính bảng: kính trên bản đồ 3D không làm mờ nền (đỡ nặng máy khi bản đồ chạy) */
+@media (hover:none){.j3d-card::before{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--card) 88%,transparent)}}

@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded',function(){
       addEventListener('scroll',spy,{passive:true});addEventListener('resize',spy);spy()}}
   /* chất kính: khúc xạ ở mép (chỉ trình duyệt nhân Chromium hỗ trợ bộ lọc SVG cho backdrop-filter) và tông tự đổi theo nền phía sau topbar */
   (function(){var nav=d.querySelector('.nav');if(!nav)return;
-    if(navigator.userAgentData&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var NS='http://www.w3.org/2000/svg',defs=d.createElementNS(NS,'svg'),cache={},n=0;defs.id='lens-defs';d.body.appendChild(defs);
+    if(navigator.userAgentData&&matchMedia('(hover:hover)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var NS='http://www.w3.org/2000/svg',defs=d.createElementNS(NS,'svg'),cache={},n=0;defs.id='lens-defs';d.body.appendChild(defs);
       function map(W,H,R,E){var c=d.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d'),im=x.createImageData(W,H),D=im.data;
         function sdf(px,py){var qx=Math.abs(px-W/2)-(W/2-R),qy=Math.abs(py-H/2)-(H/2-R);return Math.hypot(Math.max(qx,0),Math.max(qy,0))+Math.min(Math.max(qx,qy),0)-R}
         for(var j=0;j<H;j++)for(var i=0;i<W;i++){var k=(j*W+i)*4,s=-sdf(i+.5,j+.5),dx=0,dy=0;if(s<E){var t=1-Math.max(s,0)/E,q=t*t*t,gx=sdf(i+1.5,j+.5)-sdf(i-.5,j+.5),gy=sdf(i+.5,j+1.5)-sdf(i+.5,j-.5),l=Math.hypot(gx,gy)||1;dx=-gx/l*q;dy=-gy/l*q}D[k]=128+dx*127;D[k+1]=128+dy*127;D[k+2]=128;D[k+3]=255}
@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded',function(){
           var dm=d.createElementNS(NS,'feDisplacementMap');dm.setAttribute('in','SourceGraphic');dm.setAttribute('in2','m');dm.setAttribute('scale',Math.min(30,H*.6));dm.setAttribute('xChannelSelector','R');dm.setAttribute('yChannelSelector','G');
           f.appendChild(fi);f.appendChild(dm);defs.appendChild(f);cache[key]=id}
         el.style.setProperty('--lens','url(#'+cache[key]+')')}
-      function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop,.j3d-card,.totop').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav')||e.classList.contains('totop'))lens(e)})}
-      var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});setTimeout(all,60);if(window.ResizeObserver){var ro=new ResizeObserver(function(es){es.forEach(function(e){lens(e.target)})});d.querySelectorAll('.nav,.toc-panel,.j3d-card').forEach(function(e){ro.observe(e)})}
+      function all(){d.querySelectorAll('.nav,.toc-panel,.toc-fly,.toc-lgpop,.totop').forEach(function(e){if(e.offsetParent!==null||e.classList.contains('nav')||e.classList.contains('totop'))lens(e)})}
+      var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(all,200)});setTimeout(all,60);if(window.ResizeObserver){var rt2,ro=new ResizeObserver(function(es){clearTimeout(rt2);rt2=setTimeout(function(){es.forEach(function(e){lens(e.target)})},250)});d.querySelectorAll('.nav,.toc-panel').forEach(function(e){ro.observe(e)})}
       d.querySelectorAll('.pill,.toc-i,.toc-pp,.pill .pl').forEach(function(e){e.addEventListener('pointerenter',function(){setTimeout(all,30)},{passive:true});e.addEventListener('click',function(){setTimeout(all,30)})})}
   })();
   /* trang chủ: cụm ảnh cao đúng bằng cụm chữ (từ "Xin chào" đến nút hành trình), hai cụm tạo thành một khối chữ nhật */
