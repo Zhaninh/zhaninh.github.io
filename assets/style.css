@@ -1297,3 +1297,6 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .news,.mentors,.jhome{background:color-mix(in srgb,var(--leaf-soft) 55%,var(--paper));border-top:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--leaf-mid) 22%,var(--line))}
 .news{margin-top:0}
 .mentors .mc{background:var(--card)}
+.pj-fig{margin:22px auto 20px;max-width:760px}
+.pj-fig img{width:100%;display:block;border-radius:10px;border:1px solid var(--line);background:#fff}
+.pj-fig figcaption{margin-top:10px;font:italic 400 14.5px/1.5 var(--serif);color:var(--mute);text-align:center}

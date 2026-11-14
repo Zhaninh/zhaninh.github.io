@@ -63,15 +63,19 @@ WORK = [
  dict(slug='vlr', star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
   vi=dict(sub='Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, hướng tới hỗ trợ người gặp khó khăn về phát âm và thính giác.',
           role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Dữ liệu đã công bố; bài báo ở dạng tiền ấn phẩm',
-          body=[('Đặt vấn đề', ['Đọc khẩu hình là bài toán nhận dạng lời nói chỉ từ chuyển động môi. Kỹ thuật này có thể hỗ trợ người mất khả năng phát âm, nhưng tiếng Việt gần như chưa có dữ liệu công khai.'], []),
-                ('Bộ dữ liệu', ['VLR là bộ dữ liệu nghe nhìn quy mô lớn cho bài toán nhận dạng tiếng nói qua khẩu hình ở mức từ trong tiếng Việt. Video được lấy từ các video YouTube tiếng Việt công khai, chọn những đoạn thấy rõ mặt người nói theo hướng chính diện và nói tự nhiên.', 'Mỗi video được xử lý tự động để đưa khuôn mặt người nói vào giữa khung hình. Lời thoại được nhận dạng tự động và căn thời gian đến từng từ.'],
-                 ['Khoảng 116.000 cặp đoạn video và lời thoại.', 'Dung lượng 70,5 GB, chia thành 7 tệp nén.', 'Phát hành công khai trên Zenodo theo giấy phép CC BY 4.0; phiên bản đầu tháng 7/2025, phiên bản 3 tháng 4/2026.']),
+          body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
+                ('Bộ dữ liệu', ['VLR được xây từ 1.794 video thuộc 25 danh sách phát YouTube tiếng Việt công khai, chọn những đoạn thấy rõ mặt người nói và nói tự nhiên. Âm thanh được nhận dạng bằng Whisper để lấy lời thoại có mốc thời gian từng từ; khuôn mặt được tìm bằng MediaPipe và cắt vùng môi.'],
+                 ['Khoảng 116.000 đoạn video, 198 giờ nói, 65,6 GB.', 'Chia 178 giờ để huấn luyện, 10 giờ để kiểm định, 10 giờ để kiểm thử.', 'Phát hành trên Zenodo, giấy phép CC BY 4.0.'], ('vlr_pipeline', 'Quy trình xây dựng VLR: tách âm thanh và hình, nhận dạng lời thoại bằng Whisper, tìm khuôn mặt bằng MediaPipe rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.')),
+                ('Kết quả', ['Sáu mô hình đọc khẩu hình chỉ dùng hình ảnh được tinh chỉnh và đánh giá trên VLR. AV-HuBERT cho kết quả tốt nhất, với tỉ lệ lỗi từ (WER) 62,18% khi giải mã thông thường.', 'Nhóm đề xuất thêm bốn bước cải tiến: ghép mô hình ngôn ngữ 5-gram tiếng Việt, lọc mẫu khó rồi học theo lộ trình (curriculum learning), căn chỉnh vùng môi, và xếp hạng lại N kết quả tốt nhất bằng một bộ giải mã Transformer gọn. Nhờ vậy WER trên tập kiểm thử giảm còn 29,5%.'],
+                 ['AV-HuBERT: 62,18% → 29,5% WER.', 'Auto-AVSR: 69,88% → 36,9%; LipNet: 75,13% → 42,8%; VSP-LLM: 81,59% → 47,2%.', 'Bước giảm nhiều nhất đến từ mô hình ngôn ngữ và lọc dữ liệu theo độ khó.']),
                 ('Phần việc đảm nhận', [], ['Thu thập và tiền xử lý video: phân đoạn, căn chỉnh, trích vùng miệng.', 'Huấn luyện và đánh giá các mô hình cơ sở VSP-LLM và Auto-AVSR.', 'Thử nghiệm mô hình gọn nhẹ trên NVIDIA Jetson Nano.'])]),
   en=dict(sub='A large-scale Vietnamese lip-reading dataset, aimed at people with speech or hearing difficulties.',
           role='Data pipeline and baseline experiments; capstone thesis', where='FPT University · VSB – Technical University of Ostrava · Ho Chi Minh City Open University', status='Dataset public, paper as preprint',
-          body=[('Why it matters', ['Lip reading recognises speech from mouth motion alone. It can help people who have lost their voice, but Vietnamese had almost no public data.'], []),
-                ('The dataset', ['VLR is a large-scale audiovisual corpus for word-level visual speech recognition in Vietnamese. The clips come from publicly available Vietnamese YouTube videos, chosen for a clear frontal view of the speaker and natural speech.', 'Each video is processed automatically to centre the speaker’s face. Transcripts are produced by automatic speech recognition and aligned to each word.'],
-                 ['About 116,000 segmented video–transcript pairs.', '70.5 GB, split into 7 archives.', 'Openly released on Zenodo under CC BY 4.0; first version July 2025, version 3 April 2026.']),
+          body=[('Why it matters', ['Lip reading (visual speech recognition) turns lip, jaw and facial motion into text without audio. It can support deaf people and people who have lost their voice.', 'Vietnamese is hard for this task: it has six tones, and many syllables that differ only in tone look almost the same on the lips. Before VLR there was no large-scale Vietnamese lip-reading dataset.'], []),
+                ('The dataset', ['VLR is built from 1,794 videos in 25 public Vietnamese YouTube playlists, chosen for a clear view of the speaker and natural speech. Whisper transcribes the audio with word-level timestamps; MediaPipe finds the face and the lip region is cropped.'],
+                 ['About 116,000 clips, 198 hours of speech, 65.6 GB.', '178 hours for training, 10 for validation, 10 for testing.', 'Released on Zenodo under CC BY 4.0.'], ('vlr_pipeline', 'VLR construction: audio and video are split, Whisper transcribes the speech, MediaPipe finds the face and the lips are cropped. Source: preprint, CC BY 4.0.')),
+                ('Results', ['Six visual-only lip-reading models were fine-tuned and evaluated on VLR. AV-HuBERT was best, with a word error rate (WER) of 62.18% under greedy decoding.', 'The team added four refinements: shallow fusion with a Vietnamese 5-gram language model, difficulty filtering with curriculum learning, lip-region alignment, and N-best re-ranking with a lightweight Transformer decoder. Together they bring test WER down to 29.5%.'],
+                 ['AV-HuBERT: 62.18% → 29.5% WER.', 'Auto-AVSR: 69.88% → 36.9%; LipNet: 75.13% → 42.8%; VSP-LLM: 81.59% → 47.2%.', 'The largest gains come from the language model and difficulty-based data cleaning.']),
                 ('What I did', [], ['Sourced and pre-processed video: segmentation, alignment, mouth-region extraction.', 'Trained and evaluated VSP-LLM and Auto-AVSR baselines.', 'Ran lightweight models on an NVIDIA Jetson Nano.'])]),
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
  dict(slug='aquaculture', star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
@@ -92,7 +96,7 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
  ('2026', True, 'NTCoral: an expert-annotated image dataset of Vietnamese coral reefs (working title)', f'{ME}, et al.', 'Bài báo dữ liệu đang chuẩn bị, tác giả thứ nhất', 'Dataset paper in preparation, first author', None, 'ntcoral'),
  ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
  ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688', 'aquaculture'),
- ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, et al.', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
+ ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
  ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
 ]
 
@@ -244,7 +248,7 @@ def stage_json(lang):
 
 def proj_parts(w, lang):
     parts = ''
-    for h, paras, items in w[lang]['body']:
+    for h, paras, items, *_ in w[lang]['body']:
         tag = 'ol' if h in ('Quy trình', 'Pipeline') else 'ul'
         parts += f'<h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in paras) + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '')
     lk = ''.join(f'<div><a class="link" href="{u}">{E(n)}</a></div>' for n, u in w['links']) or f'<div>{T[lang]["nolinks"]}</div>'
@@ -493,10 +497,11 @@ for lang in ('vi', 'en'):
         cv_ = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
         teaser = f'<figure class="pj-teaser reveal"><img src="{rel(p, cv_)}" alt=""></figure>' if cv_ else ''
         secs = ''
-        for h, paras, items in d['body']:
+        for h, paras, items, *fg in d['body']:
             tag = 'ol' if h in ('Quy trình', 'Pipeline') else 'ul'
-            secs += f'<section class="pj-s reveal"><h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in paras) + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '') + '</section>'
-        secs += f'<section class="pj-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><p>{E(d["role"])}</p></section>'
+            fig = f'<figure class="pj-fig"><img src="{rel(p, "assets/projects/" + fg[0][0] + ".webp")}" alt="" loading="lazy"><figcaption>{E(fg[0][1])}</figcaption></figure>' if fg else ''
+            secs += f'<section class="pj-s reveal"><h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in paras) + fig + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '') + '</section>'
+        if not any(h in ('Phần việc đảm nhận', 'What I did') for h, *_ in d['body']): secs += f'<section class="pj-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><p>{E(d["role"])}</p></section>'
         if pb:
             secs += (f'<section class="pj-s reveal"><h2>{"Trích dẫn" if vi_ else "Citation"}</h2><p class="pj-cite">{pb[3].rstrip('.')}. {E(pb[2])}. {E(pb[4] if vi_ else pb[5])}.'
                      + (f' <a href="{pb[6]}" rel="noopener">{E(pb[6].replace("https://doi.org/", "doi:"))}</a>' if pb[6] else '') + '</p></section>')
