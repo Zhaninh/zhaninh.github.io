@@ -1213,3 +1213,31 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 }
 @media (max-width:600px){.toc-panel{left:0;right:0;width:auto;min-width:0}}
 @media (max-width:820px){.bio-more{margin-left:auto;margin-right:auto}}
+
+/* ===== dải liên hệ trên các cỡ màn hình (định nghĩa cuối, thay các quy tắc cũ) ===== */
+/* iPad ngang, laptop nhỏ: một hàng gọn để cả phần giới thiệu nằm trong một màn hình */
+@media (min-width:821px) and (max-width:1180px){
+  .kbar{flex-wrap:nowrap;border-radius:999px;row-gap:0;gap:2px;padding:5px}
+  .ksep.k2{display:block}
+  .kl{width:auto;border-top:0;padding-top:0;margin:0}
+  .km{padding:5px 12px 5px 5px;column-gap:10px}.km .kic{width:34px;height:34px}
+  .km .kv{font-size:14px}.km .kk{font-size:15px}
+  .kl a{padding:0 9px;font-size:14px;height:40px}
+}
+@media (min-width:821px) and (max-height:820px){
+  .hslogan{margin-top:clamp(18px,3vh,28px)}.kontakt{margin-top:clamp(12px,2vh,18px)}
+}
+/* iPad dọc: hai email cạnh nhau, hàng link căn giữa bên dưới, cả khối là một thẻ cân đối */
+@media (min-width:601px) and (max-width:820px){
+  .kbar{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:0;width:min(100%,640px);max-width:none;padding:8px;border-radius:24px}
+  .kbar .ksep{display:none}
+  .km{justify-content:center;padding:8px 10px}
+  .kl{grid-column:1/-1;display:flex;justify-content:center;gap:8px;border-top:1px solid var(--line);margin-top:6px;padding-top:6px;width:auto}
+  .kl a{padding:0 14px}
+}
+/* điện thoại và iPad dọc: slogan và liên hệ là một cụm riêng, có khoảng thở với phần giới thiệu */
+@media (max-width:820px){
+  .hslogan{margin-top:clamp(56px,9vh,96px)}
+  .kontakt{margin-top:24px}
+}
+@media (min-width:821px) and (max-height:820px){.hslogan{margin-top:clamp(28px,5vh,44px)}.kontakt{margin-top:clamp(16px,2.6vh,24px)}}
