@@ -465,7 +465,7 @@
     var sp = pos(u - 8.5, -side * (RW + 1.3)); sg.position.copy(sp); sg.rotation.y = FACE; scene.add(sg); claim(sp.x, sp.z, .7, 0, 1);
   }
   if (stages[0].icon === 'school') fork(mainU[0] + 80, S, 15, model.design()); /* bùng binh cách chân đèo một quãng */
-  if (seaOn) fork(uSea + 40, -S, 16, model.mobility()); /* VinUni → nhánh CMIT → GREEN-X */
+  if (seaOn) fork(uSea + 30, -S, 16, model.mobility()); /* VinUni → nhánh CMIT → GREEN-X */
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
   var marks = [], anchors = [], miles = [];
@@ -474,7 +474,7 @@
     var sd = SIDE(k), g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = sd * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], sd, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 62, S * 11.6, 4.6); drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 50, S * 11.6, 4.6); /* cách biển một quãng */ drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
@@ -657,7 +657,7 @@
       var g = new T.Group(), a = mesh(new T.CylinderGeometry(.52, .52, .36, 22), tyre), h = mesh(new T.CylinderGeometry(.3, .3, .38, 10), trim);
       a.rotation.x = h.rotation.x = Math.PI / 2; g.add(a, h); g.position.set(w[0], .52, w[1]); car.add(g); car.userData.wheels.push(g);
     });
-    car.scale.setScalar(.6);
+    car.scale.setScalar(.48);
   })();
   scene.add(car);
 
