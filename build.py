@@ -204,6 +204,8 @@ NEWS = [  # (ngày hiển thị, nội dung_vi, nội dung_en, đích: ('hl', id
  ('2026', 'Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn được phát hành trên Zenodo.', 'Large-scale Vietnamese lip-reading dataset released on Zenodo.', ('work', 'vlr')),
 ]
 
+MENTOR_CARD = {'phung-manh-duong': (('Trợ lý Giáo sư, VinUniversity', 'Người hướng dẫn trực tiếp (PI)'), ('Assistant Professor, VinUniversity', 'Direct supervisor (PI)')), 'dinh-van-dung': (('Nghiên cứu viên cao cấp, Đại học Quốc gia Hà Nội', 'Hướng dẫn trong các chuyến khảo sát thực địa (Co-PI)'), ('Senior Researcher, Vietnam National University, Hanoi', 'Guides my field surveys (Co-PI)')), 'do-danh-cuong': (('Trợ lý Giáo sư, VinUniversity', 'Đồng chủ nhiệm các dự án tôi tham gia tại GREEN-X (Co-PI)'), ('Assistant Professor, VinUniversity', 'Co-PI of the GREEN-X projects I work on'))}  # (chức danh, đơn vị hiện tại) và vai trò của thầy đối với tôi
+
 MENTORS = [
  dict(slug='phung-manh-duong', photo='duong',
   guided=[('ntcoral', 'Chủ trì dự án (PI).', 'Principal investigator of the project.')],
@@ -507,12 +509,16 @@ for lang in ('vi', 'en'):
                 f'<span class="hc-m"><time>{dd}</time> · {E(pv if vi_ else pe)}</span><span class="hc-t">{E(tv if vi_ else te)}</span></a>')
     hl_html = (f'<section class="hlhome" id="highlights" data-toc="08"><div class="wrap">{sec_head("08", t["hl"], (rel(p, U["hl"]), "Xem tất cả" if vi_ else "See all"))}'
                f'<div class="hcgrid">{"".join(hcard(x) for x in sts)}</div></div></section>')
+    def nb(x):  # giữ các cụm từ không bị ngắt dòng
+        for ph in ('Đại học Quốc gia Hà Nội', 'thực địa', 'GREEN-X (Co-PI)', 'Vietnam National University, Hanoi', 'field surveys'):
+            x = x.replace(ph, ph.replace(' ', '&nbsp;'))
+        return x
     def mcard(m):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
         ini = ''.join(w_[0] for w_ in m['en']['name'].replace('Dr. ', '').split()[:3:2]) if m['en']['name'].count(' ') >= 2 else m['en']['name'][:2]
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
-                + f'<span class="mc-t">{E(d["short"]).replace("Hà Nội", "Hà&nbsp;Nội").replace(" · ", "&nbsp;· ")}</span><span class="mc-r">{"Co-PI" if "Co-PI" in m["en"]["role"] else "PI"} · GREEN-X</span></span></a>')
+                + ''.join(f'<span class="mc-t">{nb(E(a))}</span><span class="mc-r">{nb(E(b))}</span>' for a, b in [MENTOR_CARD[m['slug']][0 if vi_ else 1]]) + '</span></a>')
     mentor_html = f'<section class="mentors" id="mentors" data-toc="05"><div class="wrap">{sec_head("05", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero" id="about" data-toc="01"><div class="wrap"><div class="hero-grid"><div class="hero-l">

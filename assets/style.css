@@ -1383,3 +1383,13 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 /* thẻ người hướng dẫn: nhãn PI/Co-PI luôn nằm cùng một hàng ở đáy thẻ */
 .mentors .mc-b{flex:1 1 auto;display:flex;flex-direction:column;align-self:stretch}
 .mentors .mc-r{margin-top:auto;padding-top:14px}
+.mentors .mc-r{font:italic 400 16.5px/1.45 var(--serif);letter-spacing:0;color:var(--leaf);text-transform:none;border-top:1px solid var(--line);padding-top:14px;margin-top:auto}
+.mentors .mc-t{margin-bottom:18px}
+/* hàng ngang thẳng nhau giữa các thẻ: ảnh · tên · chức danh · vai trò */
+@media (min-width:981px){
+  .mentors .mc{display:grid;grid-template-rows:subgrid;grid-row:span 4;row-gap:0;align-items:start}
+  .mentors .mc-b{display:contents}
+  .mentors .mc-av{margin-bottom:18px}
+  .mentors .mc-n{margin-bottom:8px}
+  .mentors .mc-r{margin-top:0;align-self:start}
+}
