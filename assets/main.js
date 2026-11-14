@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded',function(){
       it.addEventListener('mouseenter',function(){clearTimeout(tm);tc.querySelectorAll('.toc-i.fo').forEach(function(x){if(x!==it)x.classList.remove('fo')});if(it.classList.contains('has'))it.classList.add('fo')});
       it.addEventListener('mouseleave',function(){tm=setTimeout(function(){it.classList.remove('fo')},160)})});
     tc.querySelectorAll('.toc-pp').forEach(function(pp){pp.querySelector('button').addEventListener('click',function(e){e.stopPropagation();var o=!pp.classList.contains('open');tc.querySelectorAll('.toc-pp.open').forEach(function(x){x.classList.remove('open')});pp.classList.toggle('open',o)})});
+    /* rê chuột vào ngôn ngữ đang dùng trên nút (VI/EN) cũng mở danh sách ngôn ngữ, ngay dưới chữ đó */
+    var plg=pl.querySelector('.pl'),pp=tc.querySelector('.pill-lgpop'),lt=null;
+    if(plg&&pp&&fine){function lo(){clearTimeout(lt);if(tc.classList.contains('open'))return;var a=plg.getBoundingClientRect(),b=tc.getBoundingClientRect();pp.style.left=Math.min(a.left+a.width/2-b.left,b.width+9-pp.offsetWidth/2)+'px';tc.classList.add('lgo')}
+      function lc(){lt=setTimeout(function(){tc.classList.remove('lgo')},160)}
+      plg.addEventListener('mouseenter',lo);plg.addEventListener('mouseleave',lc);pp.addEventListener('mouseenter',lo);pp.addEventListener('mouseleave',lc);
+      pl.addEventListener('click',function(){tc.classList.remove('lgo')})}
     /* màn hình ngang rộng: bảng mục lục mở ra ở khoảng trống bên phải thanh trên, không che nội dung */
     var nav=d.querySelector('.nav');function side(){var sp=innerWidth-nav.getBoundingClientRect().right-24;tc.classList.toggle('side',sp>=300);tc.style.setProperty('--sw',Math.min(356,sp)+'px')}addEventListener('resize',side);side();
     var secs=[].slice.call(d.querySelectorAll('[data-toc]'));

@@ -1094,3 +1094,7 @@ html.rs .reveal{transition:none!important}
   .toc.side .toc-panel{left:calc(100% + 25px);right:auto;top:-9px;width:var(--sw,356px);transform:translateX(-6px)}
   .toc.side.open .toc-panel{transform:none}
 }
+.pill-lgpop{right:auto;bottom:auto;top:calc(100% + 10px);transform:translate(-50%,-4px)}
+.pill-lgpop::after{left:0;right:0;top:auto;bottom:100%;width:auto;height:14px}
+.toc.lgo .pill-lgpop{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .18s,transform .22s var(--ease)}
+.pill .pl{padding:6px 0;margin:-6px 0;cursor:default}
