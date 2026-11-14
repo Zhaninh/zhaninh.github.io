@@ -18,8 +18,8 @@ T = {  # chuỗi giao diện
  'vi': dict(home='Trang chủ', journey='Hành trình', work='Dự án', pubs='Công bố', hl='Dấu ấn', about='Giới thiệu', notes='Ghi chép',
             slogan='Công nghệ thật sự có ý nghĩa<br class="sb"> khi nó <em>đến được với con người.</em>', slogan_plain='Công nghệ thật sự có ý nghĩa khi nó đến được với con người.',
             who='Tôi là <b>Nguyễn Ngọc Gia Ninh</b>, thường gọi là Aaron, nghiên cứu viên AI tại GREEN-X, VinUniversity. Tôi xây dữ liệu và hệ thống thị giác máy tính cho những bài toán gần với con người: trước là người bệnh, nay là biển.',
-            hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'tên thường gọi: Aaron'],
-            interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
+            hello='Xin chào, tôi là', name='Nguyễn Ngọc<br>Gia Ninh', myrole='Trợ lý nghiên cứu · GREEN-X, VinUniversity', role_pre='Trợ lý nghiên cứu tại', mail_work='Công việc', mail_me='Cá nhân', words=['trí tuệ nhân tạo ứng dụng', 'thị giác máy tính', 'AI trên thiết bị biên', 'IoT và AIoT', 'tên thường gọi: Aaron'],
+            interests=[('Thị giác máy tính', 'Nhận dạng, phân vùng và hiểu ảnh, video trong điều kiện thực tế.'), ('Dữ liệu và đánh giá', 'Xây dựng, kiểm chứng dữ liệu và quy trình đánh giá mô hình.'), ('AI trên thiết bị biên', 'Đưa mô hình về chạy trên thiết bị ngoài hiện trường.'), ('IoT và AIoT', 'Kết nối cảm biến, thiết bị với mô hình AI để thu thập dữ liệu và ra quyết định tại hiện trường.')], h_int='hướng quan tâm', featured='đề tài tiêu biểu',
             bio='Tôi nghiên cứu <span class="ri">trí tuệ nhân tạo ứng dụng</span>, trọng tâm là <span class="ri">thị giác máy tính</span>, với mong muốn đưa kết quả nghiên cứu vào các bài toán thực tế tại Việt Nam.',
             go_journey='Đi cùng tôi qua hành trình', j_sub='Bản đồ 3D: các giai đoạn, dự án và chặng phía trước', c_label='liên hệ', believe='quan điểm nghiên cứu', now='đang thực hiện', t_title='Hành trình nghiên cứu', t_btn='Xem hành trình', t_n='giai đoạn', bump='khó khăn và bài học', hint='cuộn xuống để đi tiếp ↓', unknown='chưa xác định', p_in='dự án trong chặng này', p_tag='dự án', p_stage='giai đoạn', menu='Mục lục', more='Xem thêm', less='Thu gọn', p_close='Quay lại hành trình', p_page='Mở trang riêng của dự án',
             doing='đang thực hiện', read='Xem đề tài', role='Vai trò', where='Nơi thực hiện', status='Trạng thái', links='Minh chứng', nolinks='Sẽ bổ sung khi kết quả được công bố.',
@@ -32,8 +32,8 @@ T = {  # chuỗi giao diện
  'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', hl='Highlights', about='About', notes='Notes',
             slogan='Technology is truly meaningful<br class="sb"> when it <em>reaches people.</em>', slogan_plain='Technology is truly meaningful when it reaches people.',
             who='I am <b>Nguyen Ngoc Gia Ninh</b>, known as Aaron, an AI researcher at GREEN-X, VinUniversity. I build datasets and computer vision systems for problems close to people: first patients, now the sea.',
-            hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'also known as Aaron'],
-            interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.')], h_int='research interests', featured='featured project',
+            hello='Hello, I am', name='Nguyen Ngoc<br>Gia Ninh', myrole='Research Assistant · GREEN-X, VinUniversity', role_pre='Research Assistant at', mail_work='Work', mail_me='Personal', words=['applied artificial intelligence', 'computer vision', 'edge AI', 'IoT and AIoT', 'also known as Aaron'],
+            interests=[('Computer vision', 'Recognition, segmentation and understanding of images and video under real-world conditions.'), ('Data and evaluation', 'Building and validating datasets and model evaluation protocols.'), ('Edge AI', 'Running models on devices deployed in the field.'), ('IoT and AIoT', 'Connecting sensors and devices with AI models to collect data and make decisions in the field.')], h_int='research interests', featured='featured project',
             bio='I work on <span class="ri">applied artificial intelligence</span> with a focus on <span class="ri">computer vision</span>, aiming to bring research results to real-world problems in Vietnam.',
             go_journey='Take the journey with me', j_sub='A 3D map of stages, projects and the road ahead', c_label='contact', believe='research outlook', now='in progress', t_title='Research journey', t_btn='See the journey', t_n='stages', bump='difficulties and lessons', hint='scroll down to continue ↓', unknown='not yet known', p_in='projects in this stage', p_tag='project', p_stage='stage', menu='Menu', more='More', less='Less', p_close='Back to the journey', p_page='Open the project page',
             doing='in progress', read='View project', role='Role', where='Where', status='Status', links='Evidence', nolinks='Links will appear when results are public.',
@@ -286,8 +286,8 @@ def about_page(lang, t, U):
     dg = next(m for m in MENTORS if m['slug'] == 'phung-manh-duong')
     lk = (f'<a href="{rel(p, "assets/Aaron_CV.pdf")}">CV ↓</a><a href="{SCHOLAR}" rel="noopener">Google Scholar</a><a href="https://github.com/Zhaninh" rel="noopener">GitHub</a>'
           f'<a href="{LINKEDIN}" rel="noopener">LinkedIn</a><a href="mailto:{EMAIL_WORK}">Email</a>')
-    head_ = (f'<section class="mx ab-top"><div class="wrap"><div class="mx-grid"><div class="mx-l"><figure class="mx-ph ab-ph" style="view-transition-name:me"><img src="{rel(p, "assets/aaron_cut.webp")}" alt="{E(t["name"].replace("<br>", " "))}"></figure></div>'
-             f'<div class="mx-b"><div class="mx-k">{"Giới thiệu" if vi_ else "About"}</div><h1>{t["name"]}</h1><p class="mx-org">Aaron · {E(t["myrole"])}</p>'
+    head_ = (f'<section class="mx ab-top"><div class="wrap"><div class="mx-grid"><div class="mx-l"><figure class="mx-ph" style="view-transition-name:me"><img src="{rel(p, "assets/people/aaron_tall.webp")}" alt="{E(t["name"].replace("<br>", " "))}"></figure></div>'
+             f'<div class="mx-b"><div class="mx-k">{"Giới thiệu" if vi_ else "About"}</div><h1 style="view-transition-name:nm">{t["name"]}</h1><p class="mx-org">Aaron · {E(t["myrole"])}</p>'
              f'<p class="mx-lead">{t["bio"]}</p>'
              f'<ul class="mx-facts"><li>{"Người hướng dẫn" if vi_ else "Supervisor"}: <a href="{rel(p, U["mdir"] + dg["slug"] + ".html")}">{E(dg[lang]["name"])}</a></li></ul>'
              f'<nav class="mx-links">{lk}</nav></div></div></div></section>')
@@ -346,7 +346,7 @@ def shell(lang, key, path, title, body, extra=''):
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(title)}</title><script>try{{if(sessionStorage.getItem('restore')===location.pathname){{document.documentElement.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}</script><meta name="description" content="{E(t['slogan_plain'])} Aaron (Nguyen Ngoc Gia Ninh), GREEN-X, VinUniversity.">
+<title>{E(title)}</title><script>try{{if(sessionStorage.getItem('restore')===location.pathname||(location.hash.length>1&&/(highlights|dau-an)[.]html$/.test(location.pathname))){{document.documentElement.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}</script><meta name="description" content="{E(t['slogan_plain'])} Aaron (Nguyen Ngoc Gia Ninh), GREEN-X, VinUniversity.">
 <link rel="icon" href="{a('assets/clover.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -426,13 +426,13 @@ for lang in ('vi', 'en'):
         d = m[lang]; href = rel(p, U['mdir'] + m['slug'] + '.html')
         ini = ''.join(w_[0] for w_ in m['en']['name'].replace('Dr. ', '').split()[:3:2]) if m['en']['name'].count(' ') >= 2 else m['en']['name'][:2]
         av = f'<img src="{rel(p, "assets/people/" + m["photo"] + ".webp")}" alt="{E(d["name"])}" loading="lazy">' if m['photo'] else f'<span class="mc-ini">{ini}</span>'
-        return (f'<a class="mc reveal" href="{href}"><span class="mc-av" style="view-transition-name:m-{m['slug']}">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
+        return (f'<a class="mc reveal" href="{href}"><span class="mc-av" style="view-transition-name:m-{m['slug']}">{av}</span><span class="mc-b"><span class="mc-n" style="view-transition-name:mn-{m['slug']}">{E(d["name"])}</span>'
                 + (f'<span class="mc-t">{E(d["title"])}</span>' if d['title'] else '') + f'<span class="mc-r">{E(d["role"])}</span><span class="mc-go">{"Xem thêm" if vi_ else "Read more"} →</span></span></a>')
     mentor_html = f'<section class="mentors" id="mentors" data-toc="04"><div class="wrap">{sec_head("04", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero" id="about" data-toc="01"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
-<h1 class="name">{t['name']}</h1>
+<h1 class="name" style="view-transition-name:nm">{t['name']}</h1>
 <p class="role">{t['role_pre']} <a class="gxt" href="{GREENX}">GREEN-X, VinUniversity</a></p><div class="typed" data-words="{E(json.dumps(t['words'], ensure_ascii=False))}"></div>
 <p class="bio">{t['bio']} <a class="bio-more" href="{rel(p, U['about'])}">{'Giới thiệu đầy đủ' if vi_ else 'Full profile'}&nbsp;→</a></p>
 <a class="jbtn" href="{rel(p, U['journey'])}"><span class="ji"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42c0-10 14-8 16-18S14 12 18 6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 6"/><circle cx="18" cy="6" r="4" fill="currentColor"/><circle cx="8" cy="42" r="3" fill="currentColor"/></svg></span><span class="jt"><b>{t['go_journey']}</b><small>{t['j_sub']}</small></span><span class="ja"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a></div>
@@ -497,7 +497,7 @@ for lang in ('vi', 'en'):
         fx = ''.join(f'<li>{E(x)}</li>' for x in d['facts'])
         body = (f'<section class="mx"><div class="wrap"><div class="mx-grid">'
                 f'<div class="mx-l"><figure class="mx-ph" style="view-transition-name:m-{m["slug"]}">' + (f'<img src="{rel(p, "assets/people/" + m["photo"] + "_tall.webp")}" alt="{E(d["name"])}">' if m['photo'] else f'<span class="mx-ini">{"".join(w_[0] for w_ in m["en"]["name"].split()[::2])}</span>') + f'</figure><a class="mx-back js-back" href="{rel(p, U["home"])}#mentors">← {"Quay lại" if vi_ else "Back"}</a></div>'
-                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1>{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m.get("org", True) else '')
+                f'<div class="mx-b"><div class="mx-k">{E(d["short"])}</div><h1 style="view-transition-name:mn-{m["slug"]}">{E(d["name"])}</h1>' + (f'<p class="mx-org">{E(m.get("org", "College of Engineering and Computer Science · VinUniversity"))}</p>' if m.get("org", True) else '')
                 + (f'<p class="mx-lead">{E(d["lead"])}</p>' if d['lead'] else '') + (f'<ul class="mx-facts">{fx}</ul>' if fx else '')
                 + f'<div class="mx-with"><span>{"Với tôi" if vi_ else "With me"}</span><p>{E(d["withme"])}</p></div>'
                 + (f'<nav class="mx-links">{lk}</nav>' if lk else '') + '</div></div>' + guided_html(m, p, lang) + '</div></section>')
