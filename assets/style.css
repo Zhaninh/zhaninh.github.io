@@ -1262,3 +1262,26 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .totop.show{transform:none;transition:transform .3s var(--ease),visibility 0s,box-shadow .3s}
 .totop:hover{transform:translateY(-2px);box-shadow:0 0 0 3px color-mix(in srgb,var(--leaf-bright) 35%,transparent),0 14px 34px -18px rgba(10,20,12,.42)}
 .hg.n1{max-width:min(100%,760px)}
+.hg.n1{max-width:min(100%,560px)}
+/* ===== trang dự án: bố cục theo trang dự án học thuật (Coralscapes) ===== */
+.pj-head{text-align:center;padding:clamp(48px,8vh,96px) 0 clamp(24px,4vh,40px)}
+.pj-meta{color:var(--leaf);letter-spacing:.04em}
+.pj-head h1{margin:14px auto 16px;max-width:22ch;font:400 clamp(36px,4.6vw,60px)/1.08 var(--serif);letter-spacing:-.015em;text-wrap:balance}
+.pj-au{margin:0 auto 6px;max-width:60ch;font:400 16px/1.6 var(--sans);color:var(--ink2)}
+.pj-aff{margin:0;font:italic 400 16px var(--serif);color:var(--mute)}
+.pj-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
+.pj-b{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 18px;border-radius:999px;background:var(--ink);color:#fff;font:500 14.5px var(--sans);text-decoration:none}
+.pj-b i{font-style:normal;color:var(--leaf-bright)}.pj-b:hover{background:#26362a}
+.pj-b.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}.pj-b.alt i{color:var(--leaf)}
+.pj-wrap{max-width:860px}
+.pj-teaser{margin:0 0 28px;border-radius:12px;overflow:hidden;aspect-ratio:16/8;background:var(--leaf-soft)}
+.pj-teaser img{width:100%;height:100%;object-fit:cover;display:block}
+.pj-tldr{margin:0 auto 12px;max-width:62ch;text-align:center;font:400 clamp(19px,1.8vw,22px)/1.55 var(--serif);color:var(--ink)}
+.pj-s{padding:clamp(28px,4vh,44px) 0;border-top:1px solid var(--line)}
+.pj-s h2{margin:0 0 14px;text-align:center;font:400 clamp(26px,2.6vw,34px)/1.2 var(--serif)}
+.pj-s p,.pj-s li{font:400 17.5px/1.7 var(--serif);color:var(--ink2)}
+.pj-s ul,.pj-s ol{margin:0 auto;max-width:62ch;padding-left:1.2em}
+.pj-s p{max-width:62ch;margin:0 auto 1em}
+.pj-cite{font-size:15.5px!important;padding:16px 18px;border-radius:10px;background:var(--leaf-tint);border:1px solid var(--line)}
+.pj-cite a{color:var(--leaf)}
+.pj-back{margin:36px 0 clamp(48px,8vh,96px);text-align:center}

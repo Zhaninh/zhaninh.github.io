@@ -436,7 +436,7 @@
       if (keep.every(function (e) { return e[0] !== o; })) keep.push([o, (o.userData.pr || 2) + 1]);
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
-      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .7 : 1, r = o.userData.pr * sc, uu = ms.kind === 'valley' ? mainU[k] + 45 : mainU[k] + 76 + (jj++) * 8; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
+      if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .5 : 1, r = o.userData.pr * sc, uu = ms.kind === 'valley' ? mainU[k] + 45 : mainU[k] + 80 + (jj++) * 12; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
       if (seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc)) miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label });
     });
   });
