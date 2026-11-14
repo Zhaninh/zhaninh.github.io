@@ -62,12 +62,16 @@ WORK = [
   links=[]),
  dict(slug='vlr', star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
   vi=dict(sub='Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, hướng tới hỗ trợ người gặp khó khăn về phát âm và thính giác.',
-          role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Perception Technology Solutions, Đại học FPT', status='Dữ liệu đã công bố; bài báo ở dạng tiền ấn phẩm',
+          role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Dữ liệu đã công bố; bài báo ở dạng tiền ấn phẩm',
           body=[('Đặt vấn đề', ['Đọc khẩu hình là bài toán nhận dạng lời nói chỉ từ chuyển động môi. Kỹ thuật này có thể hỗ trợ người mất khả năng phát âm, nhưng tiếng Việt gần như chưa có dữ liệu công khai.'], []),
+                ('Bộ dữ liệu', ['VLR là bộ dữ liệu nghe nhìn quy mô lớn cho bài toán nhận dạng tiếng nói qua khẩu hình ở mức từ trong tiếng Việt. Video được lấy từ các video YouTube tiếng Việt công khai, chọn những đoạn thấy rõ mặt người nói theo hướng chính diện và nói tự nhiên.', 'Mỗi video được xử lý tự động để đưa khuôn mặt người nói vào giữa khung hình. Lời thoại được nhận dạng tự động và căn thời gian đến từng từ.'],
+                 ['Khoảng 116.000 cặp đoạn video và lời thoại.', 'Dung lượng 70,5 GB, chia thành 7 tệp nén.', 'Phát hành công khai trên Zenodo theo giấy phép CC BY 4.0; phiên bản đầu tháng 7/2025, phiên bản 3 tháng 4/2026.']),
                 ('Phần việc đảm nhận', [], ['Thu thập và tiền xử lý video: phân đoạn, căn chỉnh, trích vùng miệng.', 'Huấn luyện và đánh giá các mô hình cơ sở VSP-LLM và Auto-AVSR.', 'Thử nghiệm mô hình gọn nhẹ trên NVIDIA Jetson Nano.'])]),
   en=dict(sub='A large-scale Vietnamese lip-reading dataset, aimed at people with speech or hearing difficulties.',
-          role='Data pipeline and baseline experiments; capstone thesis', where='Perception Technology Solutions, FPT University', status='Dataset public, paper as preprint',
+          role='Data pipeline and baseline experiments; capstone thesis', where='FPT University · VSB – Technical University of Ostrava · Ho Chi Minh City Open University', status='Dataset public, paper as preprint',
           body=[('Why it matters', ['Lip reading recognises speech from mouth motion alone. It can help people who have lost their voice, but Vietnamese had almost no public data.'], []),
+                ('The dataset', ['VLR is a large-scale audiovisual corpus for word-level visual speech recognition in Vietnamese. The clips come from publicly available Vietnamese YouTube videos, chosen for a clear frontal view of the speaker and natural speech.', 'Each video is processed automatically to centre the speaker’s face. Transcripts are produced by automatic speech recognition and aligned to each word.'],
+                 ['About 116,000 segmented video–transcript pairs.', '70.5 GB, split into 7 archives.', 'Openly released on Zenodo under CC BY 4.0; first version July 2025, version 3 April 2026.']),
                 ('What I did', [], ['Sourced and pre-processed video: segmentation, alignment, mouth-region extraction.', 'Trained and evaluated VSP-LLM and Auto-AVSR baselines.', 'Ran lightweight models on an NVIDIA Jetson Nano.'])]),
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
  dict(slug='aquaculture', star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
@@ -89,7 +93,7 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
  ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
  ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688', 'aquaculture'),
  ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, et al.', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
- ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, et al.', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
+ ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
 ]
 
 FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
