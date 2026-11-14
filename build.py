@@ -61,38 +61,41 @@ WORK = [
                 ('Pipeline', [], ['Survey video', 'Frame selection', 'Quality loop', 'Model proposals', 'Expert verification', 'Open dataset'])]),
   links=[]),
  dict(slug='vlr', star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
-  vi=dict(sub='Bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, hướng tới hỗ trợ người gặp khó khăn về phát âm và thính giác.',
-          role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Dữ liệu đã công bố; bài báo ở dạng tiền ấn phẩm',
+  vi=dict(sub='Tiếng Việt có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. VLR là bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, kèm một quy trình cải tiến đưa tỉ lệ lỗi từ xuống 29,5%.', dek='Bộ dữ liệu và quy trình nhận dạng tiếng nói qua hình ảnh cho tiếng Việt', teaser_cap='Quy trình xây dựng VLR: tách âm thanh và hình; Whisper nhận dạng lời thoại theo từng từ; MediaPipe tìm khuôn mặt rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.', stats=[('116.000', 'đoạn video'), ('198', 'giờ nói'), ('1.794', 'video nguồn'), ('29,5%', 'WER tốt nhất')],
+          role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Tiền ấn phẩm · Dữ liệu trên Zenodo',
           body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
                 ('Bộ dữ liệu', ['VLR được xây từ 1.794 video thuộc 25 danh sách phát YouTube tiếng Việt công khai, chọn những đoạn thấy rõ mặt người nói và nói tự nhiên. Âm thanh được nhận dạng bằng Whisper để lấy lời thoại có mốc thời gian từng từ; khuôn mặt được tìm bằng MediaPipe và cắt vùng môi.'],
-                 ['Khoảng 116.000 đoạn video, 198 giờ nói, 65,6 GB.', 'Chia 178 giờ để huấn luyện, 10 giờ để kiểm định, 10 giờ để kiểm thử.', 'Phát hành trên Zenodo, giấy phép CC BY 4.0.'], ('vlr_pipeline', 'Quy trình xây dựng VLR: tách âm thanh và hình, nhận dạng lời thoại bằng Whisper, tìm khuôn mặt bằng MediaPipe rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
-                 ('vlr_strip', 'Mười lăm khung hình liên tiếp của vùng môi trong một đoạn video.')),
+                 ['Khoảng 116.000 đoạn video, 198 giờ nói, 65,6 GB.', 'Chia 178 giờ để huấn luyện, 10 giờ để kiểm định, 10 giờ để kiểm thử.', 'Phát hành trên Zenodo, giấy phép CC BY 4.0.'], ('vlr_strip', 'Mười lăm khung hình liên tiếp của vùng môi trong một đoạn video.')),
                 ('Tổ chức dữ liệu', ['Bộ dữ liệu chia thành bảy phần (PART1–PART7) để dễ tải về. Mỗi đoạn câu nằm trong một thư mục riêng; mỗi từ trong câu có một video đã bỏ tiếng và một file CSV ghi thời điểm bắt đầu và kết thúc của từ.'], [],
                  (('vlr_tree', 'vlr_csv'), 'Trái: cấu trúc thư mục của VLR, từ gốc (a) đến file video và CSV (e). Phải: một file nhãn, mỗi dòng là một từ kèm mốc thời gian.')),
                 ('Thống kê', ['Thanh ngang (không dấu) chiếm nhiều nhất, thanh ngã ít nhất. Các đoạn video phần lớn dài từ 4 đến 6 giây. Những từ thường gặp nhất là các hư từ như "là", "cái", "có", "của".'], [],
-                 ('vlr_tone', 'Số từ theo sáu thanh điệu tiếng Việt. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
-                 (('vlr_dur', 'vlr_words'), 'Trái: phân bố độ dài các đoạn video. Phải: 30 từ xuất hiện nhiều nhất. Nguồn: tiền ấn phẩm, CC BY 4.0.')),
+                 (('vlr_tone', 'vlr_dur', 'vlr_words'), 'Từ trái sang: số từ theo sáu thanh điệu; độ dài các đoạn video; 30 từ xuất hiện nhiều nhất. Nguồn: tiền ấn phẩm, CC BY 4.0.')),
                 ('Kết quả', ['Sáu mô hình đọc khẩu hình chỉ dùng hình ảnh được tinh chỉnh và đánh giá trên VLR. AV-HuBERT cho kết quả tốt nhất, với tỉ lệ lỗi từ (WER) 62,18% khi giải mã thông thường.', 'Nhóm đề xuất thêm bốn bước cải tiến: ghép mô hình ngôn ngữ 5-gram tiếng Việt, lọc mẫu khó rồi học theo lộ trình (curriculum learning), căn chỉnh vùng môi, và xếp hạng lại N kết quả tốt nhất bằng một bộ giải mã Transformer gọn. Nhờ vậy WER trên tập kiểm thử giảm còn 29,5%.'],
-                 ['AV-HuBERT: 62,18% → 29,5% WER.', 'Auto-AVSR: 69,88% → 36,9%; LipNet: 75,13% → 42,8%; VSP-LLM: 81,59% → 47,2%.', 'Bước giảm nhiều nhất đến từ mô hình ngôn ngữ và lọc dữ liệu theo độ khó.']),
+                 [], ('table', (['Mô hình', 'WER cơ sở', 'WER sau cải tiến'], [['AV-HuBERT', '62,18%', '29,5%'], ['Auto-AVSR', '69,88%', '36,9%'], ['LipNet', '75,13%', '42,8%'], ['VSP-LLM', '81,59%', '47,2%']], 0))),
                 ('Ứng dụng thử nghiệm', ['Nhóm làm một ứng dụng desktop để thử đọc khẩu hình ngoài phòng thí nghiệm. Người dùng chọn một video có sẵn hoặc quay trực tiếp bằng webcam. Khung hình được tiền xử lý bằng OpenCV và MediaPipe trên GPU, sau đó mô hình LipNet (TensorFlow) dự đoán câu nói. Ứng dụng chạy trên NVIDIA Jetson Nano.'], [],
                  (('vlr_app', 'vlr_appflow'), 'Trái: ứng dụng đọc một video và trả về câu "sẽ cùng cô chuyển sang"; video lấy từ YouTube công khai, mắt người nói đã được che. Phải: luồng xử lý của ứng dụng.')),
                 ('Phần việc đảm nhận', [], ['Thu thập và tiền xử lý video: phân đoạn, căn chỉnh, trích vùng miệng.', 'Huấn luyện và đánh giá các mô hình cơ sở VSP-LLM và Auto-AVSR.', 'Thử nghiệm mô hình gọn nhẹ trên NVIDIA Jetson Nano.'])]),
-  en=dict(sub='A large-scale Vietnamese lip-reading dataset, aimed at people with speech or hearing difficulties.',
-          role='Data pipeline and baseline experiments; capstone thesis', where='FPT University · VSB – Technical University of Ostrava · Ho Chi Minh City Open University', status='Dataset public, paper as preprint',
+  en=dict(sub='Vietnamese has six tones, and many syllables that differ only in tone look almost the same on the lips. VLR is a large-scale Vietnamese lip-reading dataset with a refined pipeline that brings word error rate down to 29.5%.', dek='A dataset and visual speech recognition pipeline for Vietnamese', teaser_cap='VLR construction: audio and video are split; Whisper transcribes word by word; MediaPipe finds the face and the lips are cropped. Source: preprint, CC BY 4.0.', stats=[('116,000', 'clips'), ('198', 'hours of speech'), ('1,794', 'source videos'), ('29.5%', 'best WER')],
+          role='Data pipeline and baseline experiments; capstone thesis', where='FPT University · VSB – Technical University of Ostrava · Ho Chi Minh City Open University', status='Preprint · Dataset on Zenodo',
           body=[('Why it matters', ['Lip reading (visual speech recognition) turns lip, jaw and facial motion into text without audio. It can support deaf people and people who have lost their voice.', 'Vietnamese is hard for this task: it has six tones, and many syllables that differ only in tone look almost the same on the lips. Before VLR there was no large-scale Vietnamese lip-reading dataset.'], []),
                 ('The dataset', ['VLR is built from 1,794 videos in 25 public Vietnamese YouTube playlists, chosen for a clear view of the speaker and natural speech. Whisper transcribes the audio with word-level timestamps; MediaPipe finds the face and the lip region is cropped.'],
-                 ['About 116,000 clips, 198 hours of speech, 65.6 GB.', '178 hours for training, 10 for validation, 10 for testing.', 'Released on Zenodo under CC BY 4.0.'], ('vlr_pipeline', 'VLR construction: audio and video are split, Whisper transcribes the speech, MediaPipe finds the face and the lips are cropped. Source: preprint, CC BY 4.0.'),
-                 ('vlr_strip', 'Fifteen consecutive frames of the lip region from one clip.')),
+                 ['About 116,000 clips, 198 hours of speech, 65.6 GB.', '178 hours for training, 10 for validation, 10 for testing.', 'Released on Zenodo under CC BY 4.0.'], ('vlr_strip', 'Fifteen consecutive frames of the lip region from one clip.')),
                 ('How the data is organised', ['The dataset is split into seven parts (PART1–PART7) for easier download. Each utterance has its own folder; each word in it has a silent video and a CSV file with the word’s start and end time.'], [],
                  (('vlr_tree', 'vlr_csv'), 'Left: folder structure of VLR, from the root (a) to the video and CSV files (e). Right: one label file, one word per line with its timestamps.')),
                 ('Statistics', ['The level tone (no mark) is the most frequent and the tilde tone the least. Most clips last 4 to 6 seconds. The most common words are function words such as "là", "cái", "có", "của".'], [],
-                 ('vlr_tone', 'Word count by the six Vietnamese tones. Source: preprint, CC BY 4.0.'),
-                 (('vlr_dur', 'vlr_words'), 'Left: clip duration distribution. Right: the 30 most frequent words. Source: preprint, CC BY 4.0.')),
+                 (('vlr_tone', 'vlr_dur', 'vlr_words'), 'Left to right: word count by the six tones; clip duration; the 30 most frequent words. Source: preprint, CC BY 4.0.')),
                 ('Results', ['Six visual-only lip-reading models were fine-tuned and evaluated on VLR. AV-HuBERT was best, with a word error rate (WER) of 62.18% under greedy decoding.', 'The team added four refinements: shallow fusion with a Vietnamese 5-gram language model, difficulty filtering with curriculum learning, lip-region alignment, and N-best re-ranking with a lightweight Transformer decoder. Together they bring test WER down to 29.5%.'],
-                 ['AV-HuBERT: 62.18% → 29.5% WER.', 'Auto-AVSR: 69.88% → 36.9%; LipNet: 75.13% → 42.8%; VSP-LLM: 81.59% → 47.2%.', 'The largest gains come from the language model and difficulty-based data cleaning.']),
+                 [], ('table', (['Model', 'Baseline WER', 'Refined WER'], [['AV-HuBERT', '62.18%', '29.5%'], ['Auto-AVSR', '69.88%', '36.9%'], ['LipNet', '75.13%', '42.8%'], ['VSP-LLM', '81.59%', '47.2%']], 0))),
                 ('Demo application', ['The team built a desktop application to try lip reading outside the lab. The user picks a video or records one from a webcam. Frames are pre-processed with OpenCV and MediaPipe on the GPU, then a LipNet model (TensorFlow) predicts the sentence. The application runs on an NVIDIA Jetson Nano.'], [],
                  (('vlr_app', 'vlr_appflow'), 'Left: the application reads a video and returns the sentence "sẽ cùng cô chuyển sang"; the video comes from public YouTube and the speaker’s eyes are covered. Right: the application’s processing flow.')),
                 ('What I did', [], ['Sourced and pre-processed video: segmentation, alignment, mouth-region extraction.', 'Trained and evaluated VSP-LLM and Auto-AVSR baselines.', 'Ran lightweight models on an NVIDIA Jetson Nano.'])]),
+  teaser='vlr_pipeline', bib='''@article{quoc2026vlr,
+  title   = {A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline},
+  author  = {Quoc, Trung Nguyen and Thao, Nguyen Pham Thi and Ninh, Nguyen Ngoc Gia and Quynh, Hoa Dam Nguyen and Hoang, Vinh Truong and Bilik, S. and Sindelar, Matej and Stefansky, J. and Martinek, R. and Bilik, P.},
+  journal = {Authorea Preprints},
+  year    = {2026},
+  doi     = {10.22541/au.177368999.91959735/v1}
+}''',
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
  dict(slug='aquaculture', star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
   vi=dict(sub='Bài tổng quan về chuỗi từ giám sát đến tác động trong nuôi trồng thuỷ sản.', role='Tác giả Mục 6: Ra quyết định tự động và điều khiển vòng kín', where='Hợp tác nhiều đơn vị', status='Tiền ấn phẩm; đang bình duyệt',
@@ -113,9 +116,9 @@ WORK = [
                 ('Note', ['The team decided not to publish the paper. Images of the original 200 species belong to VNPlant-200 and are not redistributed here.'], [])]),
   links=[]),
  dict(slug='aneurysm', star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
-  vi=dict(sub='Phương pháp học sâu nhiều giai đoạn; công bố dưới dạng chương sách.', role='Đồng tác giả', where='CRC Press, Intelligent Precision Healthcare', status='Đã xuất bản 2026',
+  vi=dict(sub='Phương pháp học sâu nhiều giai đoạn; công bố dưới dạng chương sách.', role='Đồng tác giả', where='CRC Press, Intelligent Precision Healthcare', status='Chương sách · CRC Press',
           body=[('Nội dung', ['Chương sách trong tuyển tập Intelligent Precision Healthcare (CRC Press, 2026), trang 287–301.'], [])]),
-  en=dict(sub='A multistage deep learning approach, published as a book chapter.', role='Co-author', where='CRC Press, Intelligent Precision Healthcare', status='Published 2026',
+  en=dict(sub='A multistage deep learning approach, published as a book chapter.', role='Co-author', where='CRC Press, Intelligent Precision Healthcare', status='Book chapter · CRC Press',
           body=[('Overview', ['A chapter in the edited volume Intelligent Precision Healthcare (CRC Press, 2026), pages 287–301.'], [])]),
   links=[('DOI', 'https://doi.org/10.1201/9781003667360-21')]),
 ]
@@ -522,29 +525,47 @@ for lang in ('vi', 'en'):
         pb = next((x for x in PUBS if x[7] == w['slug']), None)
         btns = ''.join(f'<a class="pj-b" href="{u}" rel="noopener">{E(n)} <i>↗</i></a>' for n, u in w['links'])
         if w['slug'] in onj: btns += f'<a class="pj-b alt" href="{rel(p, U["journey"])}#{w["slug"]}">{"Trên hành trình" if vi_ else "On the journey"} <i>→</i></a>'
-        cv_ = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
-        teaser = f'<figure class="pj-teaser reveal"><img src="{rel(p, cv_)}" alt=""></figure>' if cv_ else ''
+        from PIL import Image as _I
+        def _ar(n):
+            with _I.open(os.path.join(ROOT, 'assets/projects/' + n + '.webp')) as _m: return _m.width / _m.height
+        def _fig(nm, cap):
+            if nm == 'table':
+                hdr, rows, best = cap
+                th_ = ''.join(f'<th>{E(x)}</th>' for x in hdr)
+                tr_ = ''.join(f'<tr{" class=\"best\"" if i == best else ""}>' + ''.join(f'<td>{E(c)}</td>' for c in r) + '</tr>' for i, r in enumerate(rows))
+                return f'<div class="x-tabw"><table class="x-tab"><thead><tr>{th_}</tr></thead><tbody>{tr_}</tbody></table></div>'
+            nms = nm if isinstance(nm, tuple) else (nm,)
+            ims = ''.join(f'<img src="{rel(p, "assets/projects/" + n + ".webp")}" alt="" loading="lazy" style="flex:{_ar(n):.3f} 1 0">' for n in nms)
+            return f'<figure class="x-fig{" x-pair" if len(nms) > 1 else ""}"><div class="x-im">{ims}</div><figcaption>{E(cap)}</figcaption></figure>'
+        tz = w.get('teaser')
+        if tz:
+            teaser = f'<figure class="x-fig x-teaser reveal"><div class="x-im"><img src="{rel(p, "assets/projects/" + tz + ".webp")}" alt=""></div>' + (f'<figcaption>{E(d["teaser_cap"])}</figcaption>' if d.get('teaser_cap') else '') + '</figure>'
+        else:
+            cv_ = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
+            teaser = f'<figure class="x-fig x-teaser x-cover reveal"><div class="x-im"><img src="{rel(p, cv_)}" alt=""></div></figure>' if cv_ else ''
+        stats = ''.join(f'<div><b>{E(n_)}</b><span>{E(l_)}</span></div>' for n_, l_ in d.get('stats', []))
         secs = ''
         for h, paras, items, *fg in d['body']:
             tag = 'ol' if h in ('Quy trình', 'Pipeline') else 'ul'
-            def _fig(nm, cap):
-                nms = nm if isinstance(nm, tuple) else (nm,)
-                from PIL import Image as _I
-                def _ar(n):
-                    with _I.open(os.path.join(ROOT, 'assets/projects/' + n + '.webp')) as _m: return _m.width / _m.height
-                ims = ''.join(f'<img src="{rel(p, "assets/projects/" + n + ".webp")}" alt="" loading="lazy" style="flex:{_ar(n):.3f} 1 0">' for n in nms)
-                return f'<figure class="pj-fig{" pj-fig2" if len(nms) > 1 else ""}"><div class="pj-im">{ims}</div><figcaption>{E(cap)}</figcaption></figure>'
-            fig = ''.join(_fig(*g) for g in fg)
-            secs += f'<section class="pj-s reveal"><h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in paras) + fig + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '') + '</section>'
-        if not any(h in ('Phần việc đảm nhận', 'What I did') for h, *_ in d['body']): secs += f'<section class="pj-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><p>{E(d["role"])}</p></section>'
-        if pb:
-            secs += (f'<section class="pj-s reveal"><h2>{"Trích dẫn" if vi_ else "Citation"}</h2><p class="pj-cite">{pb[3].rstrip('.')}. {E(pb[2])}. {E(pb[4] if vi_ else pb[5])}.'
-                     + (f' <a href="{pb[6]}" rel="noopener">{E(pb[6].replace("https://doi.org/", "doi:"))}</a>' if pb[6] else '') + '</p></section>')
-        body = (f'<section class="pj-head"><div class="wrap"><div class="pj-meta mono">{E(d["status"])} · {w["year"]}</div><h1>{E(title_of(w, lang))}</h1>'
-                + (f'<p class="pj-au">{pb[3]}</p>' if pb else '') + f'<p class="pj-aff">{E(d["where"])}</p>'
+            inner = ''.join(f'<p>{E(x)}</p>' for x in paras) + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '')
+            tabs = ''.join(_fig(*g) for g in fg if g[0] == 'table')
+            figs = ''.join(_fig(*g) for g in fg if g[0] != 'table')
+            secs += f'<section class="x-s reveal"><h2>{E(h)}</h2><div class="x-body">{inner}{tabs}</div>{figs}</section>'
+        if not any(h in ('Phần việc đảm nhận', 'What I did') for h, *_ in d['body']): secs += f'<section class="x-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><div class="x-body"><p>{E(d["role"])}</p></div></section>'
+        cite_h = "Trích dẫn" if vi_ else "Citation"
+        if w.get('bib'):
+            secs += f'<section class="x-s reveal" id="cite"><h2>{cite_h}</h2><div class="x-body"><pre class="x-bib">{E(w["bib"])}</pre></div></section>'
+        elif pb:
+            secs += (f'<section class="x-s reveal" id="cite"><h2>{cite_h}</h2><div class="x-body"><p class="pj-cite">{pb[3].rstrip('.')}. {E(pb[2])}. {E(pb[4] if vi_ else pb[5])}.'
+                     + (f' <a href="{pb[6]}" rel="noopener">{E(pb[6].replace("https://doi.org/", "doi:"))}</a>' if pb[6] else '') + '</p></div></section>')
+        if w.get('bib') or pb: btns += f'<a class="pj-b alt" href="#cite">{cite_h} <i>↓</i></a>'
+        body = (f'<section class="x-head"><div class="x-wrap"><div class="pj-meta mono">{E(d["status"])} · <span class="nw">{w["year"]}</span></div><h1>{(d.get("h1") or E(title_of(w, lang))).replace("tiếng Việt", "tiếng&nbsp;Việt").replace("Việt Nam", "Việt&nbsp;Nam")}</h1>'
+                + (f'<p class="x-sub">{E(d["dek"])}</p>' if d.get('dek') else '')
+                + (f'<p class="pj-au">{pb[3].replace(". ", ".&nbsp;")}</p>' if pb else '') + f'<p class="pj-aff">{E(d["where"])}</p>'
                 + (f'<nav class="pj-btns">{btns}</nav>' if btns else '') + f'</div></section>'
-                + f'<div class="wrap pj-wrap">{teaser}<p class="pj-tldr reveal">{E(d["sub"])}</p>{secs}'
-                + f'<p class="pj-back"><a class="link js-back" href="{rel(p, U["pubs"])}">{"← Quay lại" if vi_ else "← Back"}</a></p></div>')
+                + f'<div class="x-wrap">{teaser}<p class="x-lead reveal">{E(d["sub"])}</p>'
+                + (f'<div class="x-stats reveal">{stats}</div>' if stats else '') + f'<div class="x-secs">{secs}</div>'
+                + f'<p class="pj-back"><a class="link js-back" href="{rel(p, U["home"])}#research">{"← Quay lại" if vi_ else "← Back"}</a></p></div>')
         write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
     # ---- công bố ----
     p = U['pubs']
