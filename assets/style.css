@@ -11,7 +11,7 @@
   --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:96px;--s8:128px;
   --r:10px; --w:1120px; --ease:cubic-bezier(.2,.7,.2,1);
 }
-@view-transition{navigation:auto}
+
 ::view-transition-old(root){animation:.18s ease both vt-out}::view-transition-new(root){animation:.22s ease both vt-fade}
 @keyframes vt-out{to{opacity:0}}@keyframes vt-in{from{opacity:0;transform:translateY(12px)}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
@@ -1168,3 +1168,10 @@ html.rs .reveal{transition:none!important}
 @media (min-width:821px){.pfig .portrait{margin-bottom:7%}}
 
 @keyframes vt-fade{from{opacity:0}}
+
+/* tách các phần ở trang chủ: khoảng thở rộng hơn */
+.news,.research,.mentors,.belief.dir,.jhome,.hlhome{padding:clamp(96px,13vh,152px) 0}
+.news{margin-top:clamp(24px,4vh,48px)}
+/* popup kính: không làm mờ dần bằng opacity (opacity < 1 làm kính tạm mất hiệu ứng, ảnh phía sau lộ ra rồi giật); chỉ trượt nhẹ khi hiện */
+.toc-panel,.toc-fly,.toc-lgpop{opacity:1!important;transition:transform .22s var(--ease),visibility 0s .22s!important}
+.toc.open .toc-panel,.toc-i.fo .toc-fly,.toc-pp:hover .toc-lgpop,.toc-pp.open .toc-lgpop,.toc-pp:focus-within .toc-lgpop,.toc.lgo .pill-lgpop{transition:transform .22s var(--ease),visibility 0s!important}

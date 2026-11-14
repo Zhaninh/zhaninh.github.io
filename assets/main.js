@@ -1,7 +1,3 @@
-addEventListener('pagereveal',function(e){try{sessionStorage.setItem('vt',e.viewTransition?'yes':'no')}catch(_){}});
-/* chuyển cảnh giữa hai trang: topbar chỉ được gắn tên chuyển cảnh trong lúc chuyển, vì gắn thường trực sẽ chặn hiệu ứng kính */
-addEventListener('pageswap',function(e){if(e.viewTransition){var n=document.querySelector('.nav');if(n)n.style.viewTransitionName='topbar'}});
-addEventListener('pagereveal',function(e){if(e.viewTransition){var n=document.querySelector('.nav');if(n){n.style.viewTransitionName='topbar';e.viewTransition.finished.finally(function(){n.style.viewTransitionName=''})}}});
 document.addEventListener('DOMContentLoaded',function(){
   var d=document,h=d.querySelector('.name');
   if(h){var i=0;h.innerHTML=h.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g,function(m,tag,w){return tag?tag:'<span class="w" style="--i:'+(i++)+'">'+w+'</span>'});}
