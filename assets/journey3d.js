@@ -695,6 +695,8 @@
   var zm = { t: 0, dir: 0, tg: new T.Vector3(), z: 4, a: null }, pushed = false, VH = 40, W = 1, H = 1, cardR = 0, cardB = 0, stacked = false;
   function openP(a, instant) {
     var pj = stages[a.s].projects[a.j], tp = document.getElementById('proj-' + pj.slug); if (zm.a || !panel || !tp) return;
+    /* đi thẳng tới trang dự án, không qua bảng trung gian */
+    if (instant) return; var lk = tp.content ? tp.content.querySelector('a.alt') : tp.querySelector('a.alt'); if (lk) { location.href = lk.getAttribute('href'); return; }
     panel.querySelector('.pbody').innerHTML = tp.innerHTML; panel.querySelector('.pk').textContent = String(a.s + 1).padStart(2, '0') + ' · ' + stages[a.s].title; panel.scrollTop = 0;
     zm.a = a; zm.dir = 1; if (instant) zm.t = 1; zm.tg.set(a.o.position.x, a.h * .42, a.o.position.z); zm.z = Math.min(5.2, VH * .62 / Math.max(a.h, 4.5));
     document.documentElement.style.overflow = 'hidden';

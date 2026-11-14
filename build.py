@@ -524,7 +524,6 @@ for lang in ('vi', 'en'):
         d = w[lang]; p = U['workdir'] + w['slug'] + '.html'; vi_ = lang == 'vi'
         pb = next((x for x in PUBS if x[7] == w['slug']), None)
         btns = ''.join(f'<a class="pj-b" href="{u}" rel="noopener">{E(n)} <i>↗</i></a>' for n, u in w['links'])
-        if w['slug'] in onj: btns += f'<a class="pj-b alt" href="{rel(p, U["journey"])}#{w["slug"]}">{"Trên hành trình" if vi_ else "On the journey"} <i>→</i></a>'
         from PIL import Image as _I
         def _ar(n):
             with _I.open(os.path.join(ROOT, 'assets/projects/' + n + '.webp')) as _m: return _m.width / _m.height
