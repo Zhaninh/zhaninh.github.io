@@ -27,7 +27,7 @@ T = {  # chuỗi giao diện
             d_journey='Quá trình học tập, nghiên cứu và định hướng sắp tới.', d_work='Các đề tài đã có công bố, bộ dữ liệu hoặc mã nguồn công khai.', d_about='Thế mạnh, hạn chế đang khắc phục, lý lịch khoa học và liên hệ.',
             h_journey='Hành trình nghiên cứu', s_journey='Các giai đoạn học tập và nghiên cứu từ năm 2021 đến nay, cùng định hướng sắp tới.',
             h_work='Dự án', s_work='Toàn bộ dự án tôi đã và đang làm. Mỗi dự án có trang riêng, và có thể xem nó nằm ở đâu trên hành trình.',
-            h_hl='Dấu ấn', s_hl='Những chuyến công tác, sự kiện và khoảnh khắc trên đường đi. Mỗi tấm ảnh đi kèm câu chuyện của nó.', h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ. Chấm xanh đánh dấu công bố trọng điểm.',
+            h_hl='Dấu ấn', s_hl='Những chuyến công tác, sự kiện và khoảnh khắc trên đường đi. Mỗi tấm ảnh đi kèm câu chuyện của nó.', h_pubs='Công bố', s_pubs='Thứ tự tác giả ghi theo nhà xuất bản hoặc kho lưu trữ.',
             h_about='Giới thiệu', s_about='Tôi làm nghiên cứu ứng dụng về trí tuệ nhân tạo và định hướng theo con đường nghiên cứu, giảng dạy đại học.'),
  'en': dict(home='Home', journey='Journey', work='Projects', pubs='Publications', hl='Highlights', about='About', notes='Notes',
             slogan='Technology is truly meaningful<br class="sb"> when it <em>reaches people.</em>', slogan_plain='Technology is truly meaningful when it reaches people.',
@@ -41,7 +41,7 @@ T = {  # chuỗi giao diện
             d_journey='Study, research and the plan ahead.', d_work='Projects with a publication, dataset or public code.', d_about='Strengths, current limitations, CV and contact.',
             h_journey='Research journey', s_journey='Stages of study and research since 2021, and the plan ahead.',
             h_work='Projects', s_work='Every project I have worked on. Each has its own page, and you can see where it sits on the journey.',
-            h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository. A green dot marks a featured output.',
+            h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
 URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='mentors/'),  # tiếng Anh là mặc định (ở gốc)
@@ -124,12 +124,12 @@ WORK = [
 ]
 
 PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự án)
- ('2026', True, 'NTCoral: an expert-annotated image dataset of Vietnamese coral reefs (working title)', f'{ME}, et al.', 'Bài báo dữ liệu đang chuẩn bị, tác giả thứ nhất', 'Dataset paper in preparation, first author', None, 'ntcoral'),
  ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
  ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688', 'aquaculture'),
  ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
- ('2026', False, 'A Large-Scale Vietnamese Lip-Reading Dataset for Visual Speech Recognition', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Bộ dữ liệu, Zenodo, v3, CC BY 4.0', 'Dataset, Zenodo, v3, CC BY 4.0', 'https://doi.org/10.5281/zenodo.19709456', 'vlr'),
 ]
+
+PUB_LINKS = {'vlr': [('Bộ dữ liệu', 'Dataset', 'https://doi.org/10.5281/zenodo.19709456')]}  # link phụ của một công bố
 
 FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
 STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
@@ -460,7 +460,7 @@ for lang in ('vi', 'en'):
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
     others = [w for w in WORK if not w['star']]
-    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
+    research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects")}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
@@ -571,13 +571,14 @@ for lang in ('vi', 'en'):
     def cov_of(sl):
         return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
     def pub(y, st, ti, au, vv, ve, u, sl):
-        href = rel(p, U['workdir'] + sl + '.html') if sl else None; cv = cov_of(sl) if sl else None
-        th = f'<a class="pth" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cv)}" alt="" loading="lazy"></a>' if cv else '<span class="pth"></span>'
-        tt = f'<a class="t" href="{href}">{E(ti)}</a>' if href else f'<div class="t">{E(ti)}</div>'
-        acts = (f'<a class="pgo" href="{href}">{"Trang dự án" if lang == "vi" else "Project page"} <i>→</i></a>' if href else '') + (f'<a class="pdoi" href="{u}">DOI <i>↗</i></a>' if u else '')
-        return f'<li class="reveal{" star" if st else ""}">{th}<div><span class="mono">{y}</span>{tt}<div class="a">{au}</div><div class="v">{E(vv if lang == "vi" else ve)}</div><div class="pacts">{acts}</div></div></li>'
+        vi_ = lang == 'vi'; href = rel(p, U['workdir'] + sl + '.html') if sl else None
+        tt = f'<a class="t" href="{u}" rel="noopener">{E(ti)}</a>' if u else f'<span class="t">{E(ti)}</span>'
+        acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '')
+        acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, []))
+        acts += (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
+        return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
     lis = ''.join(pub(*x) for x in PUBS)
-    write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="pubs">{lis}</ol></div></section>'))
+    write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="plist">{lis}</ol></div></section>'))
     # ---- trang người hướng dẫn ----
     for m in MENTORS:
         d = m[lang]; p = U['mdir'] + m['slug'] + '.html'; vi_ = lang == 'vi'
