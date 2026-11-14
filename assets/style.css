@@ -1367,3 +1367,4 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .plist.wl .py{display:block;padding:0;margin-bottom:10px}
 @media (max-width:760px){.plist.wl li{grid-template-columns:minmax(0,1fr);row-gap:22px}}
 .plist.wl .t{font-size:clamp(22px,2.2vw,28px)}
+.rc-img.fit{background:#16241A}.rc-img.fit img{object-fit:contain}

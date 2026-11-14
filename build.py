@@ -3,7 +3,7 @@ import re
 """Trang cá nhân Aaron. Tĩnh, song ngữ (vi mặc định ở gốc, en trong /en/).
 Thêm nội dung: thêm một mục vào WORK / PUBS / JOURNEY / NOTES rồi chạy `python3 build.py`.
 Mục có "star": True sẽ tự nổi lên (trang chủ lấy mục WORK có star đầu tiên)."""
-import os, html, json, time
+import os, html, json, time, math
 VER = time.strftime('%Y%m%d%H%M')  # gắn vào link CSS/JS để trình duyệt không dùng bản cũ trong bộ nhớ đệm
 ROOT = os.path.dirname(os.path.abspath(__file__))
 E = html.escape
@@ -49,7 +49,7 @@ URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', p
 
 WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu lên trang chủ
 
- dict(slug='ntcoral', rank=1, star=True, title='NTCoral', year='2025–',
+ dict(slug='ntcoral', impact=dict(status='in_prep', role='first', active=True), star=True, title='NTCoral', year='2025–',
   vi=dict(sub='Bộ dữ liệu ảnh rạn san hô Việt Nam, xây dựng từ video khảo sát dưới nước và được chuyên gia sinh học biển kiểm chứng.',
           role='Phụ trách dữ liệu; tác giả thứ nhất của bài báo đang chuẩn bị', where='GREEN-X, VinUniversity', status='Đang thực hiện',
           body=[('Đặt vấn đề', ['Phần lớn bộ dữ liệu san hô công khai được thu ở các vùng biển khác. Ảnh rạn san hô Việt Nam có nhãn còn rất ít, nên chưa thể đánh giá các mô hình hiện có hoạt động ra sao trên dữ liệu trong nước và cần bổ sung bao nhiêu nhãn.'], []),
@@ -61,7 +61,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('What I do', [], ['Lead the pipeline from survey video to released images: video review, frame selection, quality checks, annotation hand-off.', 'Coordinate genus-level annotation with marine biologists.', 'Design frame selection: remove near-duplicates, screen quality, keep coverage across survey sites.', 'Evaluate few-shot segmentation models on local data.']),
                 ('Pipeline', [], ['Survey video', 'Frame selection', 'Quality loop', 'Model proposals', 'Expert verification', 'Open dataset'])]),
   links=[]),
- dict(slug='vlr', rank=2, star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
+ dict(slug='vlr', impact=dict(status='preprint', role='core', dataset=True, dois=['10.22541/au.177368999.91959735/v1', '10.5281/zenodo.19709456'], zenodo=['19709456']), star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
   vi=dict(sub='Tiếng Việt có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. VLR là bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, kèm một quy trình cải tiến đưa tỉ lệ lỗi từ xuống 29,5%.', dek='Bộ dữ liệu và quy trình nhận dạng tiếng nói qua hình ảnh cho tiếng Việt', teaser_cap='Quy trình xây dựng VLR: tách âm thanh và hình; Whisper nhận dạng lời thoại theo từng từ; MediaPipe tìm khuôn mặt rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.', stats=[('116.000', 'đoạn video'), ('198', 'giờ nói'), ('1.794', 'video nguồn'), ('29,5%', 'WER tốt nhất')],
           role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Tiền ấn phẩm · Dữ liệu trên Zenodo',
           body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
@@ -98,13 +98,13 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
   doi     = {10.22541/au.177368999.91959735/v1}
 }''',
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
- dict(slug='aquaculture', rank=4, star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
+ dict(slug='aquaculture', impact=dict(status='under_review', role='coauthor', dois=['10.13140/RG.2.2.24130.95688']), star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
   vi=dict(sub='Bài tổng quan về chuỗi từ giám sát đến tác động trong nuôi trồng thuỷ sản.', role='Tác giả Mục 6: Ra quyết định tự động và điều khiển vòng kín', where='Hợp tác nhiều đơn vị', status='Tiền ấn phẩm; đang bình duyệt',
           body=[('Nội dung', ['Bài tổng quan liên kết bốn khâu của nuôi trồng thuỷ sản thông minh: thu nhận dữ liệu, phân tích bằng AI, ra quyết định và cơ cấu chấp hành. Tôi viết phần ra quyết định tự động và điều khiển vòng kín.'], [])]),
   en=dict(sub='A system-level survey: from monitoring to action.', role='Author of Section 6, Autonomous Decision-Making and Closed-Loop Control', where='Multi-institution collaboration', status='Preprint, under review',
           body=[('Overview', ['The survey connects four stages of smart aquaculture: sensing, AI-based understanding, decision-making and actuation. I wrote the section on autonomous decision-making and closed-loop control.'], [])]),
   links=[('Preprint', 'https://doi.org/10.13140/RG.2.2.24130.95688')]),
- dict(slug='vnplant', rank=5, star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
+ dict(slug='vnplant', impact=dict(status='unpublished', role='core'), star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
   vi=dict(sub='Đánh giá nhiều mô hình học sâu trên bộ ảnh 255 loài cây thuốc Việt Nam.', role='Huấn luyện và đánh giá mô hình', where='Đại học FPT · cùng Đàm Nguyễn Quỳnh Hoa và Phạm Thị Thảo Nguyên', status='Dự án nhóm, không công bố',
           body=[('Bối cảnh', ['VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021) là bộ ảnh công khai đầu tiên về 200 loài cây thuốc Việt Nam. Nhóm chúng tôi mở rộng bộ này thành VNPlant-255: thêm 55 loài, tổng cộng khoảng 34.800 ảnh chụp ngoài thực địa, với ánh sáng, nền và góc chụp thay đổi tự nhiên.', 'Mục tiêu là một bộ chuẩn đánh giá cho bài toán phân loại chi tiết: so sánh mạng tích chập, Transformer, mô hình lai và mô hình gọn nhẹ trong cùng một cấu hình.'], []),
                 ('Cách đánh giá', [], ['Chia 80/10/10 cho huấn luyện, kiểm định, kiểm thử, giữ tỉ lệ từng loài.', 'Cùng độ phân giải 224 px, cùng kích thước lô, 20 epoch cho mọi mô hình.', 'Ghi lại độ chính xác, số tham số và chi phí tính toán để xét khả năng triển khai.']),
@@ -116,13 +116,38 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('What I did', [], ['Trained and evaluated seven model families: ConvNeXtV2-Tiny, MaxViT-Tiny, CoAtNet-0, SwinV2-Tiny, Xception, Xception with MIGT, and YOLOv8 classification.', 'Managed the team’s data, weights and training logs on Kaggle.']),
                 ('Note', ['The team decided not to publish the paper. Images of the original 200 species belong to VNPlant-200 and are not redistributed here.'], [])]),
   links=[]),
- dict(slug='aneurysm', rank=3, star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
+ dict(slug='aneurysm', impact=dict(status='published', role='coauthor', dois=['10.1201/9781003667360-21']), star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
   vi=dict(sub='Phương pháp học sâu nhiều giai đoạn; công bố dưới dạng chương sách.', role='Đồng tác giả', where='CRC Press, Intelligent Precision Healthcare', status='Chương sách · CRC Press',
           body=[('Nội dung', ['Chương sách trong tuyển tập Intelligent Precision Healthcare (CRC Press, 2026), trang 287–301.'], [])]),
   en=dict(sub='A multistage deep learning approach, published as a book chapter.', role='Co-author', where='CRC Press, Intelligent Precision Healthcare', status='Book chapter · CRC Press',
           body=[('Overview', ['A chapter in the edited volume Intelligent Precision Healthcare (CRC Press, 2026), pages 287–301.'], [])]),
   links=[('DOI', 'https://doi.org/10.1201/9781003667360-21')]),
 ]
+
+
+# ---- thứ hạng dự án: tính tự động từ trạng thái, vai trò và số liệu tác động (data/metrics.json) ----
+SCORE_W = dict(
+    status={'published': 3.0, 'under_review': 2.0, 'preprint': 1.5, 'in_prep': 1.0, 'unpublished': 0.0},
+    role={'first': 2.5, 'core': 1.0, 'coauthor': 0.5},
+    dataset=1.5,      # có bộ dữ liệu công khai
+    active=1.0,       # dự án đang thực hiện
+    citations=1.0,    # × log(1 + số trích dẫn)
+    downloads=0.5,    # × log(1 + lượt tải duy nhất / 100)
+    stars=0.5,        # × log(1 + số sao GitHub)
+)
+try:
+    METRICS = json.load(open(os.path.join(ROOT, 'data', 'metrics.json'), encoding='utf-8'))
+except Exception:
+    METRICS = {}
+
+def impact_score(w):
+    im = w.get('impact', {}); m = METRICS.get(w['slug'], {}); W_ = SCORE_W
+    return (W_['status'].get(im.get('status'), 0) + W_['role'].get(im.get('role'), 0)
+            + (W_['dataset'] if im.get('dataset') else 0) + (W_['active'] if im.get('active') else 0)
+            + W_['citations'] * math.log1p(m.get('citations', 0)) + W_['downloads'] * math.log1p(m.get('downloads', 0) / 100)
+            + W_['stars'] * math.log1p(m.get('stars', 0)) + im.get('pin', 0))
+
+RANKED = sorted(WORK, key=impact_score, reverse=True)
 
 PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự án)
  ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
@@ -460,10 +485,10 @@ for lang in ('vi', 'en'):
     news_html = f'<section class="news" id="news" data-toc="02"><div class="wrap">{sec_head("02", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
     def rcard(w, big=False):
         d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
-        img = f'<span class="rc-img" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
+        img = f'<span class="rc-img{" fit" if w["slug"] in ("vlr", "vnplant") else ""}" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
-    top = sorted(WORK, key=lambda w: w.get('rank', 99))[:4]; f = top[0]; others = top[1:]
+    top = RANKED[:4]; f = top[0]; others = top[1:]
     research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án tiêu biểu" if vi_ else "Selected projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
@@ -531,8 +556,8 @@ for lang in ('vi', 'en'):
         im = f'<a class="wl-img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, c)}" alt="" loading="lazy"></a>' if c else '<span class="wl-img"></span>'
         return (f'<li class="reveal">{im}<div><span class="py mono">{w["year"]}</span><a class="t" href="{href}">{E(title_of(w, lang))}</a>'
                 f'<div class="s">{E(d["sub"])}</div><div class="v">{E(d["status"])} · {E(d["role"])}</div><div class="pl-acts">{acts}</div></div></li>')
-    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia, xếp theo mức độ nổi bật. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on, ordered by prominence. Projects that produced a paper are also listed under Publications.')
-              + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in sorted(WORK, key=lambda w: w.get("rank", 99)))}</ol></div></section>')
+    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia. Thứ tự được cập nhật tự động hằng tuần theo trạng thái công bố, vai trò, số trích dẫn và lượt tải dữ liệu. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on. The order updates weekly from publication status, role, citations and dataset downloads. Projects that produced a paper are also listed under Publications.')
+              + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in RANKED)}</ol></div></section>')
     write(p, shell(lang, 'work', p, ('Dự án' if vi_w else 'Projects') + ' · Aaron', body_w))
     onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
     for w in WORK:
