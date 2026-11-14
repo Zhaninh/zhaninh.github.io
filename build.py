@@ -65,17 +65,33 @@ WORK = [
           role='Xây dựng quy trình dữ liệu và thực nghiệm cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Dữ liệu đã công bố; bài báo ở dạng tiền ấn phẩm',
           body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
                 ('Bộ dữ liệu', ['VLR được xây từ 1.794 video thuộc 25 danh sách phát YouTube tiếng Việt công khai, chọn những đoạn thấy rõ mặt người nói và nói tự nhiên. Âm thanh được nhận dạng bằng Whisper để lấy lời thoại có mốc thời gian từng từ; khuôn mặt được tìm bằng MediaPipe và cắt vùng môi.'],
-                 ['Khoảng 116.000 đoạn video, 198 giờ nói, 65,6 GB.', 'Chia 178 giờ để huấn luyện, 10 giờ để kiểm định, 10 giờ để kiểm thử.', 'Phát hành trên Zenodo, giấy phép CC BY 4.0.'], ('vlr_pipeline', 'Quy trình xây dựng VLR: tách âm thanh và hình, nhận dạng lời thoại bằng Whisper, tìm khuôn mặt bằng MediaPipe rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.')),
+                 ['Khoảng 116.000 đoạn video, 198 giờ nói, 65,6 GB.', 'Chia 178 giờ để huấn luyện, 10 giờ để kiểm định, 10 giờ để kiểm thử.', 'Phát hành trên Zenodo, giấy phép CC BY 4.0.'], ('vlr_pipeline', 'Quy trình xây dựng VLR: tách âm thanh và hình, nhận dạng lời thoại bằng Whisper, tìm khuôn mặt bằng MediaPipe rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
+                 ('vlr_strip', 'Mười lăm khung hình liên tiếp của vùng môi trong một đoạn video.')),
+                ('Tổ chức dữ liệu', ['Bộ dữ liệu chia thành bảy phần (PART1–PART7) để dễ tải về. Mỗi đoạn câu nằm trong một thư mục riêng; mỗi từ trong câu có một video đã bỏ tiếng và một file CSV ghi thời điểm bắt đầu và kết thúc của từ.'], [],
+                 (('vlr_tree', 'vlr_csv'), 'Trái: cấu trúc thư mục của VLR, từ gốc (a) đến file video và CSV (e). Phải: một file nhãn, mỗi dòng là một từ kèm mốc thời gian.')),
+                ('Thống kê', ['Thanh ngang (không dấu) chiếm nhiều nhất, thanh ngã ít nhất. Các đoạn video phần lớn dài từ 4 đến 6 giây. Những từ thường gặp nhất là các hư từ như "là", "cái", "có", "của".'], [],
+                 ('vlr_tone', 'Số từ theo sáu thanh điệu tiếng Việt. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
+                 (('vlr_dur', 'vlr_words'), 'Trái: phân bố độ dài các đoạn video. Phải: 30 từ xuất hiện nhiều nhất. Nguồn: tiền ấn phẩm, CC BY 4.0.')),
                 ('Kết quả', ['Sáu mô hình đọc khẩu hình chỉ dùng hình ảnh được tinh chỉnh và đánh giá trên VLR. AV-HuBERT cho kết quả tốt nhất, với tỉ lệ lỗi từ (WER) 62,18% khi giải mã thông thường.', 'Nhóm đề xuất thêm bốn bước cải tiến: ghép mô hình ngôn ngữ 5-gram tiếng Việt, lọc mẫu khó rồi học theo lộ trình (curriculum learning), căn chỉnh vùng môi, và xếp hạng lại N kết quả tốt nhất bằng một bộ giải mã Transformer gọn. Nhờ vậy WER trên tập kiểm thử giảm còn 29,5%.'],
                  ['AV-HuBERT: 62,18% → 29,5% WER.', 'Auto-AVSR: 69,88% → 36,9%; LipNet: 75,13% → 42,8%; VSP-LLM: 81,59% → 47,2%.', 'Bước giảm nhiều nhất đến từ mô hình ngôn ngữ và lọc dữ liệu theo độ khó.']),
+                ('Ứng dụng thử nghiệm', ['Nhóm làm một ứng dụng desktop để thử đọc khẩu hình ngoài phòng thí nghiệm. Người dùng chọn một video có sẵn hoặc quay trực tiếp bằng webcam. Khung hình được tiền xử lý bằng OpenCV và MediaPipe trên GPU, sau đó mô hình LipNet (TensorFlow) dự đoán câu nói. Ứng dụng chạy trên NVIDIA Jetson Nano.'], [],
+                 (('vlr_app', 'vlr_appflow'), 'Trái: ứng dụng đọc một video và trả về câu "sẽ cùng cô chuyển sang"; video lấy từ YouTube công khai, mắt người nói đã được che. Phải: luồng xử lý của ứng dụng.')),
                 ('Phần việc đảm nhận', [], ['Thu thập và tiền xử lý video: phân đoạn, căn chỉnh, trích vùng miệng.', 'Huấn luyện và đánh giá các mô hình cơ sở VSP-LLM và Auto-AVSR.', 'Thử nghiệm mô hình gọn nhẹ trên NVIDIA Jetson Nano.'])]),
   en=dict(sub='A large-scale Vietnamese lip-reading dataset, aimed at people with speech or hearing difficulties.',
           role='Data pipeline and baseline experiments; capstone thesis', where='FPT University · VSB – Technical University of Ostrava · Ho Chi Minh City Open University', status='Dataset public, paper as preprint',
           body=[('Why it matters', ['Lip reading (visual speech recognition) turns lip, jaw and facial motion into text without audio. It can support deaf people and people who have lost their voice.', 'Vietnamese is hard for this task: it has six tones, and many syllables that differ only in tone look almost the same on the lips. Before VLR there was no large-scale Vietnamese lip-reading dataset.'], []),
                 ('The dataset', ['VLR is built from 1,794 videos in 25 public Vietnamese YouTube playlists, chosen for a clear view of the speaker and natural speech. Whisper transcribes the audio with word-level timestamps; MediaPipe finds the face and the lip region is cropped.'],
-                 ['About 116,000 clips, 198 hours of speech, 65.6 GB.', '178 hours for training, 10 for validation, 10 for testing.', 'Released on Zenodo under CC BY 4.0.'], ('vlr_pipeline', 'VLR construction: audio and video are split, Whisper transcribes the speech, MediaPipe finds the face and the lips are cropped. Source: preprint, CC BY 4.0.')),
+                 ['About 116,000 clips, 198 hours of speech, 65.6 GB.', '178 hours for training, 10 for validation, 10 for testing.', 'Released on Zenodo under CC BY 4.0.'], ('vlr_pipeline', 'VLR construction: audio and video are split, Whisper transcribes the speech, MediaPipe finds the face and the lips are cropped. Source: preprint, CC BY 4.0.'),
+                 ('vlr_strip', 'Fifteen consecutive frames of the lip region from one clip.')),
+                ('How the data is organised', ['The dataset is split into seven parts (PART1–PART7) for easier download. Each utterance has its own folder; each word in it has a silent video and a CSV file with the word’s start and end time.'], [],
+                 (('vlr_tree', 'vlr_csv'), 'Left: folder structure of VLR, from the root (a) to the video and CSV files (e). Right: one label file, one word per line with its timestamps.')),
+                ('Statistics', ['The level tone (no mark) is the most frequent and the tilde tone the least. Most clips last 4 to 6 seconds. The most common words are function words such as "là", "cái", "có", "của".'], [],
+                 ('vlr_tone', 'Word count by the six Vietnamese tones. Source: preprint, CC BY 4.0.'),
+                 (('vlr_dur', 'vlr_words'), 'Left: clip duration distribution. Right: the 30 most frequent words. Source: preprint, CC BY 4.0.')),
                 ('Results', ['Six visual-only lip-reading models were fine-tuned and evaluated on VLR. AV-HuBERT was best, with a word error rate (WER) of 62.18% under greedy decoding.', 'The team added four refinements: shallow fusion with a Vietnamese 5-gram language model, difficulty filtering with curriculum learning, lip-region alignment, and N-best re-ranking with a lightweight Transformer decoder. Together they bring test WER down to 29.5%.'],
                  ['AV-HuBERT: 62.18% → 29.5% WER.', 'Auto-AVSR: 69.88% → 36.9%; LipNet: 75.13% → 42.8%; VSP-LLM: 81.59% → 47.2%.', 'The largest gains come from the language model and difficulty-based data cleaning.']),
+                ('Demo application', ['The team built a desktop application to try lip reading outside the lab. The user picks a video or records one from a webcam. Frames are pre-processed with OpenCV and MediaPipe on the GPU, then a LipNet model (TensorFlow) predicts the sentence. The application runs on an NVIDIA Jetson Nano.'], [],
+                 (('vlr_app', 'vlr_appflow'), 'Left: the application reads a video and returns the sentence "sẽ cùng cô chuyển sang"; the video comes from public YouTube and the speaker’s eyes are covered. Right: the application’s processing flow.')),
                 ('What I did', [], ['Sourced and pre-processed video: segmentation, alignment, mouth-region extraction.', 'Trained and evaluated VSP-LLM and Auto-AVSR baselines.', 'Ran lightweight models on an NVIDIA Jetson Nano.'])]),
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
  dict(slug='aquaculture', star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
@@ -499,7 +515,14 @@ for lang in ('vi', 'en'):
         secs = ''
         for h, paras, items, *fg in d['body']:
             tag = 'ol' if h in ('Quy trình', 'Pipeline') else 'ul'
-            fig = f'<figure class="pj-fig"><img src="{rel(p, "assets/projects/" + fg[0][0] + ".webp")}" alt="" loading="lazy"><figcaption>{E(fg[0][1])}</figcaption></figure>' if fg else ''
+            def _fig(nm, cap):
+                nms = nm if isinstance(nm, tuple) else (nm,)
+                from PIL import Image as _I
+                def _ar(n):
+                    with _I.open(os.path.join(ROOT, 'assets/projects/' + n + '.webp')) as _m: return _m.width / _m.height
+                ims = ''.join(f'<img src="{rel(p, "assets/projects/" + n + ".webp")}" alt="" loading="lazy" style="flex:{_ar(n):.3f} 1 0">' for n in nms)
+                return f'<figure class="pj-fig{" pj-fig2" if len(nms) > 1 else ""}"><div class="pj-im">{ims}</div><figcaption>{E(cap)}</figcaption></figure>'
+            fig = ''.join(_fig(*g) for g in fg)
             secs += f'<section class="pj-s reveal"><h2>{E(h)}</h2>' + ''.join(f'<p>{E(x)}</p>' for x in paras) + fig + (f'<{tag}>' + ''.join(f'<li>{E(x)}</li>' for x in items) + f'</{tag}>' if items else '') + '</section>'
         if not any(h in ('Phần việc đảm nhận', 'What I did') for h, *_ in d['body']): secs += f'<section class="pj-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><p>{E(d["role"])}</p></section>'
         if pb:
