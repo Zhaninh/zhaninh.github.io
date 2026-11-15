@@ -1401,3 +1401,11 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .sh-t i{flex:none;width:1.5px;align-self:stretch;min-height:44px;background:color-mix(in srgb,var(--leaf-mid) 55%,var(--line))}
 .sh-t h2{margin:0}
 @media (max-width:640px){.shead{align-items:flex-start;gap:20px}.sh-t{gap:16px}}
+/* thẻ Hành trình: nội dung từng công trình */
+.j3d-card .lesson.mine span{color:var(--leaf)}
+.j3d-card .go{display:inline-flex;align-items:center;gap:8px;margin-top:10px;height:40px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;font:500 14.5px var(--sans);text-decoration:none}
+.j3d-card .go i{font-style:normal;color:var(--leaf-bright)}.j3d-card .go:hover{background:#26362a}
+.j3d-card .back{display:block;margin-top:14px;padding:0;background:none;border:0;font:500 13px var(--mono);color:var(--mute);cursor:pointer}
+.j3d-card .back:hover{color:var(--ink)}
+.j3d-ms.tap{cursor:pointer;font-family:var(--mono)}.j3d-ms.tap:hover{border-style:solid;border-color:var(--leaf);color:var(--ink)}
+.j3d-card .go{display:flex;width:max-content;margin-top:12px}.j3d-card.spot .more{display:block;margin:4px 0 0}

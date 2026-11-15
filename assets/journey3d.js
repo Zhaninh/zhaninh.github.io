@@ -478,16 +478,17 @@
   if (seaOn) fork(uSea + 38, -S, 16, model.mobility()); /* VinUni → nhánh CMIT → GREEN-X */
 
   /* ---------- công trình chính của từng giai đoạn; vật thể của dự án; cột mốc ---------- */
-  var marks = [], anchors = [], miles = [];
+  var marks = [], anchors = [], miles = [], later = [], beach = {};
   function SIDE(k) { return k === 2 && seaOn ? -S : (k % 2 ? S : -S); } /* công trình giai đoạn xen kẽ hai bên đường; dự án nằm phía đối diện */
   stages.forEach(function (s, k) {
     var sd = SIDE(k), g = (build[s.icon] || build.tower)(), r = g.userData.pr, cr = r * 1.1 + .5, off = sd * (cr + RW + 4.6), p = seat(g, mainU[k], off, cr, 1, true);
     marks.push(g); mainU[k] = g.userData.u; drive(mainU[k], sd, p, r); if (s.place) miles.push({ o: g, h: g.userData.h || 5, label: s.place, place: 1, fut: k > nowIdx });
   });
-  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 68, S * 11.6, 4.6); /* cách biển một quãng */ drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1 }); })();
+  if (seaOn) (function () { var g = model.garden(), p = seat(g, uSea + 68, S * 11.6, 4.6); /* cách biển một quãng */ drive(g.userData.u, S, p, 4.6); if (p) miles.push({ o: g, h: 3.6, label: 'GREEN-X', place: 1, spot: (stages.filter(function (q) { return q.greenx; })[0] || {}).greenx, k: Math.max(0, stages.findIndex(function (q) { return q.greenx; })) }); })();
   stages.forEach(function (s, k) {
     (s.projects || []).forEach(function (pj, j) {
       var o = marks[k], uu, p;
+      if (pj.anchor === 'office' || pj.anchor === 'tent') { later.push({ name: pj.anchor, s: k, j: j }); return; }
       if (pj.anchor === 'buoy' && buoys) o = buoys[0];
       else if (model[pj.anchor]) { o = model[pj.anchor](); uu = mainU[k] + (pj.anchor === 'hospital' ? 34 : pj.anchor === 'kiosk' && PASS ? 116 : 60) + j * 14; var ps = -SIDE(k); p = seat(o, uu, ps * (o.userData.pr + RW + 4.8), o.userData.pr); if (!p) return; drive(o.userData.u, ps, p, o.userData.pr); }
       anchors.push({ o: o, h: (o.userData.h || 4) * (o.userData.s || 1), s: k, j: j });
@@ -495,7 +496,7 @@
     });
     var jj = 0; (s.milestones || []).forEach(function (ms) {
       if (!model[ms.kind]) return; var o = model[ms.kind](), sc = ms.kind === 'teky' ? .62 : ms.kind === 'valley' ? .8 : 1, r = o.userData.pr * sc + 1.4, uu = ms.kind === 'valley' ? mainU[k] + 38 : mainU[k] + 128 + (jj++) * 12; /* thực tập ở Quy Nhơn đến trước dự án đọc khẩu hình */
-      var sp_; if (ms.kind === 'valley' && VSPOT) { sp_ = new T.Vector3(VSPOT[0], VSPOT[2], VSPOT[1]); o.position.copy(sp_); o.rotation.y = FACE; o.userData.u = uu; o.userData.s = sc; o.userData.gy = 1; o.userData.pr = r; o.scale.setScalar(sc); scene.add(o); keep.push([o, r]); grow.push(o); } else sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, label: ms.label }); if (ms.kind === 'valley') { /* lối vào bám theo mặt đất, từ mép đường tới mép nền */
+      var sp_; if (ms.kind === 'valley' && VSPOT) { sp_ = new T.Vector3(VSPOT[0], VSPOT[2], VSPOT[1]); o.position.copy(sp_); o.rotation.y = FACE; o.userData.u = uu; o.userData.s = sc; o.userData.gy = 1; o.userData.pr = r; o.scale.setScalar(sc); scene.add(o); keep.push([o, r]); grow.push(o); } else sp_ = seat(o, uu, SIDE(k) * (r + RW + 4.4), r, sc); if (sp_) { miles.push({ o: o, h: (o.userData.h || 3) * sc, spot: ms.spot, k: k, label: ms.label }); if (ms.kind === 'valley') { /* lối vào bám theo mặt đất, từ mép đường tới mép nền */
         var bu = uu, bd = 1e9, cu; for (cu = uu - 10; cu <= uu + 10; cu += .25) { var cp = pos(cu, 0), dd = Math.hypot(cp.x - sp_.x, cp.z - sp_.z); if (dd < bd) { bd = dd; bu = cu; } }
         var ra = pos(bu, 0), dx_ = sp_.x - ra.x, dz_ = sp_.z - ra.z, dl = Math.hypot(dx_, dz_), ux = dx_ / dl, uz = dz_ / dl, L0 = RW + .1, L1 = dl - o.userData.pr * sc + .3, PP = [], II = [], n_ = 0;
         for (var tq = L0; tq <= L1 + 1e-6; tq += .4, n_++) { var cx = ra.x + ux * tq, cz = ra.z + uz * tq, hy = Math.max(hAt(cx, cz), tq > L1 - 1.2 ? sp_.y : 0) + .07; PP.push(cx - uz * .8, hy, cz + ux * .8, cx + uz * .8, hy, cz - ux * .8); if (n_) { var j = n_ * 2; II.push(j - 2, j - 1, j, j - 1, j + 1, j); } }
@@ -505,12 +506,12 @@
 
   /* ---------- bãi biển: trụ sở -> lán thiết bị -> cầu tàu có ROV -> trạm phao ---------- */
   if (seaOn) (function () {
-    function put(g, u, k, sc, th, r) { var p = shore(u, k); keep.push([g, (r || 2) * (sc || 1)]); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
-    put(model.office(), uSea + 104.5, 3.4, .8, undefined, 3.4);
+    function put(g, u, k, sc, th, r) { beach.last = g; var p = shore(u, k); keep.push([g, (r || 2) * (sc || 1)]); g.position.set(p.x, .03, p.z); g.rotation.y = th === undefined ? FACE : th; g.userData.u = u; g.userData.s = sc; g.userData.gy = 1; scene.add(g); grow.push(g); claim(p.x, p.z, r, 3, 1); }
+    put(model.office(), uSea + 104.5, 3.4, .8, undefined, 3.4); beach.office = beach.last;
     var tent = new T.Group(), Y = 0xFFCB2E, K0 = 0x20262B, k;
     tent.add(box(3, .1, 2.4, 0xE8DCC0, 0, 2.1, 0), box(1.5, .8, 1, 0x39434C, -.5, .42, 0), box(1.54, .1, 1.04, Y, -.5, .82, 0), box(.9, .6, .7, 0xB98B5E, .8, .3, .3));
     [[-1.3, 1], [1.3, 1], [-1.3, -1], [1.3, -1]].forEach(function (c) { tent.add(cyl(.05, .05, 2.1, C.steel, c[0], 1.05, c[1], 6)); });
-    put(tent, uSea + 110, 5.4, 1, undefined, 2.2);
+    put(tent, uSea + 110, 5.4, 1, undefined, 2.2); beach.tent = beach.last;
     var pier = new T.Group();
     pier.add(box(7.2, .16, 1.4, 0xB98B5E, 0, .68, 0)); for (k = 0; k < 10; k++) pier.add(box(.05, .17, 1.4, 0x9A7248, -3.4 + k * .76, .682, 0));
     [-3.2, -1, 1.2, 3.3].forEach(function (x) { [-.6, .6].forEach(function (z) { pier.add(cyl(.09, .09, 1, 0x8A6A4B, x, .28, z, 6)); }); });
@@ -670,25 +671,49 @@
     car.scale.setScalar(.6);
   })();
   scene.add(car);
+  later.forEach(function (q) { var o = beach[q.name]; if (o) anchors.push({ o: o, h: (q.name === 'office' ? 4.2 : 2.6) * (o.userData.s || 1), s: q.s, j: q.j }); });
+  anchors.sort(function (a, b) { return a.s - b.s || a.j - b.j; });
+  /* ---------- "điểm dừng": mọi công trình có nội dung (dự án, cột mốc) — xe đi qua thì thẻ kể về nó, bấm vào thì xe chạy tới ---------- */
+  function uOf(o) { if (o.userData.u !== undefined) return o.userData.u; var bu = 0, bd = 1e9; for (var q = U0; q < uEnd; q += .5) { var c = pos(q, 0), d = Math.hypot(c.x - o.position.x, c.z - o.position.z); if (d < bd) { bd = d; bu = q; } } return bu; }
+  var spots = [];
+  anchors.forEach(function (a) { var sp = { o: a.o, type: 'proj', k: a.s, d: stages[a.s].projects[a.j], a: a }; sp.u = uOf(a.o); a.spot = sp; spots.push(sp); });
+  miles.forEach(function (m) { if (!m.spot) return; var sp = { o: m.o, type: 'ms', k: m.k || 0, d: m.spot, m: m }; sp.u = uOf(m.o); m.sp = sp; spots.push(sp); });
 
   /* ---------- lớp HTML: ghim dự án, nhãn cột mốc, thẻ nội dung ---------- */
   var card = root.querySelector('.j3d-card'), labBox = root.querySelector('.j3d-labels'), panel = root.querySelector('.j3d-panel');
   if (full && labBox) {
-    anchors.forEach(function (a) { var el = document.createElement('button'); el.type = 'button'; el.className = 'j3d-pin'; el.setAttribute('data-tag', root.getAttribute('data-tag')); el.innerHTML = '<span>' + stages[a.s].projects[a.j].title + '</span><i></i>'; /* màn hình hẹp chỉ hiện chữ "DỰ ÁN →", tên dự án đã có trong thẻ */ el.addEventListener('click', function () { openP(a); }); labBox.appendChild(el); a.el = el; });
-    miles.forEach(function (m) { var el = document.createElement('div'); el.className = 'j3d-ms' + (m.place ? ' place' : '') + (m.fut ? ' next' : ''); el.innerHTML = m.label + '<i></i>'; labBox.appendChild(el); m.el = el; });
+    anchors.forEach(function (a) { var el = document.createElement('button'); el.type = 'button'; el.className = 'j3d-pin'; el.setAttribute('data-tag', root.getAttribute('data-tag')); el.innerHTML = '<span>' + stages[a.s].projects[a.j].title + '</span><i></i>'; /* màn hình hẹp chỉ hiện chữ "DỰ ÁN →", tên dự án đã có trong thẻ */ el.addEventListener('click', function () { goTo(a.spot); }); labBox.appendChild(el); a.el = el; });
+    miles.forEach(function (m) { var el = document.createElement(m.spot ? 'button' : 'div'); el.className = 'j3d-ms' + (m.place ? ' place' : '') + (m.fut ? ' next' : '') + (m.spot ? ' tap' : ''); if (m.spot) { el.type = 'button'; el.addEventListener('click', function () { goTo(m.sp); }); } el.innerHTML = m.label + '<i></i>'; labBox.appendChild(el); m.el = el; });
   }
-  var cur = -1;
-  function setCard(k) {
-    if (!card || k === cur) return; var first = cur === -1; cur = k; var s = stages[k];
+  var cur = '', pinned = null, dismissed = null;
+  function stageHead(k) { return '<b>' + root.getAttribute('data-stage') + '</b>' + String(k + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0'); }
+  function swapCard(key, fill, nextCls) {
+    if (!card || key === cur) return; var first = cur === ''; cur = key;
     card.classList.remove('show');
-    setTimeout(function () {
-      card.classList.remove('full');
-      card.querySelector('.k').innerHTML = '<b>' + root.getAttribute('data-stage') + '</b>' + String(k + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') + '  ·  ' + (s.when || root.getAttribute('data-unknown'));
+    setTimeout(function () { card.classList.remove('full'); fill(); card.classList.toggle('next', !!nextCls); card.classList.toggle('spot', key.charAt(0) === 'p'); card.classList.add('show'); }, first ? 0 : 180);
+  }
+  function setCard(k) {
+    var s = stages[k];
+    swapCard('s' + k, function () {
+      card.querySelector('.k').innerHTML = stageHead(k) + '  ·  ' + (s.when || root.getAttribute('data-unknown'));
       card.querySelector('h3').textContent = s.title;
       var pj = (s.projects || []).map(function (p, j) { return '<button type="button" data-pj="' + k + ',' + j + '"><span>' + p.title + '</span><span>→</span></button>'; }).join('');
       card.querySelector('.tx').innerHTML = s.paras.map(function (p) { return '<p>' + p + '</p>'; }).join('') + (s.lesson ? '<p class="lesson"><span>' + root.getAttribute('data-bump') + '</span>' + s.lesson + '</p>' : '') + '<button type="button" class="more">' + root.getAttribute('data-more') + '</button>' + (pj ? '<div class="pj"><span class="mono">' + root.getAttribute('data-pin') + '</span>' + pj + '</div>' : '');
-      card.classList.toggle('next', k > nowIdx); card.classList.add('show');
-    }, first ? 0 : 180);
+    }, k > nowIdx);
+  }
+  function setSpot(sp) {
+    var i = spots.indexOf(sp), d = sp.d, isP = sp.type === 'proj';
+    swapCard('p' + i, function () {
+      card.querySelector('.k').innerHTML = stageHead(sp.k) + '  ·  ' + root.getAttribute(isP ? 'data-sp-proj' : 'data-sp-ms') + (d.when ? '  ·  ' + d.when : '');
+      card.querySelector('h3').textContent = d.title;
+      card.querySelector('.tx').innerHTML = '<p>' + (isP ? d.sub : d.text) + '</p>' + (isP && d.role ? '<p class="lesson mine"><span>' + root.getAttribute('data-sp-mine') + '</span>' + d.role + '</p>' : '') + '<button type="button" class="more">' + root.getAttribute('data-more') + '</button>'
+        + (d.url ? '<a class="go" href="' + d.url + '">' + root.getAttribute(isP ? 'data-sp-open' : 'data-sp-story') + ' <i>→</i></a>' : '')
+        + '<button type="button" class="back">← ' + root.getAttribute('data-sp-back') + '</button>';
+    }, false);
+  }
+  function goTo(sp) { /* xe chạy tới công trình, thẻ kể về công trình đó */
+    if (!sp) return; pinned = sp; sp.arr = 0; sp.t = Date.now(); var uu = Math.min(uEnd - 1, sp.u - 2), y = root.getBoundingClientRect().top + scrollY + uToP(uu) * (root.offsetHeight - innerHeight);
+    setSpot(sp); scrollTo({ top: Math.max(0, y), left: 0, behavior: 'smooth' });
   }
 
   /* ---------- vào xem dự án: phóng to tới vật thể rồi mở bảng nội dung ---------- */
@@ -714,11 +739,12 @@
     if (card) card.addEventListener('click', function (e) {
       var t = e.target.closest ? e.target : null; if (!t) return;
       if (t.closest('.more')) { var f = card.classList.toggle('full'); t.closest('.more').textContent = root.getAttribute(f ? 'data-less' : 'data-more'); return; }
-      var b = t.closest('[data-pj]'); if (!b) return; var q = b.getAttribute('data-pj').split(','); anchors.forEach(function (a) { if (a.s === +q[0] && a.j === +q[1]) openP(a); });
+      if (t.closest('.back')) { dismissed = pinned || spots[+cur.slice(1)] || null; pinned = null; return; }
+      var b = t.closest('[data-pj]'); if (!b) return; var q = b.getAttribute('data-pj').split(','); anchors.forEach(function (a) { if (a.s === +q[0] && a.j === +q[1]) goTo(a.spot); });
     });
     var ray = new T.Raycaster(), ndc = new T.Vector2(), lastMove = 0;
-    var hit = function (ev) { var r = canvas.getBoundingClientRect(); ndc.set((ev.clientX - r.left) / r.width * 2 - 1, -((ev.clientY - r.top) / r.height * 2 - 1)); ray.setFromCamera(ndc, cam); for (var k = 0; k < anchors.length; k++) if (anchors[k].o.visible && ray.intersectObject(anchors[k].o, true).length) return anchors[k]; return null; };
-    canvas.addEventListener('click', function (e) { var a = hit(e); if (a) openP(a); });
+    var hit = function (ev) { var r = canvas.getBoundingClientRect(); ndc.set((ev.clientX - r.left) / r.width * 2 - 1, -((ev.clientY - r.top) / r.height * 2 - 1)); ray.setFromCamera(ndc, cam); for (var k = 0; k < spots.length; k++) if (spots[k].o.visible && ray.intersectObject(spots[k].o, true).length) return spots[k]; return null; };
+    canvas.addEventListener('click', function (e) { var a = hit(e); if (a) goTo(a); });
     canvas.addEventListener('mousemove', function (e) { var now = Date.now(); if (now - lastMove < 80) return; lastMove = now; canvas.style.cursor = hit(e) ? 'pointer' : ''; });
   }
   var actRing = new T.Mesh(new T.RingGeometry(1, 1.055, 72), bm(C.g2, .8)); actRing.rotation.x = -Math.PI / 2; actRing.visible = false; scene.add(actRing);
@@ -861,11 +887,14 @@
     });
     miles.forEach(function (m) {
       if (!m.el) return; var k = m.o.userData.k || 0, xy = project(m.o, m.h * k, 14), on = k > .6 && xy[1] > 84 && xy[1] < H - 30 && xy[0] > 30 && xy[0] < W - 30;
-      tag(m.el, m.w, xy, on);
+      tag(m.el, m.w, xy, on); if (m.spot) m.el.style.pointerEvents = on ? 'auto' : 'none';
     });
     if (full) {
       var act = 0; for (k = 0; k <= nowIdx; k++) if (uS >= gateU[k] - 4) act = k; if (uS > uNow + 2) act = n - 1;
-      setCard(act); if (card) card.classList.toggle('bump', !!bump); root.classList.toggle('moved', uS > U0 + 3);
+      var near = null, bd = 1e9;
+      if (pinned) { var dp = Math.abs(uS - pinned.u); if (dp < 8) pinned.arr = 1; if ((pinned.arr && dp > 16) || Date.now() - pinned.t > 6000 && !pinned.arr) { pinned.arr = 0; pinned = null; } } /* tới nơi rồi cuộn đi xa thì bỏ ghim */ if (dismissed && Math.abs(uS - dismissed.u) > 16) dismissed = null;
+      if (pinned) near = pinned; else spots.forEach(function (sp) { if (sp === dismissed) return; var d = uS - sp.u; if (d > -12 && d < 8 && Math.abs(d) < bd) { bd = Math.abs(d); near = sp; } });
+      if (near) setSpot(near); else setCard(act); if (card) card.classList.toggle('bump', !!bump); root.classList.toggle('moved', uS > U0 + 3);
       var am = marks[act], fr = (tm * .55) % 1, pr = (am.userData.pr || 4.6) + .25; actRing.visible = act < n - 1 && am.visible; actRing.position.set(am.position.x, .17, am.position.z); actRing.scale.setScalar(pr * (1 + fr * .07)); actRing.material.opacity = .75 * (1 - fr);
     }
     renderer.render(scene, cam);

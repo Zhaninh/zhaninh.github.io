@@ -358,13 +358,25 @@ def title_of(w, lang): return w.get('title') or w[f'title_{lang}']
 STAGE_PROJECTS = {
     0: [('vlr', 'kiosk', 'Đọc khẩu hình tiếng Việt', 'Vietnamese lip reading')],
     1: [('aneurysm', 'hospital', 'Phát hiện phình động mạch nội sọ', 'Intracranial aneurysm detection')],
-    2: [('ntcoral', 'buoy', 'NTCoral', 'NTCoral')],
+    2: [('ntcoral', 'buoy', 'NTCoral', 'NTCoral'), ('coralcons', 'office', 'Bảo tồn rạn san hô', 'Coral reef conservation'), ('marine', 'tent', 'Nuôi biển thông minh', 'Smart marine aquaculture')],
 }
 # CỘT MỐC: việc có thật nhưng không phải dự án và không phải giai đoạn (vật thể nhỏ, nhãn nhỏ, không bấm được)
 #   (vật thể: cert = chứng chỉ | teky = lớp học nhỏ, nhãn vi, nhãn en)
 MILESTONES = {
     0: [('valley', 'FPT AI Valley', 'FPT AI Valley'), ('cert', 'Chứng chỉ sư phạm', 'Teaching certificate'), ('teky', 'Trợ giảng', 'Teaching assistant')],
 }
+# NỘI DUNG khi xe đi qua / khi bấm vào cột mốc và công trình phụ: kind -> (vi(tiêu đề, thời gian, đoạn), en(...), liên kết hoặc None)
+SPOT_TEXT = {
+    'valley': (('FPT AI Creative Valley, Quy Nhơn', '09–12.2023', 'Ba tháng thực tập vị trí AI Intern cùng 52 sinh viên Đại học FPT. Tôi tham gia ba dự án: phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R, ứng dụng Smart Menu, và bộ dữ liệu chữ viết tay tiếng Việt. Đây là lần đầu tôi làm AI trong một nhóm sản phẩm thật.'),
+               ('FPT AI Creative Valley, Quy Nhon', '09–12.2023', 'A three-month internship as an AI Intern with 52 FPT University students. I worked on three projects: Vietnamese user-review analysis with PhoBERT and XLM-R, a Smart Menu app, and a Vietnamese handwriting dataset. It was my first time doing AI inside a real product team.'), 'hl#aivalley'),
+    'cert': (('Chứng chỉ nghiệp vụ sư phạm', '', 'Chứng chỉ bồi dưỡng nghiệp vụ sư phạm dành cho giảng viên đại học. Đây là bước chuẩn bị sớm cho mục tiêu giảng dạy đại học ở cuối con đường.'),
+             ('Teaching certificate', '', 'A pedagogy certificate for university lecturers: an early step towards the goal of university teaching at the end of the road.'), None),
+    'teky': (('Trợ giảng lập trình, TEKY', '11.2024 – 05.2025', 'Trợ giảng các lớp lập trình tại Học viện Công nghệ TEKY, TP. Hồ Chí Minh. Giải thích một khái niệm cho người mới học buộc tôi phải hiểu nó rõ hơn.'),
+             ('Programming TA, TEKY', '11.2024 – 05.2025', 'Teaching assistant for programming classes at TEKY Academy of Technology, Ho Chi Minh City. Explaining a concept to beginners made me understand it better myself.'), None),
+    'greenx': (('GREEN-X, VinUniversity', 'từ 04.2026', 'Trung tâm Chuyển đổi xanh thông minh của VinUniversity. Tôi là trợ lý nghiên cứu, làm việc cùng các kỹ sư điện tử, tự động hoá và nhà sinh học biển trên những dự án đưa công nghệ ra biển.'),
+               ('GREEN-X, VinUniversity', 'since 04.2026', 'VinUniversity’s Smart Green Transformation Center. I am a research assistant, working with electronics and automation engineers and marine biologists on projects that take technology out to sea.'), None),
+}
+
 # Tên hiện trên công trình chính của từng giai đoạn
 PLACES = {0: ('Trường Đại học FPT', 'FPT University'), 1: ('VinBigData', 'VinBigData'), 2: ('VinUniversity', 'VinUniversity'), 3: ('Giảng dạy đại học tại Việt Nam', 'University teaching in Vietnam')}
 # Các mốc đã biết trên chặng tiếp theo (chưa biết ở trường nào)
@@ -376,9 +388,16 @@ def stage_json(lang):
     out = []
     for i, (when, vi, en, nx, icon) in enumerate(JOURNEY):
         d = vi if lang == 'vi' else en
-        pj = [dict(slug=s, anchor=a, title=E(tv if lang == 'vi' else te)) for s, a, tv, te in STAGE_PROJECTS.get(i, [])]
-        ms = [dict(kind=k, label=E(lv if lang == 'vi' else le)) for k, lv, le in MILESTONES.get(i, [])]
-        out.append(dict(when=when, title=d[0], paras=[E(d[1])], lesson=E(d[2]) if len(d) > 2 else '', icon=icon, place=PLACES.get(i, ('', ''))[0 if lang == 'vi' else 1], projects=pj, milestones=ms, obstacle=OBSTACLE.get(i, 'holes')))
+        wk = {w['slug']: w for w in WORK}; L = 0 if lang == 'vi' else 1
+        pj = [dict(slug=s, anchor=a, title=E(tv if lang == 'vi' else te), sub=E(wk[s][lang]['sub']), role=E(wk[s][lang]['role']), when=wk[s]['year'], url='/' + U['workdir'] + s + '.html') for s, a, tv, te in STAGE_PROJECTS.get(i, [])]
+        def spot(k):
+            t = SPOT_TEXT.get(k); 
+            if not t: return None
+            ln = t[2]
+            if ln: ln = ('/' + U['hl'] + '#' + ln.split('#')[1]) if ln.startswith('hl#') else ln
+            return dict(title=E(t[L][0]), when=t[L][1], text=E(t[L][2]), url=ln)
+        ms = [dict(kind=k, label=E(lv if lang == 'vi' else le), spot=spot(k)) for k, lv, le in MILESTONES.get(i, [])]
+        out.append(dict(when=when, title=d[0], paras=[E(d[1])], lesson=E(d[2]) if len(d) > 2 else '', icon=icon, place=PLACES.get(i, ('', ''))[0 if lang == 'vi' else 1], projects=pj, milestones=ms, greenx=spot('greenx') if icon == 'vinuni' else None, obstacle=OBSTACLE.get(i, 'holes')))
     return E(json.dumps(out, ensure_ascii=False))
 
 def proj_parts(w, lang):
@@ -619,7 +638,7 @@ for lang in ('vi', 'en'):
     lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, U['workdir'] + s + '.html')}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
     wmap = {w['slug']: w for w in WORK}
     tpls = ''.join(proj_template(wmap[s], lang, p) for i in sorted(STAGE_PROJECTS) for s, a, tv, te in STAGE_PROJECTS[i])
-    j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
+    j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" {'data-sp-proj="Dự án" data-sp-ms="Cột mốc" data-sp-mine="Phần việc của tôi" data-sp-open="Trang dự án" data-sp-story="Đọc câu chuyện" data-sp-back="Về giai đoạn"' if lang == 'vi' else 'data-sp-proj="Project" data-sp-ms="Milestone" data-sp-mine="My part" data-sp-open="Project page" data-sp-story="Read the story" data-sp-back="Back to stage"'} data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
 <article class="j3d-card"><div class="k"></div><h3></h3><div class="tx"></div></article><div class="j3d-hint">{t['hint']}</div></div>
 <div class="j3d-panel" aria-hidden="true"><div class="pbar"><button type="button" class="pback">← {t['p_close']}</button><span class="mono pk"></span></div><div class="pbody"></div></div>{tpls}</section>'''
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
