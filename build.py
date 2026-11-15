@@ -313,6 +313,13 @@ def impact_score(w):
             + W_['citations'] * math.log1p(m.get('citations', 0)) + W_['downloads'] * math.log1p(m.get('downloads', 0) / 100)
             + W_['stars'] * math.log1p(m.get('stars', 0)) + im.get('pin', 0))
 
+# --- nạp nội dung trang dự án v2
+import importlib.util as _ilu, os as _os
+_sp = _ilu.spec_from_file_location('v2data', _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'v2data.py')); _v2 = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_v2)
+for _w in WORK:
+    if _w['slug'] in _v2.V2:
+        _w['v2'] = True; _w['vi']['v2'] = _v2.V2[_w['slug']]['vi']; _w['en']['v2'] = _v2.V2[_w['slug']]['en']
+
 RANKED = sorted([w for w in WORK if w.get('kind') != 'project'], key=impact_score, reverse=True)  # công bố
 
 def project_score(w):  # dự án = điểm của chính nó + điểm công bố mạnh nhất thuộc nó
@@ -813,6 +820,65 @@ for lang in ('vi', 'en'):
                 _fn[0] += 1; cap_ = f'<b>{"Hình" if vi_ else "Figure"} {_fn[0]}.</b> ' + E(cap)
             else: cap_ = E(cap)
             return f'<figure class="x-fig{" x-pair" if len(nms) > 1 else ""}"><div class="x-im">{ims}</div><figcaption>{cap_}</figcaption></figure>'
+        if w.get('v2'):
+            V = d['v2']; fn = [0]
+            def im_(n): return rel(p, 'assets/projects/' + n + '.webp')
+            def figv(nms, cap, mode=''):
+                fn[0] += 1
+                nms = nms if isinstance(nms, tuple) else (nms,)
+                lab = 'abcdef'
+                ims = ''.join(f'<div class="pv-im" style="flex:{_ar(n):.3f} 1 0"><img src="{im_(n)}" alt="" loading="lazy">' + (f'<i>{lab[k]}</i>' if len(nms) > 1 else '') + '</div>' for k, n in enumerate(nms))
+                if mode == 'stack': ims = ims.replace('style="flex:', 'data-f="')
+                return f'<figure class="pv-fig{" stack" if mode == "stack" else ""}"><div class="pv-ims">{ims}</div><figcaption><b>{"Hình" if vi_ else "Figure"} {fn[0]}.</b> {LK(cap)}</figcaption></figure>'
+            def blocks(bs):
+                o = ''
+                for b in bs:
+                    k = b[0]
+                    if k == 'h': o += f'<h3 class="pv-h3">{E(b[1])}</h3>'
+                    elif k == 'p': o += f'<p class="pv-p">{LK(b[1])}</p>'
+                    elif k == 'f': o += figv(b[1], b[2], b[3] if len(b) > 3 else '')
+                    elif k == 'log':
+                        o += f'<h3 class="pv-h3">{E(b[1])}</h3><table class="pv-log"><tbody>' + ''.join(f'<tr><th>{E(t)}</th><td>{LK(x)}</td></tr>' for t, x in b[2]) + '</tbody></table>'
+                return o
+            parts = V.get('parts', [])
+            cards = ''
+            if len(parts) > 1:
+                cards = f'<div class="pv-two-h">{E(V["parts_label"])}</div><div class="pv-two">' + ''.join(
+                    f'<a href="#p-{pt["L"]}"><img src="{im_(pt["img"])}" alt="" loading="lazy"><div class="t"><div class="L">{pt["L"]}</div><h3>{E(pt["title"])}</h3><p>{E(pt["desc"])}</p><span class="go">{"Đọc phần" if vi_ else "Read part"} {pt["L"]} ↓</span></div></a>' for pt in parts) + '</div>'
+            chs = ''
+            for pt in parts:
+                chs += (f'<section class="pv-ch" id="p-{pt["L"]}"><div class="pv-chh"><div class="L">{pt["L"]}</div><div><h2>{E(pt["title"])}</h2>'
+                        + (f'<p class="q"><b>{"Câu hỏi nghiên cứu" if vi_ else "Research question"}</b>{E(pt["q"])}</p>' if pt.get('q') else '') + f'</div></div>{blocks(pt["blocks"])}</section>')
+            extra_ = ''
+            kids = [x for x in RANKED if x.get('project') == w['slug']]
+            if kids:
+                def kc(x):
+                    c_ = next((f'assets/projects/{x["slug"]}.{e}' for e in ('webp', 'jpg', 'png') if os.path.exists(os.path.join(ROOT, f'assets/projects/{x["slug"]}.{e}'))), None)
+                    pbx = next((q for q in PUBS if q[7] == x['slug']), None)
+                    return (f'<li><a class="wl-img" href="{rel(p, wurl(x["slug"], lang))}" tabindex="-1" aria-hidden="true">' + (f'<img src="{rel(p, c_)}" alt="" loading="lazy">' if c_ else '') + '</a>'
+                            f'<div><span class="py mono">{x["year"]}</span><a class="t" href="{rel(p, wurl(x["slug"], lang))}">{E(pbx[2] if pbx else title_of(x, lang))}</a>'
+                            f'<div class="v">{E(x[lang]["status"])}</div><div class="pl-acts"><a href="{rel(p, wurl(x["slug"], lang))}">{"Trang công bố" if vi_ else "Publication page"} <i>→</i></a></div></div></li>')
+                extra_ += f'<section class="pv-sec"><h2>{"Công bố" if vi_ else "Publications"}</h2><ol class="plist wl kids">{"".join(kc(x) for x in kids)}</ol></section>'
+            for h_, bs in V.get('sections', []):
+                extra_ += f'<section class="pv-sec"><h2>{E(h_)}</h2>{blocks(bs)}</section>'
+            if V.get('team'):
+                extra_ += f'<section class="pv-sec"><h2>{"Nhóm nghiên cứu" if vi_ else "Research team"}</h2><div class="pv-team">' + ''.join(
+                    (f'<a href="{u}" rel="noopener">' if u else '<div class="na">') + f'<img src="{rel(p, "assets/people/" + ph + ".webp")}" alt="" loading="lazy"><div><b>{E(nm)}</b><span>{E(rl)}</span><span class="o">{E(og)}</span></div>' + ('</a>' if u else '</div>')
+                    for ph, nm, rl, og, u in V['team']) + '</div></section>'
+            if V.get('orgs'):
+                extra_ += f'<section class="pv-sec"><h2>{"Đơn vị thực hiện và hợp tác" if vi_ else "Institutions and partners"}</h2><div class="pv-org">' + ''.join(
+                    (f'<a href="{u}" rel="noopener">' if u else '<div class="na">') + f'<img src="{rel(p, "assets/logos/" + lg + ".webp")}" alt=""><b>{E(nm)}</b><span>{E(ds)}</span>' + ('</a>' if u else '</div>')
+                    for lg, nm, ds, u in V['orgs']) + '</div></section>'
+            cv_ = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
+            meta_ = ''.join(f'<div><dt>{E(a)}</dt><dd>{E(b)}</dd></div>' for a, b in V['meta'])
+            lnk_ = ''.join(f'<a class="btn pri" href="{u}" rel="noopener">{E(t)} ↗</a>' for t, u in V.get('links', []))
+            body = (f'<div class="pv"><header class="pv-hx"><div class="kick">{E(V["kicker"])}</div><h1>{E(title_of(w, lang)).replace("Nha Trang", "Nha&nbsp;Trang")}</h1><p class="abs">{LK(V["abs"])}</p>'
+                    + (f'<div class="pv-acts">{lnk_}</div>' if lnk_ else '')
+                    + (f'<figure class="pv-cover"><img src="{rel(p, cv_)}" alt=""><figcaption>{E(V.get("cover_cap", ""))}</figcaption></figure>' if cv_ and V.get('cover_cap') else '')
+                    + f'<dl class="pv-meta">{meta_}</dl></header>{cards}{chs}{extra_}'
+                    + f'<p class="pj-back"><a class="link js-back" href="{rel(p, U["work"])}">{"← Quay lại" if vi_ else "← Back"}</a></p></div>')
+            write(p, shell(lang, 'pubs', p, title_of(w, lang) + ' · Aaron', body))
+            continue
         tz = w.get('teaser')
         if tz:
             teaser = f'<figure class="x-fig x-teaser reveal"><div class="x-im"><img src="{rel(p, "assets/projects/" + tz + ".webp")}" alt=""></div>' + (f'<figcaption>{E(d["teaser_cap"])}</figcaption>' if d.get('teaser_cap') else '') + '</figure>'
