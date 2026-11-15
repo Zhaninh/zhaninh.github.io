@@ -670,8 +670,16 @@ def nobreak(html):
         parts[i] = seg.replace('\x00', '<span class="nw">').replace('\x01', '</span>')
     return ''.join(parts)
 
+def _bust(s):  # thêm ?v=<mtime> cho ảnh để trình duyệt không giữ ảnh cũ
+    import re as _r
+    def f(m):
+        u = m.group(1); fp = os.path.normpath(os.path.join(ROOT, 'assets', u))
+        try: return f'assets/{u}?v={int(os.path.getmtime(fp))}"'
+        except OSError: return m.group(0)
+    return _r.sub(r'assets/((?:projects|people|logos|hl)/[^"?]+\.(?:webp|jpg|png))"', f, s)
+
 def write(path, s):
-    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(nobreak(s) if path.endswith('.html') else s)
+    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(_bust(nobreak(s)) if path.endswith('.html') else s)
 
 def nbsp_ph(x):  # giữ các cụm tên riêng không bị ngắt dòng
     for ph in ('Hòn Mun', 'Ngày hội', 'Chuyển đổi số', 'Cần Giờ', 'Khánh Hòa', 'Hon Mun', 'Can Gio', 'Khanh Hoa', 'AI Creative Valley', 'Research Day', 'Meet & Greet', 'Meet &amp; Greet', 'rừng ngập mặn'):
