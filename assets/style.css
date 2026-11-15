@@ -1409,3 +1409,24 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .j3d-card .back:hover{color:var(--ink)}
 .j3d-ms.tap{cursor:pointer;font-family:var(--mono)}.j3d-ms.tap:hover{border-style:solid;border-color:var(--leaf);color:var(--ink)}
 .j3d-card .go{display:flex;width:max-content;margin-top:12px}.j3d-card.spot .more{display:block;margin:4px 0 0}
+/* ---- Dấu ấn v2: thoáng, nhiều đoạn, cụm ảnh chữ nhật ---- */
+.hl-list{display:block}
+.hs2{padding:clamp(88px,13vh,152px) 0;border-top:1px solid color-mix(in srgb,var(--leaf-mid) 40%,var(--line));scroll-margin-top:72px}
+.hs2:first-child{border-top:0;padding-top:clamp(40px,6vh,72px)}
+.hs2-h .hm{display:flex;flex-wrap:wrap;gap:6px 16px;font:500 13px var(--mono);color:var(--mute)}
+.hs2-h .hm time{color:var(--leaf)}
+.hs2-h h3{margin:16px 0 18px;max-width:22ch;font:400 clamp(32px,3.4vw,46px)/1.12 var(--serif);letter-spacing:-.01em;text-wrap:balance}
+.hs2-h .ht{display:flex;flex-wrap:wrap;gap:8px}
+.hs2-b{display:grid;grid-template-columns:minmax(0,1fr) 260px;column-gap:clamp(40px,6vw,96px);margin-top:clamp(36px,5vh,52px);align-items:start}
+.hs2-t p{margin:0 0 1.15em;max-width:62ch;font:400 clamp(17.5px,1.3vw,19px)/1.8 var(--serif);color:var(--ink2);text-wrap:pretty}
+.hs2-t p:last-child{margin-bottom:0}
+.hs2-t p.note{font-style:italic;font-size:16px;color:var(--mute)}
+.hs2 .hsrc{display:flex;flex-direction:column;gap:10px;padding-top:6px;border-top:0}
+.hs2 .hsrc a{font:500 14px/1.4 var(--sans)}
+.hgm{display:flex;flex-direction:column;gap:12px;margin-top:clamp(44px,6vh,64px)}
+.hgm-r{display:flex;gap:12px}
+.hgm-r .hg-i{flex:var(--ar) 1 0;aspect-ratio:var(--ar);min-width:0;border-radius:12px;overflow:hidden}
+.hgm-r .hg-i img{width:100%;height:100%;object-fit:cover}
+.hgm-r .hg-i.pt{max-height:none}
+@media (max-width:820px){.hs2-b{grid-template-columns:minmax(0,1fr);row-gap:24px}.hgm,.hgm-r{gap:8px}}
+.hs2-b{grid-template-columns:minmax(0,1fr) 300px}.hs2 .hsrc a{white-space:nowrap}@media (max-width:820px){.hs2-b{grid-template-columns:minmax(0,1fr)}.hs2 .hsrc a{white-space:normal}}

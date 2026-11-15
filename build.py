@@ -44,8 +44,8 @@ T = {  # chuỗi giao diện
             h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
-URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='mentors/'),  # tiếng Anh là mặc định (ở gốc)
-       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', mdir='vi/nguoi-huong-dan/')}
+URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='referees/'),  # tiếng Anh là mặc định (ở gốc)
+       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', mdir='vi/nguoi-gioi-thieu/')}
 
 WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu lên trang chủ
 
@@ -128,6 +128,13 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                  ('aq_decision', 'Decision stack: multimodal inputs pass through three decision paradigms and an action-arbitration layer before farm control. Source: preprint, CC BY 4.0.'),
                  ('aq_hierarchy', 'Four timescales: safety-critical control (seconds–minutes), operations (minutes–hours), biological optimisation (days–weeks) and planning (whole cycle). Source: preprint, CC BY 4.0.')),
                 ('What I did', [], ['Wrote all of Section 6: literature synthesis, argument and structure of subsections 6.1 to 6.5.'])]),
+  bib='''@article{dam2026monitoring,
+  title   = {From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems},
+  author  = {Dam, Quynh-Hoa N. and Nguyen, Phuc H. and Tran, Mai P. and Trinh, Cong-Son and Nguyen, Trung T. and Nguyen, Ninh N. G. and Bui, Tuan-Dung and Ngo, Hung B. and Do, Cuong D. and Dzung, Dinh V. and Nguyen, Van Dinh},
+  journal = {Preprint},
+  year    = {2026},
+  doi     = {10.13140/RG.2.2.24130.95688}
+}''',
   links=[('Preprint', 'https://doi.org/10.13140/RG.2.2.24130.95688')]),
  dict(slug='vnplant', impact=dict(status='unpublished', role='core'), star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
   vi=dict(sub='Đánh giá nhiều mô hình học sâu trên bộ ảnh 255 loài cây thuốc Việt Nam.', role='Huấn luyện và đánh giá mô hình', where='Đại học FPT · cùng Đàm Nguyễn Quỳnh Hoa và Phạm Thị Thảo Nguyên', status='Dự án nhóm, không công bố',
@@ -190,6 +197,14 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
           body=[('Why it matters', ['An intracranial aneurysm is a local bulge in a brain blood vessel; if it ruptures, it bleeds inside the skull. CTA, MRA and MRI are routine, yet small or subtle aneurysms are sometimes missed even by experienced radiologists.', 'Computer-assisted methods aim at earlier and more consistent detection.'], []),
                 ('Method', ['A two-stage pipeline across the imaging modalities of the RSNA Intracranial Aneurysm dataset.'], ['Stage 1: a 3D U-Net segments candidate vascular regions with high sensitivity, so lesions are not missed.', 'Stage 2: 3D patches around each candidate are classified by a 3D ResNet, a U-Net encoder or a lightweight 3D CNN, for aneurysm presence and anatomical site.']),
                 ('Results', ['The chapter reports that the two-stage pipeline improves diagnostic accuracy, robustness and workflow efficiency. Used as decision support, it may help radiologists find aneurysms earlier.'], [])]),
+  bib='''@incollection{thao2026aneurysm,
+  title     = {A Multistage Deep Learning Approach for Intracranial Aneurysm Detection},
+  author    = {Thao, Nguyen Pham Thi and Ninh, Nguyen Ngoc Gia and Quoc, Trung Nguyen and Hoang, Vinh Truong},
+  booktitle = {Intelligent Precision Healthcare},
+  publisher = {CRC Press},
+  year      = {2026},
+  doi       = {10.1201/9781003667360-21}
+}''',
   links=[('DOI', 'https://doi.org/10.1201/9781003667360-21')]),
 ]
 
@@ -224,44 +239,47 @@ PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự �
  ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
 ]
 
+# công bố cũng tự xếp hạng theo cùng thang điểm của dự án chứa nó (trạng thái, vai trò, trích dẫn)
+PUBS_RANKED = sorted(PUBS, key=lambda x: next((i for i, w in enumerate(RANKED) if w['slug'] == x[7]), 99))
+
 PUB_LINKS = {'vlr': [('Bộ dữ liệu', 'Dataset', 'https://doi.org/10.5281/zenodo.19709456')]}  # link phụ của một công bố
 
 FB_TA = 'Phan Thục Anh (Facebook)'; FB_GX = 'GREEN-X (Facebook)'
 STORIES = [  # (ngày ISO, ngày hiển thị, nơi_vi, nơi_en, tiêu đề_vi, tiêu đề_en, tóm tắt_vi, tóm tắt_en, [ảnh], [(nhãn, link)], [thẻ])
  ('2023-09-05', '09–12.2023', 'Quy Nhơn, Bình Định', 'Quy Nhon, Binh Dinh',
   'Thực tập tại FPT AI Creative Valley', 'Internship at FPT AI Creative Valley',
-  'Tháng 9/2023, tôi cùng 52 sinh viên Đại học FPT đến Quy Nhơn thực tập tại FPT AI Creative Valley (AI Valley). Trong ba tháng, tôi làm AI Intern và tham gia ba dự án. Dự án đầu tiên phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R. Hai dự án còn lại là một ứng dụng Smart Menu và một bộ dữ liệu chữ viết tay tiếng Việt cho cuộc thi OCR. Tấm ảnh trong phòng làm việc là do tôi chụp, nên trong ảnh không có tôi.',
-  'In September 2023, I went to Quy Nhon with 52 FPT University students for an internship at FPT AI Creative Valley (AI Valley). For three months I worked as an AI Intern on three projects. The first analysed Vietnamese user reviews with PhoBERT and XLM-R. The other two were a Smart Menu application and a Vietnamese handwriting dataset for an OCR competition. I took the photo in the office, so I am not in it.',
+  'Tháng 9/2023, tôi cùng 52 sinh viên Đại học FPT ra Quy Nhơn, bắt đầu ba tháng thực tập tại FPT AI Creative Valley (AI Valley). Đó là lúc những gì học trên giảng đường được đặt vào nhịp làm việc của một nhóm phát triển thật.\n\nVới vai trò AI Intern, tôi tham gia ba dự án. Dự án đầu tiên phân tích đánh giá của người dùng tiếng Việt bằng PhoBERT và XLM-R. Hai dự án còn lại là ứng dụng Smart Menu và bộ dữ liệu chữ viết tay tiếng Việt cho một cuộc thi OCR.\n\n~Tấm ảnh trong phòng làm việc do tôi chụp, nên trong ảnh không có tôi.',
+  'In September 2023, I went to Quy Nhon with 52 FPT University students for a three-month internship at FPT AI Creative Valley (AI Valley). It was where what we had learned in class met the rhythm of a real development team.\n\nAs an AI Intern, I worked on three projects. The first analysed Vietnamese user reviews with PhoBERT and XLM-R. The other two were a Smart Menu application and a Vietnamese handwriting dataset for an OCR competition.\n\n~I took the photo in the office, so I am not in it.',
   ['aivalley_1', 'aivalley_2', 'aivalley_3', 'aivalley_4', 'aivalley_5', 'aivalley_6', 'aivalley_0'], [('Facebook', 'https://www.facebook.com/share/1M2dTchPix/'), ('Facebook', 'https://www.facebook.com/share/p/1FQpTYngum/')], ['FPT AI Valley', 'Quy Nhơn']),
  ('2026-10-25', '24–26.10.2026', 'Nha Trang, Khánh Hòa', 'Nha Trang, Khanh Hoa',
   'Gian triển lãm GREEN-X tại Ngày hội Chuyển đổi số', 'GREEN-X booth at the Digital Transformation Expo',
-  'GREEN-X mang đến Ngày hội các giải pháp cho đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển. Robot đại dương phát triển cùng VinaTech là điểm dừng chân đông khách nhất.',
-  'GREEN-X brought solutions for green cities, sustainable tourism, mariculture and marine conservation to the expo. The ocean robot built with VinaTech drew the biggest crowd.',
+  'Tại Ngày hội Chuyển đổi số Khánh Hòa 2026, GREEN-X mang đến bốn nhóm giải pháp: đô thị xanh, du lịch bền vững, nuôi biển và bảo tồn biển.\n\nĐiểm dừng chân đông khách nhất là robot đại dương do GREEN-X phát triển cùng VinaTech. Nhìn tận mắt một thiết bị có thể xuống nước, câu chuyện công nghệ biển trở nên gần gũi hơn với người xem.',
+  'At Khanh Hoa Digital Transformation Day 2026, GREEN-X brought four groups of solutions: green cities, sustainable tourism, mariculture and marine conservation.\n\nThe busiest stop was the ocean robot GREEN-X built with VinaTech. Seeing a machine made for the water up close brought marine technology much closer to visitors.',
   ['expo_0', 'expo_1'], [(FB_GX, 'https://www.facebook.com/share/p/19jbPiY6e9/')], ['GREEN-X', 'Khánh Hòa']),
  ('2026-07-01', '07.2026', 'Nha Trang và Vân Phong, Khánh Hòa', 'Nha Trang and Van Phong, Khanh Hoa',
   'Trở lại Khánh Hòa: du lịch xanh, Hòn Mun và nuôi biển', 'Back in Khanh Hoa: green tourism, Hon Mun and mariculture',
-  'Chuyến công tác nối tiếp Cần Giờ. Đoàn làm việc với Sở Văn hóa, Thể thao và Du lịch về Bộ tiêu chuẩn Du lịch Xanh và chuẩn bị hạ thủy hệ thống IoT quan trắc đa dạng sinh học ở Hòn Mun. Sau đó, đoàn thăm trang trại cá chẽm công nghệ cao của Australis ở Vân Phong để bàn hướng AI cho nuôi biển.',
-  'A trip right after Can Gio. The team met the provincial tourism department about the Green Tourism standard and prepared to deploy the IoT biodiversity-monitoring system at Hon Mun. They then visited Australis’ high-tech sea-bass farm at Van Phong to discuss AI for mariculture.',
+  'Không lâu sau chuyến Cần Giờ, đoàn GREEN-X trở lại Khánh Hòa với hai câu chuyện: du lịch xanh và nuôi biển.\n\nTại Nha Trang, đoàn làm việc với Sở Văn hóa, Thể thao và Du lịch về Bộ tiêu chuẩn Du lịch Xanh, đồng thời chuẩn bị hạ thủy hệ thống IoT quan trắc đa dạng sinh học ở Hòn Mun.\n\nỞ Vân Phong, đoàn thăm trang trại cá chẽm công nghệ cao của Australis để cùng bàn hướng đưa AI vào nuôi biển.',
+  'Shortly after Can Gio, the GREEN-X team returned to Khanh Hoa for two stories: green tourism and mariculture.\n\nIn Nha Trang, the team met the provincial Department of Culture, Sports and Tourism about the Green Tourism standard, and prepared to deploy the IoT biodiversity-monitoring system at Hon Mun.\n\nAt Van Phong, the team visited Australis’ high-tech sea-bass farm to discuss how AI can enter mariculture.',
   ['nhatrang_0', 'nhatrang_1'], [(FB_TA, 'https://www.facebook.com/share/p/14zHYMXiH5c/')], ['Công tác', 'IoT']),
  ('2026-06-20', '06.2026', 'Cần Giờ, TP. Hồ Chí Minh', 'Can Gio, Ho Chi Minh City',
   'Khảo sát rừng ngập mặn Cần Giờ', 'Surveying the Can Gio mangroves',
-  'Làm việc với Ban Quản lý rừng phòng hộ Cần Giờ và khảo sát thực địa. GREEN-X giới thiệu hệ thống bảo tồn rừng ngập mặn kết hợp viễn thám, IoT, AI và digital twin, với mục tiêu chung là biến Cần Giờ thành một living lab về công nghệ bảo tồn.',
-  'Meetings and a field survey with the Can Gio protection-forest board. GREEN-X presented a mangrove conservation system combining remote sensing, IoT, AI and a digital twin, with the shared aim of making Can Gio a living lab for conservation technology.',
+  'Đoàn GREEN-X làm việc với Ban Quản lý rừng phòng hộ Cần Giờ, rồi xuống thuyền khảo sát thực địa giữa rừng ngập mặn.\n\nHệ thống được giới thiệu kết hợp viễn thám, IoT, AI và bản sao số (digital twin) để theo dõi và bảo tồn rừng. Mục tiêu hai bên cùng hướng tới là biến Cần Giờ thành một phòng thí nghiệm sống (living lab) cho công nghệ bảo tồn.',
+  'The GREEN-X team met the Can Gio protection-forest board, then took a boat out for a field survey through the mangroves.\n\nThe system presented combines remote sensing, IoT, AI and a digital twin to monitor and conserve the forest. The shared aim is to make Can Gio a living lab for conservation technology.',
   ['cangio_0', 'cangio_1', 'cangio_2'], [(FB_TA, 'https://www.facebook.com/share/p/19k7V5EHyh/')], ['Công tác', 'Thực địa']),
  ('2026-06-10', '06.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
   'VinUni Research Day', 'VinUni Research Day',
-  'Gian GREEN-X giới thiệu các dự án chính sách qua poster và video. Phần công nghệ được trưng bày trực tiếp, gồm nền tảng quan sát cá theo thời gian thực ở Nha Trang và robot đại dương vừa bơi vừa bay.',
-  'The GREEN-X booth presented its policy projects through posters and video. The technology was shown in person, including a live fish-watching platform from Nha Trang and an ocean robot that both swims and flies.',
+  'Tại VinUni Research Day, gian GREEN-X kể về các dự án chính sách qua poster và video.\n\nPhần công nghệ thì được mang đến tận nơi: nền tảng quan sát cá theo thời gian thực từ Nha Trang, và robot đại dương vừa bơi vừa bay.',
+  'At VinUni Research Day, the GREEN-X booth told its policy projects through posters and video.\n\nThe technology came in person: a live fish-watching platform from Nha Trang, and an ocean robot that both swims and flies.',
   ['researchday_0', 'researchday_3', 'researchday_1'], [(FB_TA, 'https://www.facebook.com/share/p/1KzcXVeNf4/')], ['Sự kiện', 'VinUni']),
  ('2026-03-09', '09.03.2026', 'VinUniversity, Hà Nội', 'VinUniversity, Hanoi',
   'GREEN-X Meet & Greet', 'GREEN-X Meet & Greet',
-  'Buổi gặp mặt đầu tiên để giới thiệu trung tâm GREEN-X với cộng đồng VinUni và cảm ơn các phòng ban đã đồng hành.',
-  'The first gathering to introduce GREEN-X to the VinUni community and thank the teams that supported the centre.',
+  'Ngày 9/3/2026, GREEN-X tổ chức buổi gặp mặt để giới thiệu trung tâm với cộng đồng VinUni.\n\nĐây cũng là dịp để trung tâm cảm ơn các phòng ban đã đồng hành.',
+  'On 9 March 2026, GREEN-X held a gathering to introduce the centre to the VinUni community.\n\nIt was also a chance to thank the teams that had supported the centre.',
   ['meetgreet_0', 'meetgreet_3'], [(FB_GX, 'https://www.facebook.com/share/p/1QRhLrPxH5/')], ['GREEN-X', 'Sự kiện']),
  ('2026-01-20', '01.2026', 'GREEN-X, VinUniversity', 'GREEN-X, VinUniversity',
   'Những ngày đầu ở GREEN-X', 'My first weeks at GREEN-X',
-  'Tôi vào GREEN-X với vai trò trợ lý nghiên cứu ngay trước khi trung tâm nhận văn phòng mới. Những tuần đầu là buổi định hướng cùng các nghiên cứu viên sau tiến sĩ và trợ lý nghiên cứu mới, rồi cả nhóm dọn về không gian làm việc ở tầng 5, toà I. Một khởi đầu cùng lúc với nhiều gương mặt mới.',
-  'I joined GREEN-X as a research assistant just before the centre moved into its new office. My first weeks began with an orientation alongside the new postdoctoral researchers and research assistants, and then the whole team moved into the new workspace on level 5 of Building I. A start shared with many new faces.',
+  'Tôi bắt đầu ở GREEN-X với vai trò trợ lý nghiên cứu, ngay trước khi trung tâm nhận văn phòng mới.\n\nNhững tuần đầu là buổi định hướng cùng các nghiên cứu viên sau tiến sĩ và trợ lý nghiên cứu mới. Sau đó, cả nhóm cùng dọn về không gian làm việc ở tầng 5, toà I.\n\nMột khởi đầu chung với nhiều gương mặt mới.',
+  'I started at GREEN-X as a research assistant just before the centre moved into its new office.\n\nThe first weeks began with an orientation alongside the new postdoctoral researchers and research assistants. Then the whole team moved into the new workspace on level 5 of Building I.\n\nA start shared with many new faces.',
   ['orientation_0', 'newhome_0', 'office_0'], [(FB_GX, 'https://www.facebook.com/share/p/18qWXJCYuS/'), (FB_GX, 'https://www.facebook.com/share/p/1E9hu3bkte/'), (FB_TA, 'https://www.facebook.com/share/p/1KAqXcWBeZ/')], ['GREEN-X', 'Cột mốc']),
 ]
 TAG_EN = {'Quy Nhơn': 'Quy Nhon', 'Cột mốc': 'Milestone', 'Công tác': 'Field trip', 'Thực địa': 'Fieldwork', 'Sự kiện': 'Event'}
@@ -281,7 +299,7 @@ MENTOR_CARD = {  # chức danh, đơn vị hiện tại của thầy (vi, en) ·
 
 MENTORS = [
  dict(slug='phung-manh-duong', photo='duong',
-  guided=[('ntcoral', 'Chủ trì dự án (PI).', 'Principal investigator of the project.')],
+  guided=[('ntcoral', 'Chủ trì dự án (PI).', 'Principal investigator of the project.'), ('coralcons', 'Chủ trì dự án (PI).', 'Principal investigator of the project.')],
   vi=dict(name='TS. Phùng Mạnh Dương', title='Trợ lý Giáo sư ngành AI và Robotics, Viện Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Người hướng dẫn trực tiếp; Chủ nhiệm (PI) · GREEN-X', short='Trợ lý Giáo sư · AI và Robotics', lead='Nghiên cứu hệ tự hành, UAV và thị giác máy tính cho robot, với hơn 15 năm giảng dạy và nghiên cứu, trong đó gần một thập kỷ tại Úc.', facts=['Tiến sĩ, ĐHQG Hà Nội', 'Sau tiến sĩ, UTS', 'IEEE Senior Member', 'Ba giải Best Paper'],
           bio='Trợ lý Giáo sư ngành AI và Robotics tại Viện Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity; thành viên cấp cao (Senior Member) của IEEE. Trước khi về VinUni, thầy giảng dạy và nghiên cứu nhiều năm tại University of Technology Sydney và Western Sydney University.',
           edu=['Tiến sĩ Kỹ thuật Điện tử, Đại học Quốc gia Hà Nội (2015)', 'Sau tiến sĩ ngành Cơ điện tử, University of Technology Sydney (2017)'],
@@ -297,7 +315,7 @@ MENTORS = [
   emails=['duong.pm@vinuni.edu.vn'],
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/phung-manh-duong/'), ('VinUniversity', 'https://vinuni.edu.vn/?p=140853'), ('Homepage', 'https://sites.google.com/view/manhduongphung'),
          ('Google Scholar', 'https://scholar.google.com/citations?user=JE-a1MkAAAAJ&hl=en'), ('ORCID', 'https://orcid.org/0000-0001-5247-6180'), ('arXiv', 'https://arxiv.org/a/phung_m_1.html')]),
- dict(slug='dinh-van-dung', photo='dung', org=('Viện Công nghệ Thông tin · Đại học Quốc gia Hà Nội', 'Information Technology Institute · Vietnam National University, Hanoi'), guided=[],
+ dict(slug='dinh-van-dung', photo='dung', org=('Viện Công nghệ Thông tin · Đại học Quốc gia Hà Nội', 'Information Technology Institute · Vietnam National University, Hanoi'), guided=[('marine', 'Đồng chủ nhiệm (Co-PI); hướng dẫn tôi trong dự án.', 'Co-principal investigator; guided my work on the project.'), ('coralcons', 'Đồng chủ nhiệm (Co-PI); hướng dẫn tôi trong dự án.', 'Co-principal investigator; guided my work on the project.')],
   vi=dict(name='TS. Đinh Văn Dũng', title='Nghiên cứu viên cao cấp, Viện Công nghệ Thông tin, ĐHQG Hà Nội', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Nghiên cứu viên cao cấp · ĐHQG Hà Nội',
           lead='Nghiên cứu chuyển đổi số và nền tảng số (điện toán đám mây, IoT, MLOps), với ứng dụng trong giáo dục, y tế, nông nghiệp thông minh và chuyển đổi xanh.',
           facts=['Tiến sĩ, Học viện Công nghệ Bưu chính Viễn thông', 'Thạc sĩ, University of Technology Sydney', 'Học giả Fulbright, New York University'], bio='', edu=[], areas='', awards=[], withme=''),
@@ -307,7 +325,7 @@ MENTORS = [
   emails=['dzung.dinh@vnu.edu.vn', 'dung.dv@vinuni.edu.vn'],
   links=[('GREEN-X', 'https://greenx.vinuni.edu.vn/people/dinh-van-dung/')]),
  dict(slug='do-danh-cuong', photo='cuong',
-  guided=[],
+  guided=[('marine', 'Chủ trì dự án (PI); hướng dẫn tôi trong dự án.', 'Principal investigator; guided my work on the project.')],
   vi=dict(name='TS. Đỗ Danh Cường', title='Trợ lý Giáo sư, Viện Kỹ thuật và Khoa học Máy tính, VinUniversity', role='Đồng chủ nhiệm (Co-PI) · GREEN-X', short='Trợ lý Giáo sư · MESSI Lab', lead='Nghiên cứu cảm biến MEMS, hệ thống năng lượng và AI cho tín hiệu y sinh; từng là nghiên cứu viên tại University of Cambridge.', facts=['Tiến sĩ, Cork Institute of Technology', 'Nghiên cứu viên, University of Cambridge', 'Phụ trách MESSI Lab'],
           bio='Trợ lý Giáo sư tại Viện Kỹ thuật và Khoa học Máy tính (CECS), VinUniversity, phụ trách MESSI Lab (Multidisciplinary Exploration for Sustainable Systems and Intelligence). Trước đó thầy là nghiên cứu viên tại Khoa Kỹ thuật, University of Cambridge (2013–2017).',
           edu=['Cử nhân Điện tử, Đại học Quốc gia Hà Nội (2004)', 'Thạc sĩ Điện tử và Bán dẫn, Chungbuk National University, Hàn Quốc (2007)', 'Tiến sĩ Kỹ thuật Điện tử, Cork Institute of Technology, Ireland (2012)'],
@@ -474,8 +492,8 @@ def toc_html(lang, path, key, twin):
      ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
      ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
-     ('04', 'Công bố' if vi_ else 'Publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
-     ('05', 'Người hướng dẫn' if vi_ else 'Mentors', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
+     ('04', 'Công bố' if vi_ else 'Publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS_RANKED] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
+     ('05', 'Người giới thiệu' if vi_ else 'Referees', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('06', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
      ('07', 'Hành trình' if vi_ else 'Journey', r(U['journey']), [((when.split('–')[0] or ('Tiếp' if vi_ else 'Next')), (vi if vi_ else en)[0], r(U['journey']) + f'#stage-{i+1}') for i, (when, vi, en, nx, _) in enumerate(JOURNEY)]),
      ('08', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
@@ -547,6 +565,11 @@ def nobreak(html):
 def write(path, s):
     full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(nobreak(s) if path.endswith('.html') else s)
 
+def nbsp_ph(x):  # giữ các cụm tên riêng không bị ngắt dòng
+    for ph in ('Hòn Mun', 'Ngày hội', 'Chuyển đổi số', 'Cần Giờ', 'Khánh Hòa', 'Hon Mun', 'Can Gio', 'Khanh Hoa', 'AI Creative Valley', 'Research Day', 'Meet & Greet', 'Meet &amp; Greet', 'rừng ngập mặn'):
+        x = x.replace(ph, ph.replace(' ', '&nbsp;'))
+    return x
+
 def guided_html(m, p, lang):
     if not m['guided']: return ''
     vi_ = lang == 'vi'; cards = ''
@@ -593,7 +616,7 @@ for lang in ('vi', 'en'):
         acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '') + ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, [])) + (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
     pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố" if vi_ else "Publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
-                 f'<ol class="plist">{"".join(hpub(*x) for x in sorted(PUBS, key=lambda x: next((i for i, w in enumerate(RANKED) if w["slug"] == x[7]), 99))[:3])}</ol></div></section>')
+                 f'<ol class="plist">{"".join(hpub(*x) for x in PUBS_RANKED[:3])}</ol></div></section>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
     def hcard(st):
         iso, dd, pv, pe, tv, te, sv, se, ims, src, tags = st
@@ -612,7 +635,7 @@ for lang in ('vi', 'en'):
         return (f'<a class="mc reveal" href="{href}"><span class="mc-av">{av}</span><span class="mc-b"><span class="mc-n">{E(d["name"])}</span>'
                 + f'<span class="mc-t">{nb(E(MENTOR_CARD[m["slug"]][0][0 if vi_ else 1]))}</span><span class="mc-r">' + '<br>'.join(f'{E(rv if vi_ else re_)}<br><span class="mc-w">{nb(E(pl))} · <span class="nw">{y0}–{y1 or ("nay" if vi_ else "present")}</span></span>' for rv, re_, pl, y0, y1 in MENTOR_CARD[m['slug']][1]) + '</span>'
                 + '</span></a>')
-    mentor_html = f'<section class="mentors" id="mentors" data-toc="05"><div class="wrap">{sec_head("05", "Người hướng dẫn" if vi_ else "Mentors")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
+    mentor_html = f'<section class="mentors" id="mentors" data-toc="05"><div class="wrap">{sec_head("05", "Người giới thiệu" if vi_ else "Referees")}<div class="mgrid">{"".join(mcard(m) for m in MENTORS)}</div></div></section>'
     three = f'<script src="{rel(p, "assets/three.min.js")}"></script><script src="{rel(p, "assets/journey3d.js")}?v={VER}"></script>'
     body = f'''<section class="hero" id="about" data-toc="01"><div class="wrap"><div class="hero-grid"><div class="hero-l">
 <div class="hello">{t['hello']}</div>
@@ -726,7 +749,7 @@ for lang in ('vi', 'en'):
         acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, []))
         acts += (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
-    lis = ''.join(pub(*x) for x in PUBS)
+    lis = ''.join(pub(*x) for x in PUBS_RANKED)
     write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="plist">{lis}</ol></div></section>'))
     # ---- trang người hướng dẫn ----
     for m in MENTORS:
@@ -750,11 +773,24 @@ for lang in ('vi', 'en'):
                 w_, h_ = _I.open(os.path.join(ROOT, 'assets/hl', x + '.webp')).size; return w_ / h_
             except Exception: return 4 / 3
         def btn(x): a_ = ar(x); return f'<button type="button" class="hg-i{' pt' if a_ < 1 else ''}" data-cap="{'Xem ảnh lớn ↗' if lang == 'vi' else 'View full size ↗'}" style="--ar:{a_:.4f}" data-full="{rel(p, "assets/hl/" + x + ".webp")}"><img src="{rel(p, "assets/hl/" + x + ".webp")}" alt="" loading="lazy"></button>'
-        im = ''.join(btn(x) for x in ims)
+        # cụm ảnh: chia thành các hàng cao bằng nhau, mỗi hàng kín bề ngang -> cả cụm là một hình chữ nhật
+        ars = [ar(x) for x in ims]; T_ = 3.4
+        k_ = 1 if len(ims) <= 3 else max(1, round(sum(ars) / T_))
+        best = None
+        import itertools
+        for cuts in itertools.combinations(range(1, len(ims)), k_ - 1):
+            rows_ = [ars[i:j] for i, j in zip((0,) + cuts, cuts + (len(ims),))]
+            if any(len(r_) < 2 for r_ in rows_) and len(ims) > 1: continue
+            sc = max(abs(sum(r_) - sum(ars) / k_) for r_ in rows_)
+            if best is None or sc < best[0]: best = (sc, cuts)
+        cuts = best[1] if best else ()
+        rows_html = ''.join('<div class="hgm-r">' + ''.join(btn(x) for x in ims[i:j]) + '</div>' for i, j in zip((0,) + cuts, cuts + (len(ims),)))
         tg = ''.join(f'<span>{E(x if lang == "vi" else TAG_EN.get(x, x))}</span>' for x in tags)
         sl = ''.join(f'<a href="{u}" rel="noopener">{"Bài gốc" if lang == "vi" else "Original post"} · {E(n)} <i>↗</i></a>' for n, u in src)
-        return (f'<article class="hs reveal" id="{ims[0].split("_")[0]}"><div class="hb"><div class="hb-l"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div><h3>{E(tv if lang == "vi" else te)}</h3><div class="ht">{tg}</div></div>'
-                f'<div class="hb-r"><p>{E(sv if lang == "vi" else se)}</p><div class="hsrc">{sl}</div></div></div><div class="hg n{len(ims)}">{im}</div></article>')
+        txt = ''.join((f'<p class="note">{E(x[1:])}</p>' if x.startswith('~') else f'<p>{E(x)}</p>') for x in (sv if lang == "vi" else se).split('\n\n'))
+        return (f'<article class="hs2 reveal" id="{ims[0].split("_")[0]}"><header class="hs2-h"><div class="hm"><time datetime="{iso}">{dd}</time><span>{E(pv if lang == "vi" else pe)}</span></div>'
+                f'<h3>{nbsp_ph(E(tv if lang == "vi" else te))}</h3><div class="ht">{tg}</div></header>'
+                f'<div class="hs2-b"><div class="hs2-t">{txt}</div><div class="hsrc">{sl}</div></div><div class="hgm">{rows_html}</div></article>')
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)
     body = head(t['h_hl'], t['s_hl']) + f'<section class="hl-wrap"><div class="wrap"><div class="hl-list">{"".join(story(x) for x in sts)}</div></div></section><div class="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><img alt=""></div>'
     write(p, shell(lang, 'hl', p, t['hl'] + ' · Aaron', body))
