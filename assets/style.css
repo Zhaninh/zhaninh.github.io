@@ -1434,3 +1434,6 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .plist.wl.kids li{grid-template-columns:minmax(0,220px) minmax(0,1fr);padding:28px 0}
 .plist.wl.kids .t{font-size:clamp(19px,1.6vw,22px)}
 @media (max-width:760px){.plist.wl.kids li{grid-template-columns:minmax(0,1fr)}}
+.x-mine{display:block;margin-top:14px;font:500 12px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--leaf)}
+.x-s.mine{position:relative}
+.x-s.mine::before{content:"";position:absolute;left:0;top:-1px;width:64px;height:2px;background:var(--leaf)}
