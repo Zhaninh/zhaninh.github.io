@@ -44,12 +44,12 @@ T = {  # chuỗi giao diện
             h_hl='Highlights', s_hl='Field trips, events and moments along the way. Every photo comes with its story.', h_pubs='Publications', s_pubs='Author order as listed by the publisher or repository.',
             h_about='About', s_about='I work on applied AI and am on my way to becoming a researcher and university lecturer.'),
 }
-URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', mdir='referees/'),  # tiếng Anh là mặc định (ở gốc)
-       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', mdir='vi/nguoi-gioi-thieu/')}
+URL = {'en': dict(home='index.html', journey='journey.html', work='work.html', pubs='publications.html', hl='highlights.html', about='about.html', notes='notes.html', workdir='work/', pubdir='publications/', mdir='referees/'),  # tiếng Anh là mặc định (ở gốc)
+       'vi': dict(home='vi/index.html', journey='vi/hanh-trinh.html', work='vi/cong-viec.html', pubs='vi/cong-bo.html', hl='vi/dau-an.html', about='vi/gioi-thieu.html', notes='vi/ghi-chep.html', workdir='vi/cong-viec/', pubdir='vi/cong-bo/', mdir='vi/nguoi-gioi-thieu/')}
 
 WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu lên trang chủ
 
- dict(slug='ntcoral', impact=dict(status='in_prep', role='first', active=True), star=True, title='NTCoral', year='2025–',
+ dict(slug='ntcoral', project='coralcons', impact=dict(status='in_prep', role='first', active=True), star=True, title='NTCoral', year='2025–',
   vi=dict(sub='Bộ dữ liệu ảnh rạn san hô Việt Nam, trích từ video khảo sát dưới nước và được gán nhãn cùng chuyên gia sinh học biển.',
           dek='Bộ dữ liệu ảnh rạn san hô Việt Nam có nhãn và mặt nạ phân vùng được kiểm chứng',
           role='Phụ trách dữ liệu; tác giả thứ nhất của bài báo đang chuẩn bị', where='GREEN-X, VinUniversity', status='Đang thực hiện',
@@ -65,7 +65,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('What I do', [], ['Lead the pipeline from survey video to images: video review, frame selection, quality checks.', 'Design frame selection: remove near-duplicates, screen quality, keep coverage across survey sites.', 'Prepare data and workflow for expert annotation.']),
                 ('Pipeline', [], ['Survey video', 'Frame selection', 'Quality checks', 'Masks and genus labels', 'Expert verification', 'Open dataset'])]),
   links=[]),
- dict(slug='vlr', impact=dict(status='preprint', role='coauthor', dataset=True, dois=['10.22541/au.177368999.91959735/v1', '10.5281/zenodo.19709456'], zenodo=['19709456']), star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
+ dict(slug='vlr', project='fpt', impact=dict(status='preprint', role='coauthor', dataset=True, dois=['10.22541/au.177368999.91959735/v1', '10.5281/zenodo.19709456'], zenodo=['19709456']), star=False, title_vi='Nhận dạng tiếng nói qua khẩu hình tiếng Việt', title_en='Vietnamese lip reading', year='2024–2026',
   vi=dict(sub='Tiếng Việt có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. VLR là bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, kèm một quy trình cải tiến đưa tỉ lệ lỗi từ xuống 29,5%.', dek='Bộ dữ liệu và quy trình nhận dạng tiếng nói qua hình ảnh cho tiếng Việt', teaser_cap='Quy trình xây dựng VLR: tách âm thanh và hình; Whisper nhận dạng lời thoại theo từng từ; MediaPipe tìm khuôn mặt rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.', stats=[('116.000', 'đoạn video'), ('198', 'giờ nói'), ('1.794', 'video nguồn'), ('29,5%', 'WER tốt nhất')],
           role='Tìm nguồn dữ liệu và thực nghiệm mô hình cơ sở; khóa luận tốt nghiệp', where='Đại học FPT · VSB – Đại học Kỹ thuật Ostrava (Cộng hoà Séc) · Đại học Mở TP. Hồ Chí Minh', status='Tiền ấn phẩm · Dữ liệu trên Zenodo',
           body=[('Đặt vấn đề', ['Đọc khẩu hình (nhận dạng tiếng nói qua hình ảnh) là bài toán chuyển chuyển động môi, hàm và nét mặt thành chữ, không cần âm thanh. Kỹ thuật này có thể hỗ trợ người khiếm thính và người mất khả năng phát âm.', 'Tiếng Việt khó với bài toán này: có sáu thanh điệu, nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Trước VLR, tiếng Việt chưa có bộ dữ liệu đọc khẩu hình quy mô lớn.'], []),
@@ -102,7 +102,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
   doi     = {10.22541/au.177368999.91959735/v1}
 }''',
   links=[('Zenodo', 'https://doi.org/10.5281/zenodo.19709456'), ('Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1')]),
- dict(slug='aquaculture', impact=dict(status='under_review', role='coauthor', dois=['10.13140/RG.2.2.24130.95688']), star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
+ dict(slug='aquaculture', project='marine', impact=dict(status='under_review', role='coauthor', dois=['10.13140/RG.2.2.24130.95688']), star=False, title_vi='Ra quyết định tự động trong nuôi trồng thuỷ sản thông minh', title_en='Autonomous decision-making in smart aquaculture', year='2026',
   teaser='aq_suda',
   vi=dict(sub='Một bài tổng quan cấp hệ thống, xếp các nghiên cứu nuôi trồng thuỷ sản thông minh theo khung Cảm nhận – Hiểu – Quyết định – Hành động (SUDA), từ giám sát thụ động đến điều khiển vòng kín.',
           dek='From Monitoring to Action: tổng quan về ra quyết định tự động trong nuôi trồng thuỷ sản thông minh',
@@ -136,7 +136,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
   doi     = {10.13140/RG.2.2.24130.95688}
 }''',
   links=[('Preprint', 'https://doi.org/10.13140/RG.2.2.24130.95688')]),
- dict(slug='vnplant', impact=dict(status='unpublished', role='core'), star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
+ dict(slug='vnplant', project='fpt', impact=dict(status='unpublished', role='core'), star=False, title_vi='Phân loại cây thuốc Việt Nam', title_en='Vietnamese medicinal plant classification', year='2025',
   vi=dict(sub='Đánh giá nhiều mô hình học sâu trên bộ ảnh 255 loài cây thuốc Việt Nam.', role='Huấn luyện và đánh giá mô hình', where='Đại học FPT · cùng Đàm Nguyễn Quỳnh Hoa và Phạm Thị Thảo Nguyên', status='Dự án nhóm, không công bố',
           body=[('Bối cảnh', ['VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021) là bộ ảnh công khai đầu tiên về 200 loài cây thuốc Việt Nam. Nhóm chúng tôi mở rộng bộ này thành VNPlant-255: thêm 55 loài, tổng cộng khoảng 34.800 ảnh chụp ngoài thực địa, với ánh sáng, nền và góc chụp thay đổi tự nhiên.', 'Mục tiêu là một bộ chuẩn đánh giá cho bài toán phân loại chi tiết: so sánh mạng tích chập, Transformer, mô hình lai và mô hình gọn nhẹ trong cùng một cấu hình.'], []),
                 ('Cách đánh giá', [], ['Chia 80/10/10 cho huấn luyện, kiểm định, kiểm thử, giữ tỉ lệ từng loài.', 'Cùng độ phân giải 224 px, cùng kích thước lô, 20 epoch cho mọi mô hình.', 'Ghi lại độ chính xác, số tham số và chi phí tính toán để xét khả năng triển khai.']),
@@ -148,7 +148,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('What I did', [], ['Trained and evaluated seven model families: ConvNeXtV2-Tiny, MaxViT-Tiny, CoAtNet-0, SwinV2-Tiny, Xception, Xception with MIGT, and YOLOv8 classification.', 'Managed the team’s data, weights and training logs on Kaggle.']),
                 ('Note', ['The team decided not to publish the paper. Images of the original 200 species belong to VNPlant-200 and are not redistributed here.'], [])]),
   links=[]),
- dict(slug='marine', impact=dict(status='system', role='support', active=True), star=False, title_vi='Nuôi biển thông minh', title_en='Smart marine aquaculture', year='2025–',
+ dict(slug='marine', kind='project', impact=dict(status='system', role='support', active=True), star=False, title_vi='Nuôi biển thông minh', title_en='Smart marine aquaculture', year='2025–',
   vi=dict(sub='Hệ thống giám sát tự động cho nuôi biển: camera dưới nước, thuỷ âm và cảm biến chất lượng nước, triển khai từ phòng thí nghiệm đến lồng nuôi ngoài khơi.',
           dek='Giám sát nuôi biển bằng AI tại biên, từ bể thí nghiệm đến lồng nổi ở vịnh Nha Phu',
           stats=[('4', 'giai đoạn triển khai'), ('5', 'thông số chất lượng nước'), ('5', 'đơn vị đối tác')],
@@ -166,7 +166,7 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('Deployment phases', [], ['05.2025: lab trials at the Vietnam National University of Agriculture, Hanoi.', '08.2025: indoor raceways at the Research Institute for Aquaculture I, Hai Phong.', '03.2026: offshore floating cages in Nha Phu Bay, Nha Trang.', '05.2026: outdoor circular tanks at the Research Institute for Aquaculture III, Nha Trang.']),
                 ('What I did', [], ['Supported web and app interface design.', 'Supported VPN setup for the system infrastructure.'])]),
   links=[('Chi tiết dự án', 'https://hoang-pm-7604119.github.io/myself/projects/smart-marine-aquaculture/')]),
- dict(slug='coralcons', impact=dict(status='system', role='support', active=True), star=False, title_vi='Giám sát bảo tồn rạn san hô vịnh Nha Trang', title_en='Coral reef conservation monitoring, Nha Trang Bay', year='2025–',
+ dict(slug='coralcons', kind='project', impact=dict(status='system', role='support', active=True), star=False, title_vi='Giám sát bảo tồn rạn san hô vịnh Nha Trang', title_en='Coral reef conservation monitoring, Nha Trang Bay', year='2025–',
   vi=dict(sub='Trạm quan trắc chạy bằng điện mặt trời và cụm cảm biến đặt tại rạn san hô, ghi liên tục chất lượng nước để phát hiện sớm điều kiện gây tẩy trắng.',
           dek='Quan trắc liên tục rạn san hô bằng trạm năng lượng mặt trời và cảm biến dưới nước',
           stats=[('24/7', 'ghi dữ liệu liên tục'), ('5', 'thông số chất lượng nước'), ('4', 'đơn vị đối tác')],
@@ -182,7 +182,33 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
                 ('The system', [], ['Sensor clusters at reef depth: dissolved oxygen, temperature, pH, salinity, turbidity.', 'A solar station on a navigation beacon, with IP68-sealed housings.', 'Encrypted cellular telemetry gives real-time feeds to scientists and park rangers.', 'Underwater and drone imagery is georeferenced with the water-quality data.']),
                 ('What I did', [], ['Supported web and app interface design.', 'Supported VPN setup for the system infrastructure.'])]),
   links=[('Chi tiết dự án', 'https://hoang-pm-7604119.github.io/myself/projects/coral-reef-conservation-nha-trang/')]),
- dict(slug='aneurysm', impact=dict(status='published', role='coauthor', dois=['10.1201/9781003667360-21']), star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
+ dict(slug='fpt', kind='project', impact=dict(status='system', role='core'), star=False, title_vi='Nghiên cứu AI tại Đại học FPT', title_en='AI research at FPT University', year='2023–2025',
+  vi=dict(sub='Những năm cuối đại học, tôi tham gia các nhóm nghiên cứu của Khoa Trí tuệ Nhân tạo, Đại học FPT, với hai hướng chính: nhận dạng tiếng nói qua khẩu hình cho tiếng Việt và phân loại cây thuốc Việt Nam.',
+          dek='Hai hướng dữ liệu cho bài toán của Việt Nam: đọc khẩu hình tiếng Việt và nhận dạng cây thuốc',
+          role='Thành viên nhóm nghiên cứu; đồ án tốt nghiệp về đọc khẩu hình', where='Khoa Trí tuệ Nhân tạo, Đại học FPT, TP. Hồ Chí Minh', status='Đã hoàn thành',
+          body=[('Bối cảnh', ['Nhiều bài toán thị giác máy tính đã có lời giải tốt trên dữ liệu tiếng Anh hay hệ thực vật phương Tây, nhưng còn thiếu dữ liệu cho tiếng Việt và cho thiên nhiên Việt Nam. Hai hướng nghiên cứu dưới đây cùng bắt đầu từ khoảng trống đó: xây bộ dữ liệu trước, rồi đánh giá xem các mô hình hiện đại làm được đến đâu.'], []),
+                ('Đọc khẩu hình tiếng Việt', ['Đồ án tốt nghiệp của tôi. Tiếng Việt có sáu thanh điệu, trong khi nhiều âm tiết khác thanh lại gần như cùng khẩu hình. Nhóm xây dựng VLR, bộ dữ liệu khoảng 116.000 đoạn video từ YouTube tiếng Việt, và cải tiến quy trình nhận dạng đến tỉ lệ lỗi từ 29,5%. Bộ dữ liệu được công bố trên Zenodo, kèm một tiền ấn phẩm.'], []),
+                ('Phân loại cây thuốc Việt Nam', ['Tiếp nối VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021), nhóm mở rộng thành VNPlant-255 với 255 loài, rồi đánh giá nhiều họ mô hình phân loại trong cùng một cấu hình. Bài viết dừng ở dạng bản thảo.'], [])]),
+  en=dict(sub='In my final university years I worked with research groups of the Department of Artificial Intelligence, FPT University, on two directions: visual speech recognition for Vietnamese and Vietnamese medicinal plant classification.',
+          dek='Two data-first directions for Vietnamese problems: lip reading and medicinal plant recognition',
+          role='Research group member; capstone on lip reading', where='Department of Artificial Intelligence, FPT University, Ho Chi Minh City', status='Completed',
+          body=[('Context', ['Many vision problems are well solved on English speech or Western flora, yet data for Vietnamese and Vietnamese nature is scarce. Both directions below start from that gap: build the dataset first, then measure how far modern models go.'], []),
+                ('Vietnamese lip reading', ['My capstone. Vietnamese has six tones, while many syllables that differ in tone look almost the same on the lips. The team built VLR, about 116,000 clips from Vietnamese YouTube, and refined recognition to a 29.5% word error rate. The dataset is public on Zenodo, with a preprint.'], []),
+                ('Vietnamese medicinal plants', ['Building on VNPlant-200 (Nguyen Quoc Trung and Truong Hoang Vinh, 2021), the team extended it to VNPlant-255 with 255 species and benchmarked many model families under one setup. The write-up remained a manuscript.'], [])]),
+  links=[]),
+ dict(slug='vinbigdata', kind='project', impact=dict(status='system', role='core'), star=False, title_vi='AI cho chẩn đoán hình ảnh tại VinBigData', title_en='AI for medical imaging at VinBigData', year='2025–2026',
+  vi=dict(sub='Chương trình đào tạo chuyên sâu về thị giác máy tính, xử lý ngôn ngữ tự nhiên, AI tạo sinh và MLOps tại VinBigData, gắn với một đề tài thực tế: phát hiện phình động mạch nội sọ trên ảnh mạch máu não.',
+          dek='Học sâu cho ảnh y khoa ba chiều, từ chương trình đào tạo đến một chương sách',
+          role='Chuyên viên công nghệ, nhánh nghiên cứu AI', where='VinBigData, Hà Nội', status='Đã hoàn thành',
+          body=[('Bối cảnh', ['VinBigData là đơn vị nghiên cứu và phát triển dữ liệu lớn và AI của Vingroup. Nhánh nghiên cứu AI kết hợp đào tạo chuyên sâu với các đề tài có dữ liệu thật, trong đó y tế là một hướng trọng tâm.'], []),
+                ('Đề tài phình động mạch nội sọ', ['Túi phình nhỏ trên ảnh CTA, MRA hay MRI dễ bị bỏ sót. Đề tài đề xuất một quy trình hai giai đoạn trên bộ dữ liệu RSNA Intracranial Aneurysm: phân vùng các vùng mạch máu nghi ngờ bằng 3D U-Net, rồi phân loại từng khối 3D để xác định túi phình và vị trí giải phẫu. Kết quả được xuất bản thành một chương sách của CRC Press.'], [])]),
+  en=dict(sub='An intensive programme in computer vision, natural language processing, generative AI and MLOps at VinBigData, tied to a real problem: detecting intracranial aneurysms on brain vascular imaging.',
+          dek='Deep learning for 3D medical imaging, from a training programme to a book chapter',
+          role='Technology Specialist, AI research track', where='VinBigData, Hanoi', status='Completed',
+          body=[('Context', ['VinBigData is Vingroup’s big-data and AI research and development unit. Its AI research track combines intensive training with projects on real data, with healthcare as a key direction.'], []),
+                ('Intracranial aneurysm project', ['Small aneurysms on CTA, MRA or MRI are easy to miss. The project proposes a two-stage pipeline on the RSNA Intracranial Aneurysm dataset: a 3D U-Net segments candidate vascular regions, then each 3D patch is classified for aneurysm presence and anatomical site. The work was published as a CRC Press book chapter.'], [])]),
+  links=[]),
+ dict(slug='aneurysm', project='vinbigdata', impact=dict(status='published', role='coauthor', dois=['10.1201/9781003667360-21']), star=False, title_vi='Phát hiện phình động mạch nội sọ', title_en='Intracranial aneurysm detection', year='2026',
   vi=dict(sub='Phình động mạch nội sọ gặp ở khoảng 3% dân số và dễ bị bỏ sót khi nhỏ. Chương sách đề xuất một quy trình học sâu hai giai đoạn để phát hiện và định vị túi phình trên ảnh mạch máu não.',
           dek='Quy trình học sâu nhiều giai đoạn trên dữ liệu RSNA Intracranial Aneurysm',
           stats=[('~3%', 'dân số có phình mạch nội sọ'), ('2', 'giai đoạn'), ('3D', 'CTA · MRA · MRI'), ('15', 'trang chương sách')],
@@ -209,6 +235,10 @@ WORK = [  # rank: thứ hạng 'độ mạnh' của dự án; 4 dự án đầu 
 ]
 
 
+def wurl(slug, lang):  # dự án -> thư mục dự án; công bố -> thư mục công bố
+    w = next((x for x in WORK if x['slug'] == slug), {})
+    return URL[lang]['workdir' if w.get('kind') == 'project' else 'pubdir'] + slug + '.html'
+
 # ---- thứ hạng dự án: tính tự động từ trạng thái, vai trò và số liệu tác động (data/metrics.json) ----
 SCORE_W = dict(
     status={'published': 3.0, 'under_review': 2.0, 'preprint': 1.5, 'in_prep': 1.0, 'system': 1.0, 'unpublished': 0.0},
@@ -231,9 +261,17 @@ def impact_score(w):
             + W_['citations'] * math.log1p(m.get('citations', 0)) + W_['downloads'] * math.log1p(m.get('downloads', 0) / 100)
             + W_['stars'] * math.log1p(m.get('stars', 0)) + im.get('pin', 0))
 
-RANKED = sorted(WORK, key=impact_score, reverse=True)
+RANKED = sorted([w for w in WORK if w.get('kind') != 'project'], key=impact_score, reverse=True)  # công bố
 
-PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, dự án)
+def project_score(w):  # dự án = điểm của chính nó + điểm công bố mạnh nhất thuộc nó
+    kids = [impact_score(x) for x in WORK if x.get('project') == w['slug']]
+    return impact_score(w) + (max(kids) if kids else 0)
+
+PROJ_RANKED = sorted([w for w in WORK if w.get('kind') == 'project'], key=project_score, reverse=True)
+
+PUBS = [  # (năm, star, tiêu đề, tác giả, nơi_vi, nơi_en, link, công bố)
+ ('2026', False, 'NTCoral (tên bài đang hoàn thiện)', f'{ME}, et al.', 'Đang chuẩn bị', 'In preparation', None, 'ntcoral'),
+ ('2025', False, 'VNPlant-255: A Curated Image Dataset of Vietnamese Medicinal Plant Species with Baseline Model Benchmarks', f'D. N. Q. Hoa, {ME}, P. T. T. Nguyen', 'Bản thảo, không công bố', 'Unpublished manuscript', None, 'vnplant'),
  ('2026', False, 'A Multistage Deep Learning Approach for Intracranial Aneurysm Detection', f'N. P. T. Thao, {ME}, T. N. Quoc, V. T. Hoang', 'Chương sách, Intelligent Precision Healthcare, CRC Press, tr. 287–301', 'Book chapter, Intelligent Precision Healthcare, CRC Press, pp. 287–301', 'https://doi.org/10.1201/9781003667360-21', 'aneurysm'),
  ('2026', False, 'From Monitoring to Action: A Comprehensive Survey of Autonomous Decision-Making in Smart Aquaculture Systems', f'Q.-H. N. Dam, P. H. Nguyen, M. P. Tran, C.-S. Trinh, T. T. Nguyen, {ME}, et al.', 'Tiền ấn phẩm; đang bình duyệt tại Computers and Electronics in Agriculture', 'Preprint; under review at Computers and Electronics in Agriculture', 'https://doi.org/10.13140/RG.2.2.24130.95688', 'aquaculture'),
  ('2026', False, 'A Large-Scale Vietnamese Lip Reading Dataset and Enhanced Recognition Pipeline', f'T. N. Quoc, N. P. T. Thao, {ME}, H. D. N. Quynh, V. T. Hoang, S. Bilik, M. Sindelar, J. Stefansky, R. Martinek, P. Bilik', 'Tiền ấn phẩm', 'Preprint', 'https://doi.org/10.22541/au.177368999.91959735/v1', 'vlr'),
@@ -407,7 +445,7 @@ def stage_json(lang):
     for i, (when, vi, en, nx, icon) in enumerate(JOURNEY):
         d = vi if lang == 'vi' else en
         wk = {w['slug']: w for w in WORK}; L = 0 if lang == 'vi' else 1
-        pj = [dict(slug=s, anchor=a, title=E(tv if lang == 'vi' else te), sub=E(wk[s][lang]['sub']), role=E(wk[s][lang]['role']), when=wk[s]['year'], url='/' + U['workdir'] + s + '.html') for s, a, tv, te in STAGE_PROJECTS.get(i, [])]
+        pj = [dict(slug=s, anchor=a, title=E(tv if lang == 'vi' else te), sub=E(wk[s][lang]['sub']), role=E(wk[s][lang]['role']), when=wk[s]['year'], url='/' + wurl(s, lang)) for s, a, tv, te in STAGE_PROJECTS.get(i, [])]
         def spot(k):
             t = SPOT_TEXT.get(k); 
             if not t: return None
@@ -428,7 +466,7 @@ def proj_parts(w, lang):
 
 def proj_template(w, lang, p):
     t = T[lang]; d = w[lang]; parts, lk = proj_parts(w, lang)
-    return f'''<template id="proj-{w['slug']}"><header class="phead"><div class="mono">{t['p_tag']} · {w['year']}</div><h2>{E(title_of(w, lang))}</h2><p>{E(d['sub'])}</p><div class="pact">{"".join(f'<a href="{u}">{E(nm)}</a>' for nm, u in w['links'])}<a class="alt" href="{rel(p, U['workdir'] + w['slug'] + '.html')}">{t['p_page']}</a></div></header>
+    return f'''<template id="proj-{w['slug']}"><header class="phead"><div class="mono">{t['p_tag']} · {w['year']}</div><h2>{E(title_of(w, lang))}</h2><p>{E(d['sub'])}</p><div class="pact">{"".join(f'<a href="{u}">{E(nm)}</a>' for nm, u in w['links'])}<a class="alt" href="{rel(p, wurl(w['slug'], lang))}">{t['p_page']}</a></div></header>
 <dl class="pmeta"><div><dt>{t['role']}</dt><dd>{E(d['role'])}</dd></div><div><dt>{t['where']}</dt><dd>{E(d['where'])}</dd></div><div><dt>{t['status']}</dt><dd>{E(d['status'])}</dd></div></dl>
 <div class="prose">{parts}</div></template>'''
 
@@ -468,7 +506,7 @@ def about_page(lang, t, U):
     exp = ''.join(f'<div class="ab-r"><span class="ab-d">{w}</span><div><b>{E(v[0])}</b><span>{E(v[1])}</span></div></div>' for w, a, b in EXP for v in [a if vi_ else b])
     def pub(x):
         y, st, tt, au, vv, ve, u, sl = x
-        href = rel(p, U['workdir'] + sl + '.html') if sl else (u or '')
+        href = rel(p, wurl(sl, lang)) if sl else (u or '')
         return f'<div class="ab-r"><span class="ab-d">{y}</span><div><b>{f"<a href={chr(34)}{href}{chr(34)}>{E(tt)}</a>" if href else E(tt)}</b><span class="au">{au}</span><small>{E(vv if vi_ else ve)}</small></div></div>'
     pubs = ''.join(pub(x) for x in PUBS[:3]) + f'<a class="ab-more" href="{rel(p, U["pubs"])}">{"Tất cả công bố" if vi_ else "All publications"} <i>→</i></a>'
     dg = next(m for m in MENTORS if m['slug'] == 'phung-manh-duong')
@@ -487,11 +525,11 @@ def toc_html(lang, path, key, twin):
     U = URL[lang]; vi_ = lang == 'vi'; r = lambda x: rel(path, x)
     home = r(U['home']) or './'
     sts = sorted(STORIES, key=lambda x: x[0], reverse=True)[:3]
-    def nt(tg): return (r(U['hl']) + '#' + tg[1]) if tg[0] == 'hl' else r(U['workdir'] + tg[1] + '.html')
+    def nt(tg): return (r(U['hl']) + '#' + tg[1]) if tg[0] == 'hl' else r(wurl(tg[1], lang))
     rows = [
      ('01', 'Giới thiệu' if vi_ else 'About', r(U['about']), [(f'{i+1:02d}', h, r(U['about']) + '#' + k) for i, (k, h) in enumerate(ABOUT_SECS[lang])]),
      ('02', 'Tin mới' if vi_ else 'News', home + '#news', [(d, nv if vi_ else ne, nt(tg)) for d, nv, ne, tg in NEWS if tg]),
-     ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(U['workdir'] + w['slug'] + '.html')) for w in RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
+     ('03', 'Dự án' if vi_ else 'Projects', home + '#research', [(w['year'].split('–')[0], title_of(w, lang), r(wurl(w['slug'], lang))) for w in PROJ_RANKED[:4]] + [('→', 'Tất cả dự án' if vi_ else 'All projects', r(U['work']))]),
      ('04', 'Công bố' if vi_ else 'Publications', home + '#pubs', [(x[0], next((title_of(w, lang) for w in WORK if w['slug'] == x[7]), x[2]), r(U['pubs'])) for x in PUBS_RANKED] + [('→', 'Tất cả công bố' if vi_ else 'All publications', r(U['pubs']))]),
      ('05', 'Người giới thiệu' if vi_ else 'Referees', home + '#mentors', [(f'{i+1:02d}', m[lang]['name'], r(U['mdir'] + m['slug'] + '.html')) for i, m in enumerate(MENTORS)]),
      ('06', 'Định hướng' if vi_ else 'Direction', home + '#direction', []),
@@ -499,6 +537,7 @@ def toc_html(lang, path, key, twin):
      ('08', 'Dấu ấn' if vi_ else 'Highlights', r(U['hl']), [(x[1], x[4] if vi_ else x[5], r(U['hl']) + '#' + x[8][0].split('_')[0]) for x in sts]),
     ]
     if path.startswith(U['workdir']): cur = '03'
+    elif path.startswith(U['pubdir']): cur = '04'
     elif path.startswith(U['mdir']): cur = '05'
     else: cur = {'journey': '07', 'hl': '08', 'pubs': '04', 'work': '03', 'home': '01', 'about': '01'}.get(key, '')
     names = {n: h for n, h, _, _ in rows}
@@ -518,7 +557,7 @@ def toc_html(lang, path, key, twin):
                f'<div class="toc-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div></div>')
     cn, ct = (cur, names[cur]) if cur else ('', start)
     if cur == '03' and (key == 'work' or path.startswith(U['workdir'])): ct = 'Dự án' if vi_ else 'Projects'
-    if cur == '04' and key == 'pubs': ct = 'Công bố' if vi_ else 'Publications'
+    if cur == '04' and (key == 'pubs' or path.startswith(U['pubdir'])): ct = 'Công bố' if vi_ else 'Publications'
     return (f'<header class="nav"><a class="brand" href="{home}"><img src="{r("assets/clover.svg")}" alt="">Aaron</a>'
             f'<div class="toc" data-home="{E(start)}" data-names="{E(json.dumps(names, ensure_ascii=False))}">'
             f'<button type="button" class="pill" aria-expanded="false" aria-controls="tocpanel" aria-label="{T[lang]["menu"]}">'
@@ -531,6 +570,7 @@ def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
     # trang tương ứng ở ngôn ngữ kia
     if path.startswith(URL[lang]['workdir']): twin = URL[other]['workdir'] + os.path.basename(path)
+    elif path.startswith(URL[lang]['pubdir']): twin = URL[other]['pubdir'] + os.path.basename(path)
     elif path.startswith(URL[lang]['mdir']): twin = URL[other]['mdir'] + os.path.basename(path)
     else: twin = URL[other][key]
     a = lambda p: rel(path, p)
@@ -574,7 +614,7 @@ def guided_html(m, p, lang):
     if not m['guided']: return ''
     vi_ = lang == 'vi'; cards = ''
     for sl, hv, he in m['guided']:
-        w = next(x for x in WORK if x['slug'] == sl); href = rel(p, URL[lang]['workdir'] + sl + '.html')
+        w = next(x for x in WORK if x['slug'] == sl); href = rel(p, wurl(sl, lang))
         cov = next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
         img = f'<span class="gd-img"><img src="{rel(p, cov)}" alt="" loading="lazy"></span>' if cov else ''
         cards += (f'<a class="gd" href="{href}">{img}<span class="gd-b"><span class="gd-y">{w["year"]}</span><span class="gd-t">{E(title_of(w, lang))}</span>'
@@ -599,21 +639,21 @@ for lang in ('vi', 'en'):
         return f'<div class="shead reveal"><div class="sh-t"><span class="sh-n">{k}</span><i aria-hidden="true"></i><h2>{h}</h2></div>{m}</div>'
     def target(tg):
         if not tg: return None
-        return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, U['workdir'] + tg[1] + '.html')
+        return rel(p, U['hl']) + '#' + tg[1] if tg[0] == 'hl' else rel(p, wurl(tg[1], lang))
     nl = ''.join((f'<li class="reveal"><time>{d}</time>' + (f'<a href="{target(tg)}">{E(nv if vi_ else ne)} <i>→</i></a>' if tg else f'<span>{E(nv if vi_ else ne)}</span>') + '</li>') for d, nv, ne, tg in NEWS)
     news_html = f'<section class="news" id="news" data-toc="02"><div class="wrap">{sec_head("02", "Tin mới" if vi_ else "News")}<ul class="nlist">{nl}</ul></div></section>'
     def rcard(w, big=False):
-        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); c = cov(w['slug'])
-        img = f'<span class="rc-img{" fit" if w["slug"] in ("vlr", "vnplant") else ""}" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
+        d = w[lang]; href = rel(p, wurl(w['slug'], lang)); c = cov(w['slug'])
+        img = f'<span class="rc-img{" fit" if w["slug"] in ("vlr", "vnplant", "marine", "coralcons", "fpt", "vinbigdata", "aneurysm") else ""}" data-cap="{'Xem dự án →' if vi_ else 'View project →'}"><img src="{rel(p, c)}" alt="" loading="lazy"></span>' if c else ''
         return (f'<a class="rc reveal{" big" if big else ""}" href="{href}">{img}<span class="rc-b"><span class="rc-m"><b>{w["year"]}</b><em>{E(d["status"])}</em></span>'
                 f'<span class="rc-t">{E(title_of(w, lang))}</span><span class="rc-s">{E(d["sub"])}</span><span class="rc-r">{E(d["role"])}</span><span class="rc-go">{"Trang dự án" if vi_ else "Project page"} →</span></span></a>')
-    top = RANKED[:4]; f = top[0]; others = top[1:]
+    top = PROJ_RANKED[:4]; f = top[0]; others = top[1:]
     research_html = (f'<section class="research" id="research" data-toc="03"><div class="wrap">{sec_head("03", "Dự án" if vi_ else "Projects", (rel(p, U["work"]), "Tất cả dự án" if vi_ else "All projects"))}'
                      f'{rcard(f, True)}<div class="rgrid">{"".join(rcard(w) for w in others)}</div></div></section>')
     def hpub(y, st, ti, au, vv, ve, u, sl):
-        href = rel(p, U['workdir'] + sl + '.html') if sl else None
+        href = rel(p, wurl(sl, lang)) if sl else None
         tt = f'<a class="t" href="{u}" rel="noopener">{E(ti)}</a>' if u else f'<span class="t">{E(ti)}</span>'
-        acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '') + ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, [])) + (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
+        acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '') + ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, [])) + (f'<a href="{href}">{"Chi tiết" if vi_ else "Details"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
     pubs_home = (f'<section class="pubhome" id="pubs" data-toc="04"><div class="wrap">{sec_head("04", "Công bố" if vi_ else "Publications", (rel(p, U["pubs"]), "Tất cả công bố" if vi_ else "All publications"))}'
                  f'<ol class="plist">{"".join(hpub(*x) for x in PUBS_RANKED[:3])}</ol></div></section>')
@@ -658,7 +698,7 @@ for lang in ('vi', 'en'):
     write(p, shell(lang, 'home', p, ('Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)') + ' · ' + t['myrole'], body, three))
     # ---- hành trình ----
     p = U['journey']
-    lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, U['workdir'] + s + '.html')}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
+    lis = ''.join(f'<li class="reveal{" next" if nx else ""}"><div class="mono">{E(when)}</div><div><h3>{E((vi if lang == "vi" else en)[0])}</h3>{"".join(f"<p>{E(x)}</p>" for x in (vi if lang == "vi" else en)[1:])}{"".join(f"<p><a class=link href={rel(p, wurl(s, lang))}>{E(tv if lang == 'vi' else te)}</a></p>" for s, a, tv, te in STAGE_PROJECTS.get(i, []))}</div></li>' for i, (when, vi, en, nx, _) in enumerate(JOURNEY))
     wmap = {w['slug']: w for w in WORK}
     tpls = ''.join(proj_template(wmap[s], lang, p) for i in sorted(STAGE_PROJECTS) for s, a, tv, te in STAGE_PROJECTS[i])
     j3d = f'''<section class="j3d" data-j3d="full" style="--n:9" data-stage="{t['p_stage']}" data-more="{t['more']}" data-less="{t['less']}" data-bump="{t['bump']}" data-unknown="{t['unknown']}" data-future="{E(json.dumps([f[0 if lang == 'vi' else 1] for f in FUTURE], ensure_ascii=False))}" data-pin="{t['p_in']}" data-tag="{t['p_tag']}" {'data-sp-proj="Dự án" data-sp-ms="Cột mốc" data-sp-mine="Phần việc của tôi" data-sp-open="Trang dự án" data-sp-story="Đọc câu chuyện" data-sp-back="Về giai đoạn"' if lang == 'vi' else 'data-sp-proj="Project" data-sp-ms="Milestone" data-sp-mine="My part" data-sp-open="Project page" data-sp-story="Read the story" data-sp-back="Back to stage"'} data-stages="{stage_json(lang)}"><div class="j3d-sticky"><canvas></canvas><div class="j3d-labels"></div>
@@ -670,7 +710,7 @@ for lang in ('vi', 'en'):
     p = U['work']
     onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
     def pcard(w):
-        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html')
+        d = w[lang]; href = rel(p, wurl(w['slug'], lang))
         jl = f'<a class="pc-j" href="{rel(p, U["journey"])}#{w["slug"]}">{"Xem trên hành trình" if lang == "vi" else "See it on the journey"} <i>↗</i></a>' if w['slug'] in onj else ''
         cov = next((f'assets/projects/{w["slug"]}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{w["slug"]}.{x}'))), None)
         cv = f'<a class="pc-cover" data-cap="{'Xem dự án →' if lang == 'vi' else 'View project →'}" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, cov)}" alt="" loading="lazy"></a>' if cov else ''
@@ -680,7 +720,7 @@ for lang in ('vi', 'en'):
                 f'<div class="pc-act"><a class="pc-go" href="{href}">{"Chi tiết dự án" if lang == "vi" else "Project page"} <i>→</i></a>{jl}</div></article>')
     vi_w = lang == 'vi'
     def wrow(w):
-        d = w[lang]; href = rel(p, U['workdir'] + w['slug'] + '.html'); pb_ = next((x for x in PUBS if x[7] == w['slug']), None)
+        d = w[lang]; href = rel(p, wurl(w['slug'], lang)); pb_ = next((x for x in PUBS if x[7] == w['slug']), None)
         acts = f'<a href="{href}">{"Trang dự án" if vi_w else "Project page"} <i>→</i></a>'
         if pb_ and pb_[6]: acts += f'<a href="{pb_[6]}" rel="noopener">{"Bài báo" if vi_w else "Paper"} <i>↗</i></a>'
         acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_w else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(w['slug'], []))
@@ -688,12 +728,12 @@ for lang in ('vi', 'en'):
         im = f'<a class="wl-img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{rel(p, c)}" alt="" loading="lazy"></a>' if c else '<span class="wl-img"></span>'
         return (f'<li class="reveal">{im}<div><span class="py mono">{w["year"]}</span><a class="t" href="{href}">{E(title_of(w, lang))}</a>'
                 f'<div class="s">{E(d["sub"])}</div><div class="v">{E(d["status"])} · {E(d["role"])}</div><div class="pl-acts">{acts}</div></div></li>')
-    body_w = (head('Dự án' if vi_w else 'Projects', 'Các dự án nghiên cứu và dữ liệu tôi đã và đang tham gia. Thứ tự được cập nhật tự động hằng tuần theo trạng thái công bố, vai trò, số trích dẫn và lượt tải dữ liệu. Dự án nào có bài báo thì được liệt kê thêm ở trang Công bố.' if vi_w else 'Research and data projects I have worked on. The order updates weekly from publication status, role, citations and dataset downloads. Projects that produced a paper are also listed under Publications.')
-              + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in RANKED)}</ol></div></section>')
+    body_w = (head('Dự án' if vi_w else 'Projects', 'Các chương trình nghiên cứu tôi đã và đang tham gia. Mỗi dự án có thể có nhiều công bố; từng công bố có trang riêng ở mục Công bố. Thứ tự được cập nhật tự động hằng tuần.' if vi_w else 'Research programmes I have worked on. A project can hold several publications, each with its own page under Publications. The order updates weekly.')
+              + f'<section><div class="wrap"><ol class="plist wl">{"".join(wrow(w) for w in PROJ_RANKED)}</ol></div></section>')
     write(p, shell(lang, 'work', p, ('Dự án' if vi_w else 'Projects') + ' · Aaron', body_w))
     onj = {sl for i in STAGE_PROJECTS for sl, *_ in STAGE_PROJECTS[i]}
     for w in WORK:
-        d = w[lang]; p = U['workdir'] + w['slug'] + '.html'; vi_ = lang == 'vi'
+        d = w[lang]; p = wurl(w['slug'], lang); vi_ = lang == 'vi'
         pb = next((x for x in PUBS if x[7] == w['slug']), None)
         btns = ''.join(f'<a class="pj-b" href="{u}" rel="noopener">{E(n if vi_ or n != "Chi tiết dự án" else "Project details")} <i>↗</i></a>' for n, u in w['links'])
         from PIL import Image as _I
@@ -722,7 +762,17 @@ for lang in ('vi', 'en'):
             tabs = ''.join(_fig(*g) for g in fg if g[0] == 'table')
             figs = ''.join(_fig(*g) for g in fg if g[0] != 'table')
             secs += f'<section class="x-s reveal"><h2>{E(h)}</h2><div class="x-body">{inner}{tabs}</div>{figs}</section>'
-        if not any(h in ('Phần việc đảm nhận', 'What I did') for h, *_ in d['body']): secs += f'<section class="x-s reveal"><h2>{"Vai trò của tôi" if vi_ else "My role"}</h2><div class="x-body"><p>{E(d["role"])}</p></div></section>'
+        pass  # không còn mục 'Vai trò của tôi' tách riêng: đóng góp được kể trong nội dung
+        if w.get('kind') == 'project':  # dự án: liệt kê các công bố thuộc dự án
+            kids = [x for x in RANKED if x.get('project') == w['slug']]
+            if kids:
+                def kc(x):
+                    c_ = next((f'assets/projects/{x["slug"]}.{e}' for e in ('webp', 'jpg', 'png') if os.path.exists(os.path.join(ROOT, f'assets/projects/{x["slug"]}.{e}'))), None)
+                    pbx = next((q for q in PUBS if q[7] == x['slug']), None)
+                    return (f'<li><a class="wl-img" href="{rel(p, wurl(x["slug"], lang))}" tabindex="-1" aria-hidden="true">' + (f'<img src="{rel(p, c_)}" alt="" loading="lazy">' if c_ else '') + '</a>'
+                            f'<div><span class="py mono">{x["year"]}</span><a class="t" href="{rel(p, wurl(x["slug"], lang))}">{E(pbx[2] if pbx else title_of(x, lang))}</a>'
+                            f'<div class="v">{E(x[lang]["status"])}</div><div class="pl-acts"><a href="{rel(p, wurl(x["slug"], lang))}">{"Trang công bố" if vi_ else "Publication page"} <i>→</i></a></div></div></li>')
+                secs += f'<section class="x-s reveal"><h2>{"Công bố" if vi_ else "Publications"}</h2><div class="x-body"><ol class="plist wl kids">{"".join(kc(x) for x in kids)}</ol></div></section>'
         cite_h = "Trích dẫn" if vi_ else "Citation"
         if w.get('bib'):
             secs += f'<section class="x-s reveal" id="cite"><h2>{cite_h}</h2><div class="x-body"><pre class="x-bib">{E(w["bib"])}</pre></div></section>'
@@ -730,7 +780,7 @@ for lang in ('vi', 'en'):
             secs += (f'<section class="x-s reveal" id="cite"><h2>{cite_h}</h2><div class="x-body"><p class="pj-cite">{pb[3].rstrip('.')}. {E(pb[2])}. {E(pb[4] if vi_ else pb[5])}.'
                      + (f' <a href="{pb[6]}" rel="noopener">{E(pb[6].replace("https://doi.org/", "doi:"))}</a>' if pb[6] else '') + '</p></div></section>')
         if w.get('bib') or pb: btns += f'<a class="pj-b alt" href="#cite">{cite_h} <i>↓</i></a>'
-        body = (f'<section class="x-head"><div class="x-wrap"><div class="pj-meta mono">{E(d["status"])} · <span class="nw">{w["year"]}</span></div><h1>{(d.get("h1") or E(title_of(w, lang))).replace("tiếng Việt", "tiếng&nbsp;Việt").replace("Việt Nam", "Việt&nbsp;Nam")}</h1>'
+        body = (f'<section class="x-head"><div class="x-wrap"><div class="pj-meta mono">{E(d["status"])} · <span class="nw">{w["year"]}</span>{(f' · {"thuộc dự án" if vi_ else "part of"} <a href="{rel(p, wurl(w["project"], lang))}">{E(title_of(next(x for x in WORK if x["slug"] == w["project"]), lang))}</a>') if w.get("project") else ""}</div><h1>{(d.get("h1") or E(title_of(w, lang))).replace("tiếng Việt", "tiếng&nbsp;Việt").replace("Việt Nam", "Việt&nbsp;Nam")}</h1>'
                 + (f'<p class="x-sub">{E(d["dek"])}</p>' if d.get('dek') else '')
                 + (f'<p class="pj-au">{pb[3].replace(". ", ".&nbsp;")}</p>' if pb else '') + f'<p class="pj-aff">{E(d["where"])}</p>'
                 + (f'<nav class="pj-btns">{btns}</nav>' if btns else '') + f'</div></section>'
@@ -743,11 +793,11 @@ for lang in ('vi', 'en'):
     def cov_of(sl):
         return next((f'assets/projects/{sl}.{x}' for x in ('webp', 'jpg', 'png', 'svg') if os.path.exists(os.path.join(ROOT, f'assets/projects/{sl}.{x}'))), None)
     def pub(y, st, ti, au, vv, ve, u, sl):
-        vi_ = lang == 'vi'; href = rel(p, U['workdir'] + sl + '.html') if sl else None
+        vi_ = lang == 'vi'; href = rel(p, wurl(sl, lang)) if sl else None
         tt = f'<a class="t" href="{u}" rel="noopener">{E(ti)}</a>' if u else f'<span class="t">{E(ti)}</span>'
         acts = (f'<a href="{u}" rel="noopener">{"Bài báo" if vi_ else "Paper"} <i>↗</i></a>' if u else '')
         acts += ''.join(f'<a href="{lu}" rel="noopener">{E(lv if vi_ else le)} <i>↗</i></a>' for lv, le, lu in PUB_LINKS.get(sl, []))
-        acts += (f'<a href="{href}">{"Dự án" if vi_ else "Project"} <i>→</i></a>' if href else '')
+        acts += (f'<a href="{href}">{"Chi tiết" if vi_ else "Details"} <i>→</i></a>' if href else '')
         return f'<li class="reveal"><span class="py mono">{y}</span><div>{tt}<div class="a">{au}</div><div class="v">{E(vv if vi_ else ve)}</div><div class="pl-acts">{acts}</div></div></li>'
     lis = ''.join(pub(*x) for x in PUBS_RANKED)
     write(p, shell(lang, 'pubs', p, t['pubs'] + ' · Aaron', head(t['h_pubs'], t['s_pubs']) + f'<section><div class="wrap"><ol class="plist">{lis}</ol></div></section>'))
