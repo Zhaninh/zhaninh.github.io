@@ -1510,3 +1510,4 @@ html.js.ready main,html.js.ready .foot{transition:opacity .2s ease}
 .pv-fig.stack .pv-ims{flex-direction:column;gap:18px}.pv-fig.stack .pv-im{flex:none}
 .pv-log th{width:150px}
 img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none}
+img,picture,figure img{-webkit-user-select:none;user-select:none}
