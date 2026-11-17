@@ -634,6 +634,26 @@ def toc_html(lang, path, key, twin):
             f'<div class="toc-lgpop pill-lgpop"><span class="lgk">2 {nl_}</span>{opts}</div>'
             f'<div class="toc-panel" id="tocpanel"><ol class="toc-list">{li}</ol><div class="toc-foot"><div class="toc-icons">{icons}</div></div></div></div></header>')
 
+
+SITE = 'https://zhaninh.github.io/'
+SITEMAP = []
+def _abs(p): p = p.replace('index.html', ''); return SITE + p
+def seo(lang, key, path, twin, title):
+    SITEMAP.append(path)
+    h = (f'<link rel="canonical" href="{_abs(path)}"><link rel="alternate" hreflang="{lang}" href="{_abs(path)}">'
+         f'<link rel="alternate" hreflang="{"en" if lang == "vi" else "vi"}" href="{_abs(twin)}"><link rel="alternate" hreflang="x-default" href="{_abs(twin if lang == "vi" else path)}">'
+         f'<meta name="author" content="Nguyen Ngoc Gia Ninh"><meta property="og:type" content="{"profile" if key == "home" else "website"}"><meta property="og:title" content="{E(title)}">'
+         f'<meta property="og:url" content="{_abs(path)}"><meta property="og:image" content="{SITE}assets/aaron_cut.webp"><meta name="twitter:card" content="summary">')
+    if path in ('index.html', 'vi/index.html'):
+        ld = {"@context": "https://schema.org", "@type": "Person", "name": "Nguyen Ngoc Gia Ninh", "alternateName": ["Nguyễn Ngọc Gia Ninh", "Aaron Nguyen", "Gia Ninh Nguyen Ngoc", "Ninh N. N. G."],
+              "url": SITE, "image": SITE + "assets/aaron_cut.webp", "jobTitle": "Research Assistant",
+              "affiliation": {"@type": "Organization", "name": "GREEN-X, VinUniversity", "url": GREENX},
+              "alumniOf": {"@type": "CollegeOrUniversity", "name": "FPT University"},
+              "sameAs": [SCHOLAR, "https://orcid.org/0009-0007-4653-7048", "https://github.com/Zhaninh", LINKEDIN],
+              "knowsAbout": ["Computer vision", "Applied AI", "Coral reef monitoring", "Edge AI", "AIoT"]}
+        h += '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>'
+    return h
+
 def shell(lang, key, path, title, body, extra=''):
     t = T[lang]; other = 'en' if lang == 'vi' else 'vi'
     # trang tương ứng ở ngôn ngữ kia
@@ -644,8 +664,8 @@ def shell(lang, key, path, title, body, extra=''):
     a = lambda p: rel(path, p)
     return f'''<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(title)}</title><script>(function(){{var h=document.documentElement;h.classList.add('js');setTimeout(function(){{h.classList.add('ready')}},1600);try{{if(sessionStorage.getItem('restore')===location.pathname||(location.hash.length>1&&/(highlights|dau-an)[.]html$/.test(location.pathname))){{h.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}}})()</script><meta name="description" content="{E(t['slogan_plain'])} Aaron (Nguyen Ngoc Gia Ninh), GREEN-X, VinUniversity.">
-<link rel="icon" href="{a('assets/clover.svg')}" type="image/svg+xml">
+<title>{E(title)}</title><script>(function(){{var h=document.documentElement;h.classList.add('js');setTimeout(function(){{h.classList.add('ready')}},1600);try{{if(sessionStorage.getItem('restore')===location.pathname||(location.hash.length>1&&/(highlights|dau-an)[.]html$/.test(location.pathname))){{h.classList.add('rs');history.scrollRestoration='manual'}}}}catch(e){{}}}})()</script><meta name="description" content="{'Nguyễn Ngọc Gia Ninh (Aaron)' if lang == 'vi' else 'Nguyen Ngoc Gia Ninh (Aaron)'}, Research Assistant at GREEN-X, VinUniversity. {E(t['slogan_plain'])}">
+{seo(lang, key, path, twin, title)}<link rel="icon" href="{a('assets/clover.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{a('assets/style.css')}?v={VER}"></head><body>
@@ -996,5 +1016,9 @@ for lang in ('vi', 'en'):
     about_page(lang, t, U)
 
 open(os.path.join(ROOT, '.nojekyll'), 'w').write('')
+_today = time.strftime('%Y-%m-%d')
+_urls = sorted(dict.fromkeys(SITEMAP), key=lambda x: (x.count('/'), x))
+open(os.path.join(ROOT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{_abs(u)}</loc><lastmod>{_today}</lastmod><priority>{"1.0" if u in ("index.html", "vi/index.html") else "0.6"}</priority></url>\n' for u in _urls) + '</urlset>\n')
+open(os.path.join(ROOT, 'robots.txt'), 'w').write('User-agent: *\nAllow: /\nSitemap: ' + SITE + 'sitemap.xml\n')
 # README.md được viết tay, build.py không ghi đè
 print('ok')

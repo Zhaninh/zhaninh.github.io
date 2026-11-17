@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zhaninh.github.io/sitemap.xml
