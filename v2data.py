@@ -1,0 +1,333 @@
+# Nội dung trang dự án dạng v2 (một trục đọc, như bài báo). build.py nạp file này.
+G1 = 'https://greenx.vinuni.edu.vn/green-x-and-nha-trang-bay-management-board-cooperate-on-marine-conservation-and-high-tech-aquaculture-project/'
+G2 = 'https://greenx.vinuni.edu.vn/green-x-and-khanh-hoa-province-strengthen-collaboration-on-technology-solutions-for-green-transformation/'
+G3 = 'https://greenx.vinuni.edu.vn/green-x-collaborates-with-khanh-hoa-department-of-culture-sports-and-tourism-to-deliver-training-and-technology-transfer-on-green-tourism/'
+HM = 'https://hoang-pm-7604119.github.io/myself/projects/smart-marine-aquaculture/'
+HC = 'https://hoang-pm-7604119.github.io/myself/projects/coral-reef-conservation-nha-trang/'
+GX = 'https://greenx.vinuni.edu.vn/people/'
+
+def team(vi):
+    return vi
+
+ORG_GX = ('greenx-vinuniversity', 'GREEN-X, VinUniversity', 'Trung tâm Chuyển đổi xanh thông minh', 'https://greenx.vinuni.edu.vn/')
+ORG_GX_EN = ('greenx-vinuniversity', 'GREEN-X, VinUniversity', 'Smart Green Transformation Center', 'https://greenx.vinuni.edu.vn/')
+
+V2 = {}
+
+# ---------------------------------------------------------------- BẢO TỒN
+V2['coralcons'] = dict(
+ vi=dict(
+  kicker='Dự án nghiên cứu · 02.2025 – nay',
+  abs='Rạn san hô vịnh Nha Trang thường chỉ được đánh giá qua các đợt lặn định kỳ, nên những biến động ngắn của môi trường nước và sự thay đổi của quần xã san hô giữa hai đợt lặn dễ bị bỏ lỡ. Dự án tiếp cận vấn đề theo hai hướng: quan trắc liên tục chất lượng nước trong khu bảo tồn, và xây dựng dữ liệu hình ảnh dưới nước về chính quần xã san hô.',
+  links=[('Trang dự án chi tiết', HC)],
+  cover_cap='Trạm quan trắc thế hệ thứ hai trên phao tiêu, tháng 6.2026.',
+  meta=[('Nhóm thực hiện', 'GREEN-X, VinUniversity'), ('Hợp tác', 'Ban Quản lý Vịnh Nha Trang; Trường Đại học Nha Trang'), ('Khu vực nghiên cứu', 'Khu bảo tồn biển vịnh Nha Trang, Khánh Hoà')],
+  parts_label='Hai hướng nghiên cứu',
+  parts=[
+   dict(L='A', img='f_bt_tepbac', title='Quan trắc liên tục chất lượng nước trong khu bảo tồn',
+        desc='Hệ thống quan trắc tự động đặt cùng tầng nước với rạn, truyền dữ liệu thời gian thực về một ứng dụng giám sát dùng chung.',
+        q='Một hệ thống quan trắc tự động đặt trong vùng bảo vệ nghiêm ngặt, cùng tầng nước với rạn, có thể ghi nhận liên tục và ổn định các biến động ngắn hạn của chất lượng nước trong điều kiện biển mở hay không, và dữ liệu đó được khai thác như thế nào trong công tác quản lý?',
+        blocks=[
+         ('h', 'A.1 Thiết kế hệ thống và quá trình phát triển trạm'),
+         ('p', 'Trạm quan trắc gồm cụm cảm biến đặt dưới nước, cùng tầng nước với rạn, và một hộp điện tử kín nước chạy bằng năng lượng mặt trời phía trên mặt nước. Trạm nằm trong vùng bảo vệ nghiêm ngặt của khu bảo tồn và gửi số liệu liên tục qua mạng di động, nhờ đó ghi nhận được cả những biến động ngắn mà các đợt lặn định kỳ khó bắt gặp.'),
+         ('p', 'Trạm đã qua ba thế hệ. Tháng 4.2026, nhóm đưa trạm thế hệ thứ hai ra khu vực bảo vệ nghiêm ngặt: thiết bị được chở ra bằng tàu (Hình 1a), hộp điện tử và tấm pin đặt trên đỉnh một phao tiêu, còn cụm cảm biến được thợ lặn neo xuống phía dưới (Hình 1b).'),
+         ('f', ('f_bt_transit', 'f_bt_station'), 'Lắp trạm thế hệ thứ hai, tháng 4.2026. (a) Thiết bị được chở ra khu vực đặt trạm. (b) Trạm trên phao tiêu, thợ lặn chuẩn bị neo cụm cảm biến. Ảnh: Phạm Minh Hoàng.'),
+         ('p', 'Môi trường biển là thách thức chính đối với độ bền của trạm. Hộp điện tử nằm ngay trên mặt biển thường xuyên chịu hơi muối; trong quá trình vận hành, có lần muối lọt vào hộp khiến trạm ngừng hoạt động lúc 3 giờ sáng. Tháng 10.2026, trạm được thay bằng thế hệ thứ ba, dạng bè nổi mang tấm pin và tủ thiết bị, được lắp hoàn chỉnh trên boong tàu trước khi thả (Hình 2). Cùng lúc, bộ thông số được điều chỉnh theo mục tiêu bảo tồn: bỏ độ mặn và độ đục, bổ sung độ bão hoà oxy (PDO); trạm hiện đo nhiệt độ, pH, oxy hoà tan (DO) và PDO. Sau hai đến ba tuần vận hành, số đo bắt đầu trôi, cho thấy bài toán hiệu chuẩn cảm biến trong môi trường biển vẫn còn mở.'),
+         ('f', ('f_bt_tb_build', 'f_bt_tepbac'), 'Trạm thế hệ thứ ba, tháng 10.2026. (a) Lắp tủ thiết bị và dây dẫn trên boong tàu trước khi thả trạm. (b) Trạm sau khi thả, thợ lặn kiểm tra dây neo.'),
+         ('h', 'A.2 Truyền dẫn, hiển thị và chuyển giao dữ liệu'),
+         ('p', 'Số liệu từ trạm chỉ có giá trị khi về được đất liền và tới tay người quản lý. Trạm được nối qua một mạng riêng ảo (VPN) do tôi thiết lập và duy trì, nhờ đó máy chủ và thiết bị của nhóm truy cập được trạm từ xa. Dữ liệu hiển thị trên ứng dụng giám sát tôi thiết kế trên nền ThingsBoard: màn tổng quan đặt trạm trên bản đồ cùng số đo mới nhất, chỉ số an toàn nước và lịch sử cảnh báo (Hình 3a); mỗi thông số có ngưỡng an toàn và ngưỡng theo dõi riêng (Hình 3b).'),
+         ('f', ('tb_bt_overview', 'tb_bt_threshold'), 'Ứng dụng giám sát trạm. (a) Màn tổng quan: bản đồ vị trí trạm, bảng số đo mới nhất và lịch sử các lần một thông số vượt ngưỡng. (b) Cài đặt ngưỡng cho độ bão hoà oxy (PDO); vùng xanh là khoảng an toàn, vùng vàng cần theo dõi, vùng đỏ là cảnh báo.', 'stack'),
+         ('p', 'Tháng 10.2026, nhóm trình bày ứng dụng và trao đổi về nhu cầu khai thác dữ liệu với Ban Quản lý Vịnh Nha Trang (Hình 4), bước đầu đưa dữ liệu quan trắc vào công tác quản lý khu bảo tồn.'),
+         ('f', ('f_bt_meet_a', 'f_bt_meet_b'), 'Buổi làm việc với Ban Quản lý Vịnh Nha Trang về ứng dụng giám sát, tháng 10.2026. (a) Nhóm nghiên cứu trình bày các chức năng của ứng dụng. (b) Trao đổi về nhu cầu khai thác dữ liệu trong công tác quản lý khu bảo tồn.'),
+         ('log', 'A.3 Nhật ký triển khai thực địa', [
+             ('04.2026', 'Lắp trạm thế hệ thứ hai lên phao tiêu; thiết lập VPN cho trạm.'),
+             ('06.2026', 'Bảo trì trạm thế hệ thứ hai sau sự cố muối lọt vào hộp điện tử.'),
+             ('10.2026', 'Lắp trạm thế hệ thứ ba; làm việc với Ban Quản lý Vịnh Nha Trang về ứng dụng giám sát.')]),
+        ]),
+   dict(L='B', img='f_nt_1o', title='Thu thập và chuẩn hoá dữ liệu hình ảnh dưới nước',
+        desc='Khảo sát quần xã san hô bằng video dưới nước, tuyển chọn khung hình và gán nhãn phân vùng từng tập đoàn san hô có kiểm chứng.',
+        q='Cần quy trình thu thập và tuyển chọn dữ liệu như thế nào để xây dựng bộ dữ liệu hình ảnh rạn san hô Việt Nam đủ chất lượng cho các mô hình phân vùng tự động?',
+        blocks=[
+         ('h', 'B.1 Thu thập dữ liệu dưới nước'),
+         ('p', 'Hình ảnh dưới nước được thu trong các đợt khảo sát, với tôi là người trực tiếp ghi hình. Hai đợt đầu (4 và 6.2026) dùng thiết bị lặn điều khiển từ xa Chasing Gladius Mini S, thả từ tàu khảo sát neo phía trên vùng rạn (Hình 5). Kể cả khi gắn thêm GoPro Hero 4, độ nét và màu sắc của hình ảnh vẫn chưa đáp ứng yêu cầu của dữ liệu huấn luyện.'),
+         ('f', 'f_bt_drone', 'Tàu khảo sát neo phía trên vùng rạn để tôi và anh Phạm Minh Hoàng thả thiết bị lặn điều khiển từ xa thu dữ liệu san hô. Ảnh flycam: TS. Đinh Văn Dũng.'),
+         ('p', 'Từ tháng 8.2026, nhóm chuyển sang ghi hình bằng GoPro Hero 13 và chất lượng hình ảnh đạt yêu cầu. Trong đợt khảo sát đầu tháng 10.2026, video được ghi tại các rạn quanh Hòn Một, Hòn Chồng, Hòn Tre và Hòn Mun.'),
+         ('h', 'B.2 Tuyển chọn khung hình và gán nhãn'),
+         ('p', 'Một đoạn video dài vài phút cho hàng nghìn khung hình gần giống nhau, phần lớn bị mờ, rung hoặc chỉ thấy nước. Từ video khảo sát, khoảng 2.000 khung hình đã được tuyển chọn theo độ nét, mức trùng lặp và độ phủ giữa các điểm khảo sát. Các khung hình này đang được gán nhãn phân vùng: mỗi tập đoàn san hô được khoanh một đường bao riêng, sau đó kiểm tra lại thủ công (Hình 6).'),
+         ('f', ('f_nt_1', 'f_nt_1o'), 'Một mẫu trong bộ dữ liệu, thu bằng GoPro. (a) Ảnh gốc. (b) Nhãn phân vùng: mỗi vùng tô hồng, viền vàng là một tập đoàn san hô đã được khoanh và kiểm tra thủ công.'),
+         ('p', 'Các khung hình khác nhau rõ rệt về mật độ và kích thước tập đoàn san hô: có nơi các tập đoàn nằm rời rạc trên nền đáy, có nơi chúng phủ kín khung hình và tiếp giáp nhau (Hình 7). Sự đa dạng này là điều kiện để mô hình phân vùng học được ranh giới giữa các tập đoàn trong nhiều bối cảnh. Bộ dữ liệu là cơ sở cho công bố NTCoral, trong đó tôi là tác giả thứ nhất.'),
+         ('f', ('f_nt_2o', 'f_nt_3o'), 'Hai mẫu khác trong bộ dữ liệu. (a) Các tập đoàn san hô rời rạc trên nền đáy. (b) Các tập đoàn phủ kín khung hình và tiếp giáp nhau.'),
+         ('h', 'B.3 Lưu trữ và đối chiếu kết quả'),
+         ('p', 'Video khảo sát được lưu trong kho dữ liệu của ứng dụng giám sát, xếp theo ngày quay (Hình 8a). Mỗi video có thể phát song song với kết quả phân vùng để đối chiếu (Hình 8b); mô hình phân vùng do các thành viên khác trong nhóm phát triển.'),
+         ('f', ('tb_bt_store', 'tb_bt_seg'), 'Kho dữ liệu khảo sát trong ứng dụng. (a) Các đợt quay xếp theo ngày, kèm trạng thái phân tích của từng video. (b) Video gốc phát song song với kết quả phân vùng san hô.', 'stack'),
+         ('log', 'B.4 Nhật ký khảo sát', [
+             ('04.2026', 'Khảo sát bằng thiết bị lặn điều khiển từ xa Chasing Gladius Mini S.'),
+             ('06.2026', 'Gắn thêm GoPro Hero 4 lên thiết bị lặn; chất lượng hình ảnh chưa đạt yêu cầu.'),
+             ('08.2026', 'Chuyển sang GoPro Hero 13; hình ảnh đạt chất lượng dữ liệu.'),
+             ('10.2026', 'Ghi hình các rạn quanh Hòn Một, Hòn Chồng, Hòn Tre và Hòn Mun.')]),
+        ]),
+  ],
+  sections=[('Truyền thông', [('p', 'GREEN-X đã đưa tin về các phiên làm việc của dự án: [với Ban Quản lý Vịnh Nha Trang, 22.08.2025](' + G1 + '), [với các sở, ngành tỉnh Khánh Hoà, 16.03.2026](' + G2 + ') và [với Sở Văn hoá, Thể thao và Du lịch Khánh Hoà, 18.03.2026](' + G3 + ').')])],
+  team=[('hieu', 'TS. Phạm Huy Hiệu', 'Chủ nhiệm', 'VinUniversity', GX + 'pham-huy-hieu/'),
+        ('duong', 'TS. Phùng Mạnh Dương', 'Chủ nhiệm', 'VinUniversity', GX + 'phung-manh-duong/'),
+        ('dung', 'TS. Đinh Văn Dũng', 'Đồng chủ nhiệm', 'Đại học Quốc gia Hà Nội', GX + 'dinh-van-dung/'),
+        ('hoang', 'Phạm Minh Hoàng', 'Trưởng nhóm kỹ thuật', 'GREEN-X', GX + 'pham-minh-hoang/'),
+        ('ninh', 'Nguyễn Ngọc Gia Ninh', 'Trợ lý nghiên cứu', 'GREEN-X', GX + 'nguyen-ngoc-gia-ninh/'),
+        ('quyen', 'Nguyễn Xuân Quyền', 'Trợ lý nghiên cứu', 'GREEN-X', '')],
+  orgs=[ORG_GX, ('nha-trang-bay', 'Ban Quản lý Vịnh Nha Trang', 'Cơ quan quản lý Khu bảo tồn biển vịnh Nha Trang', 'https://vinhnhatrang.net/'),
+        ('nha-trang-university', 'Trường Đại học Nha Trang', 'Cơ sở đào tạo và nghiên cứu về thuỷ sản và khoa học biển', 'https://ntu.edu.vn/')],
+ ),
+ en=dict(
+  kicker='Research project · 02.2025 – present',
+  abs='Coral reefs in Nha Trang Bay are usually assessed only through periodic dive surveys, so short-lived changes in water conditions and shifts in the coral community between dives are easily missed. The project approaches the problem in two directions: continuous water-quality monitoring inside the protected area, and an underwater image dataset of the coral community itself.',
+  links=[('Full project page', HC)],
+  cover_cap='The second-generation monitoring station on its navigation buoy, June 2026.',
+  meta=[('Team', 'GREEN-X, VinUniversity'), ('In collaboration with', 'Nha Trang Bay Management Board; Nha Trang University'), ('Study area', 'Nha Trang Bay Marine Protected Area, Khanh Hoa')],
+  parts_label='Two research directions',
+  parts=[
+   dict(L='A', img='f_bt_tepbac', title='Continuous water-quality monitoring in the protected area',
+        desc='An automated station in the same water layer as the reef, streaming real-time data to a shared monitoring application.',
+        q='Can an automated station placed in the strictly protected zone, in the same water layer as the reef, record short-term changes in water quality continuously and reliably under open-sea conditions, and how can those data serve management?',
+        blocks=[
+         ('h', 'A.1 System design and station development'),
+         ('p', 'The station consists of a sensor cluster under water, in the same layer as the reef, and a sealed, solar-powered electronics box above the surface. It sits inside the strictly protected zone and sends readings continuously over mobile networks, capturing short events that periodic dives rarely catch.'),
+         ('p', 'The station has gone through three generations. In April 2026 the team took the second generation out to the protected zone: the equipment was carried by boat (Figure 1a), the electronics and solar panel were mounted on top of a navigation buoy, and divers anchored the sensor cluster below (Figure 1b).'),
+         ('f', ('f_bt_transit', 'f_bt_station'), 'Installing the second-generation station, April 2026. (a) Equipment carried to the site. (b) The station on its buoy, a diver preparing to anchor the sensor cluster. Photos: Pham Minh Hoang.'),
+         ('p', 'The marine environment is the main challenge to durability. The electronics box sits right above the sea and is exposed to salt spray; once, salt got inside and the station stopped at 3 a.m. In October 2026 the station was replaced by a third generation, a floating raft carrying the solar panel and equipment box, fully assembled on deck before deployment (Figure 2). The parameter set was also adjusted to conservation needs: salinity and turbidity were dropped and oxygen saturation (PDO) added; the station now measures temperature, pH, dissolved oxygen (DO) and PDO. After two to three weeks of operation the readings began to drift, showing that sensor calibration at sea remains an open problem.'),
+         ('f', ('f_bt_tb_build', 'f_bt_tepbac'), 'The third-generation station, October 2026. (a) Assembling the equipment box and cables on deck before deployment. (b) The station after deployment, a diver checking the mooring line.'),
+         ('h', 'A.2 Data transmission, visualisation and handover'),
+         ('p', 'Readings are only valuable if they reach the shore and the people who manage the area. The station is connected through a virtual private network (VPN) that I set up and maintain, so the team’s servers and devices can reach it remotely. The data appear in a monitoring application I designed on ThingsBoard: an overview places the station on a map with the latest readings, a water-safety index and an alert history (Figure 3a), and each parameter has its own safe and watch thresholds (Figure 3b).'),
+         ('f', ('tb_bt_overview', 'tb_bt_threshold'), 'The monitoring application. (a) Overview: station map, latest readings and the history of threshold crossings. (b) Thresholds for oxygen saturation (PDO); green is the safe range, amber needs watching, red is an alert.', 'stack'),
+         ('p', 'In October 2026 the team presented the application and discussed data needs with the Nha Trang Bay Management Board (Figure 4), a first step towards bringing monitoring data into the management of the protected area.'),
+         ('f', ('f_bt_meet_a', 'f_bt_meet_b'), 'Working session with the Nha Trang Bay Management Board on the monitoring application, October 2026. (a) The research team presenting the application. (b) Discussing data needs for managing the protected area.'),
+         ('log', 'A.3 Field log', [
+             ('04.2026', 'Second-generation station installed on the buoy; VPN set up for the station.'),
+             ('06.2026', 'Maintenance of the second-generation station after salt entered the electronics box.'),
+             ('10.2026', 'Third-generation station installed; working session with the Nha Trang Bay Management Board on the application.')]),
+        ]),
+   dict(L='B', img='f_nt_1o', title='Collecting and curating underwater image data',
+        desc='Surveying the coral community with underwater video, selecting frames and building expert-checked segmentation labels for each coral colony.',
+        q='What collection and curation process is needed to build a Vietnamese coral-reef image dataset of sufficient quality for automated segmentation models?',
+        blocks=[
+         ('h', 'B.1 Underwater data collection'),
+         ('p', 'Underwater imagery was collected on survey trips, with me filming. The first two trips (April and June 2026) used a Chasing Gladius Mini S underwater drone, launched from a survey boat moored above the reef (Figure 5). Even with an added GoPro Hero 4, sharpness and colour did not meet the needs of training data.'),
+         ('f', 'f_bt_drone', 'The survey boat moored above the reef while Pham Minh Hoang and I launched the underwater drone to collect coral data. Aerial photo: Dr. Dinh Van Dung.'),
+         ('p', 'From August 2026 the team filmed with a GoPro Hero 13 and image quality became adequate. On the early October 2026 trip, video was recorded on the reefs around Hon Mot, Hon Chong, Hon Tre and Hon Mun.'),
+         ('h', 'B.2 Frame selection and labelling'),
+         ('p', 'A few minutes of video yields thousands of near-identical frames, many blurred, shaken or showing only water. About 2,000 frames have been selected from the survey video by sharpness, redundancy and coverage across sites. They are being labelled for segmentation: each coral colony is outlined separately and then checked by hand (Figure 6).'),
+         ('f', ('f_nt_1', 'f_nt_1o'), 'A sample from the dataset, captured with a GoPro. (a) Original image. (b) Segmentation labels: each pink region with a yellow outline is one coral colony, outlined and checked by hand.'),
+         ('p', 'Frames differ markedly in colony density and size: in some, colonies are scattered across the substrate; in others they fill the frame and touch one another (Figure 7). This variety is what lets a segmentation model learn colony boundaries across settings. The dataset underpins the NTCoral publication, of which I am first author.'),
+         ('f', ('f_nt_2o', 'f_nt_3o'), 'Two further samples. (a) Scattered colonies on the substrate. (b) Colonies filling the frame and touching one another.'),
+         ('h', 'B.3 Storage and comparison'),
+         ('p', 'Survey videos are stored in the application’s data store, sorted by filming day (Figure 8a). Each video can play alongside its segmentation for comparison (Figure 8b); the segmentation model was developed by other team members.'),
+         ('f', ('tb_bt_store', 'tb_bt_seg'), 'The survey data store. (a) Filming days with the analysis status of each video. (b) An original video playing alongside its coral segmentation.', 'stack'),
+         ('log', 'B.4 Survey log', [
+             ('04.2026', 'Survey with a Chasing Gladius Mini S underwater drone.'),
+             ('06.2026', 'GoPro Hero 4 added to the drone; image quality still insufficient.'),
+             ('08.2026', 'Switch to GoPro Hero 13; image quality adequate for the dataset.'),
+             ('10.2026', 'Reefs around Hon Mot, Hon Chong, Hon Tre and Hon Mun filmed.')]),
+        ]),
+  ],
+  sections=[('In the news', [('p', 'GREEN-X has reported on the project’s working sessions: [with the Nha Trang Bay Management Board, 22.08.2025](' + G1 + '), [with Khanh Hoa provincial departments, 16.03.2026](' + G2 + ') and [with the Khanh Hoa Department of Culture, Sports and Tourism, 18.03.2026](' + G3 + ').')])],
+  team=[('hieu', 'Dr. Pham Huy Hieu', 'Principal Investigator', 'VinUniversity', GX + 'pham-huy-hieu/'),
+        ('duong', 'Dr. Phung Manh Duong', 'Principal Investigator', 'VinUniversity', GX + 'phung-manh-duong/'),
+        ('dung', 'Dr. Dinh Van Dung', 'Co-Principal Investigator', 'Vietnam National University, Hanoi', GX + 'dinh-van-dung/'),
+        ('hoang', 'Pham Minh Hoang', 'Technical Lead', 'GREEN-X', GX + 'pham-minh-hoang/'),
+        ('ninh', 'Nguyen Ngoc Gia Ninh', 'Research Assistant', 'GREEN-X', GX + 'nguyen-ngoc-gia-ninh/'),
+        ('quyen', 'Nguyen Xuan Quyen', 'Research Assistant', 'GREEN-X', '')],
+  orgs=[ORG_GX_EN, ('nha-trang-bay', 'Nha Trang Bay Management Board', 'Authority managing the Nha Trang Bay Marine Protected Area', 'https://vinhnhatrang.net/'),
+        ('nha-trang-university', 'Nha Trang University', 'University for fisheries and marine science', 'https://ntu.edu.vn/')],
+ ))
+
+# ---------------------------------------------------------------- NUÔI BIỂN
+V2['marine'] = dict(
+ vi=dict(
+  kicker='Dự án nghiên cứu · 02.2025 – nay',
+  abs='Nuôi cá lồng ngoài biển đòi hỏi theo dõi liên tục chất lượng nước và trạng thái đàn cá, trong khi môi trường ngoài khơi khắc nghiệt với thiết bị và hạn chế về điện, kết nối. Dự án phát triển một hệ thống quan trắc tự động kết hợp cảm biến chất lượng nước, hình ảnh dưới nước và thuỷ âm, kiểm chứng qua bốn môi trường từ bể thí nghiệm tới lồng bè ngoài vịnh Nha Phu, và đưa dữ liệu tới người vận hành qua một ứng dụng giám sát.',
+  links=[('Trang dự án chi tiết', HM)],
+  cover_cap='Trạm Nuôi biển 1 trên hệ thống lồng bè vịnh Nha Phu. Ảnh: Phạm Minh Hoàng.',
+  meta=[('Nhóm thực hiện', 'GREEN-X, VinUniversity'), ('Hợp tác', 'Học viện Nông nghiệp Việt Nam; Viện Nghiên cứu Nuôi trồng Thuỷ sản I và III; Trường Đại học Nha Trang'), ('Khu vực nghiên cứu', 'Hà Nội; Hải Phòng; vịnh Nha Phu và Nha Trang, Khánh Hoà')],
+  parts_label='Hai hướng nghiên cứu',
+  parts=[
+   dict(L='A', img='f_nb_cages', title='Hệ thống quan trắc đa nguồn và kiểm chứng thực địa',
+        desc='Kết hợp cảm biến chất lượng nước, hình ảnh dưới nước và thuỷ âm; kiểm chứng qua bốn môi trường nuôi từ bể thí nghiệm tới lồng bè ngoài khơi.',
+        q='Một trạm quan trắc tự động kết hợp cảm biến chất lượng nước, hình ảnh và thuỷ âm cần được thiết kế và kiểm chứng như thế nào để vận hành ổn định trong môi trường nuôi biển?',
+        blocks=[
+         ('h', 'A.1 Kiến trúc hệ thống'),
+         ('p', 'Mỗi trạm kết hợp ba nguồn dữ liệu bổ sung cho nhau. Cụm cảm biến đo liên tục năm thông số chất lượng nước: oxy hoà tan, pH, nhiệt độ, độ mặn và độ đục. Camera trên và dưới mặt nước quan sát đàn cá và mức bám bẩn của ống kính. Thuỷ âm ghi âm thanh dưới nước, như tiếng cá đớp mồi, phục vụ ước lượng mức độ ăn. Trạm ngoài khơi chạy bằng năng lượng mặt trời với pin lưu trữ và gửi dữ liệu qua mạng di động về máy chủ.'),
+         ('h', 'A.2 Kiểm chứng qua bốn môi trường'),
+         ('p', 'Hệ thống được kiểm chứng tăng dần mức khắc nghiệt. Tháng 5.2025, cảm biến được hiệu chuẩn trên dàn bể tại Học viện Nông nghiệp Việt Nam, nơi một buồng đo duy nhất lấy mẫu lần lượt từ nhiều bể (Hình 1a). Tháng 8.2025, hệ thống chuyển sang bể xi măng nuôi cá trong nhà tại Viện Nghiên cứu Nuôi trồng Thuỷ sản I, nơi độ ẩm và hơi muối bắt đầu thử thách độ bền thiết bị (Hình 1b).'),
+         ('f', ('f_nb_vnua', 'f_nb_ria1'), 'Hai môi trường kiểm chứng đầu tiên. (a) Dàn bể thử nghiệm tại Học viện Nông nghiệp Việt Nam. (b) Bể xi măng nuôi cá tại Viện Nghiên cứu Nuôi trồng Thuỷ sản I với cảm biến đặt trong bể. Ảnh: Phạm Minh Hoàng.'),
+         ('p', 'Tháng 3.2026, trạm Nuôi biển 1 được lắp trên hệ thống lồng bè khảo nghiệm của PGS.TS. Ngô Văn Mạnh (Trường Đại học Nha Trang) ngoài vịnh Nha Phu, tự cấp điện bằng pin mặt trời (Hình 2a). Tháng 4–5.2026, trạm Nuôi biển 2 được lắp trên khu bể tròn ngoài trời tại Viện Nghiên cứu Nuôi trồng Thuỷ sản III, có thêm thuỷ âm (Hình 2b).'),
+         ('f', ('f_nb_cages', 'f_nb_ria3'), 'Hai trạm đang vận hành. (a) Trạm Nuôi biển 1 trên lồng bè vịnh Nha Phu. (b) Khu bể tròn của trạm Nuôi biển 2 tại Viện Nghiên cứu Nuôi trồng Thuỷ sản III. Ảnh: Phạm Minh Hoàng.'),
+         ('p', 'Vận hành ngoài khơi bộc lộ những điểm yếu mà môi trường thí nghiệm không có. Khu lồng bè gần như không có sóng di động nên đường truyền phải chuyển sang SIM 5G, rồi bộ định tuyến gặp sự cố; có lúc cảm biến trôi số, dây cảm biến bị đứt, có lần camera dưới nước rơi ốc giữ. Gần như mỗi chuyến công tác, nhóm đều phải xử lý tại chỗ (Hình 3).'),
+         ('f', ('f_nb_maint1', 'f_nb_maint2'), 'Bảo trì trạm Nuôi biển 1 trên lồng bè vịnh Nha Phu. (a) Nhóm làm việc trên sàn bè, cạnh tủ thiết bị. (b) Tủ thiết bị với tấm pin mặt trời phía trên và phao cảm biến thả xuống lồng.'),
+         ('log', 'A.3 Nhật ký triển khai thực địa', [
+             ('05.2025', 'Hiệu chuẩn cảm biến trên dàn bể tại Học viện Nông nghiệp Việt Nam.'),
+             ('08.2025', 'Thử nghiệm trên bể xi măng tại Viện Nghiên cứu Nuôi trồng Thuỷ sản I.'),
+             ('03.2026', 'Lắp trạm Nuôi biển 1 trên lồng bè vịnh Nha Phu.'),
+             ('04–05.2026', 'Lắp trạm Nuôi biển 2 tại Viện Nghiên cứu Nuôi trồng Thuỷ sản III; sửa trạm Nuôi biển 1.'),
+             ('06, 08, 10.2026', 'Bảo trì định kỳ; xử lý sự cố đường truyền, cảm biến và camera.')]),
+        ]),
+   dict(L='B', img='tb_nb_live', title='Truyền dẫn và khai thác dữ liệu quan trắc',
+        desc='Kết nối các trạm đặt ở nơi hạ tầng hạn chế và trình bày dữ liệu đa nguồn trên một ứng dụng giám sát cho người vận hành.',
+        q='Dữ liệu từ các trạm đặt ở nơi kết nối hạn chế cần được truyền về và trình bày như thế nào để người vận hành khai thác được trong thực tế?',
+        blocks=[
+         ('h', 'B.1 Kết nối từ hiện trường'),
+         ('p', 'Các trạm đặt ở lồng bè và khu bể ngoài trời, nơi kết nối di động không ổn định. Tôi thiết lập mạng riêng ảo (VPN) cho trạm Nuôi biển 2 và duy trì các đường VPN để máy chủ và thiết bị của nhóm truy cập được cả ba trạm của GREEN-X (hai trạm nuôi biển và trạm bảo tồn), đồng thời cùng anh Phạm Minh Hoàng xử lý các lần mất kết nối ngoài hiện trường.'),
+         ('h', 'B.2 Ứng dụng giám sát'),
+         ('p', 'Dữ liệu được trình bày trên ứng dụng giám sát tôi thiết kế trên nền ThingsBoard. Màn tổng quan đặt các trạm trên cùng một bản đồ, kèm số đo mới nhất, chỉ số an toàn nước và lịch sử cảnh báo (Hình 4a). Màn chi tiết của mỗi trạm cho xem diễn biến từng thông số theo 24 giờ đến 12 tháng, cùng hai camera trực tiếp và phổ âm thanh thuỷ âm (Hình 4b).'),
+         ('f', ('tb_nb_overview', 'tb_nb_live'), 'Ứng dụng giám sát nuôi biển. (a) Màn tổng quan: bản đồ hai trạm, bảng số đo và lịch sử các lần một thông số vượt ngưỡng. (b) Màn chi tiết một trạm: các thẻ số đo, biểu đồ của thông số đang chọn, hai camera trên và dưới mặt nước, và phổ âm thanh do thuỷ âm ghi.', 'stack'),
+         ('p', 'Ngoài theo dõi tức thời, người vận hành có thể so sánh một thông số giữa các trạm trong cùng khoảng thời gian (Hình 5a) và tự đặt ngưỡng an toàn, ngưỡng theo dõi cho từng thông số (Hình 5b). Cảnh báo được gửi qua Telegram, và mỗi tài khoản chỉ thấy các trạm được giao.'),
+         ('f', ('tb_nb_compare', 'tb_nb_threshold'), 'Khai thác dữ liệu. (a) So sánh nhiệt độ của hai trạm trong tháng 7.2026. (b) Cài đặt ngưỡng cho một thông số; vùng xanh là khoảng an toàn, vùng vàng cần theo dõi, vùng đỏ là cảnh báo.', 'stack'),
+         ('p', 'Tháng 10.2026, nhóm làm việc với cán bộ Viện Nghiên cứu Nuôi trồng Thuỷ sản III về cách vận hành ứng dụng tại trạm Nuôi biển 2 (Hình 6).'),
+         ('f', 'f_nb_meet', 'Buổi làm việc với cán bộ Viện Nghiên cứu Nuôi trồng Thuỷ sản III về vận hành ứng dụng giám sát, tháng 10.2026.'),
+        ]),
+  ],
+  sections=[('Truyền thông', [('p', 'GREEN-X đã đưa tin về các phiên làm việc của dự án: [với Ban Quản lý Vịnh Nha Trang, 22.08.2025](' + G1 + ') và [với các sở, ngành tỉnh Khánh Hoà, 16.03.2026](' + G2 + ').')])],
+  team=[('dinh', 'TS. Nguyễn Văn Định', 'Chủ nhiệm', 'Trinity College Dublin', GX + 'nguyen-van-dinh/'),
+        ('cuong', 'TS. Đỗ Danh Cường', 'Chủ nhiệm', 'VinUniversity', GX + 'do-danh-cuong/'),
+        ('dung', 'TS. Đinh Văn Dũng', 'Đồng chủ nhiệm', 'Đại học Quốc gia Hà Nội', GX + 'dinh-van-dung/'),
+        ('hoang', 'Phạm Minh Hoàng', 'Trưởng nhóm kỹ thuật', 'GREEN-X', GX + 'pham-minh-hoang/'),
+        ('ninh', 'Nguyễn Ngọc Gia Ninh', 'Trợ lý nghiên cứu', 'GREEN-X', GX + 'nguyen-ngoc-gia-ninh/'),
+        ('khoi', 'Phan Tuấn Khôi', 'Trợ lý nghiên cứu', 'GREEN-X', ''),
+        ('trung', 'Nguyễn Thành Trung', 'Trợ lý nghiên cứu', 'GREEN-X', GX + 'nguyen-thanh-trung/'),
+        ('phuc', 'Nguyễn Hồng Phúc', 'Trợ lý nghiên cứu', 'GREEN-X', GX + 'nguyen-hong-phuc/'),
+        ('son', 'Trịnh Công Sơn', 'Trợ lý nghiên cứu', 'GREEN-X', GX + 'trinh-cong-son/'),
+        ('quyen', 'Nguyễn Xuân Quyền', 'Trợ lý nghiên cứu', 'GREEN-X', '')],
+  orgs=[ORG_GX, ('vnua', 'Học viện Nông nghiệp Việt Nam', 'Cơ sở đào tạo và nghiên cứu nông nghiệp, thuỷ sản', 'https://vnua.edu.vn/'),
+        ('ria', 'Viện Nghiên cứu Nuôi trồng Thuỷ sản I và III', 'Các viện nghiên cứu chuyên ngành nuôi trồng thuỷ sản', ''),
+        ('nha-trang-university', 'Trường Đại học Nha Trang', 'Cơ sở đào tạo và nghiên cứu về thuỷ sản và khoa học biển', 'https://ntu.edu.vn/')],
+ ),
+ en=dict(
+  kicker='Research project · 02.2025 – present',
+  abs='Offshore cage farming requires continuous monitoring of water quality and fish condition, while the open sea is harsh on equipment and short of power and connectivity. The project develops an automated monitoring system that combines water-quality sensors, underwater imaging and hydroacoustics, validates it in four settings from laboratory tanks to floating cages in Nha Phu Bay, and delivers the data to operators through a monitoring application.',
+  links=[('Full project page', HM)],
+  cover_cap='Station 1 on the floating cages of Nha Phu Bay. Photo: Pham Minh Hoang.',
+  meta=[('Team', 'GREEN-X, VinUniversity'), ('In collaboration with', 'Vietnam National University of Agriculture; Research Institutes for Aquaculture I and III; Nha Trang University'), ('Study area', 'Hanoi; Hai Phong; Nha Phu Bay and Nha Trang, Khanh Hoa')],
+  parts_label='Two research directions',
+  parts=[
+   dict(L='A', img='f_nb_cages', title='A multi-source monitoring system and its field validation',
+        desc='Water-quality sensors, underwater imaging and hydroacoustics, validated in four farming settings from laboratory tanks to offshore cages.',
+        q='How should an automated station combining water-quality sensors, imaging and hydroacoustics be designed and validated to run reliably in sea-farming conditions?',
+        blocks=[
+         ('h', 'A.1 System architecture'),
+         ('p', 'Each station combines three complementary data sources. A sensor cluster continuously measures five water-quality parameters: dissolved oxygen, pH, temperature, salinity and turbidity. Cameras above and below the surface observe the fish and the fouling of the lens. Hydrophones record underwater sound, such as feeding, to estimate appetite. The offshore station runs on solar power with battery storage and sends data over mobile networks to the servers.'),
+         ('h', 'A.2 Validation in four settings'),
+         ('p', 'The system was validated in settings of increasing harshness. In May 2025 the sensors were calibrated on test tanks at the Vietnam National University of Agriculture, where a single sensing chamber samples several tanks in turn (Figure 1a). In August 2025 the system moved to indoor raceways at the Research Institute for Aquaculture I, where humidity and salt spray began to test the hardware (Figure 1b).'),
+         ('f', ('f_nb_vnua', 'f_nb_ria1'), 'The first two validation settings. (a) Test tanks at the Vietnam National University of Agriculture. (b) An indoor raceway at the Research Institute for Aquaculture I with sensors in the water. Photos: Pham Minh Hoang.'),
+         ('p', 'In March 2026 station 1 was installed on the experimental cage farm of Assoc. Prof. Ngo Van Manh (Nha Trang University) in Nha Phu Bay, powered by solar panels (Figure 2a). In April–May 2026 station 2 was installed on outdoor circular tanks at the Research Institute for Aquaculture III, adding hydrophones (Figure 2b).'),
+         ('f', ('f_nb_cages', 'f_nb_ria3'), 'The two running stations. (a) Station 1 on the Nha Phu Bay cages. (b) The circular tanks of station 2 at the Research Institute for Aquaculture III. Photos: Pham Minh Hoang.'),
+         ('p', 'Offshore operation exposed weaknesses that the laboratory did not. The cage area has barely any mobile signal, so the link moved to a 5G SIM; then the router failed. Sensors drifted, a sensor cable snapped, and once the underwater camera lost its mounting screws. Almost every field trip involved on-site repairs (Figure 3).'),
+         ('f', ('f_nb_maint1', 'f_nb_maint2'), 'Maintaining station 1 on the Nha Phu Bay cages. (a) The team at work on the raft deck beside the equipment box. (b) The equipment box under its solar panel, with the sensor float lowered into the cage.'),
+         ('log', 'A.3 Field log', [
+             ('05.2025', 'Sensor calibration on test tanks at the Vietnam National University of Agriculture.'),
+             ('08.2025', 'Trials on indoor raceways at the Research Institute for Aquaculture I.'),
+             ('03.2026', 'Station 1 installed on the Nha Phu Bay cages.'),
+             ('04–05.2026', 'Station 2 installed at the Research Institute for Aquaculture III; station 1 repaired.'),
+             ('06, 08, 10.2026', 'Routine maintenance; link, sensor and camera failures handled.')]),
+        ]),
+   dict(L='B', img='tb_nb_live', title='Data transmission and use',
+        desc='Connecting stations in places with poor infrastructure and presenting multi-source data to operators in one monitoring application.',
+        q='How should data from stations with limited connectivity be transmitted and presented so that operators can use them in practice?',
+        blocks=[
+         ('h', 'B.1 Connectivity from the field'),
+         ('p', 'The stations sit on cages and outdoor tanks where mobile connectivity is unstable. I set up the virtual private network (VPN) for station 2 and maintain the VPN links that let the team’s servers and devices reach all three GREEN-X stations (two aquaculture, one reef), and work with Pham Minh Hoang on link failures in the field.'),
+         ('h', 'B.2 The monitoring application'),
+         ('p', 'The data are presented in a monitoring application I designed on ThingsBoard. The overview places the stations on one map with the latest readings, a water-safety index and an alert history (Figure 4a). Each station’s detail view shows every parameter over 24 hours to 12 months, with two live cameras and the hydrophone sound spectrum (Figure 4b).'),
+         ('f', ('tb_nb_overview', 'tb_nb_live'), 'The aquaculture monitoring application. (a) Overview: map of both stations, readings and the history of threshold crossings. (b) One station in detail: reading cards, a chart of the selected parameter, cameras above and below the surface, and the hydrophone spectrum.', 'stack'),
+         ('p', 'Beyond live monitoring, operators can compare a parameter across stations over the same period (Figure 5a) and set safe and watch thresholds for each parameter (Figure 5b). Alerts are sent on Telegram, and each account sees only its assigned stations.'),
+         ('f', ('tb_nb_compare', 'tb_nb_threshold'), 'Using the data. (a) Temperature at the two stations compared over July 2026. (b) Thresholds for one parameter; green is the safe range, amber needs watching, red is an alert.', 'stack'),
+         ('p', 'In October 2026 the team worked with staff of the Research Institute for Aquaculture III on operating the application at station 2 (Figure 6).'),
+         ('f', 'f_nb_meet', 'Working session with staff of the Research Institute for Aquaculture III on operating the monitoring application, October 2026.'),
+        ]),
+  ],
+  sections=[('In the news', [('p', 'GREEN-X has reported on the project’s working sessions: [with the Nha Trang Bay Management Board, 22.08.2025](' + G1 + ') and [with Khanh Hoa provincial departments, 16.03.2026](' + G2 + ').')])],
+  team=[('dinh', 'Dr. Nguyen Van Dinh', 'Principal Investigator', 'Trinity College Dublin', GX + 'nguyen-van-dinh/'),
+        ('cuong', 'Dr. Do Danh Cuong', 'Principal Investigator', 'VinUniversity', GX + 'do-danh-cuong/'),
+        ('dung', 'Dr. Dinh Van Dung', 'Co-Principal Investigator', 'Vietnam National University, Hanoi', GX + 'dinh-van-dung/'),
+        ('hoang', 'Pham Minh Hoang', 'Technical Lead', 'GREEN-X', GX + 'pham-minh-hoang/'),
+        ('ninh', 'Nguyen Ngoc Gia Ninh', 'Research Assistant', 'GREEN-X', GX + 'nguyen-ngoc-gia-ninh/'),
+        ('khoi', 'Phan Tuan Khoi', 'Research Assistant', 'GREEN-X', ''),
+        ('trung', 'Nguyen Thanh Trung', 'Research Assistant', 'GREEN-X', GX + 'nguyen-thanh-trung/'),
+        ('phuc', 'Nguyen Hong Phuc', 'Research Assistant', 'GREEN-X', GX + 'nguyen-hong-phuc/'),
+        ('son', 'Trinh Cong Son', 'Research Assistant', 'GREEN-X', GX + 'trinh-cong-son/'),
+        ('quyen', 'Nguyen Xuan Quyen', 'Research Assistant', 'GREEN-X', '')],
+  orgs=[ORG_GX_EN, ('vnua', 'Vietnam National University of Agriculture', 'University for agriculture and aquaculture', 'https://vnua.edu.vn/'),
+        ('ria', 'Research Institutes for Aquaculture I and III', 'National research institutes for aquaculture', ''),
+        ('nha-trang-university', 'Nha Trang University', 'University for fisheries and marine science', 'https://ntu.edu.vn/')],
+ ))
+
+# ---------------------------------------------------------------- FPT
+V2['fpt'] = dict(
+ vi=dict(
+  kicker='Chương trình nghiên cứu · 2023 – 2025',
+  abs='Nhiều bài toán thị giác máy tính đã có lời giải tốt trên dữ liệu tiếng Anh hay hệ thực vật phương Tây, nhưng còn thiếu dữ liệu cho tiếng Việt và cho thiên nhiên Việt Nam. Trong những năm cuối đại học, tôi tham gia các nhóm nghiên cứu của Khoa Trí tuệ Nhân tạo, Đại học FPT theo hai hướng cùng xuất phát từ khoảng trống đó: xây dựng bộ dữ liệu trước, rồi đánh giá các mô hình hiện đại trên đó.',
+  meta=[('Đơn vị', 'Khoa Trí tuệ Nhân tạo, Đại học FPT, TP. Hồ Chí Minh'), ('Hợp tác', 'VSB – Đại học Kỹ thuật Ostrava; Đại học Mở TP. Hồ Chí Minh'), ('Thời gian', '2023 – 2025')],
+  parts_label='Hai hướng nghiên cứu',
+  parts=[
+   dict(L='A', img='vlr', title='Nhận dạng tiếng nói qua khẩu hình cho tiếng Việt',
+        desc='Xây dựng VLR, bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn, và cải tiến quy trình nhận dạng trên một ngôn ngữ có thanh điệu.',
+        q='Có thể xây dựng một bộ dữ liệu đọc khẩu hình tiếng Việt quy mô lớn từ nguồn video công khai hay không, và các mô hình hiện đại đạt tới đâu trên một ngôn ngữ có sáu thanh điệu?',
+        blocks=[
+         ('p', 'Tiếng Việt khó với bài toán đọc khẩu hình: nhiều âm tiết khác thanh nhưng gần như cùng khẩu hình. Bộ dữ liệu VLR được xây từ 1.794 video thuộc 25 danh sách phát YouTube tiếng Việt công khai; tôi tham gia khâu tìm và chọn nguồn video có người nói rõ mặt và nói tự nhiên. Lời thoại được nhận dạng bằng Whisper với mốc thời gian từng từ, khuôn mặt được định vị bằng MediaPipe để cắt vùng môi (Hình 1).'),
+         ('f', 'vlr_pipeline', 'Quy trình xây dựng VLR: tách âm thanh và hình; Whisper nhận dạng lời thoại theo từng từ; MediaPipe định vị khuôn mặt rồi cắt vùng môi. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
+         ('p', 'Kết quả là khoảng 116.000 đoạn video với 198 giờ nói, phát hành trên Zenodo. Sáu mô hình đọc khẩu hình chỉ dùng hình ảnh được đánh giá trên VLR; tôi huấn luyện và đánh giá hai trong số đó là VSP-LLM và Auto-AVSR. Với các bước cải tiến của nhóm, tỉ lệ lỗi từ tốt nhất giảm từ 62,18% xuống 29,5%. Mỗi mẫu dữ liệu là một chuỗi khung hình vùng môi gắn với từ được nói (Hình 2).'),
+         ('f', 'vlr_strip', 'Mười lăm khung hình liên tiếp của vùng môi trong một đoạn video của VLR. Nguồn: tiền ấn phẩm, CC BY 4.0.'),
+        ]),
+   dict(L='B', img='vnplant', title='Phân loại cây thuốc Việt Nam',
+        desc='Mở rộng bộ ảnh cây thuốc VNPlant-200 thành VNPlant-255 và đánh giá nhiều họ mô hình phân loại trong cùng một cấu hình.',
+        q='Các họ mô hình phân loại hiện đại hoạt động thế nào trên ảnh cây thuốc Việt Nam chụp ngoài thực địa, với biến thiên tự nhiên về ánh sáng, nền và góc chụp?',
+        blocks=[
+         ('p', 'Tiếp nối VNPlant-200 (Nguyễn Quốc Trung và Trương Hoàng Vinh, 2021), nhóm mở rộng bộ dữ liệu thành VNPlant-255 với 255 loài, khoảng 34.800 ảnh chụp ngoài thực địa. Phần tôi đảm nhận là thực nghiệm: đưa bảy họ mô hình, từ mạng tích chập, Transformer đến mô hình lai và mô hình gọn nhẹ, qua cùng một cấu hình để so sánh công bằng, và quản lý dữ liệu, trọng số, nhật ký huấn luyện của nhóm trên Kaggle. Bài viết dừng ở dạng bản thảo.'),
+        ]),
+  ],
+ ),
+ en=dict(
+  kicker='Research programme · 2023 – 2025',
+  abs='Many computer-vision problems are well solved on English speech or Western flora, yet data for Vietnamese and for Vietnamese nature remain scarce. In my final university years I worked with research groups of the Department of Artificial Intelligence, FPT University, on two directions that start from that gap: build the dataset first, then evaluate modern models on it.',
+  meta=[('Institution', 'Department of Artificial Intelligence, FPT University, Ho Chi Minh City'), ('In collaboration with', 'VSB – Technical University of Ostrava; Ho Chi Minh City Open University'), ('Period', '2023 – 2025')],
+  parts_label='Two research directions',
+  parts=[
+   dict(L='A', img='vlr', title='Visual speech recognition for Vietnamese',
+        desc='Building VLR, a large-scale Vietnamese lip-reading dataset, and refining recognition for a tonal language.',
+        q='Can a large-scale Vietnamese lip-reading dataset be built from public video, and how far do modern models go on a language with six tones?',
+        blocks=[
+         ('p', 'Vietnamese is hard for lip reading: many syllables that differ only in tone look almost the same on the lips. VLR was built from 1,794 videos in 25 public Vietnamese YouTube playlists; I took part in finding and selecting sources with clearly visible, naturally speaking speakers. Speech was transcribed with Whisper at word level and faces were located with MediaPipe to crop the lips (Figure 1).'),
+         ('f', 'vlr_pipeline', 'The VLR pipeline: audio and video are split; Whisper transcribes word by word; MediaPipe locates the face and the lips are cropped. Source: preprint, CC BY 4.0.'),
+         ('p', 'The result is about 116,000 clips and 198 hours of speech, released on Zenodo. Six visual-only lip-reading models were evaluated on VLR; I trained and evaluated two of them, VSP-LLM and Auto-AVSR. With the team’s refinements, the best word error rate fell from 62.18% to 29.5%. Each sample is a sequence of lip frames tied to the spoken word (Figure 2).'),
+         ('f', 'vlr_strip', 'Fifteen consecutive lip frames from one VLR clip. Source: preprint, CC BY 4.0.'),
+        ]),
+   dict(L='B', img='vnplant', title='Vietnamese medicinal plant classification',
+        desc='Extending VNPlant-200 to VNPlant-255 and benchmarking many model families under one setup.',
+        q='How do modern classification models perform on field photographs of Vietnamese medicinal plants, with natural variation in light, background and viewpoint?',
+        blocks=[
+         ('p', 'Building on VNPlant-200 (Nguyen Quoc Trung and Truong Hoang Vinh, 2021), the team extended the dataset to VNPlant-255 with 255 species and about 34,800 field photographs. My part was the experiments: running seven model families, from CNNs and Transformers to hybrid and lightweight models, through one setup for a fair comparison, and managing the team’s data, weights and training logs on Kaggle. The write-up remained a manuscript.'),
+        ]),
+  ],
+ ))
+
+# ---------------------------------------------------------------- VINBIGDATA
+V2['vinbigdata'] = dict(
+ vi=dict(
+  kicker='Chương trình nghiên cứu · 2025 – 2026',
+  cover_cap='Túi phình động mạch nội sọ (khung đỏ) trên ảnh MR và CT. Dữ liệu: RSNA-ICA Dataset, 2025.',
+  abs='VinBigData là đơn vị nghiên cứu và phát triển dữ liệu lớn và trí tuệ nhân tạo của Vingroup. Nhánh nghiên cứu AI kết hợp đào tạo chuyên sâu về thị giác máy tính, xử lý ngôn ngữ tự nhiên, AI tạo sinh và MLOps với các đề tài trên dữ liệu thật, trong đó y tế là một hướng trọng tâm.',
+  meta=[('Đơn vị', 'VinBigData, Hà Nội'), ('Vai trò', 'Chuyên viên công nghệ, nhánh nghiên cứu AI'), ('Thời gian', '2025 – 2026')],
+  sections=[('Đề tài phình động mạch nội sọ', [
+     ('p', 'Túi phình động mạch nội sọ nhỏ trên ảnh CTA, MRA hay MRI dễ bị bỏ sót, kể cả với bác sĩ có kinh nghiệm. Đề tài đề xuất một quy trình học sâu hai giai đoạn trên bộ dữ liệu RSNA Intracranial Aneurysm: phân vùng các vùng mạch máu nghi ngờ bằng 3D U-Net với độ nhạy cao, rồi phân loại từng khối 3D quanh vùng nghi ngờ để xác định túi phình và vị trí giải phẫu.'),
+     ('f', 'vbd_rsna_eda', 'Ví dụ túi phình trên các phương thức ảnh MR và CT trong bộ dữ liệu RSNA Intracranial Aneurysm, kèm vùng phóng to quanh túi phình (khung đỏ), từ bước khảo sát dữ liệu của nhóm. Dữ liệu: RSNA-ICA Dataset, 2025 (doi:10.1148/dataset.ica.2025).'),
+     ('p', 'Bộ dữ liệu gồm ảnh CTA, MRA và MRI từ nhiều cơ sở, với vị trí túi phình được chuyên gia chẩn đoán hình ảnh chú thích theo 13 vị trí giải phẫu (Hình 1); sự đa dạng về phương thức ảnh là thách thức chính đối với mô hình.'),
+     ('p', 'Nghiên cứu do Phạm Thị Thảo Nguyên thực hiện chính; phần tôi là chấp bút, trình bày bối cảnh lâm sàng, quy trình và kết quả của nhóm thành một chương trong cuốn Intelligent Precision Healthcare của CRC Press.')])],
+ ),
+ en=dict(
+  kicker='Research programme · 2025 – 2026',
+  cover_cap='Intracranial aneurysms (red boxes) on MR and CT. Data: RSNA-ICA Dataset, 2025.',
+  abs='VinBigData is Vingroup’s big-data and AI research and development unit. Its AI research track combines intensive training in computer vision, natural language processing, generative AI and MLOps with projects on real data, with healthcare as a key direction.',
+  meta=[('Institution', 'VinBigData, Hanoi'), ('Role', 'Technology Specialist, AI research track'), ('Period', '2025 – 2026')],
+  sections=[('Intracranial aneurysm project', [
+     ('p', 'Small intracranial aneurysms on CTA, MRA or MRI are easy to miss, even for experienced radiologists. The project proposes a two-stage deep-learning pipeline on the RSNA Intracranial Aneurysm dataset: a 3D U-Net segments candidate vascular regions with high sensitivity, then 3D patches around each candidate are classified for aneurysm presence and anatomical site.'),
+     ('f', 'vbd_rsna_eda', 'Example aneurysms across MR and CT in the RSNA Intracranial Aneurysm dataset, with zoomed regions (red boxes), from the team’s data exploration. Data: RSNA-ICA Dataset, 2025 (doi:10.1148/dataset.ica.2025).'),
+     ('p', 'The dataset combines CTA, MRA and MRI from many sites, with aneurysm locations annotated by expert radiologists across 13 anatomical sites (Figure 1); this variety of modalities is the main challenge for the model.'),
+     ('p', 'The research was led by Pham Thi Thao Nguyen; my part was the writing, bringing the clinical context, the pipeline and the team’s results together into a chapter of Intelligent Precision Healthcare (CRC Press).')])],
+ ))
