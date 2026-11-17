@@ -698,8 +698,15 @@ def _bust(s):  # thêm ?v=<mtime> cho ảnh để trình duyệt không giữ �
         except OSError: return m.group(0)
     return _r.sub(r'assets/((?:projects|people|logos|hl)/[^"?]+\.(?:webp|jpg|png))"', f, s)
 
+def _hide_mail(s):  # email không nằm nguyên văn trong HTML; main.js ghép lại khi trang chạy
+    for m in (EMAIL_WORK, EMAIL):
+        enc = m[::-1]; u, d = m.split('@')
+        s = s.replace(f'href="mailto:{m}"', f'href="#" data-m="{enc}"')
+        s = s.replace(m, f'<span class="mx" data-m="{enc}">{u} [at] {d.replace(".", " [dot] ")}</span>')
+    return s
+
 def write(path, s):
-    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(_bust(nobreak(s)) if path.endswith('.html') else s)
+    full = os.path.join(ROOT, path); os.makedirs(os.path.dirname(full), exist_ok=True); open(full, 'w').write(_hide_mail(_bust(nobreak(s))) if path.endswith('.html') else s)
 
 def nbsp_ph(x):  # giữ các cụm tên riêng không bị ngắt dòng
     for ph in ('Hòn Mun', 'Ngày hội', 'Chuyển đổi số', 'Cần Giờ', 'Khánh Hòa', 'Hon Mun', 'Can Gio', 'Khanh Hoa', 'AI Creative Valley', 'Research Day', 'Meet & Greet', 'Meet &amp; Greet', 'rừng ngập mặn'):

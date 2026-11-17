@@ -110,3 +110,12 @@ document.addEventListener('DOMContentLoaded',function(){
     var moved=false;addEventListener('wheel',function(){moved=true},{passive:true,once:true});addEventListener('touchstart',function(){moved=true},{passive:true,once:true});
     addEventListener('load',function(){if(!moved)go()})}
 });
+
+/* email ghép lại khi trang chạy (bot gom địa chỉ không đọc được) + hạn chế lưu ảnh */
+(function(){
+  function fix(){document.querySelectorAll('[data-m]').forEach(function(el){var m=el.getAttribute('data-m').split('').reverse().join('');
+    if(el.tagName==='A'){el.href='mailto:'+m}else{el.textContent=m}});}
+  if(document.readyState!=='loading')fix();else document.addEventListener('DOMContentLoaded',fix);
+  document.addEventListener('contextmenu',function(e){if(e.target&&e.target.closest&&e.target.closest('img,picture,canvas,.zoom-img,[style*="background-image"]'))e.preventDefault()});
+  document.addEventListener('dragstart',function(e){if(e.target&&e.target.tagName==='IMG')e.preventDefault()});
+})();
